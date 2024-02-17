@@ -1,4 +1,6 @@
-﻿using BetFriend.Infrastructure;
+﻿using BetFriend.Domain.Features.AddFriend;
+using BetFriend.Infrastructure;
+using BetFriends.Features.Friends;
 using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Markup;
 using Microsoft.Extensions.Configuration;
@@ -36,6 +38,9 @@ namespace BetFriend
             builder.Logging.AddDebug();
 #endif
 
+            builder.Services.AddScoped<FriendsPage>();
+            builder.Services.AddScoped<IAddFriendOutputPort, AddFriendPresenter>();
+            builder.Services.AddScoped<FriendsViewModel>();
             builder.Services.AddInfrastructure();
             return builder.Build();
         }

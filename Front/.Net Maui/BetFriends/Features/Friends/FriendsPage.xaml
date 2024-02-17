@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="BetFriends.Features.Friends.FriendsPage"
+             xmlns:services="clr-namespace:BetFriends.Services"
              Title="FriendsPage">
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -10,14 +11,20 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <VerticalStackLayout>
-        <Entry Text="{Binding Search}" Placeholder="Rechercher" />
-        <ListView ItemsSource="{Binding Members}" x:Name="members">
+        <ListView ItemsSource="{Binding Members}" x:Name="members" HasUnevenRows="False">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackLayout Orientation="Horizontal">
-                        <Label Text="{Binding Name}" />
-                        <Button Command="{Binding BindingContext.AddCommand, Source={x:Reference members}}" IsVisible="{Binding IsFriend, Converter={StaticResource InvertedBoolConverter}}" />
-                    </StackLayout>
+                    <ViewCell>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="{Binding Name}" FontSize="20" />
+                            <Button Command="{Binding BindingContext.AddCommand, Source={x:Reference members}}" 
+                                    CommandParameter="{Binding}" 
+                                    IsVisible="{Binding IsFriend, Converter={StaticResource InvertedBoolConverter}}"
+                                    HorizontalOptions="EndAndExpand" 
+                                    Text="{x:Static services:MaterialDesignIcons.PlusCircleOutline}"
+                                    FontFamily="MaterialDesignIcons" />
+                        </StackLayout>
+                    </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

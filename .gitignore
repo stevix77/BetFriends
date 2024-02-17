@@ -2,6 +2,7 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/Front/.Net Maui/.vs
+/Front/.Net Maui/**/.vs
 /Front/.Net Maui/**/bin
 /Front/.Net Maui/**/obj
+/.vs

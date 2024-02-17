@@ -7,4 +7,10 @@ public partial class FriendsPage : ContentPage
 		InitializeComponent();
 		BindingContext = friendsViewModel;
 	}
+
+    protected override async void OnAppearing()
+    {
+		await (BindingContext as FriendsViewModel).LoadAsync();
+        base.OnAppearing();
+    }
 }
