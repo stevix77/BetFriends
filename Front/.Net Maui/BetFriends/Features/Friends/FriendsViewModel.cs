@@ -1,4 +1,6 @@
 ﻿using BetFriend.Domain.Features.AddFriend;
+using BetFriends.Domain.Features.RetrieveFriends;
+using BetFriends.Domain.Features.RetrieveMembers;
 using BetFriends.Models;
 using BetFriends.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -13,10 +15,13 @@ public partial class FriendsViewModel : ObservableObject
 {
     private readonly IMediator mediator;
 
-    [ObservableProperty]
     private string search;
     [ObservableProperty]
     private ObservableCollection<MemberVM> members = new();
+    [ObservableProperty]
+    private ObservableCollection<MemberVM> friends = new();
+    [ObservableProperty]
+    private bool showFriends = true;
 
     public FriendsViewModel(IMediator mediator)
     {
@@ -28,10 +33,45 @@ public partial class FriendsViewModel : ObservableObject
         }));
     }
 
+    public string Search
+    {
+        get => search;
+        set
+        {
+            if(SetProperty(ref search, value, nameof(Search)))
+            {
+                if(value.Length > 2)
+                {
+                    ShowFriends = false;
+                    SearchMembersAsync();
+                    return;
+                }
+                ShowFriends = true;
+            }
+        }
+    }
+
     internal async Task LoadAsync()
     {
-        Members = new ObservableCollection<MemberVM>(Data.Members);
-        await Task.CompletedTask;
+        var request = new RetrieveFriendsRequest();
+        var friends = await mediator.Send(request);
+        Friends = new ObservableCollection<MemberVM>(friends.Select(x => new MemberVM
+        {
+            Id = x.Id,
+            Name = x.Name
+        }));
+    }
+
+    private async void SearchMembersAsync()
+    {
+        var request = new RetrieveMembersRequest(search);
+        var members = await mediator.Send(request);
+        Members = new ObservableCollection<MemberVM>(members.Select(x => new MemberVM
+        {
+            Id = x.MemberId,
+            IsFriend = x.IsFriend,
+            Name = x.Name
+        }));
     }
 
     [RelayCommand]
