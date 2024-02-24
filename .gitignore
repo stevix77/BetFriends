@@ -6,3 +6,5 @@
 /Front/.Net Maui/**/bin
 /Front/.Net Maui/**/obj
 /.vs
+/Front/TS/src/infrastructure/ui/Angular/.vscode
+/Front/TS/src/node_modules

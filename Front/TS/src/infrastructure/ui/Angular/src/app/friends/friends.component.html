@@ -1,0 +1,12 @@
+<search-friends (searchEvent)="friendsViewModel.Search($event)" />
+<div class="center" *ngIf="friendsViewModel.ShowFriends">
+    <ul *ngFor="let friend of friendsViewModel.Friends">
+        <li>{{friend.Name}} </li>
+    </ul>
+</div>
+
+<div class="center" *ngIf="!friendsViewModel.ShowFriends">
+    <ul *ngFor="let member of friendsViewModel.Members">
+        <li>{{member.Name}} <add-friend [member]="member" /></li>
+    </ul>
+</div>
