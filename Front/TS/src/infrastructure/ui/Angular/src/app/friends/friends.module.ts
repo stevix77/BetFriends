@@ -1,5 +1,4 @@
 import { NgModule } from "@angular/core";
-import { FriendsComponent } from "./friends.component";
 import { AddFriendComponent } from './add/add-friend.component';
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
@@ -10,7 +9,6 @@ import { InMemoryFriendRepository } from '../../../../../adapters/repository/InM
 import { RetrieveFriendsHandler } from "../../../../../../domain/features/retrieveFriends/RetrieveFriendsHandler";
 import { IFriendRepository } from '../../../../../../domain/friends/IFriendRepository';
 import { RetrieveMembersHandler } from '../../../../../../domain/features/retrieveMembers/RetrieveMembersHandler';
-import { FriendsViewModel } from "../../../../../adapters/viewmodels/FriendsViewModel";
 import { AddFriendHandler } from "../../../../../../domain/features/add-friend/AddFriendHandler";
 import { AddFriendPresenter } from '../../../../../adapters/AddFriendPresenter';
 

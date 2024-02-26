@@ -36,7 +36,7 @@ export class FriendsViewModel {
     await this.addFriendHandler.Handle({MemberId: memberId});
   }
   
-  AddToFriend(friend: FriendAdded): void {
+  private AddToFriend(friend: FriendAdded): void {
     const member = this.Members.find(x => x.Id == friend.MemberId)
     if(member != undefined) {
         this.Friends.push({Id: member.Id, Name: member.Name})
