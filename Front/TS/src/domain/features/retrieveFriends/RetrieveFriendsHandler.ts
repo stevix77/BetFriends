@@ -1,10 +1,16 @@
 import { IFriendRepository } from '../../friends/IFriendRepository';
 export class RetrieveFriendsHandler {
-    constructor(private friendsRepository: IFriendRepository) {}
+    constructor(private friendsRepository: IFriendRepository,
+                private outputPort: IRetrieveFriendsOutputPort) {}
 
-    Handle() : Promise<FriendDto[]> {
-        return this.friendsRepository.GetFriendsAsync();
+    async Handle() : Promise<void> {
+        const friends = await this.friendsRepository.GetFriendsAsync();
+        this.outputPort.Present(friends);
     }
+}
+
+export interface IRetrieveFriendsOutputPort {
+    Present(friends: FriendDto[]): void;
 }
 
 export interface FriendDto {

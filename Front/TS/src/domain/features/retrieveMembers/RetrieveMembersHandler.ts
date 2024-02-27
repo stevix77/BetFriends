@@ -1,8 +1,19 @@
-import { IMemberRepository, MemberDto } from '../../members/IMemberRepository';
+import { type IMemberRepository, type MemberDto } from '../../members/IMemberRepository';
 export class RetrieveMembersHandler {
-    constructor(private memberRepository: IMemberRepository){}
+    constructor(private memberRepository: IMemberRepository,
+                private retrieveMembersOutputPort: IRetrieveMembersOutputPort){}
 
-    Handle(keyword: string): Promise<MemberDto[]> {
-        return this.memberRepository.RetrieveByKeywordAsync(keyword);
+    async Handle(keyword: string): Promise<void> {
+        if(keyword.length < 3) { 
+            this.retrieveMembersOutputPort.NotEnoughCharacter();
+            return;
+        }
+        const members = await this.memberRepository.RetrieveByKeywordAsync(keyword);
+        this.retrieveMembersOutputPort.Present(members);
     }
+}
+
+export interface IRetrieveMembersOutputPort {
+    NotEnoughCharacter(): void;
+    Present(members: MemberDto[]): void;
 }

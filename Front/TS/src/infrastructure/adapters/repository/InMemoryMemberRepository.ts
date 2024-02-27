@@ -15,7 +15,7 @@ export class InMemoryMemberRepository implements IMemberRepository {
         }
     }
     RetrieveByKeywordAsync(keyword: string): Promise<MemberDto[]> {
-        return Promise.resolve<MemberDto[]>(this.members)
+        return Promise.resolve<MemberDto[]>(this.members.sort((a, b) => (a.IsFriend ? 0 : 1) - (b.IsFriend ? 0 : 1)))
     }
 
 }

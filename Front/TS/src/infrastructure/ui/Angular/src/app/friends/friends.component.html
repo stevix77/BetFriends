@@ -1,6 +1,6 @@
-<search-friends (searchEvent)="friendsViewModel.Search($event)" />
-<div class="center" *ngIf="friendsViewModel.ShowFriends">
-    <ul *ngFor="let friend of friendsViewModel.Friends">
+<!-- <search-friends (searchEvent)="friendsViewModel.Search($event)" /> -->
+<div class="center">
+    <ul *ngFor="let friend of viewModel.Friends">
         <li>{{friend.Name}} </li>
     </ul>
 </div>

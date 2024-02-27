@@ -10,7 +10,23 @@ import { RetrieveFriendsHandler } from "../../../../../../domain/features/retrie
 import { IFriendRepository } from '../../../../../../domain/friends/IFriendRepository';
 import { RetrieveMembersHandler } from '../../../../../../domain/features/retrieveMembers/RetrieveMembersHandler';
 import { AddFriendHandler } from "../../../../../../domain/features/add-friend/AddFriendHandler";
-import { AddFriendPresenter } from '../../../../../adapters/AddFriendPresenter';
+import { AddFriendPresenter } from '../../presenters/AddFriendPresenter';
+import { RetrieveFriendsPresenter } from "../../presenters/RetrieveFriendsPresenter";
+import { RetrieveMembersPresenter } from "../../presenters/RetrieveMembersPresenter";
+import { FriendsController } from "../../../../../adapters/controllers/FriendsController";
+
+
+const memberRepository: IMemberRepository = new InMemoryMemberRepository()
+const friendRepository: IFriendRepository = new InMemoryFriendRepository(memberRepository);
+const addFriendPresenter = new AddFriendPresenter();
+const retrieveFriendsPresenter = new RetrieveFriendsPresenter()
+const retrieveMembersPresenter = new RetrieveMembersPresenter()
+const retrieveFriendsHandler = new RetrieveFriendsHandler(friendRepository, retrieveFriendsPresenter);
+const retrieveMembersHandler = new RetrieveMembersHandler(memberRepository, retrieveMembersPresenter);
+const addFriendHandler = new AddFriendHandler(friendRepository, addFriendPresenter)
+const friendsController = new FriendsController(retrieveFriendsHandler, 
+                                                retrieveMembersHandler,
+                                                addFriendHandler)
 
 @NgModule({
     declarations: [
@@ -30,37 +46,20 @@ import { AddFriendPresenter } from '../../../../../adapters/AddFriendPresenter';
     exports: [RouterModule],
     providers: [
         {
-            provide: "IMemberRepository",
-            useFactory: () => new InMemoryMemberRepository()
-        },
-        {
-            provide: "IFriendRepository",
-            useFactory: (memberRepository: IMemberRepository) => new InMemoryFriendRepository(memberRepository),
-            deps: ["IMemberRepository"]
-        },
-        {
-            provide: RetrieveFriendsHandler,
-            useFactory: (friendRepository: IFriendRepository) => new RetrieveFriendsHandler(friendRepository),
-            deps: ["IFriendRepository"]
-        },
-        {
-            provide: RetrieveMembersHandler,
-            useFactory: (memberRepository: IMemberRepository) => new RetrieveMembersHandler(memberRepository),
-            deps: ["IMemberRepository"]
+            provide: FriendsController,
+            useFactory: () => friendsController
         },
         {
             provide: AddFriendPresenter,
-            useFactory: () => new AddFriendPresenter()
+            useFactory: () => addFriendPresenter
         },
         {
-            provide: "IAddFriendOutputPort",
-            useFactory: (presenter: AddFriendPresenter) => presenter,
-            deps: [AddFriendPresenter]
+            provide: RetrieveFriendsPresenter,
+            useFactory: () => retrieveFriendsPresenter
         },
         {
-            provide: AddFriendHandler,
-            useFactory: (friendRepository: IFriendRepository, addFriendPresenter: AddFriendPresenter) => new AddFriendHandler(friendRepository, addFriendPresenter),
-            deps: ["IFriendRepository", AddFriendPresenter]
+            provide: RetrieveMembersPresenter,
+            useFactory: () => retrieveMembersPresenter
         }
     ]
 })
