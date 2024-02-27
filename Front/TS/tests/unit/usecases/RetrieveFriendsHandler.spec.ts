@@ -13,7 +13,11 @@ describe('retrieve friends handler test', () => {
             Name: "tata"
         }]
         const repository = new StubFriendRepository(expectedFriends);
-        const handler = new RetrieveFriendsHandler(repository);
+        const handler = new RetrieveFriendsHandler(repository, {
+            Present(friends) {
+                
+            },
+        });
         const friends = await handler.Handle();
         expect(friends).toBe(expectedFriends)
    })
