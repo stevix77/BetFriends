@@ -2,6 +2,7 @@ import { FriendDto } from "../../../src/domain/features/retrieveFriends/Retrieve
 import { IFriendRepository } from "../../../src/domain/friends/IFriendRepository";
 
 export class StubFriendRepository implements IFriendRepository {
+    Members: string[] = [];
     constructor(private friends: FriendDto[] = []){
 
     }
@@ -9,7 +10,8 @@ export class StubFriendRepository implements IFriendRepository {
         return Promise.resolve(this.friends)
     }
     SaveAsync(memberId: string): Promise<void> {
-        throw new Error("Method not implemented.");
+        this.Members.push(memberId);
+        return Promise.resolve();
     }
 
 }

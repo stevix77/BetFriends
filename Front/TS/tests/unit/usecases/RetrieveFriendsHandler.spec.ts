@@ -1,10 +1,12 @@
 import { FriendDto, RetrieveFriendsHandler } from "../../../src/domain/features/retrieveFriends/RetrieveFriendsHandler";
 import { StubFriendRepository } from "../implems/StubFriendRepository";
+import { expect, test, describe } from 'vitest'
+import { FakeRetrieveFriendsPresenter } from '../implems/FakeRetrieveFriendsPresenter';
 
 describe('retrieve friends handler test', () => {
 
    test('should retrieve friends', async () => {
-        const expectedFriends = [{
+        const expectedFriends: FriendDto[] = [{
             Id: "1",
             Name: "toto"
         },
@@ -13,13 +15,10 @@ describe('retrieve friends handler test', () => {
             Name: "tata"
         }]
         const repository = new StubFriendRepository(expectedFriends);
-        const handler = new RetrieveFriendsHandler(repository, {
-            Present(friends) {
-                
-            },
-        });
-        const friends = await handler.Handle();
-        expect(friends).toBe(expectedFriends)
+        const presenter = new FakeRetrieveFriendsPresenter();
+        const handler = new RetrieveFriendsHandler(repository, presenter);
+        await handler.Handle();
+        expect(presenter.Friends).toBe(expectedFriends)
    })
     
 });

@@ -10,10 +10,6 @@ export class AddFriendHandler {
     }
 }
 
-export class AddFriendRequest {
-    constructor(public MemberId: string){}
-}
-
 export interface IAddFriendRequest {
     MemberId: string;
 }
