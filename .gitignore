@@ -10,3 +10,6 @@
 /Front/TS/src/node_modules
 /Front/TS/tests/node_modules
 /Front/TS/tests/coverage
+/Back/.Net/.vs
+/Back/.Net/**/bin
+/Back/.Net/**/obj
