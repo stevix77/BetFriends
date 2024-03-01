@@ -80,7 +80,7 @@ steps:
 - task: CopyFiles@2
   displayName: Copy files into artifact directory
   inputs:
-    sourceFolder: '$(System.DefaultWorkingDirectory)/Front/TS/src/infrastructure/ui/angular/dist/angular'
+    sourceFolder: '$(System.DefaultWorkingDirectory)/Front/TS/src/infrastructure/ui/Angular/dist/angular'
     targetFolder: '$(Build.ArtifactStagingDirectory)/angular'
 
 - task: PublishBuildArtifacts@1
