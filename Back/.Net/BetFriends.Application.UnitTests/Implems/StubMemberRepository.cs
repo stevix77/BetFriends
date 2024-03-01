@@ -4,10 +4,12 @@ namespace BetFriends.Application.UnitTests.Implems;
 
 internal class StubMemberRepository(Member member) : IMemberRepository
 {
-    private Member member = member;
+    private readonly Member member = member;
 
     public Task<Member> GetByIdAsync(MemberId memberId)
     {
-        return Task.FromResult(member);
+        if(member.MemberId == memberId)
+            return Task.FromResult(member);
+        return Task.FromResult<Member>(default!);
     }
 }

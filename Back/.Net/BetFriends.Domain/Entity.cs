@@ -2,12 +2,12 @@
 
 public abstract class Entity
 {
-    private List<IDomainEvent> events;
+    private readonly List<IDomainEvent> events;
     public IReadOnlyCollection<IDomainEvent> Events { get => events.AsReadOnly(); }
 
     public Entity()
     {
-        events = new List<IDomainEvent>();
+        events = [];
     }
 
     protected void AddEvent(IDomainEvent @event)
