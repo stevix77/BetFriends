@@ -11,6 +11,6 @@
     }
   }
   </style>
-  <script lang="ts">
+  <script setup lang="ts">
     import FriendsComponent from "../components/friends/FriendsComponent.vue";  
   </script>
