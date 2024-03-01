@@ -104,7 +104,7 @@ steps:
     command: custom
     verbose: true
     workingDir: 'Front/TS/src/infrastructure/ui/Vue'
-    customCommand: 'run build'
+    customCommand: 'run build-only'
 
 - task: CopyFiles@2
   displayName: Copy files into artifact directory
