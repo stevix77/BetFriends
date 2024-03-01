@@ -27,7 +27,7 @@ steps:
   displayName: 'Install package.json'
   inputs:
     command: install
-	workingDir: 'Front/TS/src'
+    workingDir: 'Front/TS/src'
     verbose: true
 
 - task: Npm@1
