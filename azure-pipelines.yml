@@ -74,7 +74,7 @@ steps:
   inputs:
     command: custom
     verbose: true
-    workingDir: 'src/infrastructure/ui/angular/sporganizer'
+    workingDir: 'Front/TS/src/infrastructure/ui/Angular'
     customCommand: 'run build'
 
 - task: CopyFiles@2
