@@ -1,5 +1,4 @@
-﻿
-using BetFriends.Application.Features.AddFriend;
+﻿using BetFriends.Application.Features.AddFriend;
 using BetFriends.Application.UnitTests.Implems;
 using BetFriends.Domain.Events;
 using BetFriends.Domain.Members;
