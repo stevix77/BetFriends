@@ -18,13 +18,22 @@ describe('add friend handler', () => {
         const presenter = new StubAddFriendPresenter();
         const handler = new AddFriendCommandHandler(friendshipRepository, memberRepository, new StubUserContext(requesterId), presenter)
         await handler.Handle({MemberId: memberId});
+        const friendship = friendshipRepository.Friendships[0]
+        expect(friendship.FriendId).toEqual(new MemberId(memberId))
+        expect(friendship.RequesterId).toEqual(new MemberId(requesterId))
+        expect(friendship.DomainEvents).toEqual([new FriendshipsRequested(requesterId, memberId)])
         expect(presenter.FriendAdded).toBeTruthy();
-        expect(friendshipRepository.Friendships).toContainEqual([
-            {
-                FriendId: new MemberId(memberId),
-                RequesterId: new MemberId(requesterId),
-                //DomainEvents: [new FriendshipsRequested(requesterId, memberId)]
-            }
-        ]);
+    })
+
+    test('should not add friend when member does not exist', async () => {
+        const memberId = uuidv4();
+        const requesterId = uuidv4();
+        const friendshipRepository = new StubFriendshipRepository();
+        const memberRepository = new StubMemberRepository(new Member(new MemberId(uuidv4())));
+        const presenter = new StubAddFriendPresenter();
+        const handler = new AddFriendCommandHandler(friendshipRepository, memberRepository, new StubUserContext(requesterId), presenter)
+        await handler.Handle({MemberId: memberId});
+        expect(friendshipRepository.Friendships).toStrictEqual([])
+        expect(presenter.FriendAdded).toBeFalsy();
     })
 })

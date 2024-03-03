@@ -14,3 +14,4 @@
 /Back/.Net/**/bin
 /Back/.Net/**/obj
 /Back/NodeJS/**/node_modules
+/Back/NodeJS/coverage

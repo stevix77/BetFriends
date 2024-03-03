@@ -6,6 +6,8 @@ export class Friendship extends Entity {
 
     private constructor(requesterId: MemberId, memberId: MemberId){
         super()
+        this.FriendId = memberId;
+        this.RequesterId = requesterId;
         this.AddDomainEvent(new FriendshipsRequested(requesterId.Value, memberId.Value));
     }
 
