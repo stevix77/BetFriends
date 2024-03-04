@@ -3,11 +3,8 @@ import { Member } from "../../../src/domain/members/Member";
 import { MemberId } from "../../../src/domain/members/MemberId";
 
 export class StubMemberRepository implements IMemberRepository {
-    constructor(private member: Member){}
+    constructor(private member: Member|undefined){}
     GetByIdAsync(memberId: MemberId): PromiseLike<Member|undefined> {
-        if(this.member.MemberId.Value == memberId.Value) {
-            return Promise.resolve(this.member);
-        }
-        return Promise.resolve(undefined);
+        return Promise.resolve(this.member);
     }
 }

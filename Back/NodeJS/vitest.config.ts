@@ -5,11 +5,13 @@ export default defineConfig({
     coverage: {
       provider: 'istanbul',
       reporter: ['text', 'json', 'html'],
-      all: true,
+      all: false,
       extension: [
         '.ts'
       ],
-      allowExternal: true
+      exclude: ['src/infrastructure/**'],
+      allowExternal: true,
     },
+    dir: 'tests'
   },
 })

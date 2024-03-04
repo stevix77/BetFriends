@@ -1,18 +1,19 @@
-import { BadRequestException, HttpStatus } from '@nestjs/common';
+import { HttpStatus } from '@nestjs/common';
+import { FastifyReply } from 'fastify';
 import { IAddFriendOutputPort } from '../../../../../../../application/features/add-friend/AddFriendHandler'
 
 export class AddFriendPresenter implements IAddFriendOutputPort {
-    MemberDoesNotExist(MemberId: string): void {
-        throw new BadRequestException(`member ${MemberId} does not exist`);
+    MemberDoesNotExist(memberId: string): void {
+        this.response = { code: HttpStatus.BAD_REQUEST, body: {message: `member ${memberId} does not exist`} }
     }
-    private response: any;
+    private response: { code: HttpStatus, body: any};
 
     Present() {
-        this.response = { HttpStatusCode: HttpStatus.CREATED }
+        this.response = { code: HttpStatus.CREATED, body:undefined }
     }
 
-    BuildResponse(res: Response<any, Record<string, any>>): Response {
-        return res.status(this.response.HttpStatusCode).json(this.response.Body)
+    BuildResponse(res: FastifyReply) {
+        res.code(this.response.code).send(this.response.body);
     }
 
 }

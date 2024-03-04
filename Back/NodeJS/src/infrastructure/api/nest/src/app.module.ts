@@ -6,7 +6,7 @@ import { FriendModule } from './friend/friend.module';
 
 @Module({
   imports: [FriendModule],
-  controllers: [AppController, AddFriendController],
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}
