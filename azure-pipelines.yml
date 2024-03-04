@@ -169,10 +169,20 @@ steps:
   condition: succeededOrFailed()
   
  # NodeJS #
- 
+
 - script: |
     npm install
-  displayName: 'npm install api'
+  displayName: 'npm install packages NodeJS'
+  workingDirectory: '$(Build.SourcesDirectory)/Back/NodeJS'
+  
+- script: |
+    npm run test
+  displayName: 'npm test'
+  workingDirectory: '$(Build.SourcesDirectory)/Back/NodeJS'
+
+- script: |
+    npm install
+  displayName: 'npm install api NodeJS'
   workingDirectory: '$(Build.SourcesDirectory)/Back/NodeJS/src/infrastructure/api/nest'
 
 - script: |

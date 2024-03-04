@@ -6,7 +6,8 @@
     "vitest": "^1.3.1"
   },
   "scripts": {
-    "test": "vitest --coverage --config vitest.config.ts --coverage.all"
+    "test": "vitest run --coverage --config vitest.config.ts --coverage.all",
+    "test:watch": "vitest --coverage --config vitest.config.ts --coverage.all"
   },
   "devDependencies": {
     "@types/uuid": "^9.0.8"
