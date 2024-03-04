@@ -1,6 +1,6 @@
 import { Behavior } from "../../application/Abstractions/Behavior";
 import { IRequestHandler } from '../../application/Abstractions/Request/IRequestHandler';
-import { IRequest, Request } from '../../application/Abstractions/Request/Request';
+import { IRequest, Request } from '../../application/Abstractions/Request/IRequest';
 
 export class RequestBehavior implements Behavior {
 

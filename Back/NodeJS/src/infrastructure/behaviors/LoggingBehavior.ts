@@ -1,4 +1,4 @@
-import { IRequest } from "../../Application/Abstractions/Request/Request";
+import { IRequest } from "../../application/Abstractions/Request/IRequest";
 import { Behavior } from "../../application/Abstractions/Behavior";
 
 export class LoggingBehavior implements Behavior {
