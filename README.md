@@ -19,8 +19,12 @@ I am Steve VALENTIN, a software engineer interested about craftsmanship subjects
 	- authenticate
 
 Usually, the approach is to make all of usecases with a language and switch to an other after. I wanted to doing differently and change language after each usecase. I am a C# .net developer, so it's possible that I'm writing code with few languages that you have never seen elsewhere or that we could write better or differently.
-I give you some details in each project folder
+I give you details in each project folder
 
 # Contact 
 
 I'm available, you can send me a message on LinkedIn [Steve Valentin](https://www.linkedin.com/in/steve-valentin-3687765a/) if you want some details or explications, don't hesitate, contact me
+
+# UX/UI
+
+I'm not a designer or interested to build awesome UI. It's not the topic of this project so don't be shoked if you download and run web projects
