@@ -10,13 +10,13 @@ I am Steve VALENTIN, a software engineer interested about craftsmanship subjects
 
 # Usecases
 
-	- [x] add a friend
-	- [ ] make a bet
-	- [ ] accept/reject a bet
-	- [ ] give bet result
-	- [ ] display bets list
-	- [ ] create an account
-	- [ ] authenticate
+- [x] add a friend
+- [ ] make a bet
+- [ ] accept/reject a bet
+- [ ] give bet result
+- [ ] display bets list
+- [ ] create an account
+- [ ] authenticate
 
 Usually, the approach is to make all of usecases with a language and switch to an other after. I wanted to doing differently and change language after each usecase. I am a C# .net developer, so it's possible that I'm writing code with few languages that you have never seen elsewhere or that we could write better or differently.
 I give you details in each project folder
