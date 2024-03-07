@@ -13,3 +13,7 @@ The infrastructure layer as almost the same structure (physics) for each languag
 # Testing
 
 For the moment, I only have unit tests which targeting application layer. The goal is to call a handler and assert for the commands about side effects like the repository and presenter when I use it or assert the respond of the query. 
+
+# Frameworks
+
+I'm using NestJs as a framework for the NodeJs api and .net 8 for .net world. The content of these parts has not a lot of code and logic so because of that, I could update versions or use another tools like AdonisJs or .net framework 4.8 (if I transform the other packages in .net standard...). In the futur, I will go on this project by adding PHP with both Symfony and Laravel. So those interested by PHP, stay tuned.

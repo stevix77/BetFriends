@@ -1,6 +1,8 @@
 # Front/web
 
-About web application with Typescript, I'm almost using the same approach than a .net application. I have a domain that contains the features with their logic. A handler uses a port to send data to external source and call an output port to notify the caller. I'm using typescript like a real OOP language, but I know it's not.
+About web application with Typescript, I'm almost using the same approach than a .net application. I have a domain that contains the features with their logic. A handler uses a port to send data to external source and call an output port to notify the caller. I'm using typescript like a real OOP language, but I know it's not. We can found many ressources on clean architecture in web side. But most of them use an approach that does not fluent for me because it's using a FP approach or it's not seeing clean architecture like me. 
+
+One of the good [ressource](https://github.com/Zenika/grenoble-hands-on-front-clean-architecture) I found is from Martin Choraine from Zenika. You can found a full presentation on youtube. I'm using this approach because it seems very logic for me, I can easily reuse my backend skills.
 
 # Angular/VueJS 3
 
