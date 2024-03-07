@@ -1,0 +1,15 @@
+{
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "@vitest/coverage-istanbul": "^1.3.1",
+    "ts-jest": "^29.1.2",
+    "typescript": "^4.9.4",
+    "vitest": "^1.3.1"
+  },
+  "scripts": {
+    "test": "vitest --coverage --config vitest.config.ts --coverage.all"
+  },
+  "dependencies": {
+    "ts-node": "^10.9.2"
+  }
+}

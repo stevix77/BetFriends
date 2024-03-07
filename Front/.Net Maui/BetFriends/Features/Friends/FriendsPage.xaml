@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="BetFriends.Features.Friends.FriendsPage"
+             xmlns:services="clr-namespace:BetFriends.Services"
+             Title="FriendsPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <StackLayout Padding="5,0" Margin="5, 5" Spacing="5">
+        <Entry Text="{Binding Search}" Placeholder="Rechercher" Keyboard="Text" FontSize="15" />
+        <ListView ItemsSource="{Binding Friends}"
+                  HasUnevenRows="False"
+                  SeparatorVisibility="Default" 
+                  VerticalScrollBarVisibility="Never"
+                  Margin="15, 15"
+                  IsVisible="{Binding ShowFriends}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Orientation="Horizontal" HeightRequest="50">
+                            <Label Text="{Binding Name}" FontSize="20" VerticalOptions="Center" VerticalTextAlignment="Center" />
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <ListView ItemsSource="{Binding Members}" 
+          x:Name="members" 
+          HasUnevenRows="False"
+          SeparatorVisibility="Default" 
+          VerticalScrollBarVisibility="Never"
+          Margin="15, 15"
+          IsVisible="{Binding ShowFriends, Converter={StaticResource InvertedBoolConverter}}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Orientation="Horizontal" HeightRequest="50">
+                            <Label Text="{Binding Name}" FontSize="20" VerticalOptions="Center" VerticalTextAlignment="Center" />
+                            <Button Command="{Binding BindingContext.AddCommand, Source={x:Reference members}}" 
+                            CommandParameter="{Binding}" 
+                            IsVisible="{Binding IsFriend, Converter={StaticResource InvertedBoolConverter}}"
+                            HorizontalOptions="EndAndExpand" 
+                            Text="{x:Static services:MaterialDesignIcons.PlusCircleOutline}"
+                            FontFamily="MaterialDesignIcons" />
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+</ContentPage>

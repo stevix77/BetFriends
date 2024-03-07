@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BetFriends", "BetFriends\BetFriends.csproj", "{33FD6A6A-D4D6-45FB-9C1F-9C54F492A8A3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A8133886-9478-4299-A547-184BE95B7E19}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{468A18C9-3624-4502-B117-6AB23F5C7A1E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BetFriends.Domain", "BetFriends.Domain\BetFriends.Domain.csproj", "{B5AC5B39-725A-429D-97D7-D3336F6B5895}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BetFriends.Infrastructure", "BetFriends.Infrastructure\BetFriends.Infrastructure.csproj", "{7AFC44FA-3BC0-4B09-84EC-7DF2A130E44A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BetFriends.Domain.UnitTests", "BetFriends.Domain.UnitTests\BetFriends.Domain.UnitTests.csproj", "{9132DE8F-A8E6-4E35-B982-A30ADA6F2B0D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution items", "{5EE1048D-1749-4E76-B018-FBA800D3436C}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\.gitignore = ..\..\.gitignore
+		..\..\README.md = ..\..\README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{33FD6A6A-D4D6-45FB-9C1F-9C54F492A8A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33FD6A6A-D4D6-45FB-9C1F-9C54F492A8A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33FD6A6A-D4D6-45FB-9C1F-9C54F492A8A3}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{33FD6A6A-D4D6-45FB-9C1F-9C54F492A8A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33FD6A6A-D4D6-45FB-9C1F-9C54F492A8A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33FD6A6A-D4D6-45FB-9C1F-9C54F492A8A3}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{B5AC5B39-725A-429D-97D7-D3336F6B5895}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5AC5B39-725A-429D-97D7-D3336F6B5895}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5AC5B39-725A-429D-97D7-D3336F6B5895}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5AC5B39-725A-429D-97D7-D3336F6B5895}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AFC44FA-3BC0-4B09-84EC-7DF2A130E44A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AFC44FA-3BC0-4B09-84EC-7DF2A130E44A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AFC44FA-3BC0-4B09-84EC-7DF2A130E44A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AFC44FA-3BC0-4B09-84EC-7DF2A130E44A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9132DE8F-A8E6-4E35-B982-A30ADA6F2B0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9132DE8F-A8E6-4E35-B982-A30ADA6F2B0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9132DE8F-A8E6-4E35-B982-A30ADA6F2B0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9132DE8F-A8E6-4E35-B982-A30ADA6F2B0D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{33FD6A6A-D4D6-45FB-9C1F-9C54F492A8A3} = {A8133886-9478-4299-A547-184BE95B7E19}
+		{B5AC5B39-725A-429D-97D7-D3336F6B5895} = {A8133886-9478-4299-A547-184BE95B7E19}
+		{7AFC44FA-3BC0-4B09-84EC-7DF2A130E44A} = {A8133886-9478-4299-A547-184BE95B7E19}
+		{9132DE8F-A8E6-4E35-B982-A30ADA6F2B0D} = {468A18C9-3624-4502-B117-6AB23F5C7A1E}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {88A5A777-59B6-4B88-9045-387181BFF16B}
+	EndGlobalSection
+EndGlobal

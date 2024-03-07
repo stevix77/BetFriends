@@ -1,0 +1,17 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/Front/.Net Maui/**/.vs
+/Front/.Net Maui/**/bin
+/Front/.Net Maui/**/obj
+/.vs
+/Front/TS/src/infrastructure/ui/Angular/.vscode
+/Front/TS/src/node_modules
+/Front/TS/tests/node_modules
+/Front/TS/tests/coverage
+/Back/.Net/.vs
+/Back/.Net/**/bin
+/Back/.Net/**/obj
+/Back/NodeJS/**/node_modules
+/Back/NodeJS/coverage
