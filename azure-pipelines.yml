@@ -143,7 +143,7 @@ steps:
   displayName: 'build .net maui'
   inputs:
     command: build
-    projects: 'Front/.Net Maui/BetFriends/BetFriends.csproj'
+    projects: 'Front/.Net Maui/**/*.sln'
     arguments: --configuration $(buildConfiguration)
 
 # .Net 8
