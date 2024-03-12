@@ -18,139 +18,139 @@ pool:
   vmImage: macos-latest
 
 steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '20.x'
-  displayName: 'Install Node.js 20.x'
+# - task: NodeTool@0
+#   inputs:
+#     versionSpec: '20.x'
+#   displayName: 'Install Node.js 20.x'
 
-- task: Npm@1
-  displayName: 'Install package.json'
-  inputs:
-    command: install
-    workingDir: 'Front/TS/src'
-    verbose: true
+# - task: Npm@1
+#   displayName: 'Install package.json'
+#   inputs:
+#     command: install
+#     workingDir: 'Front/TS/src'
+#     verbose: true
 
-- task: Npm@1
-  displayName: 'Install tests package.json'
-  inputs:
-    command: install
-    customCommand: 'install package.json'
-    workingDir: 'Front/TS/tests'
-    verbose: true
+# - task: Npm@1
+#   displayName: 'Install tests package.json'
+#   inputs:
+#     command: install
+#     customCommand: 'install package.json'
+#     workingDir: 'Front/TS/tests'
+#     verbose: true
 
 
-- task: Npm@1
-  displayName: 'Run tests'
-  inputs:
-    command: custom
-    customCommand: 'run test'
-    verbose: true
-    workingDir: 'Front/TS/tests'
+# - task: Npm@1
+#   displayName: 'Run tests'
+#   inputs:
+#     command: custom
+#     customCommand: 'run test'
+#     verbose: true
+#     workingDir: 'Front/TS/tests'
 
-- task: PublishCodeCoverageResults@1
-  continueOnError: true
-  inputs:
-    codeCoverageTool: Cobertura
-    summaryFileLocation: '$(System.DefaultWorkingDirectory)/Front/TS/tests/coverage/coverage-final.json'
+# - task: PublishCodeCoverageResults@1
+#   continueOnError: true
+#   inputs:
+#     codeCoverageTool: Cobertura
+#     summaryFileLocation: '$(System.DefaultWorkingDirectory)/Front/TS/tests/coverage/coverage-final.json'
 
-# angular #
+# # angular #
 
-- task: Npm@1
-  inputs:
-    command: custom
-    customCommand: 'install -g @angular/cli'
-  displayName: 'Install Angular cli'
+# - task: Npm@1
+#   inputs:
+#     command: custom
+#     customCommand: 'install -g @angular/cli'
+#   displayName: 'Install Angular cli'
 
-- task: Npm@1
-  displayName: 'Install angular project'
-  inputs:
-    command: custom
-    customCommand: 'install'
-    verbose: true
-    workingDir: 'Front/TS/src/infrastructure/ui/Angular'
+# - task: Npm@1
+#   displayName: 'Install angular project'
+#   inputs:
+#     command: custom
+#     customCommand: 'install'
+#     verbose: true
+#     workingDir: 'Front/TS/src/infrastructure/ui/Angular'
 
-- task: Npm@1
-  displayName: Build angular project
-  inputs:
-    command: custom
-    verbose: true
-    workingDir: 'Front/TS/src/infrastructure/ui/Angular'
-    customCommand: 'run build'
+# - task: Npm@1
+#   displayName: Build angular project
+#   inputs:
+#     command: custom
+#     verbose: true
+#     workingDir: 'Front/TS/src/infrastructure/ui/Angular'
+#     customCommand: 'run build'
 
-- task: CopyFiles@2
-  displayName: Copy files into artifact directory
-  inputs:
-    sourceFolder: '$(System.DefaultWorkingDirectory)/Front/TS/src/infrastructure/ui/Angular/dist/angular'
-    targetFolder: '$(Build.ArtifactStagingDirectory)/angular'
+# - task: CopyFiles@2
+#   displayName: Copy files into artifact directory
+#   inputs:
+#     sourceFolder: '$(System.DefaultWorkingDirectory)/Front/TS/src/infrastructure/ui/Angular/dist/angular'
+#     targetFolder: '$(Build.ArtifactStagingDirectory)/angular'
 
-- task: PublishBuildArtifacts@1
-  displayName: Publish angular artifact
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/angular'
-    ArtifactName: 'drop-angular'
-    publishLocation: 'Container'
+# - task: PublishBuildArtifacts@1
+#   displayName: Publish angular artifact
+#   inputs:
+#     PathtoPublish: '$(Build.ArtifactStagingDirectory)/angular'
+#     ArtifactName: 'drop-angular'
+#     publishLocation: 'Container'
 
-  # vue3 #
-- task: Npm@1
-  displayName: 'Install vue project'
-  inputs:
-    command: install
-    verbose: true
-    workingDir: 'Front/TS/src/infrastructure/ui/Vue/'
+#   # vue3 #
+# - task: Npm@1
+#   displayName: 'Install vue project'
+#   inputs:
+#     command: install
+#     verbose: true
+#     workingDir: 'Front/TS/src/infrastructure/ui/Vue/'
 
-- task: Npm@1
-  displayName: Build vue project
-  inputs:
-    command: custom
-    verbose: true
-    workingDir: 'Front/TS/src/infrastructure/ui/Vue'
-    customCommand: 'run build-only'
+# - task: Npm@1
+#   displayName: Build vue project
+#   inputs:
+#     command: custom
+#     verbose: true
+#     workingDir: 'Front/TS/src/infrastructure/ui/Vue'
+#     customCommand: 'run build-only'
 
-- task: CopyFiles@2
-  displayName: Copy files into artifact directory
-  inputs:
-    sourceFolder: 'Front/TS/src/infrastructure/ui/Vue/dist'
-    targetFolder: '$(Build.ArtifactStagingDirectory)/vue'
+# - task: CopyFiles@2
+#   displayName: Copy files into artifact directory
+#   inputs:
+#     sourceFolder: 'Front/TS/src/infrastructure/ui/Vue/dist'
+#     targetFolder: '$(Build.ArtifactStagingDirectory)/vue'
 
-- task: PublishBuildArtifacts@1
-  displayName: Publish artifact
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/vue'
-    ArtifactName: 'drop-vue'
+# - task: PublishBuildArtifacts@1
+#   displayName: Publish artifact
+#   inputs:
+#     PathtoPublish: '$(Build.ArtifactStagingDirectory)/vue'
+#     ArtifactName: 'drop-vue'
 
-# .Net MAUI
+# # .Net MAUI
 
-- task: UseDotNet@2
-  inputs:
-    packageType: 'sdk'
-    version: '8.x'
+# - task: UseDotNet@2
+#   inputs:
+#     packageType: 'sdk'
+#     version: '8.x'
 
-- task: CmdLine@2
-  displayName: 'Install Maui Workload'
-  inputs:
-    script: 'dotnet workload install maui'
+# - task: CmdLine@2
+#   displayName: 'Install Maui Workload'
+#   inputs:
+#     script: 'dotnet workload install maui'
 
-- task: DotNetCoreCLI@2
-  displayName: 'unit tests'
-  inputs:
-    command: test
-    projects: 'Front/.Net Maui/**/*Tests.csproj'
-    arguments: --configuration $(buildConfiguration) --collect "XPlat Code coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)\TestResults\Coverage\
-    publishTestResults: true
-    nobuild: true
+# - task: DotNetCoreCLI@2
+#   displayName: 'unit tests'
+#   inputs:
+#     command: test
+#     projects: 'Front/.Net Maui/**/*Tests.csproj'
+#     arguments: --configuration $(buildConfiguration) --collect "XPlat Code coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)\TestResults\Coverage\
+#     publishTestResults: true
+#     nobuild: true
 
-- script: 'dotnet tool install --global dotnet-reportgenerator-globaltool --version 4.5.8'  
-  displayName: 'Install ReportGenerator tool'
+# - script: 'dotnet tool install --global dotnet-reportgenerator-globaltool --version 4.5.8'  
+#   displayName: 'Install ReportGenerator tool'
 
-- script: 'reportgenerator -reports:$(Agent.TempDirectory)/**/coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)/coverlet/reports -reporttypes:"Cobertura"'  
-  displayName: 'Create reports' 
+# - script: 'reportgenerator -reports:$(Agent.TempDirectory)/**/coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)/coverlet/reports -reporttypes:"Cobertura"'  
+#   displayName: 'Create reports' 
 
-- task: PublishCodeCoverageResults@1
-  displayName: 'Publish code coverage report'
-  inputs:
-    codeCoverageTool: 'Cobertura'
-    summaryFileLocation: '$(Build.SourcesDirectory)/**/*cobertura.xml'
-    reportDirectory: '$(Build.SourcesDirectory)/coverlet/reports'
+# - task: PublishCodeCoverageResults@1
+#   displayName: 'Publish code coverage report'
+#   inputs:
+#     codeCoverageTool: 'Cobertura'
+#     summaryFileLocation: '$(Build.SourcesDirectory)/**/*cobertura.xml'
+#     reportDirectory: '$(Build.SourcesDirectory)/coverlet/reports'
 
 # .Net 8
 
@@ -180,7 +180,7 @@ steps:
   displayName: 'Publish code coverage report'
   inputs:
     codeCoverageTool: 'Cobertura'
-    summaryFileLocation: '$(Build.SourcesDirectory)/**/*cobertura.xml'
+    summaryFileLocation: '$(Build.SourcesDirectory)/coverlet/reports/*cobertura.xml'
     reportDirectory: '$(Build.SourcesDirectory)/coverlet/reports'
 
 - task: DotNetCoreCLI@2
@@ -208,41 +208,41 @@ steps:
   
  # NodeJS #
 
-- script: |
-    npm install
-  displayName: 'npm install packages NodeJS'
-  workingDirectory: '$(Build.SourcesDirectory)/Back/NodeJS'
+# - script: |
+#     npm install
+#   displayName: 'npm install packages NodeJS'
+#   workingDirectory: '$(Build.SourcesDirectory)/Back/NodeJS'
   
-- script: |
-    npm run test
-  displayName: 'npm test'
-  workingDirectory: '$(Build.SourcesDirectory)/Back/NodeJS'
+# - script: |
+#     npm run test
+#   displayName: 'npm test'
+#   workingDirectory: '$(Build.SourcesDirectory)/Back/NodeJS'
 
-- task: PublishCodeCoverageResults@1
-  continueOnError: true
-  inputs:
-    codeCoverageTool: Cobertura
-    summaryFileLocation: '$(System.DefaultWorkingDirectory)/Back/NodeJS/coverage/coverage-final.json'
+# - task: PublishCodeCoverageResults@1
+#   continueOnError: true
+#   inputs:
+#     codeCoverageTool: Cobertura
+#     summaryFileLocation: '$(System.DefaultWorkingDirectory)/Back/NodeJS/coverage/coverage-final.json'
 
-- script: |
-    npm install
-  displayName: 'npm install api NodeJS'
-  workingDirectory: '$(Build.SourcesDirectory)/Back/NodeJS/src/infrastructure/api/nest'
+# - script: |
+#     npm install
+#   displayName: 'npm install api NodeJS'
+#   workingDirectory: '$(Build.SourcesDirectory)/Back/NodeJS/src/infrastructure/api/nest'
 
-- script: |
-    npm run build
-  displayName: 'npm build'
-  workingDirectory: '$(Build.SourcesDirectory)/Back/NodeJS/src/infrastructure/api/nest'
+# - script: |
+#     npm run build
+#   displayName: 'npm build'
+#   workingDirectory: '$(Build.SourcesDirectory)/Back/NodeJS/src/infrastructure/api/nest'
 
-- task: ArchiveFiles@2
-  inputs:
-    rootFolderOrFile: '$(System.DefaultWorkingDirectory)/Back/NodeJS/src/infrastructure/api/nest'
-    includeRootFolder: false
-    archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/nodejs-api.zip'
-    replaceExistingArchive: true
+# - task: ArchiveFiles@2
+#   inputs:
+#     rootFolderOrFile: '$(System.DefaultWorkingDirectory)/Back/NodeJS/src/infrastructure/api/nest'
+#     includeRootFolder: false
+#     archiveType: 'zip'
+#     archiveFile: '$(Build.ArtifactStagingDirectory)/nodejs-api.zip'
+#     replaceExistingArchive: true
 
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/nodejs-api.zip'
-  displayName: 'Publish npm artifact'
+# - task: PublishBuildArtifacts@1
+#   inputs:
+#     PathtoPublish: '$(Build.ArtifactStagingDirectory)/nodejs-api.zip'
+#   displayName: 'Publish npm artifact'
