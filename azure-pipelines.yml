@@ -135,9 +135,15 @@ steps:
   inputs:
     command: test
     projects: 'Front/.Net Maui/**/*Tests.csproj'
-    arguments: --configuration $(buildConfiguration) --collect "XPlat Code coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
+    arguments: --configuration $(buildConfiguration) --collect "XPlat Code coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)\TestResults\Coverage\
     publishTestResults: true
     nobuild: true
+
+- task: PublishCodeCoverageResults@1
+  displayName: 'Publish code coverage report'
+  inputs:
+    codeCoverageTool: 'Cobertura'
+    summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
 
 # .Net 8
 
@@ -156,7 +162,7 @@ steps:
   inputs:
     command: test
     projects: '$(ProjectTest)'
-    arguments: --configuration $(buildConfiguration) --collect "XPlat Code coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
+    arguments: --configuration $(buildConfiguration) --collect "XPlat Code coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)\TestResults\Coverage\
     publishTestResults: true
     nobuild: true
 
