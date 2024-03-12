@@ -15,6 +15,12 @@
     <MauiXaml Update="AppShell.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
+    <MauiXaml Update="Features\Bets\CreateBet\BetPage.xaml">
+      <SubType>Designer</SubType>
+    </MauiXaml>
+    <MauiXaml Update="Features\Bets\CreateBet\SelectFriendsPage.xaml">
+      <SubType>Designer</SubType>
+    </MauiXaml>
     <MauiXaml Update="Features\Friends\FriendsPage.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
