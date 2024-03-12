@@ -130,18 +130,6 @@ steps:
   inputs:
     script: 'dotnet workload install maui'
 
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: 'Front/.Net Maui/*.sln'
-  displayName: Restore solution nuget
-
-- task: DotNetCoreCLI@2
-  displayName: 'build .net maui'
-  inputs:
-    command: build
-    projects: 'Front/.Net Maui/BetFriends/BetFriends.csproj'
-    arguments: --configuration $(buildConfiguration)
-
 - task: DotNetCoreCLI@2
   displayName: 'unit tests'
   inputs:
@@ -150,6 +138,13 @@ steps:
     arguments: --configuration $(buildConfiguration) --collect "XPlat Code coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
     publishTestResults: true
     nobuild: true
+
+- task: DotNetCoreCLI@2
+  displayName: 'build .net maui'
+  inputs:
+    command: build
+    projects: 'Front/.Net Maui/BetFriends/BetFriends.csproj'
+    arguments: --configuration $(buildConfiguration)
 
 # .Net 8
 
