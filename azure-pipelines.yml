@@ -50,8 +50,8 @@ steps:
 - task: PublishCodeCoverageResults@1
   continueOnError: true
   inputs:
-    codeCoverageTool: 'istanbul'
-    summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml'
+    codeCoverageTool: Cobertura
+    summaryFileLocation: '$(System.DefaultWorkingDirectory)/Front/TS/tests/coverage/coverage-final.json'
 
 # angular #
 
@@ -118,6 +118,34 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)/vue'
     ArtifactName: 'drop-vue'
 
+# .Net MAUI
+
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: 'Front/.Net Maui/*.sln'
+  displayName: Restore solution nuget
+
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '8.x'
+
+- task: DotNetCoreCLI@2
+  displayName: 'build .net maui'
+  inputs:
+    command: build
+    projects: 'Front/.Net Maui/BetFriends/BetFriends.csproj'
+    arguments: --configuration $(buildConfiguration)
+
+- task: DotNetCoreCLI@2
+  displayName: 'unit tests'
+  inputs:
+    command: test
+    projects: 'Front/.Net Maui/**/*Tests.csproj'
+    arguments: --configuration $(buildConfiguration) --collect "XPlat Code coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
+    publishTestResults: true
+    nobuild: true
+
 # .Net 8
 
 - task: NuGetCommand@2
@@ -179,6 +207,12 @@ steps:
     npm run test
   displayName: 'npm test'
   workingDirectory: '$(Build.SourcesDirectory)/Back/NodeJS'
+
+- task: PublishCodeCoverageResults@1
+  continueOnError: true
+  inputs:
+    codeCoverageTool: Cobertura
+    summaryFileLocation: '$(System.DefaultWorkingDirectory)/Back/NodeJS/coverage/coverage-final.json'
 
 - script: |
     npm install
