@@ -120,15 +120,20 @@ steps:
 
 # .Net MAUI
 
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: 'Front/.Net Maui/*.sln'
-  displayName: Restore solution nuget
-
 - task: UseDotNet@2
   inputs:
     packageType: 'sdk'
     version: '8.x'
+
+- task: CmdLine@2
+  displayName: 'Install Maui Workload'
+  inputs:
+    script: 'dotnet workload install maui'
+
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: 'Front/.Net Maui/*.sln'
+  displayName: Restore solution nuget
 
 - task: DotNetCoreCLI@2
   displayName: 'build .net maui'
