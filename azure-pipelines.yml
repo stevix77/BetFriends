@@ -180,31 +180,30 @@ steps:
   displayName: 'Publish code coverage report'
   inputs:
     codeCoverageTool: 'Cobertura'
-    summaryFileLocation: '$(Build.SourcesDirectory)/coverlet/reports/*cobertura.xml'
-    reportDirectory: '$(Build.SourcesDirectory)/coverlet/reports'
+    summaryFileLocation: '$(Build.SourcesDirectory)/coverlet/reports/Cobertura.xml'
 
-- task: DotNetCoreCLI@2
-  displayName: 'build api'
-  inputs:
-    command: build
-    configuration: '$(BuildConfiguration)'
-    projects: '$(projectApi)'
+# - task: DotNetCoreCLI@2
+#   displayName: 'build api'
+#   inputs:
+#     command: build
+#     configuration: '$(BuildConfiguration)'
+#     projects: '$(projectApi)'
 
-- task: DotNetCoreCLI@2
-  displayName: 'api binaries'
-  inputs:
-    command: publish
-    projects: '$(projectApi)'
-    zipAfterPublish: false
-    publishWebProjects: false
-    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/api'
+# - task: DotNetCoreCLI@2
+#   displayName: 'api binaries'
+#   inputs:
+#     command: publish
+#     projects: '$(projectApi)'
+#     zipAfterPublish: false
+#     publishWebProjects: false
+#     arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/api'
 
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact Api'
-  inputs:
-    PathtoPublish: '$(build.artifactstagingdirectory)/api'
-    ArtifactName: '$(Parameters.ArtifactName)'
-  condition: succeededOrFailed()
+# - task: PublishBuildArtifacts@1
+#   displayName: 'Publish Artifact Api'
+#   inputs:
+#     PathtoPublish: '$(build.artifactstagingdirectory)/api'
+#     ArtifactName: '$(Parameters.ArtifactName)'
+#   condition: succeededOrFailed()
   
  # NodeJS #
 
