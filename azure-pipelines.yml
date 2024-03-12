@@ -139,13 +139,6 @@ steps:
     publishTestResults: true
     nobuild: true
 
-- task: DotNetCoreCLI@2
-  displayName: 'build .net maui'
-  inputs:
-    command: build
-    projects: 'Front/.Net Maui/**/*.sln'
-    arguments: --configuration $(buildConfiguration)
-
 # .Net 8
 
 - task: NuGetCommand@2
