@@ -143,10 +143,10 @@ steps:
   displayName: 'Install ReportGenerator tool'
 
 - script: 'reportgenerator -reports:$(agent.tempdirectory)/**/coverage.cobertura.xml -targetdir:$(build.sourcesdirectory)/coverlet/reports -reporttypes:"Cobertura"'  
-  displayname: 'create reports' 
+  displayName: 'create reports' 
 
 - task: publishcodecoverageresults@1
-  displayname: 'publish code coverage report'
+  displayName: 'publish code coverage report'
   inputs:
     codecoveragetool: 'Cobertura'
     summaryfilelocation: '$(build.sourcesdirectory)/coverlet/reports/Cobertura.xml'
