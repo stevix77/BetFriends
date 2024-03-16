@@ -13,7 +13,6 @@ export class FriendsController {
     }
 
     SearchMembers(keyword: string): Promise<void> {
-        console.log(keyword)
         return this.retrieveMembersHandler.Handle(keyword);
     }
 

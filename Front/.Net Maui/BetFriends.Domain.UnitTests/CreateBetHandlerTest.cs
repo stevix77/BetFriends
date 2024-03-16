@@ -47,7 +47,7 @@ public class CreateBetHandlerTest
     }
 
     [Fact]
-    public async Task ShouldNotCreateBetWith0Coin()
+    public async Task ShouldNotCreateBetWith0Chip()
     {
         (await new CreateBetSut()
                 .WithDateProvider(new StubDateTimeProvider(new DateTime(2024, 3, 1)))
