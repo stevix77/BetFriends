@@ -1,8 +1,8 @@
 <template>
     <div>
-        <search-component @searched="update"></search-component>
+        <search-component @searched="update" :viewmodel="viewModel"></search-component>
         
-        <ul v-if="viewModel.ShowFriends">
+        <ul v-if="viewModel.ShowFriends === true">
                 <li v-for="friend in viewModel.Friends" :key="friend.Id">
                     {{ friend.Name }} 
                 </li>
@@ -21,13 +21,18 @@ import SearchComponent from './SearchComponent.vue'
 import AddFriendComponent from './AddFriendComponent.vue'
 import { FriendsController } from '../../../../../adapters/controllers/FriendsController'
 import type { RetrieveFriendsPresenter } from '../../presenters/RetrieveFriendsPresenter'
+import { FriendsViewModel } from '../../viewmodels/FriendsViewModel';
+import { Subject } from 'rxjs'
+import { FriendDto } from '../../../../../../domain/features/retrieveFriends/RetrieveFriendsHandler';
 export default {
   components: { SearchComponent, AddFriendComponent },
     setup() {
         const controller = inject<FriendsController>('friendsController')
         const retrieveFriendsPresenter = inject<RetrieveFriendsPresenter>('retrieveFriendsPresenter')
-        retrieveFriendsPresenter?.Subscribe(controller!)
-        const viewModel: any = ref(controller!.vm);
+        const viewModel = ref(new FriendsViewModel())
+        const friendsSubject = new Subject<FriendDto[]>()
+        friendsSubject.subscribe((friends: FriendDto[]) => viewModel.value.Friends = friends);
+        retrieveFriendsPresenter?.Subscribe(friendsSubject)
         const current = getCurrentInstance()
         return {
             viewModel,

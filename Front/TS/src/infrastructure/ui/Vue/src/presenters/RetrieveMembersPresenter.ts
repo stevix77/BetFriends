@@ -1,20 +1,19 @@
 import type { FriendsController } from "../../../../../infrastructure/adapters/controllers/FriendsController";
 import type { IRetrieveMembersOutputPort } from "../../../../../domain/features/retrieveMembers/RetrieveMembersHandler";
 import type { MemberDto } from "../../../../../domain/members/IMemberRepository";
+import { Subject } from 'rxjs';
 
 export class RetrieveMembersPresenter implements IRetrieveMembersOutputPort {
     NotEnoughCharacter(): void {
-        this.controller!.vm.ShowFriends = true;
     }
     Present(members: MemberDto[]): void {
-        this.controller!.vm.Members = members;
-        this.controller!.vm.ShowFriends = false;
+        this.subjects.forEach(x => x.next(members))
     }
 
-    Subscribe(controller: FriendsController) {
-        this.controller = controller;
+    Subscribe(subject: Subject<MemberDto[]>) {
+        this.subjects.push(subject)
     }
 
-    private controller: FriendsController|undefined;
+    private subjects: Subject<MemberDto[]>[] = [];
 
 }

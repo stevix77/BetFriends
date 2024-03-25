@@ -1,5 +1,5 @@
 <template>
-    <friends-component></friends-component>
+    <friends-component ></friends-component>
   </template>
    
   <style>
@@ -13,4 +13,6 @@
   </style>
   <script setup lang="ts">
     import FriendsComponent from "../components/friends/FriendsComponent.vue";  
+    // import { FriendsViewModel } from "../viewmodels/FriendsViewModel";
+    // const vm = new FriendsViewModel();
   </script>

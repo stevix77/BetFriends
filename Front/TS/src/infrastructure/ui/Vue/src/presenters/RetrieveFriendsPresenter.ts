@@ -1,15 +1,20 @@
 import type { FriendDto, IRetrieveFriendsOutputPort } from "../../../../../domain/features/retrieveFriends/RetrieveFriendsHandler";
-import { FriendsController } from '../../../../adapters/controllers/FriendsController'
+import { Subject } from 'rxjs'
 
-export class RetrieveFriendsPresenter implements IRetrieveFriendsOutputPort {
-  constructor(){}
+export class RetrieveFriendsPresenter extends EventTarget implements IRetrieveFriendsOutputPort  {
+  
+  constructor(){ 
+    super()
+  }
+
   Present(friends: FriendDto[]): void {
-    this.controller!.vm.Friends = friends;
+    this.subjects.forEach(x => x.next(friends));
   }
   
-  Subscribe(controller: FriendsController) {
-    this.controller = controller;
+  Subscribe(subject: Subject<FriendDto[]>) {
+    this.subjects.push(subject);
   }
 
-  private controller: FriendsController|undefined = undefined;
+  subjects: Subject<FriendDto[]>[] = [];
+
 }
