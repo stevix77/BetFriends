@@ -5,12 +5,12 @@ export class RetrieveFriendsHandler {
 
     async Handle() : Promise<void> {
         const friends = await this.friendsRepository.GetFriendsAsync();
-        this.outputPort.Present(friends);
+        this.outputPort.PresentFriends(friends);
     }
 }
 
 export interface IRetrieveFriendsOutputPort {
-    Present(friends: FriendDto[]): void;
+    PresentFriends(friends: FriendDto[]): void;
 }
 
 export interface FriendDto {

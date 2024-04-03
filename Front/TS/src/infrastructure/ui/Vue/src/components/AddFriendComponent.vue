@@ -3,10 +3,9 @@
 </template>
 
 <script lang="ts">
-    import { inject, ref, getCurrentInstance, type PropType } from 'vue'
-    import { FriendsController } from '../../../../../adapters/controllers/FriendsController'
-    import { AddFriendPresenter } from '../../presenters/AddFriendPresenter'
-    import { type MemberDto } from '../../../../../../domain/members/IMemberRepository' 
+    import { inject, getCurrentInstance, type PropType } from 'vue'
+    import { FriendsController } from '../../../../adapters/controllers/FriendsController'
+    import { type MemberDto } from '../../../../../domain/members/IMemberRepository' 
     
     export default {
         props: {
@@ -14,8 +13,6 @@
         },
         setup(props) {
             const controller = inject<FriendsController>('friendsController');
-            const addFriendPresenter = inject<AddFriendPresenter>('addFriendPresenter')
-            addFriendPresenter?.Subscribe(controller!)
             const instance = getCurrentInstance();
             const member = props.member
             return {

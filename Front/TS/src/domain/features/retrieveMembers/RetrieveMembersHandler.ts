@@ -3,17 +3,19 @@ export class RetrieveMembersHandler {
     constructor(private memberRepository: IMemberRepository,
                 private retrieveMembersOutputPort: IRetrieveMembersOutputPort){}
 
+    private readonly MIN_CHAR_LENGTH: number = 3;
+
     async Handle(keyword: string): Promise<void> {
-        if(keyword.length < 3) { 
+        if(keyword.length < this.MIN_CHAR_LENGTH) { 
             this.retrieveMembersOutputPort.NotEnoughCharacter();
             return;
         }
         const members = await this.memberRepository.RetrieveByKeywordAsync(keyword);
-        this.retrieveMembersOutputPort.Present(members);
+        this.retrieveMembersOutputPort.PresentMembers(members);
     }
 }
 
 export interface IRetrieveMembersOutputPort {
     NotEnoughCharacter(): void;
-    Present(members: MemberDto[]): void;
+    PresentMembers(members: MemberDto[]): void;
 }

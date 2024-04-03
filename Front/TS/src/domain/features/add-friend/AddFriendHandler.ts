@@ -6,7 +6,7 @@ export class AddFriendHandler {
 
     async Handle(request: IAddFriendRequest) : Promise<void> {
         await this.friendRepository.SaveAsync(request.MemberId);
-        this.addFriendOutputPort.Present(request.MemberId);
+        this.addFriendOutputPort.PresentMemberAdded(request.MemberId);
     }
 }
 
@@ -15,5 +15,5 @@ export interface IAddFriendRequest {
 }
 
 export interface IAddFriendOutputPort {
-    Present(memberId: string) : void;
+    PresentMemberAdded(memberId: string) : void;
 }

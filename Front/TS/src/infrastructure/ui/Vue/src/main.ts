@@ -5,11 +5,11 @@ import App from './App.vue'
 import router from './router'
 import { ioc } from './ioc'
 
-import FriendsComponent from '../src/components/friends/FriendsComponent.vue'
+// import FriendsComponent from '../src/components/friends/FriendsComponent.vue'
 
 const app = createApp(App)
 
 app.use(router)
 app.use(ioc)
 app.mount('#app')
-app.component('FriendsComponent', FriendsComponent)
+// app.component('FriendsComponent', FriendsComponent)

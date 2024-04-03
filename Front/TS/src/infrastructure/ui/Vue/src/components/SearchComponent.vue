@@ -4,13 +4,10 @@
 
 <script lang="ts">
 import { inject, getCurrentInstance } from 'vue'
-import { FriendsController } from '../../../../../adapters/controllers/FriendsController'
-import type { RetrieveMembersPresenter } from '../../presenters/RetrieveMembersPresenter';
+import { FriendsController } from '../../../../adapters/controllers/FriendsController'
     export default {
         setup() {
             const controller = inject<FriendsController>('friendsController');
-            const presenter = inject<RetrieveMembersPresenter>('retrieveMembersPresenter')
-            presenter!.Subscribe(controller!)
             const current = getCurrentInstance()
             return {
                 controller,

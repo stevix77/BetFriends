@@ -21,8 +21,4 @@ export class FriendsController {
             MemberId: memberId
         });
     }
-
-    vm: any = {
-        ShowFriends: true
-    }
 }
