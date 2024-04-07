@@ -3,20 +3,20 @@
 </template>
 
 <script lang="ts">
-import { inject, getCurrentInstance } from 'vue'
-import { FriendsController } from '../../../../adapters/controllers/FriendsController'
+import { inject, getCurrentInstance, ref } from 'vue'
+import type { FriendsViewModel } from '../viewmodels/FriendsViewModel';
     export default {
         setup() {
-            const controller = inject<FriendsController>('friendsController');
+            const vm = ref(inject<FriendsViewModel>('friendsviewmodel'));
             const current = getCurrentInstance()
             return {
-                controller,
+                vm,
                 current
             }
         },
         methods: {
             async Search(event: any): Promise<void> {
-                await this.controller!.SearchMembers(event.value)
+                await this.vm!.SearchMembers(event.value as string)
                 this.current?.emit('searched')
             }
         }

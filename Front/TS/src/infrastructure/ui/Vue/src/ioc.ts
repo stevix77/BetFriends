@@ -6,15 +6,20 @@ import { RetrieveFriendsHandler } from "../../../../domain/features/retrieveFrie
 import { type IFriendRepository } from '../../../../domain/friends/IFriendRepository';
 import { RetrieveMembersHandler } from '../../../../domain/features/retrieveMembers/RetrieveMembersHandler';
 import { AddFriendHandler } from "../../../../domain/features/add-friend/AddFriendHandler";
-import { FriendsPresenter } from "./presenters/FriendsPresenter";
+import { FriendsPresenter } from "../../../adapters/presenters/FriendsPresenter";
 import { FriendsController } from "../../../../infrastructure/adapters/controllers/FriendsController";
-import { CreateBetPresenter } from "./presenters/CreateBetPresenter";
+import { CreateBetPresenter } from "../../../adapters/presenters/CreateBetPresenter";
 import { BetsController } from '../../../adapters/controllers/BetsController';
 import { CreateBetHandler } from "../../../../domain/features/CreateBetHandler";
 import { type IBetRepository } from "../../../../domain/bets/IBetRepository";
 import { InMemoryBetRepository } from '../../../adapters/repository/InMemoryBetRepository';
 import { IdGenerator } from '../../../adapters/IdGenerator';
 import { DateTimeProvider } from '../../../adapters/DateTimeProvider';
+import { CreateBetViewModel } from "./viewmodels/CreateBetViewModel";
+import { FriendsViewModel } from "./viewmodels/FriendsViewModel";
+
+import router from './router'
+
 const ioc = (app: App) => {
     const memberRepository: IMemberRepository = new InMemoryMemberRepository()
     const friendRepository: IFriendRepository = new InMemoryFriendRepository(memberRepository);
@@ -30,13 +35,16 @@ const ioc = (app: App) => {
     const addFriendHandler = new AddFriendHandler(friendRepository, friendsPresenter)
     const friendsController = new FriendsController(retrieveFriendsHandler, 
                                                     retrieveMembersHandler,
-                                                    addFriendHandler)
+                                                    addFriendHandler);
+    const createbetviewmodel = new CreateBetViewModel(friendsPresenter, 
+                                                    createBetPresenter,
+                                                    friendsController,
+                                                    betsController,
+                                                    router);
+    const friendsviewmodel = new FriendsViewModel(friendsPresenter, friendsController);
 
-    app.provide('friendspresenter', friendsPresenter);
-    app.provide('friendsController', friendsController);
-    app.provide('betsController', betsController)
-
-    app.provide('createBetPresenter', createBetPresenter)
+    app.provide('friendsviewmodel', friendsviewmodel);
+    app.provide('createbetviewmodel', createbetviewmodel);
 }
 
 export { ioc };

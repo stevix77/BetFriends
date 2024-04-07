@@ -9,7 +9,7 @@
             </ul>
         <ul v-if="vm.ShowFriends === false">
                 <li v-for="member in vm.Members" :key="member.Id">
-                    {{ member.Name }} <add-friend-component :member="member"></add-friend-component>
+                    {{ member.Name }} <add-friend-component v-if="!member.IsFriend" :member="member"></add-friend-component>
                 </li>
             </ul>
     </div>
@@ -19,26 +19,19 @@
 import { getCurrentInstance, inject, ref } from 'vue'
 import SearchComponent from './SearchComponent.vue'
 import AddFriendComponent from './AddFriendComponent.vue'
-import { FriendsController } from '../../../../adapters/controllers/FriendsController'
-import type { FriendsPresenter } from '../presenters/FriendsPresenter'
 import { FriendsViewModel } from '../viewmodels/FriendsViewModel';
 export default {
   components: { SearchComponent, AddFriendComponent },
     setup() {
-        const controller = inject<FriendsController>('friendsController')
-        const friendsPresenter = inject<FriendsPresenter>('friendspresenter')
-        const viewModel: any = ref(friendsPresenter!.vm);
-        const vm = new FriendsViewModel(friendsPresenter);
+        const vm = ref(inject<FriendsViewModel>('friendsviewmodel'));
         const current = getCurrentInstance()
         return {
-            viewModel,
-            controller,
             current,
             vm
         }
     },
     async mounted(): Promise<void> {
-        await this.controller!.GetFriends()
+        await this.vm!.GetFriends()
         this.current?.proxy?.$forceUpdate();
     },
     methods: {
