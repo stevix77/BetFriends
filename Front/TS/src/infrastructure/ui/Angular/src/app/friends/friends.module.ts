@@ -10,20 +10,17 @@ import { RetrieveFriendsHandler } from "../../../../../../domain/features/retrie
 import { IFriendRepository } from '../../../../../../domain/friends/IFriendRepository';
 import { RetrieveMembersHandler } from '../../../../../../domain/features/retrieveMembers/RetrieveMembersHandler';
 import { AddFriendHandler } from "../../../../../../domain/features/add-friend/AddFriendHandler";
-import { AddFriendPresenter } from '../../presenters/AddFriendPresenter';
-import { RetrieveFriendsPresenter } from "../../presenters/RetrieveFriendsPresenter";
-import { RetrieveMembersPresenter } from "../../presenters/RetrieveMembersPresenter";
 import { FriendsController } from "../../../../../adapters/controllers/FriendsController";
+import { FriendsPresenter } from "../../../../../adapters/presenters/FriendsPresenter";
+import { FriendsViewModel } from "./FriendsViewModel";
 
 
 const memberRepository: IMemberRepository = new InMemoryMemberRepository()
 const friendRepository: IFriendRepository = new InMemoryFriendRepository(memberRepository);
-const addFriendPresenter = new AddFriendPresenter();
-const retrieveFriendsPresenter = new RetrieveFriendsPresenter()
-const retrieveMembersPresenter = new RetrieveMembersPresenter()
-const retrieveFriendsHandler = new RetrieveFriendsHandler(friendRepository, retrieveFriendsPresenter);
-const retrieveMembersHandler = new RetrieveMembersHandler(memberRepository, retrieveMembersPresenter);
-const addFriendHandler = new AddFriendHandler(friendRepository, addFriendPresenter)
+const friendsPresenter: FriendsPresenter = new FriendsPresenter();
+const retrieveFriendsHandler = new RetrieveFriendsHandler(friendRepository, friendsPresenter);
+const retrieveMembersHandler = new RetrieveMembersHandler(memberRepository, friendsPresenter);
+const addFriendHandler = new AddFriendHandler(friendRepository, friendsPresenter)
 const friendsController = new FriendsController(retrieveFriendsHandler, 
                                                 retrieveMembersHandler,
                                                 addFriendHandler)
@@ -46,20 +43,8 @@ const friendsController = new FriendsController(retrieveFriendsHandler,
     exports: [RouterModule],
     providers: [
         {
-            provide: FriendsController,
-            useFactory: () => friendsController
-        },
-        {
-            provide: AddFriendPresenter,
-            useFactory: () => addFriendPresenter
-        },
-        {
-            provide: RetrieveFriendsPresenter,
-            useFactory: () => retrieveFriendsPresenter
-        },
-        {
-            provide: RetrieveMembersPresenter,
-            useFactory: () => retrieveMembersPresenter
+            provide: FriendsViewModel,
+            useFactory: () => new FriendsViewModel(friendsPresenter, friendsController)
         }
     ]
 })

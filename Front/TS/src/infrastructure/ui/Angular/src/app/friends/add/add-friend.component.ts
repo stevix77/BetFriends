@@ -1,8 +1,7 @@
 import { Component, Input, input, OnInit } from "@angular/core";
 import { MemberDto } from "../../../../../../../domain/members/IMemberRepository";
 import { NgIf } from "@angular/common";
-import { FriendsController } from '../../../../../../adapters/controllers/FriendsController';
-import { AddFriendPresenter } from '../../../presenters/AddFriendPresenter';
+import { FriendsViewModel } from "../FriendsViewModel";
 
 @Component({
   selector: "add-friend",
@@ -15,14 +14,13 @@ import { AddFriendPresenter } from '../../../presenters/AddFriendPresenter';
 export class AddFriendComponent {
   
   @Input() member: MemberDto|undefined = undefined
-  constructor(private friendsController: FriendsController,
-              private addFriendPresenter: AddFriendPresenter) { 
-    this.addFriendPresenter.Subscribe(this.friendsController)
+  constructor(protected friendsViewModel: FriendsViewModel) { 
   }
 
   async AddFriend(memberId: string|undefined) {
     if(memberId != undefined){
-      await this.friendsController.AddFriend(memberId);
+      await this.friendsViewModel.AddFriend(memberId);
+      this.member!.IsFriend = true;
     }
   }
 }

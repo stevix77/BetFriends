@@ -1,17 +1,17 @@
-import type { IViewModel } from "./IViewModel";
 import { Subject } from 'rxjs';
-import { FriendsPresenter, Key } from '../../../../adapters/presenters/FriendsPresenter';
-import type { FriendDto } from '../../../../../domain/features/retrieveFriends/RetrieveFriendsHandler';
-import type { MemberDto } from '../../../../../domain/members/IMemberRepository';
-import type { FriendsController } from "../../../../adapters/controllers/FriendsController";
+import { FriendsPresenter, Key } from '../../../../../adapters/presenters/FriendsPresenter';
+import type { FriendDto } from '../../../../../../domain/features/retrieveFriends/RetrieveFriendsHandler';
+import type { MemberDto } from '../../../../../../domain/members/IMemberRepository';
+import type { FriendsController } from "../../../../../adapters/controllers/FriendsController";
 
-export class FriendsViewModel implements IViewModel {
+export class FriendsViewModel {
     constructor(friendsPresenter: FriendsPresenter, 
                 private friendsController: FriendsController) {
         this.SubscribeToFriendsResponse(friendsPresenter);
         this.SubscribeToMembersResponse(friendsPresenter);
         this.SubscribeToFriendAddedResponse(friendsPresenter);
     }
+
 
     SubscribeToFriendAddedResponse(friendsPresenter: FriendsPresenter) {
         const subject = new Subject<string>();

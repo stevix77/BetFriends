@@ -1,6 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from "@angular/core";
-import { FriendsController } from '../../../../../../adapters/controllers/FriendsController';
-import { RetrieveMembersPresenter } from '../../../presenters/RetrieveMembersPresenter';
+import { FriendsViewModel } from "../FriendsViewModel";
 
 @Component({
   selector: "search-friends",
@@ -11,9 +10,7 @@ import { RetrieveMembersPresenter } from '../../../presenters/RetrieveMembersPre
 
 export class SearchComponent implements OnInit {
 
-  constructor(private friendsController: FriendsController,
-              private retrieveMembersPresenter: RetrieveMembersPresenter) { 
-      this.retrieveMembersPresenter.Subscribe(this.friendsController)
+  constructor(protected friendsViewModel: FriendsViewModel) { 
   }
 
   @Output() searchEvent: EventEmitter<any> = new EventEmitter();
@@ -23,6 +20,6 @@ export class SearchComponent implements OnInit {
   }
 
   async InputChange(event: any) {
-    await this.friendsController.SearchMembers(event.value)
+    await this.friendsViewModel.SearchMembers(event.value)
   }
 }
