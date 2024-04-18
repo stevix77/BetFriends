@@ -1,6 +1,6 @@
 ﻿using BetFriends.Application.Abstractions.Command;
 
-namespace BetFriends.Infrastructure;
+namespace BetFriends.Application.Abstractions;
 
 public interface IBetModule 
 {

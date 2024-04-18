@@ -1,4 +1,6 @@
-﻿using BetFriends.Domain.Friends;
+﻿using BetFriends.Application.Abstractions;
+using BetFriends.Domain.Bets;
+using BetFriends.Domain.Friends;
 using BetFriends.Domain.Members;
 using BetFriends.Infrastructure.Behaviors;
 using BetFriends.Infrastructure.Event;
@@ -9,12 +11,15 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace BetFriends.Infrastructure;
 
-public static class ServicesRegistration
+public static class DependencyInjectionsExtension
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
         services.AddSingleton<IMemberRepository, FakeMemberRepository>();
         services.AddSingleton<IFriendshipRepository, FakeFriendshipRepository>();
+        services.AddSingleton<IBetRepository, FakeBetRepository>();
+        services.AddSingleton<IIdGenerator, GuidGenerator>();
+        services.AddSingleton<IDateProvider, DateTimeProvider>();
         services.AddScoped<IBetModule, BetModule>();
         services.AddScoped<IUnitOfWork, InMemoryUnitOfWork>();
         services.AddSingleton<DomainEventsAccessor>();
