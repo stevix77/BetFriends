@@ -6,9 +6,7 @@ import { FriendsViewModel } from "../FriendsViewModel";
 @Component({
   selector: "add-friend",
   templateUrl: "./add-friend.component.html",
-  styleUrls: ["./add-friend.component.scss"],
-  standalone: true,
-  imports: [NgIf]
+  styleUrls: ["./add-friend.component.scss"]
 })
 
 export class AddFriendComponent {

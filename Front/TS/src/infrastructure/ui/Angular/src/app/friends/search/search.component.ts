@@ -4,8 +4,7 @@ import { FriendsViewModel } from "../FriendsViewModel";
 @Component({
   selector: "search-friends",
   templateUrl: "./search.component.html",
-  styleUrls: ["./search.component.scss"],
-  standalone: true
+  styleUrls: ["./search.component.scss"]
 })
 
 export class SearchComponent implements OnInit {

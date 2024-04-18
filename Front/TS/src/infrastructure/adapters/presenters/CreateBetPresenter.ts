@@ -1,4 +1,4 @@
-import { CreateBetResponse, type ICreateBetOutputPort } from '../../../../../domain/features/CreateBetHandler';
+import { CreateBetResponse, type ICreateBetOutputPort } from '../../../domain/features/CreateBetHandler';
 import { Presenter } from './Presenter';
 export class CreateBetPresenter extends Presenter implements ICreateBetOutputPort {
 

@@ -13,7 +13,7 @@ export class CreateBetHandler {
             this.outputPort.InvalidEndDate();
             return;
         }
-        if(request.Description === "") {
+        if(request.Description == "") {
             this.outputPort.DescriptionIsEmpty();
             return;
         }
