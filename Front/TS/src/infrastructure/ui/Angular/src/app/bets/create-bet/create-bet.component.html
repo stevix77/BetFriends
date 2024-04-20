@@ -1,13 +1,10 @@
-test<!-- <form (ngSubmit)="validateForm" method="POST">
+<form (submit)="vm.CreateBet()" method="POST">
     <h3 style="color: red">{{ vm.Error }}</h3>
     <div id="form">
         <div style="float:left">
             <p>
-                
-            </p>
-            <p>
                 <label for="description">Description</label><br />
-                <textarea type="text" id="description" [(ngModel)]="vm.Description"></textarea>
+                <textarea type="text" id="description" name="description" [(ngModel)]="vm.Description" ></textarea>
             </p>
             <p>
                 <label for="chips">Jetons</label><br />
@@ -15,22 +12,20 @@ test<!-- <form (ngSubmit)="validateForm" method="POST">
             </p>
             <p>
                 <label for="endDate">Date de fin</label><br />
-                <input type="date" [(ngModel)]="vm.EndDate" [min]="vm.MinDate" />
+                <input type="date" name="endDate" [(ngModel)]="vm.EndDate" [min]="vm.MinDate" />
             </p>
         </div>
         <div style="float:right">
-            <p>
-                <label for="friends">Amis</label><br />
-                <ul>
-                    <li *ngFor="friend in vm.Friends" [key]="friend.Id">
-                        <input type="checkbox" [(ngModel)]="vm.FriendsSelected" [value]="friend.Id" /> {{ friend.Name }} 
-                    </li>
-                </ul>
-            </p>
+            <label for="friends">Amis</label><br />
+            <ul>
+                <li *ngFor="let friend of vm.Friends; let index = index;" >
+                    <input type="checkbox" name="friends[]" [(ngModel)]="friend.IsSelected" /> {{ friend.MemberName }} 
+                </li>
+            </ul>
         </div>
         <br />
         <p style="text-align: center;">
             <input type="submit" value="Valider" />
         </p>
     </div> 
-</form> -->
+</form>

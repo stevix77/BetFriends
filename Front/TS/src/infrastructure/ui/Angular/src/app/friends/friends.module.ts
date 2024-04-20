@@ -23,7 +23,7 @@ import { SearchComponent } from "./search/search.component";
     ],
     imports: [
         CommonModule,
-        RouterModule.forChild([
+        RouterModule.forRoot([
             {
                 path: 'friends', component: FriendsComponent
             }

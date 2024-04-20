@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CreateBetComponent } from './create-bet/create-bet.component';
 import { CreateBetViewModel } from './CreateBetViewModel';
 import { FriendsPresenter } from '../../../../../adapters/presenters/FriendsPresenter';
@@ -16,6 +16,7 @@ import { CreateBetHandler } from '../../../../../../domain/features/CreateBetHan
 import { type IBetRepository } from '../../../../../../domain/bets/IBetRepository';
 import { type IIdGenerator } from '../../../../../../domain/abstractions/IIdGenerator';
 import { type IDateTimeProvider } from '../../../../../../domain/abstractions/IDateTimeProvider';
+import { FormsModule } from '@angular/forms';
 
 const createBetPresenter = new CreateBetPresenter();
 
@@ -23,7 +24,8 @@ const createBetPresenter = new CreateBetPresenter();
   declarations: [CreateBetComponent],
   imports: [
     CommonModule,
-    RouterModule.forChild([
+    FormsModule,
+    RouterModule.forRoot([
       {
           path: 'bets', component: CreateBetComponent,
           children: [
@@ -49,7 +51,8 @@ const createBetPresenter = new CreateBetPresenter();
       useFactory: (friendsPresenter: FriendsPresenter,
                     friendRepository: IFriendRepository,
                     memberRepository: IMemberRepository,
-                    createBetHandler: CreateBetHandler) => {
+                    createBetHandler: CreateBetHandler,
+                    router: Router) => {
         const retrieveFriendsHandler = new RetrieveFriendsHandler(friendRepository, friendsPresenter);
         const retrieveMembersHandler = new RetrieveMembersHandler(memberRepository, friendsPresenter);
         const addFriendHandler = new AddFriendHandler(friendRepository, friendsPresenter)
@@ -57,9 +60,13 @@ const createBetPresenter = new CreateBetPresenter();
                                                         retrieveMembersHandler,
                                                         addFriendHandler)
         const betsController = new BetsController(createBetHandler)
-        return new CreateBetViewModel(friendsPresenter, createBetPresenter, friendsController, betsController);
+        return new CreateBetViewModel(friendsPresenter, 
+                                      createBetPresenter, 
+                                      friendsController, 
+                                      betsController,
+                                      router);
       },
-      deps: [FriendsPresenter, 'IFriendRepository', 'IMemberRepository', CreateBetHandler]
+      deps: [FriendsPresenter, 'IFriendRepository', 'IMemberRepository', CreateBetHandler, Router]
     }
   ]
 })
