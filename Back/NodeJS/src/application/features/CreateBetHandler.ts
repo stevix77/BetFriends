@@ -1,0 +1,65 @@
+import { IDateTimeProvider } from "../../domain/IDateTimeProvider"
+import { Bet } from "../../domain/bets/Bet"
+import { IBetRepository } from "../../domain/bets/IBetRepository"
+import { IMemberRepository } from "../../domain/members/IMemberRepository"
+import { MemberId } from "../../domain/members/MemberId"
+import { IUserContext } from "../Abstractions/IUserContext"
+import { ICommand } from "../Abstractions/Request/ICommand"
+import { IRequestHandler } from "../Abstractions/Request/IRequestHandler"
+
+export class CreateBetCommandHandler implements IRequestHandler<CreateBetCommand, void> {
+    constructor(private betRepository: IBetRepository, 
+                private outputPort: CreateBetOutputPort,
+                private memberRepository: IMemberRepository,
+                private userContext: IUserContext,
+                private dateTimeProvider: IDateTimeProvider){}
+    GetRequestType(): string {
+        return CreateBetCommand.name
+    }
+    
+    async Handle(request: CreateBetCommand): Promise<void> {
+        const member = await this.memberRepository.GetByIdAsync(new MemberId(this.userContext.UserId));
+        if(member == undefined) {
+            this.outputPort.RequesterIsUnknown();
+            return;
+        }
+
+        if(!this.IsValidRequest(request)){
+            return;
+        }
+        
+        const bet = member.Bet(request.BetId, request.Description, request.Chips, request.EndDate, request.Members)
+        await this.betRepository.Add(bet);
+        this.outputPort.Present(new CreateBetResponse("betId"))
+    }
+
+    IsValidRequest(request: CreateBetCommand): boolean {
+        if(this.dateTimeProvider.GetDate() > request.EndDate) {
+            this.outputPort.EndDateIsTooOld();
+            return false;
+        }
+
+        if(request.Chips == 0) {
+            this.outputPort.InvalidChips();
+            return false;
+        }
+        
+        return true;
+    }
+}
+
+export class CreateBetCommand implements ICommand {
+    constructor(public BetId: string, public Description: string, public Chips: number, public EndDate: Date, public Members: Array<string>){}
+    Name: string = CreateBetCommand.name;
+}
+
+export class CreateBetResponse {
+    constructor(public BetId: string) {}
+}
+
+export interface CreateBetOutputPort {
+    InvalidChips(): void;
+    EndDateIsTooOld(): void;
+    RequesterIsUnknown(): void;
+    Present(createBetResponse: CreateBetResponse): void;
+}

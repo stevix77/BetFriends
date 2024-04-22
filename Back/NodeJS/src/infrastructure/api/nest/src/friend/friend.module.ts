@@ -30,7 +30,8 @@ import { RequestBehavior } from '../../../../behaviors/RequestBehavior';
         },
         {
             provide: AddFriendCommandHandler,
-            useFactory: (friendshipRepository: InMemoryFriendshipRepository,memberRepository: InMemoryMemberRepository,
+            useFactory: (friendshipRepository: InMemoryFriendshipRepository,
+                        memberRepository: InMemoryMemberRepository,
                         presenter: AddFriendPresenter,
                         userContext: FakeUserContext) => 
                         new AddFriendCommandHandler(friendshipRepository, 
