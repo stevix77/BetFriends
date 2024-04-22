@@ -1,5 +1,4 @@
 import { IDateTimeProvider } from "../../domain/IDateTimeProvider"
-import { Bet } from "../../domain/bets/Bet"
 import { IBetRepository } from "../../domain/bets/IBetRepository"
 import { IMemberRepository } from "../../domain/members/IMemberRepository"
 import { MemberId } from "../../domain/members/MemberId"
@@ -9,7 +8,7 @@ import { IRequestHandler } from "../Abstractions/Request/IRequestHandler"
 
 export class CreateBetCommandHandler implements IRequestHandler<CreateBetCommand, void> {
     constructor(private betRepository: IBetRepository, 
-                private outputPort: CreateBetOutputPort,
+                private outputPort: ICreateBetOutputPort,
                 private memberRepository: IMemberRepository,
                 private userContext: IUserContext,
                 private dateTimeProvider: IDateTimeProvider){}
@@ -30,7 +29,7 @@ export class CreateBetCommandHandler implements IRequestHandler<CreateBetCommand
         
         const bet = member.Bet(request.BetId, request.Description, request.Chips, request.EndDate, request.Members)
         await this.betRepository.Add(bet);
-        this.outputPort.Present(new CreateBetResponse("betId"))
+        this.outputPort.Present(new CreateBetResponse(request.BetId))
     }
 
     IsValidRequest(request: CreateBetCommand): boolean {
@@ -57,7 +56,7 @@ export class CreateBetResponse {
     constructor(public BetId: string) {}
 }
 
-export interface CreateBetOutputPort {
+export interface ICreateBetOutputPort {
     InvalidChips(): void;
     EndDateIsTooOld(): void;
     RequesterIsUnknown(): void;

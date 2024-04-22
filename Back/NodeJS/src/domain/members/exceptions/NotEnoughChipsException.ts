@@ -1,5 +1,5 @@
 export class NotEnoughChipsException extends Error {
     constructor(){
-        super()
+        super("Requester has not enough chips")
     }
 }

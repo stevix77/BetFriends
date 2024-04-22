@@ -1,6 +1,6 @@
-import { CreateBetOutputPort, CreateBetResponse } from "../../../src/application/features/CreateBetHandler";
+import { ICreateBetOutputPort, CreateBetResponse } from "../../../src/application/features/CreateBetHandler";
 
-export class MockCreateBetPresenter implements CreateBetOutputPort {
+export class MockCreateBetPresenter implements ICreateBetOutputPort {
     
     InvalidChips(): void {
         
