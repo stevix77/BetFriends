@@ -1,5 +1,6 @@
-﻿using BetFriends.Application.Features.CreateBet;
-using BetFriends.Infrastructure;
+﻿using BetFriends.Application.Abstractions;
+using BetFriends.Application.Features.CreateBet;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BetFriends.Api.Features.Bets;
@@ -42,7 +43,7 @@ public class CreateBetPresenter : ICreateBetOutputPort
 
     public void MemberDoesNotExist(Guid userId)
     {
-        ViewModel = new UnauthorizedResult();
+        ViewModel = new ForbidResult();
     }
 
     public void Present(CreateBetResponse createBetResponse)

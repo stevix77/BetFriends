@@ -16,7 +16,7 @@ export class CreateBetPresenter extends Presenter implements ICreateBetOutputPor
         this.response = { code: HttpStatus.BAD_REQUEST, body: {message: `end date is before current date`} }
     }
     RequesterIsUnknown(): void {
-        this.response = { code: HttpStatus.BAD_REQUEST, body: {message: `requester does not exist`} }
+        this.response = { code: HttpStatus.FORBIDDEN, body: {message: `requester does not exist`} }
     }
     Present(createBetResponse: CreateBetResponse): void {
         this.response = { code: HttpStatus.CREATED, body: { betId: createBetResponse.BetId} }

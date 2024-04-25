@@ -11,4 +11,6 @@ internal class DomainEventsAccessor
     {
         domainEvents.AddRange(events);
     }
+
+    internal void ClearDomainEvents() => domainEvents.Clear();
 }
