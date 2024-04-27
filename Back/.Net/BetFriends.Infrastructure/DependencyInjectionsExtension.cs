@@ -4,6 +4,7 @@ using BetFriends.Domain.Friends;
 using BetFriends.Domain.Members;
 using BetFriends.Infrastructure.Behaviors;
 using BetFriends.Infrastructure.Event;
+using BetFriends.Infrastructure.Outbox;
 using BetFriends.Infrastructure.Repositories;
 using BetFriends.Infrastructure.UoW;
 using MediatR;
@@ -24,6 +25,9 @@ public static class DependencyInjectionsExtension
         services.AddScoped<IUnitOfWork, InMemoryUnitOfWork>();
         services.AddSingleton<DomainEventsAccessor>();
         services.AddScoped<IDomainEventDispatcher, DomainEventDispatcher>();
+        services.AddScoped<DomainEventNotificationFactory>();
+        services.AddSingleton<EventNotificationFactory>();
+        services.AddSingleton<IOutboxRepository, FakeOutboxInMemoryRepository>();
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(UnitOfWorkBehavior<,>));
         services.AddMediatR(x =>

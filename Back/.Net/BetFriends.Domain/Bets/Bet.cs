@@ -17,15 +17,15 @@ public class Bet : Entity
         Description = description;
         Chips = chips;
         EndDate = endDate;
-        Friends = friends;
-        AddEvent(new BetCreated(betId, ownerId));
+        Guests = friends;
+        AddEvent(new BetCreated(betId, ownerId, chips));
     }
 
     public DateTime EndDate { get; }
     public string Description { get; }
     public int Chips { get; }
     public BetId BetId { get; }
-    public IEnumerable<Guid> Friends { get; }
+    public IEnumerable<Guid> Guests { get; }
     public MemberId OwnerId { get; }
 
     public static Bet Create(BetId betId,

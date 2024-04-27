@@ -8,7 +8,7 @@ public class Member : Entity
 {
     private readonly MemberId memberId;
     private readonly string username;
-    private readonly int chips;
+    private int chips;
     private readonly int countFriends;
 
     public Member(MemberId memberId, string username, int chips, int countFriends)
@@ -20,6 +20,7 @@ public class Member : Entity
     }
 
     public MemberId MemberId { get => memberId; }
+    public int Chips { get => chips; }
 
     public Friendship AddFriendship(Guid requesterId)
     {
@@ -43,6 +44,11 @@ public class Member : Entity
                                chips,
                                endDate,
                                friends);
+    }
+
+    public void Decrease(int chips)
+    {
+        this.chips -= chips;
     }
 
     private bool HasFriend()

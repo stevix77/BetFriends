@@ -14,21 +14,20 @@ internal class DomainEventDispatcher(DomainEventsAccessor domainEventsAccessor,
     public async Task DispatchAsync()
     {
         var domainEvents = domainEventsAccessor.GetDomainEvents();
-        var tasks = new List<Task>();
+        var domainEventTasks = new List<Task>();
+        var outboxes = new List<Outbox.Outbox>();
         foreach(var item in domainEvents)
         {
             var notification = domainEventNotificationFactory.Create(item);
             if(notification != null)
-                tasks.Add(mediator.Send(notification));
+                domainEventTasks.Add(mediator.Publish(notification));
+
+            var outbox = new Outbox.Outbox(item.GetType().Name, JsonSerializer.Serialize(item, item.GetType()), dateProvider.GetDate());
+            outboxes.Add(outbox);
         }
 
         domainEventsAccessor.ClearDomainEvents();
-        await Task.WhenAll(tasks);
-
-        foreach(var item in domainEvents)
-        {
-            var outbox = new Outbox.Outbox(item.GetType().Name, JsonSerializer.Serialize(item), dateProvider.GetDate());
-            await outboxRepository.AddAsync(outbox);
-        }
+        await Task.WhenAll(domainEventTasks);
+        await Task.WhenAll(outboxes.Select(outbox => outboxRepository.AddAsync(outbox)));
     }
 }

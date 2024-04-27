@@ -18,4 +18,19 @@ internal class FakeMemberRepository : IMemberRepository
     {
         return Task.FromResult(members.FirstOrDefault(x => x.MemberId == memberId))!;
     }
+
+    public Task<IEnumerable<Member>> GetByIdsAsync(IEnumerable<Guid> memberIds)
+    {
+        return Task.FromResult(members.Where(x => memberIds.Contains(x.MemberId.Value)));
+    }
+
+    public Task SaveAsync(Member member)
+    {
+        if(!members.Any(x => x.MemberId == member.MemberId))
+        {
+            members.Add(member);
+            return Task.CompletedTask;
+        }
+        return Task.CompletedTask;
+    }
 }

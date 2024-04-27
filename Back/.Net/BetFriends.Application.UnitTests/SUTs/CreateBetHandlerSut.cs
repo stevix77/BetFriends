@@ -70,7 +70,7 @@ internal class CreateBetHandlerSut
         Assert.Equal(command.Chips, betRepository.Bet.Chips);
         Assert.Equal(betId, betRepository.Bet.BetId.Value);
         Assert.Equal(userId, betRepository.Bet.OwnerId.Value);
-        Assert.Equivalent(command.Friends, betRepository.Bet.Friends);
+        Assert.Equivalent(command.Friends, betRepository.Bet.Guests);
     }
 
     internal void ShouldNotCreateBet(Type exceptionType, string message)
