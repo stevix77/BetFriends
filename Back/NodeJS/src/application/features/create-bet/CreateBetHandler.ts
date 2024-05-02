@@ -1,10 +1,10 @@
-import { IDateTimeProvider } from "../../domain/IDateTimeProvider"
-import { IBetRepository } from "../../domain/bets/IBetRepository"
-import { IMemberRepository } from "../../domain/members/IMemberRepository"
-import { MemberId } from "../../domain/members/MemberId"
-import { IUserContext } from "../Abstractions/IUserContext"
-import { ICommand } from "../Abstractions/Request/ICommand"
-import { IRequestHandler } from "../Abstractions/Request/IRequestHandler"
+import { IDateTimeProvider } from "../../../domain/IDateTimeProvider"
+import { IBetRepository } from "../../../domain/bets/IBetRepository"
+import { IMemberRepository } from "../../../domain/members/IMemberRepository"
+import { MemberId } from "../../../domain/members/MemberId"
+import { IUserContext } from "../../Abstractions/IUserContext"
+import { ICommand } from "../../Abstractions/Request/ICommand"
+import { IRequestHandler } from "../../Abstractions/Request/IRequestHandler"
 
 export class CreateBetCommandHandler implements IRequestHandler<CreateBetCommand, void> {
     constructor(private betRepository: IBetRepository, 

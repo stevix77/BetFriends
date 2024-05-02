@@ -6,6 +6,7 @@ import { NotEnoughChipsException } from './exceptions/NotEnoughChipsException';
 import { NoneFriendException } from './exceptions/NoneFriendException';
 
 export class Member {
+    
     Bet(betId: string, description: string, chips: number, endDate: Date, members: string[]): Bet {
         if(this.Chips < chips) {
             throw new NotEnoughChipsException();
@@ -22,6 +23,11 @@ export class Member {
                         endDate,
                         members);
     }
+
+    DecreaseBalance(chips: number) {
+        this.Chips -= chips; 
+    }
+
     constructor(public readonly MemberId: MemberId, public Chips: number, public CountFriend: number){}
 
     AddFriendship(requesterId: string) {

@@ -15,8 +15,8 @@ public class DecreaseChipsNotificationHandler : INotificationHandler<BetCreatedN
 
     public async Task Handle(BetCreatedNotification notification, CancellationToken cancellationToken)
     {
-        var member = await repository.GetByIdAsync(notification.ownerId) ?? throw new MemberDoesNotExistException();
-        member.Decrease(notification.chips);
+        var member = await repository.GetByIdAsync(notification.OwnerId) ?? throw new MemberDoesNotExistException();
+        member.Decrease(notification.Chips);
         await repository.SaveAsync(member);
     }
 }
