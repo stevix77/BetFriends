@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
 import  {v4 as uuidv4} from 'uuid';
-import { CreateBetCommand } from '../../../src/application/features/CreateBetHandler';
+import { CreateBetCommand } from '../../../src/application/features/create-bet/CreateBetHandler';
 import { CreateBetSut } from '../SUTs/CreateBetSut';
 import { Member } from '../../../src/domain/members/Member';
 import { MemberId } from '../../../src/domain/members/MemberId';

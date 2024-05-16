@@ -1,5 +1,5 @@
 import { expect } from "vitest";
-import { CreateBetCommand, CreateBetCommandHandler, CreateBetResponse } from "../../../src/application/features/CreateBetHandler";
+import { CreateBetCommand, CreateBetCommandHandler, CreateBetResponse } from "../../../src/application/features/create-bet/CreateBetHandler";
 import { InMemoryBetRepository } from "../../../src/infrastructure/repositories/InMemoryBetRepository";
 import { MockCreateBetPresenter } from "../implems/MockCreateBetPresenter";
 import { StubMemberRepository } from "../implems/StubMemberRepository";
