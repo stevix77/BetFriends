@@ -5,6 +5,16 @@ namespace BetFriends.Domain.Bets;
 
 public class Bet : Entity
 {
+    private Bet(Guid id, Guid ownerId, string description, int chips, DateTime endDate, IEnumerable<Guid> guests)
+    {
+        BetId = new(id);
+        OwnerId = new(ownerId);
+        Description = description;
+        Chips = chips;
+        EndDate = endDate;
+        Guests = guests;
+    }
+
     private Bet(BetId betId,
                 MemberId ownerId,
                 string description,
@@ -36,5 +46,15 @@ public class Bet : Entity
                              IEnumerable<Guid> friends)
     {
         return new Bet(betId, ownerId, description, chips, endDate, friends);
+    }
+
+    public static Bet CreateFromEntity(Guid id, Guid ownerId, string description, int chips, DateTime endDate, string friends)
+    {
+        return new Bet(id,
+                       ownerId,
+                       description,
+                       chips,
+                       endDate,
+                       friends.Split(';').Select(Guid.Parse));
     }
 }
