@@ -1,7 +1,7 @@
 import { HttpStatus } from "@nestjs/common";
 import { FastifyReply } from "fastify";
 import { Presenter } from "src/Presenter";
-import { CreateBetResponse, type ICreateBetOutputPort } from "../../../../../../../application/features/CreateBetHandler";
+import { CreateBetResponse, type ICreateBetOutputPort } from "../../../../../../../application/features/create-bet/CreateBetHandler";
 
 export class CreateBetPresenter extends Presenter implements ICreateBetOutputPort {
     BuildResponse(res: FastifyReply) {
