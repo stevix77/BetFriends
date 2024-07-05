@@ -2,7 +2,7 @@ import { forwardRef, Module } from "@nestjs/common"
 import { AppModule } from "src/app.module";
 import { DateTimeProvider } from "src/DateTimeProvider";
 import { FakeUserContext } from "src/FakeUserContext";
-import { CreateBetCommandHandler } from "../../../../../application/features/CreateBetHandler";
+import { CreateBetCommandHandler } from "../../../../../application/features/create-bet/CreateBetHandler";
 import { LoggingBehavior } from "../../../../behaviors/LoggingBehavior";
 import { RequestBehavior } from "../../../../behaviors/RequestBehavior";
 import { BetModule } from "../../../../BetModule";
