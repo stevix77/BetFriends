@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BetFriends.Features.Bets.CreateBet.BetPage"
+             Title="Créer un pari">
+    <StackLayout Padding="5,0" Margin="5, 5" Spacing="20">
+        <Entry Text="{Binding Description}" 
+               Placeholder="Description" 
+               VerticalTextAlignment="Start" />
+        <StackLayout Orientation="Horizontal">
+            <StackLayout>
+                <Label Text="Fin du pari" 
+                       FontSize="Small" 
+                       HorizontalOptions="CenterAndExpand" />
+                <DatePicker Date="{Binding EndDate}" 
+                            MinimumDate="{Binding MinDate}" />
+            </StackLayout>
+            <StackLayout HorizontalOptions="EndAndExpand">
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Jetons :" 
+                           FontSize="Small" 
+                           HorizontalOptions="CenterAndExpand" />
+                    <Label Text="{Binding Chips}" 
+                           VerticalOptions="Center" />
+                </StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <Slider Maximum="{Binding MaxChips}" 
+                            Value="{Binding Chips}" 
+                            WidthRequest="150" />
+                </StackLayout>
+            </StackLayout>
+        </StackLayout>
+        <Button Text="Sélection des amis" 
+                Command="{Binding ChooseFriendsCommand}" 
+                VerticalOptions="EndAndExpand" />
+    </StackLayout>
+</ContentPage>

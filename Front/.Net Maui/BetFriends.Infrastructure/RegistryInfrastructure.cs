@@ -1,6 +1,8 @@
 ﻿using BetFriend.Domain.Friends;
 using BetFriend.Infrastructure.Repository;
 using BetFriends.Domain.Abstractions;
+using BetFriends.Domain.Bets;
+using BetFriends.Infrastructure;
 using BetFriends.Infrastructure.Repository;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,6 +14,9 @@ public static class RegistryInfrastructure
     {
         services.AddScoped<IFriendRepository, InMemoryFriendRepository>();
         services.AddScoped<IMemberRepository, InMemoryMemberRepository>();
+        services.AddScoped<IBetRepository, InMemoryBetRepository>();
+        services.AddScoped<IIdGenerator, GuidGenerator>();
+        services.AddScoped<IDateTimeProvider, DateTimeProvider>();
 
         services.AddMediatR(x => x.RegisterServicesFromAssembly(typeof(Domain.Domain).Assembly));
         return services;

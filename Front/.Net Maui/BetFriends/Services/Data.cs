@@ -4,6 +4,7 @@ namespace BetFriends.Services;
 
 internal static class Data
 {
+    public static int Chips { get; internal set; } = 5000;
     internal static IEnumerable<MemberVM> Members
     {
         get => new List<MemberVM>

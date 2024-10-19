@@ -1,65 +1,50 @@
 import { NgModule } from "@angular/core";
-import { AddFriendComponent } from './add/add-friend.component';
 import { CommonModule } from "@angular/common";
-import { FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { InMemoryMemberRepository } from '../../../../../adapters/repository/InMemoryMemberRepository';
 import { IMemberRepository } from "../../../../../../domain/members/IMemberRepository";
 import { InMemoryFriendRepository } from '../../../../../adapters/repository/InMemoryFriendRepository';
-import { RetrieveFriendsHandler } from "../../../../../../domain/features/retrieveFriends/RetrieveFriendsHandler";
+import { RetrieveFriendsHandler } from "../../../../../../domain/features/RetrieveFriendsHandler";
 import { IFriendRepository } from '../../../../../../domain/friends/IFriendRepository';
-import { RetrieveMembersHandler } from '../../../../../../domain/features/retrieveMembers/RetrieveMembersHandler';
-import { AddFriendHandler } from "../../../../../../domain/features/add-friend/AddFriendHandler";
-import { AddFriendPresenter } from '../../presenters/AddFriendPresenter';
-import { RetrieveFriendsPresenter } from "../../presenters/RetrieveFriendsPresenter";
-import { RetrieveMembersPresenter } from "../../presenters/RetrieveMembersPresenter";
+import { RetrieveMembersHandler } from '../../../../../../domain/features/RetrieveMembersHandler';
+import { AddFriendHandler } from "../../../../../../domain/features/AddFriendHandler";
 import { FriendsController } from "../../../../../adapters/controllers/FriendsController";
-
-
-const memberRepository: IMemberRepository = new InMemoryMemberRepository()
-const friendRepository: IFriendRepository = new InMemoryFriendRepository(memberRepository);
-const addFriendPresenter = new AddFriendPresenter();
-const retrieveFriendsPresenter = new RetrieveFriendsPresenter()
-const retrieveMembersPresenter = new RetrieveMembersPresenter()
-const retrieveFriendsHandler = new RetrieveFriendsHandler(friendRepository, retrieveFriendsPresenter);
-const retrieveMembersHandler = new RetrieveMembersHandler(memberRepository, retrieveMembersPresenter);
-const addFriendHandler = new AddFriendHandler(friendRepository, addFriendPresenter)
-const friendsController = new FriendsController(retrieveFriendsHandler, 
-                                                retrieveMembersHandler,
-                                                addFriendHandler)
+import { FriendsPresenter } from "../../../../../adapters/presenters/FriendsPresenter";
+import { FriendsViewModel } from "./FriendsViewModel";
+import { FriendsComponent } from "./friends.component";
+import { AddFriendComponent } from "./add/add-friend.component";
+import { SearchComponent } from "./search/search.component";
 
 @NgModule({
     declarations: [
+        FriendsComponent,
+        AddFriendComponent,
+        SearchComponent
     ],
     imports: [
         CommonModule,
-        FormsModule,
-        RouterModule.forChild([
+        RouterModule.forRoot([
             {
-                path: '', redirectTo: 'add-friend', pathMatch: 'full',
-            },
-            {
-                path: 'add-friend', component: AddFriendComponent
+                path: 'friends', component: FriendsComponent
             }
         ])
     ],
     exports: [RouterModule],
     providers: [
         {
-            provide: FriendsController,
-            useFactory: () => friendsController
-        },
-        {
-            provide: AddFriendPresenter,
-            useFactory: () => addFriendPresenter
-        },
-        {
-            provide: RetrieveFriendsPresenter,
-            useFactory: () => retrieveFriendsPresenter
-        },
-        {
-            provide: RetrieveMembersPresenter,
-            useFactory: () => retrieveMembersPresenter
+            provide: FriendsViewModel,
+            useFactory: (memberRepository: IMemberRepository, 
+                        friendRepository: IFriendRepository,
+                        friendsPresenter: FriendsPresenter) => {
+                const retrieveFriendsHandler = new RetrieveFriendsHandler(friendRepository, friendsPresenter);
+                const retrieveMembersHandler = new RetrieveMembersHandler(memberRepository, friendsPresenter);
+                const addFriendHandler = new AddFriendHandler(friendRepository, friendsPresenter)
+                const friendsController = new FriendsController(retrieveFriendsHandler, 
+                                                                retrieveMembersHandler,
+                                                                addFriendHandler)
+                return new FriendsViewModel(friendsPresenter, friendsController)
+            },
+            deps: ['IMemberRepository', 'IFriendRepository', FriendsPresenter]
         }
     ]
 })

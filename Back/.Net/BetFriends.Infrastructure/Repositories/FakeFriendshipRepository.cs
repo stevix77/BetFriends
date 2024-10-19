@@ -4,9 +4,15 @@ using BetFriends.Infrastructure.Event;
 
 namespace BetFriends.Infrastructure.Repositories;
 
-internal class FakeFriendshipRepository(DomainEventsAccessor domainEventAccessor) : IFriendshipRepository
+internal class FakeFriendshipRepository : IFriendshipRepository
 {
     private readonly List<Friendship> friendships = [];
+    private readonly DomainEventsAccessor domainEventAccessor;
+
+    public FakeFriendshipRepository(DomainEventsAccessor domainEventAccessor)
+    {
+        this.domainEventAccessor = domainEventAccessor;
+    }
 
     public Task SaveAsync(Friendship friendship)
     {

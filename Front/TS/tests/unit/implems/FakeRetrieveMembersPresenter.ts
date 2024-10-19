@@ -6,7 +6,7 @@ export class FakeRetrieveMembersPresenter implements IRetrieveMembersOutputPort 
     NotEnoughCharacter(): void {
         this.Message = "NotEnoughCharacter"
     }
-    Present(members: MemberDto[]): void {
+    PresentMembers(members: MemberDto[]): void {
         this.Members = members;
     }
 

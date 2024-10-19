@@ -1,5 +1,4 @@
-﻿
-using BetFriend.Domain.Features.AddFriend;
+﻿using BetFriend.Domain.Features.AddFriend;
 using BetFriend.Domain.UnitTests.Implems;
 
 namespace BetFriend.Domain.UnitTests;

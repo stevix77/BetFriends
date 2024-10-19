@@ -1,0 +1,31 @@
+<form (submit)="vm.CreateBet()" method="POST">
+    <h3 style="color: red">{{ vm.Error }}</h3>
+    <div id="form">
+        <div style="float:left">
+            <p>
+                <label for="description">Description</label><br />
+                <textarea type="text" id="description" name="description" [(ngModel)]="vm.Description" ></textarea>
+            </p>
+            <p>
+                <label for="chips">Jetons</label><br />
+                <input type="range" id="chips" name="chips" min="0" [max]="vm.MaxChips" [(ngModel)]="vm.Chips" /> {{ vm.Chips }}
+            </p>
+            <p>
+                <label for="endDate">Date de fin</label><br />
+                <input type="date" name="endDate" [(ngModel)]="vm.EndDate" [min]="vm.MinDate" />
+            </p>
+        </div>
+        <div style="float:right">
+            <label for="friends">Amis</label><br />
+            <ul>
+                <li *ngFor="let friend of vm.Friends; let index = index;" >
+                    <input type="checkbox" name="friends[]" [(ngModel)]="friend.IsSelected" /> {{ friend.MemberName }} 
+                </li>
+            </ul>
+        </div>
+        <br />
+        <p style="text-align: center;">
+            <input type="submit" value="Valider" />
+        </p>
+    </div> 
+</form>

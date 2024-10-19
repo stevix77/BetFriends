@@ -2,7 +2,7 @@ import { FriendDto, IRetrieveFriendsOutputPort } from '../../../src/domain/featu
 export class FakeRetrieveFriendsPresenter implements IRetrieveFriendsOutputPort {
     public Friends: FriendDto[];
 
-    Present(friends: FriendDto[]): void {
+    PresentFriends(friends: FriendDto[]): void {
         this.Friends = friends;
     }
 

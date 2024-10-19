@@ -1,4 +1,5 @@
 ﻿using BetFriend.Domain.Friends;
+using BetFriends.Domain.Features.RetrieveFriends;
 
 namespace BetFriend.Domain.UnitTests.Implems;
 
@@ -16,5 +17,10 @@ internal class FakeFriendRepository : IFriendRepository
     {
         friends.Add(id);
         return Task.CompletedTask;
+    }
+
+    public Task<IReadOnlyCollection<FriendDto>> GetFriendsAsync()
+    {
+        throw new NotImplementedException();
     }
 }

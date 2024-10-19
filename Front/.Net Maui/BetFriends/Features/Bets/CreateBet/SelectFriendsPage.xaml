@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BetFriends.Features.Bets.CreateBet.SelectFriendsPage"
+             Title="SelectFriendsPage">
+    <StackLayout Padding="5,0" Margin="5, 5" Spacing="5">
+        <ActivityIndicator IsRunning="{Binding IsLoading}" />
+        <Entry Text="{Binding Search}" Placeholder="Rechercher" Keyboard="Text" FontSize="15" />
+        <ListView ItemsSource="{Binding Friends}"
+          HasUnevenRows="False"
+          SeparatorVisibility="Default" 
+          VerticalScrollBarVisibility="Never"
+          Margin="15, 15">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Orientation="Horizontal" HeightRequest="50" IsVisible="{Binding IsVisible}">
+                            <Label Text="{Binding Name}" FontSize="20" VerticalOptions="Center" VerticalTextAlignment="Center" />
+                            <CheckBox HorizontalOptions="EndAndExpand" IsChecked="{Binding IsChecked}" />
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Button Text="Valider" Command="{Binding CreateBetCommand}" />
+    </StackLayout>
+</ContentPage>

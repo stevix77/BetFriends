@@ -15,7 +15,7 @@ trigger:
     include: [ feature/*, main ]
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: macos-latest
 
 steps:
 - task: NodeTool@0
@@ -50,8 +50,8 @@ steps:
 - task: PublishCodeCoverageResults@1
   continueOnError: true
   inputs:
-    codeCoverageTool: 'istanbul'
-    summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml'
+    codeCoverageTool: Cobertura
+    summaryFileLocation: '$(System.DefaultWorkingDirectory)/Front/TS/tests/coverage/coverage-final.json'
 
 # angular #
 
@@ -118,6 +118,39 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)/vue'
     ArtifactName: 'drop-vue'
 
+# .Net MAUI #
+
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '8.x'
+
+- task: CmdLine@2
+  displayName: 'Install Maui Workload'
+  inputs:
+    script: 'dotnet workload install maui'
+
+- task: DotNetCoreCLI@2
+  displayName: 'unit tests'
+  inputs:
+    command: test
+    projects: 'Front/.Net Maui/**/*Tests.csproj'
+    arguments: --configuration $(buildConfiguration) --collect "XPlat Code coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)\TestResults\Coverage\
+    publishTestResults: true
+    nobuild: true
+
+- script: 'dotnet tool install --global dotnet-reportgenerator-globaltool --version 4.5.8'  
+  displayName: 'Install ReportGenerator tool'
+
+- script: 'reportgenerator -reports:$(agent.tempdirectory)/**/coverage.cobertura.xml -targetdir:$(build.sourcesdirectory)/coverlet/reports -reporttypes:"Cobertura"'  
+  displayName: 'create reports' 
+
+- task: publishcodecoverageresults@1
+  displayName: 'publish code coverage report'
+  inputs:
+    codecoveragetool: 'Cobertura'
+    summaryfilelocation: '$(build.sourcesdirectory)/coverlet/reports/Cobertura.xml'
+
 # .Net 8
 
 - task: NuGetCommand@2
@@ -135,15 +168,18 @@ steps:
   inputs:
     command: test
     projects: '$(ProjectTest)'
-    arguments: --configuration $(buildConfiguration) --collect "XPlat Code coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
+    arguments: --configuration $(buildConfiguration) --collect "XPlat Code coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)\TestResults\Coverage\
     publishTestResults: true
     nobuild: true
+
+- script: 'reportgenerator -reports:$(Agent.TempDirectory)/**/coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)/coverlet/reports -reporttypes:"Cobertura"'  
+  displayName: 'Create reports' 
 
 - task: PublishCodeCoverageResults@1
   displayName: 'Publish code coverage report'
   inputs:
     codeCoverageTool: 'Cobertura'
-    summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
+    summaryFileLocation: '$(Build.SourcesDirectory)/coverlet/reports/Cobertura.xml'
 
 - task: DotNetCoreCLI@2
   displayName: 'build api'
@@ -179,6 +215,12 @@ steps:
     npm run test
   displayName: 'npm test'
   workingDirectory: '$(Build.SourcesDirectory)/Back/NodeJS'
+
+- task: PublishCodeCoverageResults@1
+  continueOnError: true
+  inputs:
+    codeCoverageTool: Cobertura
+    summaryFileLocation: '$(System.DefaultWorkingDirectory)/Back/NodeJS/coverage/coverage-final.json'
 
 - script: |
     npm install

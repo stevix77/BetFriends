@@ -1,4 +1,4 @@
-import { FriendDto } from "../features/retrieveFriends/RetrieveFriendsHandler";
+import { FriendDto } from "../features/RetrieveFriendsHandler";
 
 export interface IFriendRepository {
     GetFriendsAsync(): Promise<FriendDto[]>;

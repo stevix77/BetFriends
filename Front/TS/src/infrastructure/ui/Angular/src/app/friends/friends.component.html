@@ -1,12 +1,12 @@
 <search-friends />
-<div class="center" *ngIf="viewModel.ShowFriends">
-    <ul *ngFor="let friend of viewModel.Friends">
+<div class="center" *ngIf="friendsViewModel.ShowFriends">
+    <ul *ngFor="let friend of friendsViewModel.Friends">
         <li>{{friend.Name}} </li>
     </ul>
 </div>
 
-<div class="center" *ngIf="!viewModel.ShowFriends">
-    <ul *ngFor="let member of viewModel.Members">
+<div class="center" *ngIf="!friendsViewModel.ShowFriends">
+    <ul *ngFor="let member of friendsViewModel.Members">
         <li>{{member.Name}} <add-friend [member]="member" /></li>
     </ul>
 </div>

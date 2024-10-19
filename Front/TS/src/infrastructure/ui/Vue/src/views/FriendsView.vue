@@ -11,6 +11,9 @@
     }
   }
   </style>
-  <script setup lang="ts">
-    import FriendsComponent from "../components/friends/FriendsComponent.vue";  
+  <script lang="ts">
+    import FriendsComponent from "../components/FriendsComponent.vue";
+    export default {
+      components: {FriendsComponent}
+    }
   </script>
