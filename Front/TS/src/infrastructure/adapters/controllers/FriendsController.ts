@@ -1,6 +1,6 @@
-import { RetrieveMembersHandler } from '../../../domain/features/retrieveMembers/RetrieveMembersHandler';
-import { RetrieveFriendsHandler } from '../../../domain/features/retrieveFriends/RetrieveFriendsHandler'
-import { AddFriendHandler } from '../../../domain/features/add-friend/AddFriendHandler';
+import { RetrieveMembersHandler } from '../../../domain/features/RetrieveMembersHandler';
+import { RetrieveFriendsHandler } from '../../../domain/features/RetrieveFriendsHandler'
+import { AddFriendHandler } from '../../../domain/features/AddFriendHandler';
 
 export class FriendsController {
 

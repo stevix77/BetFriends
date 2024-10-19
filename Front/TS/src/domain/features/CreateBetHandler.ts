@@ -29,7 +29,11 @@ export class CreateBetHandler {
         }
         const bet = new Bet(this.idGenerator.Generate(), request.Description, request.EndDate, request.Chips, request.Friends);
         await this.betRepository.Save(bet);
-        this.outputPort.Present(new CreateBetResponse(bet.Id, bet.Description, bet.EndDate, bet.Chips, bet.Friends))
+        this.outputPort.Present(new CreateBetResponse(bet.Id, 
+                                                    bet.Description, 
+                                                    bet.EndDate, 
+                                                    bet.Chips, 
+                                                    bet.Friends))
     }
 }
 

@@ -1,4 +1,4 @@
-import { IFriendRepository } from '../../friends/IFriendRepository';
+import { IFriendRepository } from '../friends/IFriendRepository';
 export class RetrieveFriendsHandler {
     constructor(private friendsRepository: IFriendRepository,
                 private outputPort: IRetrieveFriendsOutputPort) {}

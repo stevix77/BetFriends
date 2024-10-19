@@ -7,9 +7,9 @@ import { FriendsPresenter } from '../../../../../adapters/presenters/FriendsPres
 import { CreateBetPresenter } from '../../../../../adapters/presenters/CreateBetPresenter';
 import { type IFriendRepository } from '../../../../../../domain/friends/IFriendRepository';
 import { type IMemberRepository } from '../../../../../../domain/members/IMemberRepository';
-import { AddFriendHandler } from '../../../../../../domain/features/add-friend/AddFriendHandler';
-import { RetrieveFriendsHandler } from '../../../../../../domain/features/retrieveFriends/RetrieveFriendsHandler';
-import { RetrieveMembersHandler } from '../../../../../../domain/features/retrieveMembers/RetrieveMembersHandler';
+import { AddFriendHandler } from '../../../../../../domain/features/AddFriendHandler';
+import { RetrieveFriendsHandler } from '../../../../../../domain/features/RetrieveFriendsHandler';
+import { RetrieveMembersHandler } from '../../../../../../domain/features/RetrieveMembersHandler';
 import { FriendsController } from '../../../../../adapters/controllers/FriendsController';
 import { BetsController } from '../../../../../adapters/controllers/BetsController';
 import { CreateBetHandler } from '../../../../../../domain/features/CreateBetHandler';

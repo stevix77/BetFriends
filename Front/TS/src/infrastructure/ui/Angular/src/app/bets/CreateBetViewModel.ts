@@ -1,6 +1,6 @@
 import moment from 'moment';
 import { Subject } from 'rxjs';
-import type { FriendDto } from '../../../../../../domain/features/retrieveFriends/RetrieveFriendsHandler';
+import type { FriendDto } from '../../../../../../domain/features/RetrieveFriendsHandler';
 import { CreateBetPresenter, Key as KeyCreateBetPresenter } from '../../../../../adapters/presenters/CreateBetPresenter';
 import { FriendsPresenter, Key as KeyFriendsPresenter} from '../../../../../adapters/presenters/FriendsPresenter';
 import type { FriendsController } from '../../../../../adapters/controllers/FriendsController';

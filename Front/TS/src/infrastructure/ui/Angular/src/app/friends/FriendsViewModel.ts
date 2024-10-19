@@ -1,6 +1,6 @@
 import { Subject } from 'rxjs';
 import { FriendsPresenter, Key } from '../../../../../adapters/presenters/FriendsPresenter';
-import type { FriendDto } from '../../../../../../domain/features/retrieveFriends/RetrieveFriendsHandler';
+import type { FriendDto } from '../../../../../../domain/features/RetrieveFriendsHandler';
 import type { MemberDto } from '../../../../../../domain/members/IMemberRepository';
 import type { FriendsController } from "../../../../../adapters/controllers/FriendsController";
 

@@ -1,6 +1,6 @@
-import type { IAddFriendOutputPort } from "../../../domain/features/add-friend/AddFriendHandler";
-import type { FriendDto, IRetrieveFriendsOutputPort } from "../../../domain/features/retrieveFriends/RetrieveFriendsHandler";
-import type { IRetrieveMembersOutputPort } from "../../../domain/features/retrieveMembers/RetrieveMembersHandler";
+import type { IAddFriendOutputPort } from "../../../domain/features/AddFriendHandler";
+import type { FriendDto, IRetrieveFriendsOutputPort } from "../../../domain/features/RetrieveFriendsHandler";
+import type { IRetrieveMembersOutputPort } from "../../../domain/features/RetrieveMembersHandler";
 import type { MemberDto } from "../../../domain/members/IMemberRepository";
 import { Presenter } from "./Presenter";
 

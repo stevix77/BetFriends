@@ -1,10 +1,8 @@
 import { CreateBetHandler } from '../../../domain/features/CreateBetHandler';
 export class BetsController {
-    constructor(private createBetHandler: CreateBetHandler) {
+    constructor(private createBetHandler: CreateBetHandler) {}
 
-    }
-
-    async Create(request: CreateBetRequest): Promise<void> {
+    Create(request: CreateBetRequest): Promise<void> {
         return this.createBetHandler.Handle({
             Chips: request.Chips,
             Description: request.Description,

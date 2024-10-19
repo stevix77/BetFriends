@@ -1,4 +1,4 @@
-import { IAddFriendOutputPort } from '../../../src/domain/features/add-friend/AddFriendHandler';
+import { IAddFriendOutputPort } from '../../../src/domain/features/AddFriendHandler';
 export class FakeAddFriendPresenter implements IAddFriendOutputPort {
     MemberId: string;
     PresentMemberAdded(memberId: string): void {

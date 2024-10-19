@@ -1,4 +1,4 @@
-import { type IMemberRepository, type MemberDto } from '../../members/IMemberRepository';
+import { type IMemberRepository, type MemberDto } from '../members/IMemberRepository';
 export class RetrieveMembersHandler {
     constructor(private memberRepository: IMemberRepository,
                 private retrieveMembersOutputPort: IRetrieveMembersOutputPort){}

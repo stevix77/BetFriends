@@ -1,5 +1,5 @@
 import { describe, test, expect } from 'vitest';
-import { AddFriendHandler } from '../../../src/domain/features/add-friend/AddFriendHandler';
+import { AddFriendHandler } from '../../../src/domain/features/AddFriendHandler';
 import { FakeAddFriendPresenter } from '../implems/FakeAddFriendPresenter';
 import { StubFriendRepository } from '../implems/StubFriendRepository';
 describe('add friend handler', () => {

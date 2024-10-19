@@ -1,4 +1,4 @@
-import { IFriendRepository } from "../../friends/IFriendRepository";
+import { IFriendRepository } from "../friends/IFriendRepository";
 
 export class AddFriendHandler {
     constructor(private friendRepository: IFriendRepository, 

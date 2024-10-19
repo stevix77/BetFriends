@@ -1,4 +1,4 @@
-import { FriendDto } from '../../../domain/features/retrieveFriends/RetrieveFriendsHandler';
+import { FriendDto } from '../../../domain/features/RetrieveFriendsHandler';
 import { IFriendRepository } from "../../../domain/friends/IFriendRepository";
 import { IMemberRepository, MemberDto } from '../../../domain/members/IMemberRepository';
 
