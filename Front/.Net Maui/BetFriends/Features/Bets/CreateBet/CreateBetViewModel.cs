@@ -100,7 +100,8 @@ public partial class CreateBetViewModel : ObservableObject
         {
             var request = new RetrieveFriendsRequest();
             var friends = await mediator.Send(request, new CancellationToken());
-            Friends = new ObservableCollection<SelectFriendVM>(friends.Select(x => new SelectFriendVM() { Id = x.Id, Name = x.Name }));
+            var selectFriendVms = friends.Select(x => new SelectFriendVM() { Id = x.Id, Name = x.Name });
+            Friends = new ObservableCollection<SelectFriendVM>(selectFriendVms);
         }
         catch (Exception ex)
         {

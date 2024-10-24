@@ -11,7 +11,7 @@ I am Steve VALENTIN, a software engineer interested about craftsmanship subjects
 # Usecases
 
 - [x] add a friend
-- [ ] make a bet
+- [x] make a bet
 - [ ] accept/reject a bet
 - [ ] give bet result
 - [ ] display bets list
