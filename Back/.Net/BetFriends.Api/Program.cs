@@ -1,8 +1,12 @@
 using BetFriends.Api;
+using BetFriends.Api.Features.Bets;
 using BetFriends.Api.Features.Friendship;
+using BetFriends.Api.HostedServices;
 using BetFriends.Application.Abstractions;
 using BetFriends.Application.Features.AddFriend;
+using BetFriends.Application.Features.CreateBet;
 using BetFriends.Infrastructure;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +14,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<AddFriendshipPresenter>();
 builder.Services.AddScoped<IAddFriendOutputPort>(x => x.GetRequiredService<AddFriendshipPresenter>());
+builder.Services.AddScoped<CreateBetPresenter>();
+builder.Services.AddScoped<ICreateBetOutputPort>(x => x.GetRequiredService<CreateBetPresenter>());
 builder.Services.AddScoped<IUserContext, UserContext>();
+builder.Services.AddHostedService<ProcessOutboxHostedService>();
 builder.Services.AddCors();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

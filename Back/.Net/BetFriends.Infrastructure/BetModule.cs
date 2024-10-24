@@ -1,4 +1,5 @@
-﻿using BetFriends.Application.Abstractions.Command;
+﻿using BetFriends.Application.Abstractions;
+using BetFriends.Application.Abstractions.Command;
 using MediatR;
 
 namespace BetFriends.Infrastructure;

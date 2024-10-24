@@ -7,8 +7,6 @@ import { AddFriendPresenter } from './features/add-friend/AddFriendPresenter';
 import { AddFriendCommandHandler } from '../../../../../application/features/add-friend/AddFriendHandler';
 import { FakeUserContext } from 'src/FakeUserContext';
 import { BetModule } from '../../../../BetModule';
-import { Member } from '../../../../../domain/members/Member';
-import { MemberId } from '../../../../../domain/members/MemberId';
 import { LoggingBehavior } from '../../../../behaviors/LoggingBehavior';
 import { RequestBehavior } from '../../../../behaviors/RequestBehavior';
 
@@ -17,20 +15,13 @@ import { RequestBehavior } from '../../../../behaviors/RequestBehavior';
     imports: [forwardRef(() => AppModule)],
     providers: [
         {
-            provide: InMemoryMemberRepository,
-            useFactory: () => new InMemoryMemberRepository([new Member(new MemberId("11111111-1111-1111-1111-111111111111"))]),
-        },
-        {
-            provide: InMemoryFriendshipRepository,
-            useFactory: () => new InMemoryFriendshipRepository(),
-        },
-        {
             provide: AddFriendPresenter,
             useFactory: () => new AddFriendPresenter()
         },
         {
             provide: AddFriendCommandHandler,
-            useFactory: (friendshipRepository: InMemoryFriendshipRepository,memberRepository: InMemoryMemberRepository,
+            useFactory: (friendshipRepository: InMemoryFriendshipRepository,
+                        memberRepository: InMemoryMemberRepository,
                         presenter: AddFriendPresenter,
                         userContext: FakeUserContext) => 
                         new AddFriendCommandHandler(friendshipRepository, 
@@ -50,10 +41,6 @@ import { RequestBehavior } from '../../../../behaviors/RequestBehavior';
                 return new BetModule(behavior)
             },
             inject: [AddFriendCommandHandler]
-        },
-        {
-            provide: FakeUserContext,
-            useClass: FakeUserContext
         }
     ]
 })

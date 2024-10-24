@@ -1,7 +1,8 @@
 {
   "dependencies": {
     "rxjs": "^7.8.1",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "moment": "^2.30.1"
   },
   "devDependencies": {
     "@types/uuid": "^9.0.8"

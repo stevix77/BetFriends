@@ -24,7 +24,7 @@ export class AddFriendSut {
     }
 
     WithMemberRepository() : AddFriendSut {
-        this.memberRepository = new StubMemberRepository(new Member(new MemberId(this.memberId)))
+        this.memberRepository = new StubMemberRepository(new Member(new MemberId(this.memberId), 500, 1))
         return this;
     }
 

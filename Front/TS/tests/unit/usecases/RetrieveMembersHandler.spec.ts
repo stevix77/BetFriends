@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
 import { FakeRetrieveMembersPresenter } from '../implems/FakeRetrieveMembersPresenter';
-import { RetrieveMembersHandler } from '../../../src/domain/features/retrieveMembers/RetrieveMembersHandler';
+import { RetrieveMembersHandler } from '../../../src/domain/features/RetrieveMembersHandler';
 import { StubMemberReposiory } from '../implems/StubMemberReposiory';
 import { MemberDto } from '../../../src/domain/members/IMemberRepository';
 describe('retrieve members handler', () => {

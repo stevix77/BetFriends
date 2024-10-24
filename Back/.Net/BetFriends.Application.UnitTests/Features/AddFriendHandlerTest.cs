@@ -10,7 +10,7 @@ public class AddFriendHandlerTest
     {
         var memberId = Guid.NewGuid();
         (await new AddFriendHandlerSut(Guid.NewGuid())
-                        .WithMember(new Member(new(memberId)))
+                        .WithMember(new Member(new(memberId), "username", 1000, 2))
                         .WhenExecuteHandle(memberId))
                         .ThenShouldCreateFriendship(memberId);
     }
@@ -20,7 +20,7 @@ public class AddFriendHandlerTest
     {
         var memberId = Guid.NewGuid();
         (await new AddFriendHandlerSut(Guid.NewGuid())
-                        .WithMember(new Member(new(Guid.NewGuid())))
+                        .WithMember(new Member(new(Guid.NewGuid()), "username", 1000, 2))
                         .WhenExecuteHandle(memberId))
                         .ThenShouldNotCreateFriendship(memberId);
     }

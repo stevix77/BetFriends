@@ -1,4 +1,4 @@
-import { FriendDto, RetrieveFriendsHandler } from "../../../src/domain/features/retrieveFriends/RetrieveFriendsHandler";
+import { FriendDto, RetrieveFriendsHandler } from "../../../src/domain/features/RetrieveFriendsHandler";
 import { StubFriendRepository } from "../implems/StubFriendRepository";
 import { expect, test, describe } from 'vitest'
 import { FakeRetrieveFriendsPresenter } from '../implems/FakeRetrieveFriendsPresenter';

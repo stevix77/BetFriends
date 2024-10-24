@@ -4,6 +4,9 @@ import { MemberId } from "../../domain/members/MemberId";
 
 export class InMemoryMemberRepository implements IMemberRepository {
     constructor(private members: Member[] = []){}
+    Save(member: Member): PromiseLike<void> {
+        return Promise.resolve();
+    }
     GetByIdAsync(memberId: MemberId): PromiseLike<Member | undefined> {
         const member = this.members.find(x => x.MemberId.Value == memberId.Value);
         return Promise.resolve(member)

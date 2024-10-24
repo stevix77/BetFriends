@@ -1,4 +1,5 @@
 ﻿using BetFriends.Features.Friends;
+using BetFriends.Features.Bets.CreateBet;
 
 namespace BetFriend
 {
@@ -8,6 +9,8 @@ namespace BetFriend
         {
             InitializeComponent();
             Routing.RegisterRoute(nameof(FriendsPage), typeof(FriendsPage));
+            Routing.RegisterRoute(nameof(BetPage), typeof(BetPage));
+            Routing.RegisterRoute(nameof(SelectFriendsPage), typeof(SelectFriendsPage));
             Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
         }
     }
