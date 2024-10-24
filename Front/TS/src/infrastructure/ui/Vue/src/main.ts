@@ -1,3 +1,7 @@
+import './assets/bootstrap.min.css'
+import './assets/plugins.min.css'
+import './assets/fonts.min.css'
+import './assets/kaiadmin.min.css'
 import './assets/main.css'
 
 import { createApp } from 'vue'

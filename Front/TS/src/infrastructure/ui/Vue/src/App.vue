@@ -3,19 +3,85 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+  <div class="wrapper">
+      <!-- Sidebar -->
+      <div class="sidebar" data-background-color="dark">
+        <div class="sidebar-logo">
+          <!-- Logo Header -->
+          <div class="logo-header" data-background-color="dark">
+            BetFriends
+            <div class="nav-toggle">
+              <button class="btn btn-toggle toggle-sidebar">
+                <i class="gg-menu-right"></i>
+              </button>
+              <button class="btn btn-toggle sidenav-toggler">
+                <i class="gg-menu-left"></i>
+              </button>
+            </div>
+            <button class="topbar-toggler more">
+              <i class="gg-more-vertical-alt"></i>
+            </button>
+          </div>
+          <!-- End Logo Header -->
+        </div>
+        <div class="sidebar-wrapper scrollbar scrollbar-inner">
+          <div class="sidebar-content">
+            <ul class="nav nav-secondary">
+              <li class="nav-item">
+                <RouterLink to="/">
+                  <i class="fas fa-home"></i>
+                  <p>Accueil</p>
+                </RouterLink>
+              </li>
+              <li class="nav-item">
+                <RouterLink to="/friends">
+                  <i class="fas fa-layer-group"></i>
+                  <p>Amis</p>
+                </RouterLink>
+              </li>
+              <li class="nav-item">
+                <RouterLink to="/bets/new">
+                  <i class="fas fa-layer-group"></i>
+                  <p>Nouveau pari</p>
+                </RouterLink>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- End Sidebar -->
 
-    <div class="wrapper">
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/friends">Amis</RouterLink>
-        <RouterLink to="/bets/new">Créer un pari</RouterLink>
-      </nav>
+      <div class="main-panel">
+        <div class="main-header">
+          <div class="main-header-logo">
+            <!-- Logo Header -->
+            <div class="logo-header" data-background-color="dark">
+              <a href="index.html" class="logo">
+              </a>
+              <div class="nav-toggle">
+                <button class="btn btn-toggle toggle-sidebar">
+                  <i class="gg-menu-right"></i>
+                </button>
+                <button class="btn btn-toggle sidenav-toggler">
+                  <i class="gg-menu-left"></i>
+                </button>
+              </div>
+              <button class="topbar-toggler more">
+                <i class="gg-more-vertical-alt"></i>
+              </button>
+            </div>
+            <!-- End Logo Header -->
+          </div>
+          <!-- End Navbar -->
+        </div>
+        <div class="container">
+          <div class="page-inner">
+            <RouterView />
+          </div>
+        </div>
+      </div>
+      <!-- End Custom template -->
     </div>
-  </header>
-
-  <RouterView />
 </template>
 
 <style scoped>

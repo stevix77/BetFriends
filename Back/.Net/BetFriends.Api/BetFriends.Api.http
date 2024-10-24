@@ -1,4 +1,4 @@
-@BetFriends.Api_HostAddress = http://localhost:5019
+@BetFriends.Api_HostAddress = https://localhost:7259
 
 POST {{BetFriends.Api_HostAddress}}/bets/ 
 Accept: application/json
