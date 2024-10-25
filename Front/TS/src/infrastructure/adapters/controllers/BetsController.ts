@@ -1,6 +1,10 @@
 import { CreateBetHandler } from '../../../domain/features/CreateBetHandler';
+import { BetSummary } from '../../../domain/bets/BetSummary';
+import { RetrieveBetsHandler } from '../../../domain/features/RetrieveBetsHandler';
 export class BetsController {
-    constructor(private createBetHandler: CreateBetHandler) {}
+    
+    constructor(private readonly createBetHandler: CreateBetHandler,
+                private readonly retrieveBetsHandler: RetrieveBetsHandler) {}
 
     Create(request: CreateBetRequest): Promise<void> {
         return this.createBetHandler.Handle({
@@ -9,6 +13,10 @@ export class BetsController {
             EndDate: request.EndDate,
             Friends: request.Friends
         })
+    }
+
+    RetrieveBetsAsync(): Promise<BetSummary[]> {
+        return this.retrieveBetsHandler.Handle();
     }
 }
 
