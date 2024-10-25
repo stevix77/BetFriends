@@ -19,6 +19,8 @@ import { CreateBetViewModel } from "./viewmodels/CreateBetViewModel";
 import { FriendsViewModel } from "./viewmodels/FriendsViewModel";
 
 import router from './router'
+import { RetrieveBetsHandler } from "../../../../domain/features/RetrieveBetsHandler";
+import { BetsViewModel } from './viewmodels/BetsViewModel';
 
 const ioc = (app: App) => {
     const memberRepository: IMemberRepository = new InMemoryMemberRepository()
@@ -31,7 +33,8 @@ const ioc = (app: App) => {
     const idGenerator = new IdGenerator();
     const dtProvider = new DateTimeProvider();
     const createBetHandler = new CreateBetHandler(betRepository, createBetPresenter, idGenerator, dtProvider)
-    const betsController = new BetsController(createBetHandler);
+    const retrieveBetsHandler = new RetrieveBetsHandler(betRepository)
+    const betsController = new BetsController(createBetHandler, retrieveBetsHandler);
     const addFriendHandler = new AddFriendHandler(friendRepository, friendsPresenter)
     const friendsController = new FriendsController(retrieveFriendsHandler, 
                                                     retrieveMembersHandler,
@@ -42,9 +45,11 @@ const ioc = (app: App) => {
                                                     betsController,
                                                     router);
     const friendsviewmodel = new FriendsViewModel(friendsPresenter, friendsController);
+    const betsviewmodel = new BetsViewModel(betsController)
 
     app.provide('friendsviewmodel', friendsviewmodel);
     app.provide('createbetviewmodel', createbetviewmodel);
+    app.provide('betsviewmodel', betsviewmodel);
 }
 
 export { ioc };
