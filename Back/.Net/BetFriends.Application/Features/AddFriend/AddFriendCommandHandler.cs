@@ -1,5 +1,5 @@
 ﻿using BetFriends.Application.Abstractions;
-using BetFriends.Application.Abstractions.Command;
+using BetFriends.Application.Abstractions.Messaging;
 using BetFriends.Domain.Friends;
 using BetFriends.Domain.Members;
 

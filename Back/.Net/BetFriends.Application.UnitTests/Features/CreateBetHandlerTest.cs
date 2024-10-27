@@ -103,4 +103,21 @@ public class CreateBetHandlerTest
                 .WhenExecuteCommand())
                 .ShouldNotCreateBet(typeof(CannotBetException), CannotBetException.NoneFriends);
     }
+
+    [Fact]
+    public async Task ShouldNotCreateBetAlone()
+    {
+        var userId = Guid.NewGuid();
+        var member = new Member(new MemberId(userId), "username", 1000, 5);
+        (await new CreateBetHandlerSut()
+                .WithUserId(userId)
+                .WithMember(member)
+                .WithCurrentDate(new DateTime(2023, 5, 5))
+                .WithCommand(new CreateBetCommand("description",
+                                                120,
+                                                new DateTime(2024, 4, 23),
+                                                []))
+                .WhenExecuteCommand())
+                .ShouldNotCreateBet(MockCreateBetPresenter.NoneFriends);
+    }
 }

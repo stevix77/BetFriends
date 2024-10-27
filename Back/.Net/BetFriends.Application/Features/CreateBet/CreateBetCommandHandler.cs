@@ -1,5 +1,5 @@
 ﻿using BetFriends.Application.Abstractions;
-using BetFriends.Application.Abstractions.Command;
+using BetFriends.Application.Abstractions.Messaging;
 using BetFriends.Domain.Bets;
 using BetFriends.Domain.Members;
 
@@ -40,7 +40,7 @@ public class CreateBetCommandHandler : ICommandHandler<CreateBetCommand>
             createBetOutputPort.MemberDoesNotExist(userContext.UserId);
             return;
         }
-        var bet = member.Bet(new(idGenerator.Generate()), command.Description, command.Chips, command.EndDate, command.Friends);
+        var bet = member.Bet(new BetId(idGenerator.Generate()), command.Description, command.Chips, command.EndDate, command.Friends);
         await betRepository.SaveAsync(bet);
         createBetOutputPort.Present(new CreateBetResponse(bet.BetId.Value));
     }
@@ -56,6 +56,12 @@ public class CreateBetCommandHandler : ICommandHandler<CreateBetCommand>
         if(command.Chips < 1)
         {
             createBetOutputPort.ChipsMissing();
+            return false;
+        }
+
+        if(!command.Friends.Any())
+        {
+            createBetOutputPort.FriendsMissing();
             return false;
         }
         return true;
