@@ -10,9 +10,12 @@ import { InMemoryBetRepository } from "../../../../repositories/InMemoryBetRepos
 import { InMemoryMemberRepository } from "../../../../repositories/InMemoryMemberRepository";
 import { CreateBetController } from "./features/create-bet/CreateBet.controller";
 import { CreateBetPresenter } from './features/create-bet/CreateBetPresenter';
+import { RetrieveBetsQueryHandler } from '../../../../../application/features/retrieve-bets/RetrieveBetsQueryHandler';
+import { InMemoryRetrieveBetsDataAccess } from "../../../../repositories/InMemoryRetrieveBetsDataAccess";
+import { RetrieveBetsController } from "./features/retrieve-bets/RetrieveBets.controller";
 
 @Module({
-    controllers: [CreateBetController],
+    controllers: [CreateBetController, RetrieveBetsController],
     imports: [forwardRef(() => AppModule)],
     providers: [
         {
@@ -39,12 +42,19 @@ import { CreateBetPresenter } from './features/create-bet/CreateBetPresenter';
                     InMemoryBetRepository]
         },
         {
+            provide: RetrieveBetsQueryHandler,
+            useFactory:(userContext: FakeUserContext,
+                retrieveBetsDataAccess: InMemoryRetrieveBetsDataAccess) => new RetrieveBetsQueryHandler(retrieveBetsDataAccess, userContext),
+            inject: [FakeUserContext, InMemoryRetrieveBetsDataAccess]
+        },
+        {
             provide: "IBetModule",
-            useFactory: (createBetCommandHandler: CreateBetCommandHandler) => {
-                const behavior = new LoggingBehavior().SetNext(new RequestBehavior([createBetCommandHandler]))
+            useFactory: (createBetCommandHandler: CreateBetCommandHandler,
+                        retrieveBetsQueryHandler: RetrieveBetsQueryHandler) => {
+                const behavior = new LoggingBehavior().SetNext(new RequestBehavior([createBetCommandHandler, retrieveBetsQueryHandler]))
                 return new BetModule(behavior)
             },
-            inject: [CreateBetCommandHandler]
+            inject: [CreateBetCommandHandler, RetrieveBetsQueryHandler]
         }
     ]
 })

@@ -10,6 +10,7 @@ import { FakeUserContext } from './FakeUserContext';
 import { FriendModule } from './friend/friend.module';
 import { InMemoryBetRepository } from '../../../repositories/InMemoryBetRepository';
 import { BetsModule } from './bet/bets.module';
+import { InMemoryRetrieveBetsDataAccess } from '../../../repositories/InMemoryRetrieveBetsDataAccess';
 
 @Module({
   imports: [FriendModule, BetsModule],
@@ -17,6 +18,7 @@ import { BetsModule } from './bet/bets.module';
   exports: [InMemoryFriendshipRepository,
             InMemoryMemberRepository,
             InMemoryBetRepository,
+            InMemoryRetrieveBetsDataAccess,
             FakeUserContext,
             DateTimeProvider
         ],
@@ -36,6 +38,11 @@ import { BetsModule } from './bet/bets.module';
     {
       provide: InMemoryBetRepository,
       useClass: InMemoryBetRepository
+    },
+    {
+      provide: InMemoryRetrieveBetsDataAccess,
+      useFactory: (betRepository: InMemoryBetRepository) => new InMemoryRetrieveBetsDataAccess(betRepository),
+      inject: [InMemoryBetRepository] 
     },
     {
         provide: FakeUserContext,
