@@ -10,9 +10,14 @@ import { InMemoryBetRepository } from "../../../../repositories/InMemoryBetRepos
 import { InMemoryMemberRepository } from "../../../../repositories/InMemoryMemberRepository";
 import { CreateBetController } from "./features/create-bet/CreateBet.controller";
 import { CreateBetPresenter } from './features/create-bet/CreateBetPresenter';
+import { RetrieveBetsQueryHandler } from '../../../../../application/features/retrieve-bets/RetrieveBetsQueryHandler';
+import { InMemoryRetrieveBetsDataAccess } from "../../../../repositories/InMemoryRetrieveBetsDataAccess";
+import { RetrieveBetsController } from "./features/retrieve-bets/RetrieveBets.controller";
+import { IUserContext } from "../../../../../application/Abstractions/IUserContext";
+import { IDateTimeProvider } from "../../../../../domain/IDateTimeProvider";
 
 @Module({
-    controllers: [CreateBetController],
+    controllers: [CreateBetController, RetrieveBetsController],
     imports: [forwardRef(() => AppModule)],
     providers: [
         {
@@ -21,10 +26,10 @@ import { CreateBetPresenter } from './features/create-bet/CreateBetPresenter';
         },
         {
             provide: CreateBetCommandHandler,
-            useFactory: (dateTimeProvider: DateTimeProvider,
+            useFactory: (dateTimeProvider: IDateTimeProvider,
                         memberRepository: InMemoryMemberRepository,
                         presenter: CreateBetPresenter,
-                        userContext: FakeUserContext,
+                        userContext: IUserContext,
                         betRepository: InMemoryBetRepository) => 
                         new CreateBetCommandHandler(betRepository, 
                                                     presenter,
@@ -32,19 +37,26 @@ import { CreateBetPresenter } from './features/create-bet/CreateBetPresenter';
                                                     userContext,
                                                     dateTimeProvider),
                         
-            inject: [DateTimeProvider, 
+            inject: ['IDateTimeProvider', 
                     InMemoryMemberRepository, 
                     CreateBetPresenter,
-                    FakeUserContext,
+                    'IUserContext',
                     InMemoryBetRepository]
         },
         {
+            provide: RetrieveBetsQueryHandler,
+            useFactory:(userContext: IUserContext,
+                retrieveBetsDataAccess: InMemoryRetrieveBetsDataAccess) => new RetrieveBetsQueryHandler(retrieveBetsDataAccess, userContext),
+            inject: ['IUserContext', InMemoryRetrieveBetsDataAccess]
+        },
+        {
             provide: "IBetModule",
-            useFactory: (createBetCommandHandler: CreateBetCommandHandler) => {
-                const behavior = new LoggingBehavior().SetNext(new RequestBehavior([createBetCommandHandler]))
+            useFactory: (createBetCommandHandler: CreateBetCommandHandler,
+                        retrieveBetsQueryHandler: RetrieveBetsQueryHandler) => {
+                const behavior = new LoggingBehavior().SetNext(new RequestBehavior([createBetCommandHandler, retrieveBetsQueryHandler]))
                 return new BetModule(behavior)
             },
-            inject: [CreateBetCommandHandler]
+            inject: [CreateBetCommandHandler, RetrieveBetsQueryHandler]
         }
     ]
 })

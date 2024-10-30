@@ -41,6 +41,11 @@ public class CreateBetPresenter : ICreateBetOutputPort
         ViewModel = new BadRequestObjectResult("End date is too old");
     }
 
+    public void FriendsMissing()
+    {
+        ViewModel = new BadRequestObjectResult("Cannot create bet without friend selected");
+    }
+
     public void MemberDoesNotExist(Guid userId)
     {
         ViewModel = new ForbidResult();

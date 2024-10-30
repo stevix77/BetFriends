@@ -7,6 +7,7 @@ internal class MockCreateBetPresenter : ICreateBetOutputPort
     public const string MemberDoesNotExistMessage = "member does not exist";
     public const string EndDateTooOldMessage = "end date too old";
     public const string NoneChip = "none chip";
+    public const string NoneFriends = "none friends";
 
     public CreateBetResponse Response { get; private set; }
     public string ErrorMessage { get; private set; }
@@ -19,6 +20,11 @@ internal class MockCreateBetPresenter : ICreateBetOutputPort
     public void EndDateIsTooOld()
     {
         ErrorMessage = EndDateTooOldMessage;
+    }
+
+    public void FriendsMissing()
+    {
+        ErrorMessage = NoneFriends;
     }
 
     public void MemberDoesNotExist(Guid userId)

@@ -17,22 +17,23 @@ import { type IBetRepository } from '../../../../../../domain/bets/IBetRepositor
 import { type IIdGenerator } from '../../../../../../domain/abstractions/IIdGenerator';
 import { type IDateTimeProvider } from '../../../../../../domain/abstractions/IDateTimeProvider';
 import { FormsModule } from '@angular/forms';
+import { RetrieveBetsComponent } from './retrieve-bets/retrieve-bets.component';
+import { BetsViewModel } from './BetsViewModel';
+import { RetrieveBetsHandler } from '../../../../../../domain/features/RetrieveBetsHandler';
 
 const createBetPresenter = new CreateBetPresenter();
 
 @NgModule({
-  declarations: [CreateBetComponent],
+  declarations: [CreateBetComponent, RetrieveBetsComponent],
   imports: [
     CommonModule,
     FormsModule,
     RouterModule.forRoot([
       {
-          path: 'bets', component: CreateBetComponent,
-          children: [
-            {
-              path: 'new', component: CreateBetComponent
-            }
-          ]
+        path: '', component: RetrieveBetsComponent,
+      },
+      {
+        path: 'bets/new', component: CreateBetComponent
       }
     ])
   ],
@@ -47,11 +48,23 @@ const createBetPresenter = new CreateBetPresenter();
       deps: ['IBetRepository', 'IIdGenerator', 'IDateTimeProvider']
     },
     {
+      provide: RetrieveBetsHandler,
+      useFactory: (betRepository: IBetRepository) => 
+        new RetrieveBetsHandler(betRepository),
+      deps: ['IBetRepository']
+    },
+    {
+      provide: BetsController,
+      useFactory: (retrieveBetsHandler: RetrieveBetsHandler,
+                    createBetHandler: CreateBetHandler) => new BetsController(createBetHandler, retrieveBetsHandler),
+      deps: [RetrieveBetsHandler, CreateBetHandler]
+    },
+    {
       provide: CreateBetViewModel,
       useFactory: (friendsPresenter: FriendsPresenter,
                     friendRepository: IFriendRepository,
                     memberRepository: IMemberRepository,
-                    createBetHandler: CreateBetHandler,
+                    betsController: BetsController,
                     router: Router) => {
         const retrieveFriendsHandler = new RetrieveFriendsHandler(friendRepository, friendsPresenter);
         const retrieveMembersHandler = new RetrieveMembersHandler(memberRepository, friendsPresenter);
@@ -59,14 +72,18 @@ const createBetPresenter = new CreateBetPresenter();
         const friendsController = new FriendsController(retrieveFriendsHandler, 
                                                         retrieveMembersHandler,
                                                         addFriendHandler)
-        const betsController = new BetsController(createBetHandler)
         return new CreateBetViewModel(friendsPresenter, 
                                       createBetPresenter, 
                                       friendsController, 
                                       betsController,
                                       router);
       },
-      deps: [FriendsPresenter, 'IFriendRepository', 'IMemberRepository', CreateBetHandler, Router]
+      deps: [FriendsPresenter, 'IFriendRepository', 'IMemberRepository', BetsController, Router]
+    },
+    {
+      provide: BetsViewModel,
+      useFactory: (betsController: BetsController) => new BetsViewModel(betsController),
+      deps: [BetsController]
     }
   ]
 })

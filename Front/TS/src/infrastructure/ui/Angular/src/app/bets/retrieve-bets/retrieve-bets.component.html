@@ -1,0 +1,17 @@
+<div class="page-header">
+    <h3 class="fw-bold mb-3">Mes Paris</h3>
+</div>
+<div class="row">
+    <a [routerLink]="['/bets', bet.Id]" *ngFor="let bet of bvm.Bets">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Fin: {{ bet.EndDate }} <br /> Jetons: {{ bet.Chips }}</h4>
+            </div>
+            <div class="card-header">
+                <div class="tab-content mt-2 mb-3">
+                    <p>{{ bet.Description }}</p>
+                </div>
+            </div>
+        </div>
+    </a>
+</div>

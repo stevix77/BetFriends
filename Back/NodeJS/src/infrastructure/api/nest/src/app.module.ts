@@ -10,6 +10,7 @@ import { FakeUserContext } from './FakeUserContext';
 import { FriendModule } from './friend/friend.module';
 import { InMemoryBetRepository } from '../../../repositories/InMemoryBetRepository';
 import { BetsModule } from './bet/bets.module';
+import { InMemoryRetrieveBetsDataAccess } from '../../../repositories/InMemoryRetrieveBetsDataAccess';
 
 @Module({
   imports: [FriendModule, BetsModule],
@@ -17,16 +18,17 @@ import { BetsModule } from './bet/bets.module';
   exports: [InMemoryFriendshipRepository,
             InMemoryMemberRepository,
             InMemoryBetRepository,
-            FakeUserContext,
-            DateTimeProvider
+            InMemoryRetrieveBetsDataAccess,
+            'IUserContext',
+            'IDateTimeProvider'
         ],
   providers: [
     AppService,
     {
       provide: InMemoryMemberRepository,
       useFactory: () => new InMemoryMemberRepository([
-        new Member(new MemberId("11111111-1111-1111-1111-111111111111"), 1000, 5),
-        new Member(new MemberId("adadadad-1111-6666-4444-edededededed"), 1000, 5)
+        new Member(new MemberId("11111111-1111-1111-1111-111111111111"), "member1", 1000, 5),
+        new Member(new MemberId("adadadad-1111-6666-4444-edededededed"), "member2", 1000, 5)
       ]),
     },
     {
@@ -38,11 +40,17 @@ import { BetsModule } from './bet/bets.module';
       useClass: InMemoryBetRepository
     },
     {
-        provide: FakeUserContext,
+      provide: InMemoryRetrieveBetsDataAccess,
+      useFactory: (betRepository: InMemoryBetRepository,
+                    memberRepository: InMemoryMemberRepository) => new InMemoryRetrieveBetsDataAccess(betRepository, memberRepository),
+      inject: [InMemoryBetRepository, InMemoryMemberRepository] 
+    },
+    {
+        provide: 'IUserContext',
         useClass: FakeUserContext
     },
     {
-      provide: DateTimeProvider,
+      provide: 'IDateTimeProvider',
       useClass: DateTimeProvider
     }
   ],

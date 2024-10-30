@@ -25,4 +25,6 @@ internal class FakeBetRepository : IBetRepository
         domainEventsAccessor.Add(bet.Events);
         return Task.CompletedTask;
     }
+
+    internal IEnumerable<Bet> Bets { get => bets; }
 }

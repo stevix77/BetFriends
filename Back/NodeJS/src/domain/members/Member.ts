@@ -28,7 +28,10 @@ export class Member {
         this.Chips -= chips; 
     }
 
-    constructor(public readonly MemberId: MemberId, public Chips: number, public CountFriend: number){}
+    constructor(public readonly MemberId: MemberId, 
+                public readonly Username: string,
+                public Chips: number, 
+                public CountFriend: number){}
 
     AddFriendship(requesterId: string) {
         return Friendship.Create(new MemberId(requesterId), this.MemberId);

@@ -57,7 +57,7 @@ export class CreateBetViewModel {
 
     SubscribeToCreateBetSuccess() {
         const createBetSubject = new Subject<CreateBetResponse>();
-        createBetSubject.subscribe(x => this.router.navigate(['/friends']))
+        createBetSubject.subscribe(x => this.router.navigate(['/']))
         this.createBetPresenter.Subscribe(KeyCreateBetPresenter.Success.toString(), createBetSubject)
     }
 }

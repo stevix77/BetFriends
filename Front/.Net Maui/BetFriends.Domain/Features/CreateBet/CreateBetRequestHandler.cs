@@ -24,7 +24,7 @@ public sealed class CreateBetRequestHandler : IRequestHandler<CreateBetRequest>
 
     public async Task Handle(CreateBetRequest request, CancellationToken cancellationToken)
     {
-        if (!IsValideRequest(request))
+        if (!IsValidRequest(request))
             return;
         var id = idGenerator.Generate();
         var bet = new Bet(id, request.Description, request.EndDate, request.Chips, request.Friends);
@@ -32,7 +32,7 @@ public sealed class CreateBetRequestHandler : IRequestHandler<CreateBetRequest>
         presenter.Present(new CreateBetResponse(id, request.Description, request.EndDate, request.Chips, request.Friends));
     }
 
-    private bool IsValideRequest(CreateBetRequest request)
+    private bool IsValidRequest(CreateBetRequest request)
     {
         if (request.EndDate < dateTimeProvider.GetCurrentDate().Date)
         {

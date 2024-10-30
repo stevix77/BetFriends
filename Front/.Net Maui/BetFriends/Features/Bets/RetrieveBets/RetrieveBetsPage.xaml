@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BetFriends.Features.Bets.RetrieveBets.RetrieveBetsPage"
+             Title="RetrieveBetsPage">
+    <VerticalStackLayout>
+        <ListView ItemsSource="{Binding Bets}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Border Margin="5">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Label Text="{Binding OwnerName}" />
+                                <StackLayout Grid.Column="1" Grid.RowSpan="2">
+                                    <Label Text="{Binding Chips, StringFormat='Jetons: {0}'}" />
+                                    <Label Text="{Binding FormattedEndDate, StringFormat='Fin: {0}'}" />
+                                </StackLayout>
+                                <Label Text="{Binding Description}" Grid.ColumnSpan="2" Grid.Row="2" />
+                            </Grid>
+                        </Border>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </VerticalStackLayout>
+</ContentPage>

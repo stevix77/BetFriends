@@ -10,6 +10,7 @@ import { InMemoryBetRepository } from "../../../../adapters/repository/InMemoryB
 import { FriendsPresenter } from "../../../../adapters/presenters/FriendsPresenter";
 import { IdGenerator } from "../../../../adapters/IdGenerator";
 import { DateTimeProvider } from "../../../../adapters/DateTimeProvider";
+import { NavbarComponent } from './shared/navbar/navbar.component';
 
 @NgModule({
     declarations: [
@@ -18,7 +19,8 @@ import { DateTimeProvider } from "../../../../adapters/DateTimeProvider";
     imports: [
         BrowserModule,
         FriendsModule,
-        BetsModule
+        BetsModule,
+        NavbarComponent
     ],
     providers:[
         {

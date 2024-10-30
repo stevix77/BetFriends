@@ -22,6 +22,8 @@ public class Member : Entity
     public MemberId MemberId { get => memberId; }
     public int Chips { get => chips; }
 
+    public string Username { get => username; }
+
     public Friendship AddFriendship(Guid requesterId)
     {
         return Friendship.Create(memberId.Value, requesterId);

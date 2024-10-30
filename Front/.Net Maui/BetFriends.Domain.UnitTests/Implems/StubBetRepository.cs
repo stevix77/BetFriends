@@ -1,5 +1,6 @@
 ﻿using BetFriends.Domain.Bets;
 using BetFriends.Domain.Features.CreateBet;
+using BetFriends.Domain.Features.RetrieveBets;
 
 namespace BetFriends.Domain.UnitTests.Implems;
 
@@ -16,5 +17,10 @@ internal class StubBetRepository : IBetRepository
     {
         bets.Add(bet);
         return Task.CompletedTask;
+    }
+
+    public Task<IEnumerable<RetrieveBetsItemResponse>> RetrieveBetsAsync()
+    {
+        throw new NotImplementedException();
     }
 }

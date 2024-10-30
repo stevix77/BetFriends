@@ -1,7 +1,35 @@
-<main class="main">
-  <div class="content">
-    <router-outlet></router-outlet>
+<app-navbar></app-navbar>
+<div class="main-panel">
+  <div class="main-header">
+    <div class="main-header-logo">
+      <!-- Logo Header -->
+      <div class="logo-header" data-background-color="dark">
+        <a routerLink="/" class="logo">
+        </a>
+        <div class="nav-toggle">
+          <button class="btn btn-toggle toggle-sidebar">
+            <i class="gg-menu-right"></i>
+          </button>
+          <button class="btn btn-toggle sidenav-toggler">
+            <i class="gg-menu-left"></i>
+          </button>
+        </div>
+        <button class="topbar-toggler more">
+          <i class="gg-more-vertical-alt"></i>
+        </button>
+      </div>
+      <!-- End Logo Header -->
+    </div>
+    <!-- End Navbar -->
   </div>
-</main>
-
-
+  <div class="container">
+    <div class="page-inner">
+      <main class="main">
+        <div class="content">
+          <router-outlet></router-outlet>
+        </div>
+      </main>
+    </div>
+  </div>
+<!-- End Custom template -->
+</div>

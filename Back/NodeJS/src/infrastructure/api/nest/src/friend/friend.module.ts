@@ -32,7 +32,7 @@ import { RequestBehavior } from '../../../../behaviors/RequestBehavior';
             inject: [InMemoryFriendshipRepository, 
                     InMemoryMemberRepository, 
                     AddFriendPresenter,
-                    FakeUserContext]
+                    'IUserContext']
         },
         {
             provide: "IBetModule",

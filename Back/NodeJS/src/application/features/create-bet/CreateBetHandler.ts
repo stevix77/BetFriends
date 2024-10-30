@@ -32,7 +32,7 @@ export class CreateBetCommandHandler implements IRequestHandler<CreateBetCommand
         this.outputPort.Present(new CreateBetResponse(request.BetId))
     }
 
-    IsValidRequest(request: CreateBetCommand): boolean {
+    private IsValidRequest(request: CreateBetCommand): boolean {
         if(this.dateTimeProvider.GetDate() > request.EndDate) {
             this.outputPort.EndDateIsTooOld();
             return false;
