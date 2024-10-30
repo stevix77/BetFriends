@@ -26,7 +26,7 @@ describe('create bet handler', () => {
     test('Should not create bet when requester has not enough chips', async () => {
         (await new CreateBetSut()
                     .GivenCommand(new CreateBetCommand("betId", "description", 100, new Date(2025, 10, 1), [uuidv4()]))
-                    .GivenRequester(new Member(new MemberId("memberId"), 50, 2))
+                    .GivenRequester(new Member(new MemberId("memberId"), "member", 50, 2))
                     .WhenExecuteHandler().catch(e => {
                         expect(e).toBeInstanceOf(NotEnoughChipsException)
                     }))
@@ -42,7 +42,7 @@ describe('create bet handler', () => {
     test('Should not create bet when requester has no friend', async () => {
         (await new CreateBetSut()
                     .GivenCommand(new CreateBetCommand("betId", "description", 100, new Date(2025, 10, 1), [uuidv4()]))
-                    .GivenRequester(new Member(new MemberId("memberId"), 1000, 0))
+                    .GivenRequester(new Member(new MemberId("memberId"), "member", 1000, 0))
                     .WhenExecuteHandler().catch(e => {
                         expect(e).toBeInstanceOf(NoneFriendException)
                     }))

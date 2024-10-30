@@ -8,7 +8,7 @@ import { Member } from '../../../src/domain/members/Member';
 describe('Describe decrease balance handler', () => {
     test('Should decrease balance when member is known', async () => {
         const notification = new BetCreatedNotification(new BetId("betId"), new MemberId("member1"), 20);
-        const member = new Member(new MemberId("member1"), 100, 2);
+        const member = new Member(new MemberId("member1"), "member", 100, 2);
         const memberRepository = new InMemoryMemberRepository([member]);
         const handler = new DecreaseBalanceMemberHandler(memberRepository)
         await handler.Handle(notification);

@@ -14,7 +14,7 @@ export class CreateBetSut {
     private command: CreateBetCommand;
     private betRepository = new InMemoryBetRepository();
     private mockPresenter = new MockCreateBetPresenter();
-    private memberRepository = new StubMemberRepository(new Member(new MemberId(this.userId), 1000, 2));
+    private memberRepository = new StubMemberRepository(new Member(new MemberId(this.userId), "member", 1000, 2));
     private userContext = new StubUserContext(this.userId);
     private dateTimeProvider = new StubDateTimeProvider(new Date(2024, 3, 3));
 
