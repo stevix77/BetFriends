@@ -14,7 +14,7 @@ I am Steve VALENTIN, a software engineer interested about craftsmanship subjects
 - [x] make a bet
 - [ ] accept/reject a bet
 - [ ] give bet result
-- [ ] display bets list
+- [x] display bets list
 - [ ] create an account
 - [ ] authenticate
 
