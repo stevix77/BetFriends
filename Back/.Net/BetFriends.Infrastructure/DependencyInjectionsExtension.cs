@@ -21,7 +21,11 @@ public static class DependencyInjectionsExtension
         services.AddSingleton<IMemberRepository, FakeMemberRepository>();
         services.AddSingleton<IFriendshipRepository, FakeFriendshipRepository>();
         services.AddSingleton<IBetRepository, FakeBetRepository>();
-        services.AddSingleton<IRetrieveBetsDataAccess>(x => new FakeRetrieveBetsDataAccess(x.GetRequiredService<IBetRepository>() as FakeBetRepository));
+        services.AddSingleton<IRetrieveBetsDataAccess>(x =>
+        {
+            return new FakeRetrieveBetsDataAccess(x.GetRequiredService<IBetRepository>() as FakeBetRepository,
+                                                  x.GetRequiredService<IMemberRepository>() as FakeMemberRepository);
+        });
         services.AddSingleton<IIdGenerator, GuidGenerator>();
         services.AddSingleton<IDateProvider, DateTimeProvider>();
         services.AddScoped<IBetModule, BetModule>();

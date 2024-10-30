@@ -13,6 +13,8 @@ import { CreateBetPresenter } from './features/create-bet/CreateBetPresenter';
 import { RetrieveBetsQueryHandler } from '../../../../../application/features/retrieve-bets/RetrieveBetsQueryHandler';
 import { InMemoryRetrieveBetsDataAccess } from "../../../../repositories/InMemoryRetrieveBetsDataAccess";
 import { RetrieveBetsController } from "./features/retrieve-bets/RetrieveBets.controller";
+import { IUserContext } from "../../../../../application/Abstractions/IUserContext";
+import { IDateTimeProvider } from "../../../../../domain/IDateTimeProvider";
 
 @Module({
     controllers: [CreateBetController, RetrieveBetsController],
@@ -24,10 +26,10 @@ import { RetrieveBetsController } from "./features/retrieve-bets/RetrieveBets.co
         },
         {
             provide: CreateBetCommandHandler,
-            useFactory: (dateTimeProvider: DateTimeProvider,
+            useFactory: (dateTimeProvider: IDateTimeProvider,
                         memberRepository: InMemoryMemberRepository,
                         presenter: CreateBetPresenter,
-                        userContext: FakeUserContext,
+                        userContext: IUserContext,
                         betRepository: InMemoryBetRepository) => 
                         new CreateBetCommandHandler(betRepository, 
                                                     presenter,
@@ -35,17 +37,17 @@ import { RetrieveBetsController } from "./features/retrieve-bets/RetrieveBets.co
                                                     userContext,
                                                     dateTimeProvider),
                         
-            inject: [DateTimeProvider, 
+            inject: ['IDateTimeProvider', 
                     InMemoryMemberRepository, 
                     CreateBetPresenter,
-                    FakeUserContext,
+                    'IUserContext',
                     InMemoryBetRepository]
         },
         {
             provide: RetrieveBetsQueryHandler,
-            useFactory:(userContext: FakeUserContext,
+            useFactory:(userContext: IUserContext,
                 retrieveBetsDataAccess: InMemoryRetrieveBetsDataAccess) => new RetrieveBetsQueryHandler(retrieveBetsDataAccess, userContext),
-            inject: [FakeUserContext, InMemoryRetrieveBetsDataAccess]
+            inject: ['IUserContext', InMemoryRetrieveBetsDataAccess]
         },
         {
             provide: "IBetModule",

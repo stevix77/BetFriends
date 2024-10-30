@@ -4,7 +4,7 @@ import { IBetRepository } from '../../../domain/bets/IBetRepository';
 export class InMemoryBetRepository implements IBetRepository {
     constructor(private bets: Bet[] = []){}
     getAllAsync(): PromiseLike<BetSummary[]> {
-        const bets = this.bets.map(x => new BetSummary(x.Id, x.Description, x.Chips, x.EndDate));
+        const bets = this.bets.map(x => new BetSummary(x.Id, x.Description, x.Chips, x.EndDate, "", x.Id.substring(0, 6)));
         return Promise.resolve(bets)
     }
 
@@ -14,5 +14,3 @@ export class InMemoryBetRepository implements IBetRepository {
     }
 
 }
-
-//{Id: "1", Chips: 100, Description: "descripion pari", EndDate: new Date(2024, 9, 30), Friends: []}

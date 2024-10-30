@@ -12,7 +12,9 @@ export class BetsViewModel {
                 Id: x.Id,
                 Chips: x.Chips,
                 Description: x.Description,
-                EndDate: x.EndDate.toString()
+                EndDate: x.EndDate.toString(),
+                OwnerId: x.OwnerId,
+                OwnerName: x.OwnerName
             }
         })
     }
@@ -24,4 +26,6 @@ export interface BetDto {
     Description: string;
     EndDate: string;
     Chips: number;
+    OwnerId: string;
+    OwnerName: string;
 }

@@ -2,7 +2,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using MediatR;
 using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace BetFriends.Features.Bets.RetrieveBets;
 

@@ -19,16 +19,16 @@ import { InMemoryRetrieveBetsDataAccess } from '../../../repositories/InMemoryRe
             InMemoryMemberRepository,
             InMemoryBetRepository,
             InMemoryRetrieveBetsDataAccess,
-            FakeUserContext,
-            DateTimeProvider
+            'IUserContext',
+            'IDateTimeProvider'
         ],
   providers: [
     AppService,
     {
       provide: InMemoryMemberRepository,
       useFactory: () => new InMemoryMemberRepository([
-        new Member(new MemberId("11111111-1111-1111-1111-111111111111"), 1000, 5),
-        new Member(new MemberId("adadadad-1111-6666-4444-edededededed"), 1000, 5)
+        new Member(new MemberId("11111111-1111-1111-1111-111111111111"), "member1", 1000, 5),
+        new Member(new MemberId("adadadad-1111-6666-4444-edededededed"), "member2", 1000, 5)
       ]),
     },
     {
@@ -41,15 +41,16 @@ import { InMemoryRetrieveBetsDataAccess } from '../../../repositories/InMemoryRe
     },
     {
       provide: InMemoryRetrieveBetsDataAccess,
-      useFactory: (betRepository: InMemoryBetRepository) => new InMemoryRetrieveBetsDataAccess(betRepository),
-      inject: [InMemoryBetRepository] 
+      useFactory: (betRepository: InMemoryBetRepository,
+                    memberRepository: InMemoryMemberRepository) => new InMemoryRetrieveBetsDataAccess(betRepository, memberRepository),
+      inject: [InMemoryBetRepository, InMemoryMemberRepository] 
     },
     {
-        provide: FakeUserContext,
+        provide: 'IUserContext',
         useClass: FakeUserContext
     },
     {
-      provide: DateTimeProvider,
+      provide: 'IDateTimeProvider',
       useClass: DateTimeProvider
     }
   ],

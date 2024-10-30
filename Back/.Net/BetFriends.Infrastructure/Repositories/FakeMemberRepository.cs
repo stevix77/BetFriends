@@ -5,6 +5,7 @@ namespace BetFriends.Infrastructure.Repositories;
 internal class FakeMemberRepository : IMemberRepository
 {
     private readonly List<Member> members;
+    internal IReadOnlyCollection<Member> Members { get => members; }
     public FakeMemberRepository()
     {
         members = new() 
