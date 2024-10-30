@@ -6,6 +6,7 @@
     xmlns:local="clr-namespace:BetFriend"
     xmlns:friends="clr-namespace:BetFriends.Features.Friends"
     xmlns:bets="clr-namespace:BetFriends.Features.Bets.CreateBet"
+    xmlns:betList="clr-namespace:BetFriends.Features.Bets.RetrieveBets"
     Shell.FlyoutBehavior="Disabled">
 
     <TabBar>
@@ -20,6 +21,12 @@ Route="FriendsPage" />
 Title="Créer un pari"
 ContentTemplate="{DataTemplate bets:BetPage}"
 Route="BetPage" />
+        </Tab>
+        <Tab Title="Parier">
+            <ShellContent
+Title="Liste des paris"
+ContentTemplate="{DataTemplate betList:RetrieveBetsPage}"
+Route="RetrieveBetsPage" />
         </Tab>
 
     </TabBar>

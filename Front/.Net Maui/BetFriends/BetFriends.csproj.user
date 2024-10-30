@@ -21,6 +21,9 @@
     <MauiXaml Update="Features\Bets\CreateBet\SelectFriendsPage.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
+    <MauiXaml Update="Features\Bets\RetrieveBets\RetrieveBetsPage.xaml">
+      <SubType>Designer</SubType>
+    </MauiXaml>
     <MauiXaml Update="Features\Friends\FriendsPage.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
