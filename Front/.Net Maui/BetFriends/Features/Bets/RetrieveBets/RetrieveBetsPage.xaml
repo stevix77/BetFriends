@@ -8,7 +8,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <Border>
+                        <Border Margin="5">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition />
@@ -20,9 +20,11 @@
                                     <RowDefinition />
                                 </Grid.RowDefinitions>
                                 <Label Text="{Binding OwnerName}" />
-                                <Label Text="{Binding Chips, StringFormat='({0})'}" Grid.Column="1" />
-                                <Label Text="{Binding FormattedEndDate}" Grid.Column="1" Grid.Row="1" />
-                                <Label Text="{Binding Description}" Grid.Column="0" Grid.Row="2" />
+                                <StackLayout Grid.Column="1" Grid.RowSpan="2">
+                                    <Label Text="{Binding Chips, StringFormat='Jetons: {0}'}" />
+                                    <Label Text="{Binding FormattedEndDate, StringFormat='Fin: {0}'}" />
+                                </StackLayout>
+                                <Label Text="{Binding Description}" Grid.ColumnSpan="2" Grid.Row="2" />
                             </Grid>
                         </Border>
                     </ViewCell>

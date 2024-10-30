@@ -17,7 +17,7 @@ public partial class RetrieveBetsViewModel(IMediator mediator) : ObservableObjec
         var query = new RetrieveBetsQuery();
         var bets = await mediator.Send(query);
         Bets = new(bets.Select(x => new RetrieveBetItem(x.BetId,
-                                                        x.Description.Length > 20 ? x.Description[..20] : x.Description,
+                                                        x.Description.Length > 50 ? $"{x.Description[..50]}..." : x.Description,
                                                         x.Chips,
                                                         x.EndDate,
                                                         x.OwnerId,

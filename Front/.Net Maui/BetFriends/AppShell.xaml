@@ -22,7 +22,7 @@ Title="Créer un pari"
 ContentTemplate="{DataTemplate bets:BetPage}"
 Route="BetPage" />
         </Tab>
-        <Tab Title="Parier">
+        <Tab Title="Accueil">
             <ShellContent
 Title="Liste des paris"
 ContentTemplate="{DataTemplate betList:RetrieveBetsPage}"
