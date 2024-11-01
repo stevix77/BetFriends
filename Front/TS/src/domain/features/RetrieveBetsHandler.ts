@@ -1,4 +1,4 @@
-import { IBetRepository } from '../bets/IBetRepository';
+import { type IBetRepository } from '../bets/IBetRepository';
 import { BetSummary } from '../bets/BetSummary';
 export class RetrieveBetsHandler {
     constructor(private readonly betRepository: IBetRepository) {}
