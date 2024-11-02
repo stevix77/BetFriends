@@ -2,7 +2,7 @@ export interface BetDetail {
     BetId: string;
     Description: string;
     EndDate: Date;
-    Chips: number;
+    Coins: number;
     OwnerId: string;
     OwnerName: string;
     Members: BetMember[];

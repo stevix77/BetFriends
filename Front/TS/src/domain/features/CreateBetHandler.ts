@@ -23,16 +23,16 @@ export class CreateBetHandler {
             return;
         }
 
-        if(request.Chips == 0) {
+        if(request.Coins == 0) {
             this.outputPort.InvalidChip()
             return;
         }
-        const bet = new Bet(this.idGenerator.Generate(), request.Description, request.EndDate, request.Chips, request.Friends);
+        const bet = new Bet(this.idGenerator.Generate(), request.Description, request.EndDate, request.Coins, request.Friends);
         await this.betRepository.Save(bet);
         this.outputPort.Present(new CreateBetResponse(bet.Id, 
                                                     bet.Description, 
                                                     bet.EndDate, 
-                                                    bet.Chips, 
+                                                    bet.Coins, 
                                                     bet.Friends))
     }
 }
@@ -40,7 +40,7 @@ export class CreateBetHandler {
 export interface ICreateBetRequest {
     Description: string;
     EndDate: Date;
-    Chips: number;
+    Coins: number;
     Friends: string[];
 }
 
@@ -56,6 +56,6 @@ export class CreateBetResponse {
     constructor(public Id: string, 
                 public Description: string, 
                 public EndDate: Date, 
-                public Chips: number, 
+                public Coins: number, 
                 public Friends: string[]){}
 }

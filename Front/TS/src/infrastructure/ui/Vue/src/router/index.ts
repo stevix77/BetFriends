@@ -29,11 +29,6 @@ const router = createRouter({
       path: '/bets/new',
       name: 'create-bet',
       component: CreateBetView
-    },
-    {
-      path: '/bets/:id',
-      name: 'betdetail',
-      component: DetailBetView
     }
   ]
 })

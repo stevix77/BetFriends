@@ -7,7 +7,7 @@ describe('create bet handler', () => {
         .WithRequest({
             Description: "description",
             EndDate: new Date(2024, 4, 1),
-            Chips: 20,
+            Coins: 20,
             Friends: ["friendId1"]
         })
         .WithCurrentDate(new Date(2023, 5, 1))
@@ -20,7 +20,7 @@ describe('create bet handler', () => {
         .WithRequest({
             Description: "description",
             EndDate: new Date(2024, 4, 1),
-            Chips: 20,
+            Coins: 20,
             Friends: ["friendId1"]
         })
         .WithCurrentDate(new Date(2024, 5, 1))
@@ -33,7 +33,7 @@ describe('create bet handler', () => {
         .WithRequest({
             Description: "",
             EndDate: new Date(2024, 4, 1),
-            Chips: 20,
+            Coins: 20,
             Friends: ["friendId1"]
         })
         .WithCurrentDate(new Date(2024, 3, 1))
@@ -46,7 +46,7 @@ describe('create bet handler', () => {
         .WithRequest({
             Description: "description",
             EndDate: new Date(2024, 4, 1),
-            Chips: 20,
+            Coins: 20,
             Friends: []
         })
         .WithCurrentDate(new Date(2024, 3, 1))
@@ -59,7 +59,7 @@ describe('create bet handler', () => {
         .WithRequest({
             Description: "description",
             EndDate: new Date(2024, 4, 1),
-            Chips: 0,
+            Coins: 0,
             Friends: ["friends1"]
         })
         .WithCurrentDate(new Date(2024, 3, 1))

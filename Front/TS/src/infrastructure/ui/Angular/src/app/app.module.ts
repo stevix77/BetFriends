@@ -11,6 +11,7 @@ import { FriendsPresenter } from "../../../../adapters/presenters/FriendsPresent
 import { IdGenerator } from "../../../../adapters/IdGenerator";
 import { DateTimeProvider } from "../../../../adapters/DateTimeProvider";
 import { NavbarComponent } from './shared/navbar/navbar.component';
+import { RouterModule } from "@angular/router";
 
 @NgModule({
     declarations: [
@@ -20,7 +21,8 @@ import { NavbarComponent } from './shared/navbar/navbar.component';
         BrowserModule,
         FriendsModule,
         BetsModule,
-        NavbarComponent
+        NavbarComponent,
+        RouterModule
     ],
     providers:[
         {
@@ -34,7 +36,8 @@ import { NavbarComponent } from './shared/navbar/navbar.component';
         },
         {
             provide: 'IBetRepository',
-            useFactory: () => new InMemoryBetRepository()
+            useFactory: (memberRepository: InMemoryMemberRepository) => new InMemoryBetRepository(memberRepository),
+            deps: ['IMemberRepository']
         },
         {
             provide: FriendsPresenter,
