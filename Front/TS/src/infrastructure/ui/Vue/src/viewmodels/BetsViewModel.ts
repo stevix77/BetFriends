@@ -17,7 +17,6 @@ export class BetsViewModel {
                 BookieName: x.OwnerName,
                 InvitedCount: x.Gamblers.length,
                 AcceptedCount: x.Gamblers.filter(x => x.HasAccepted).length
-
             }
         })
     }
