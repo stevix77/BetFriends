@@ -1,9 +1,8 @@
 import { Bet } from "./Bet";
 import { BetSummary } from "./BetSummary";
-import { type BetDetail } from "./BetDetail";
 
 export interface IBetRepository {
-    getById(id: string): Promise<BetDetail>;
-    getAllAsync(): PromiseLike<BetSummary[]>;
+    AnswerAsync(BetId: string, Answer: boolean): unknown;
+    getAllAsync(): Promise<BetSummary[]>;
     Save(bet: Bet) : Promise<void>;
 }

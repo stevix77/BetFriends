@@ -33,12 +33,12 @@ export class CreateBetSut {
         expect(this.betRepository.Bets).toContainEqual(new Bet(this.idGenerator.Generate(), 
                                                                 this.request.Description, 
                                                                 this.request.EndDate,
-                                                                this.request.Chips,
+                                                                this.request.Coins,
                                                                 this.request.Friends))
         expect(this.presenter.Bet).toEqual(new CreateBetResponse(this.idGenerator.Generate(), 
                                                                 this.request.Description, 
                                                                 this.request.EndDate,
-                                                                this.request.Chips,
+                                                                this.request.Coins,
                                                                 this.request.Friends))
     }
     

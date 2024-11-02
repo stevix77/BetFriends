@@ -1,8 +1,15 @@
-export class BetSummary {
-    constructor(public readonly Id: string,
-        public readonly Description: string,
-        public readonly Chips: number,
-        public readonly EndDate: Date,
-        public readonly OwnerId: string,
-        public readonly OwnerName: string){}
+export interface BetSummary {
+    Id: string;
+    Description: string;
+    Coins: number;
+    EndDate: Date;
+    BookieId: string;
+    OwnerName: string;
+    Gamblers: Gambler[];
+}
+
+export interface Gambler {
+    Id: string;
+    Name: string;
+    HasAccepted?: boolean
 }

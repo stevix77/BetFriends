@@ -3,7 +3,7 @@ import { Presenter } from './Presenter';
 export class CreateBetPresenter extends Presenter implements ICreateBetOutputPort {
 
     InvalidChip(): void {
-        this.subjects.get(Key.CreateBetError.toString())?.forEach(x => x.next("Invalid chips"))
+        this.subjects.get(Key.CreateBetError.toString())?.forEach(x => x.next("Invalid Coins"))
     }
     FriendsIsEmpty(): void {
         this.subjects.get(Key.CreateBetError.toString())?.forEach(x => x.next("One friend at least"))

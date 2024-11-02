@@ -2,7 +2,7 @@ import { IMemberRepository, MemberDto } from "../../../domain/members/IMemberRep
 import {v4 as uuidv4} from 'uuid';
 
 export class InMemoryMemberRepository implements IMemberRepository {
-    private members: MemberDto[] = [];
+    members: MemberDto[] = [];
     constructor(){
         const memberCount = Math.floor(Math.random() * 50)
         for(let i = 0; i<memberCount; i++) {

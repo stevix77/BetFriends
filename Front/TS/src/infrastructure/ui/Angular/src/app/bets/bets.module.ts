@@ -20,6 +20,7 @@ import { FormsModule } from '@angular/forms';
 import { RetrieveBetsComponent } from './retrieve-bets/retrieve-bets.component';
 import { BetsViewModel } from './BetsViewModel';
 import { RetrieveBetsHandler } from '../../../../../../domain/features/RetrieveBetsHandler';
+import { AnswerBetHandler } from '../../../../../../domain/features/AnswerBetHandler';
 
 const createBetPresenter = new CreateBetPresenter();
 
@@ -54,10 +55,17 @@ const createBetPresenter = new CreateBetPresenter();
       deps: ['IBetRepository']
     },
     {
+      provide: AnswerBetHandler,
+      useFactory: (betRepository: IBetRepository) => 
+        new AnswerBetHandler(betRepository),
+      deps: ['IBetRepository']
+    },
+    {
       provide: BetsController,
       useFactory: (retrieveBetsHandler: RetrieveBetsHandler,
-                    createBetHandler: CreateBetHandler) => new BetsController(createBetHandler, retrieveBetsHandler),
-      deps: [RetrieveBetsHandler, CreateBetHandler]
+                    createBetHandler: CreateBetHandler,
+                    answerBetHandler: AnswerBetHandler) => new BetsController(createBetHandler, retrieveBetsHandler, answerBetHandler),
+      deps: [RetrieveBetsHandler, CreateBetHandler, AnswerBetHandler]
     },
     {
       provide: CreateBetViewModel,

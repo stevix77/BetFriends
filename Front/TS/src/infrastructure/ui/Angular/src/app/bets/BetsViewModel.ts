@@ -10,10 +10,10 @@ export class BetsViewModel {
         this.Bets = bets.map(x => {
             return {
                 Id: x.Id,
-                Chips: x.Chips,
+                Coins: x.Coins,
                 Description: x.Description,
                 EndDate: x.EndDate.toString(),
-                OwnerId: x.OwnerId,
+                OwnerId: x.BookieId,
                 OwnerName: x.OwnerName
             }
         })
@@ -25,7 +25,7 @@ export interface BetDto {
     Id: string;
     Description: string;
     EndDate: string;
-    Chips: number;
+    Coins: number;
     OwnerId: string;
     OwnerName: string;
 }

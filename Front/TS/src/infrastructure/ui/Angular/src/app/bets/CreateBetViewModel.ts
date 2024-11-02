@@ -33,10 +33,10 @@ export class CreateBetViewModel {
     }
     
 
-    MaxChips: number = 1000;
+    MaxCoins: number = 1000;
     Description: string = "";
     EndDate: Date = new Date();
-    Chips: number = 0;
+    Coins: number = 0;
     MinDate: string = moment().format('YYYY-MM-DD');
     Friends: MemberSelected[] = [];
     Error?: string;
@@ -48,7 +48,7 @@ export class CreateBetViewModel {
     CreateBet(): Promise<void> {
         this.Error = undefined;
         return this.betsController.Create({
-            Chips: this.Chips,
+            Coins: this.Coins,
             Description: this.Description,
             EndDate: this.EndDate,
             Friends: this.Friends.filter(x => x.IsSelected).map(x => x.MemberId)

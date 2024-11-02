@@ -4,18 +4,29 @@
     <h3 class="fw-bold mb-3">Mes Paris</h3>
 </div>
 <div class="row">
-  <RouterLink :to="{name: 'betdetail', params: {id: bet.Id}}" v-for="bet in vm?.Bets" :key="bet">
-    <div class="card">
+  <div class="card" v-for="bet in vm?.Bets" v-bind:key="bet.Id">
         <div class="card-header">
-            <h4 class="card-title">Fin: {{ bet.EndDate }} <br /> Jetons: {{ bet.Chips }}</h4>
+            <h4 class="card-title">Fin: {{ bet.EndDate }} <span style="float:right">Jetons: {{ bet.Coins }}</span></h4>
         </div>
-        <div class="card-header">
+        <div class="card-body">
             <div class="tab-content mt-2 mb-3">
                 <p>{{ bet.Description }}</p>
             </div>
         </div>
+        <div class="card-footer">
+            <div class="row">
+                <div class="col-sm">Participant(s) : {{ bet.AcceptedCount }} / {{ bet.InvitedCount }}</div>
+                <div class="col-sm" style="text-align:right">
+                    <button class="btn btn-success" type="button" @click="vm!.Accept(bet.Id)">
+                        Accepter
+                    </button>
+                    <button class="btn btn-danger" type="button" @click="vm!.Decline(bet.Id)">
+                        Refuser
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
-  </RouterLink>
 </div>
   </main>
 </template>

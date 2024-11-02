@@ -26,10 +26,10 @@ export class CreateBetViewModel implements IViewModel {
     }
     
 
-    MaxChips: number = 1000;
+    MaxCoins: number = 1000;
     Description: string = "";
     EndDate: Date = new Date();
-    Chips: number = 0;
+    Coins: number = 0;
     MinDate: string = moment().format('YYYY-MM-DD');
     Friends: FriendDto[] = [];
     FriendsSelected: string[] = [];
@@ -41,7 +41,7 @@ export class CreateBetViewModel implements IViewModel {
 
     CreateBet(): Promise<void> {
         return this.betsController.Create({
-            Chips: this.Chips,
+            Coins: this.Coins,
             Description: this.Description,
             EndDate: this.EndDate,
             Friends: this.FriendsSelected
@@ -52,5 +52,15 @@ export class CreateBetViewModel implements IViewModel {
         const createBetSubject = new Subject<CreateBetResponse>();
         createBetSubject.subscribe(createBetResponse => this.router.push('/'))
         this.createBetPresenter.Subscribe(KeyCreateBetPresenter.Success.toString(), createBetSubject)
+    }
+
+    Reset() {
+        this.MaxCoins = 1000;
+        this.Description = "";
+        this.EndDate = new Date();
+        this.Coins = 0;
+        this.Friends = [];
+        this.FriendsSelected = [];
+        this.Error = undefined;
     }
 }

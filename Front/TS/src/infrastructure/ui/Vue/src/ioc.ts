@@ -21,11 +21,12 @@ import { FriendsViewModel } from "./viewmodels/FriendsViewModel";
 import router from './router'
 import { RetrieveBetsHandler } from "../../../../domain/features/RetrieveBetsHandler";
 import { BetsViewModel } from './viewmodels/BetsViewModel';
+import { AnswerBetHandler } from "../../../../domain/features/AnswerBetHandler";
 
 const ioc = (app: App) => {
-    const memberRepository: IMemberRepository = new InMemoryMemberRepository()
+    const memberRepository = new InMemoryMemberRepository()
     const friendRepository: IFriendRepository = new InMemoryFriendRepository(memberRepository);
-    const betRepository: IBetRepository = new InMemoryBetRepository();
+    const betRepository: IBetRepository = new InMemoryBetRepository(memberRepository, []);
     const friendsPresenter = new FriendsPresenter()
     const retrieveFriendsHandler = new RetrieveFriendsHandler(friendRepository, friendsPresenter);
     const retrieveMembersHandler = new RetrieveMembersHandler(memberRepository, friendsPresenter);
@@ -34,7 +35,8 @@ const ioc = (app: App) => {
     const dtProvider = new DateTimeProvider();
     const createBetHandler = new CreateBetHandler(betRepository, createBetPresenter, idGenerator, dtProvider)
     const retrieveBetsHandler = new RetrieveBetsHandler(betRepository)
-    const betsController = new BetsController(createBetHandler, retrieveBetsHandler);
+    const answerBetHandler = new AnswerBetHandler(betRepository)
+    const betsController = new BetsController(createBetHandler, retrieveBetsHandler, answerBetHandler);
     const addFriendHandler = new AddFriendHandler(friendRepository, friendsPresenter)
     const friendsController = new FriendsController(retrieveFriendsHandler, 
                                                     retrieveMembersHandler,

@@ -8,7 +8,7 @@
             <span>{{vm?.EndDate}}</span>
         </div>
         <div>
-            <span>{{vm?.Chips}}</span>
+            <span>{{vm?.Coins}}</span>
         </div>
         <div>
             <p>{{ vm?.Description }}</p>

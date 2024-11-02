@@ -11,8 +11,8 @@
                     <textarea type="text" id="description" v-model="vm.Description"></textarea>
                 </p>
                 <p>
-                    <label for="chips">Jetons</label><br />
-                    <input type="range" id="chips" name="chips" min="0" :max="vm.MaxChips" v-model="vm.Chips"> {{ vm.Chips }}
+                    <label for="Coins">Jetons</label><br />
+                    <input type="range" id="Coins" name="Coins" min="0" :max="vm.MaxCoins" v-model="vm.Coins"> {{ vm.Coins }}
                 </p>
                 <p>
                     <label for="endDate">Date de fin</label><br />
@@ -64,6 +64,7 @@ import { CreateBetViewModel } from '../../viewmodels/CreateBetViewModel';
                 form.preventDefault();
                 await this.vm!.CreateBet()
                 this.current?.proxy?.$forceUpdate();
+                this.vm!.Reset();
             }
         },
     }
