@@ -1,10 +1,13 @@
+import { IDateTimeProvider } from '../abstractions/IDateTimeProvider';
 import { type IBetRepository } from '../bets/IBetRepository';
 
 export class AnswerBetHandler {
-    constructor(private readonly betRepository: IBetRepository){}
+    constructor(private readonly betRepository: IBetRepository,
+                private readonly dateTimeProvider: IDateTimeProvider
+    ){}
 
     async Handle(request: IAnswerRequest): Promise<void> {
-        console.log(request)
+        
         // const response = this.betRepository.AnswerAsync(request.BetId, request.Answer);
     }
 }

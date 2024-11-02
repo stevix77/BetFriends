@@ -56,9 +56,9 @@ const createBetPresenter = new CreateBetPresenter();
     },
     {
       provide: AnswerBetHandler,
-      useFactory: (betRepository: IBetRepository) => 
-        new AnswerBetHandler(betRepository),
-      deps: ['IBetRepository']
+      useFactory: (betRepository: IBetRepository, dateTimeProvider: IDateTimeProvider) => 
+        new AnswerBetHandler(betRepository, dateTimeProvider),
+      deps: ['IBetRepository', 'IDateTimeProvider']
     },
     {
       provide: BetsController,
