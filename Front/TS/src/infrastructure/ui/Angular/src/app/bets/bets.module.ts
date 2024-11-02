@@ -21,8 +21,10 @@ import { RetrieveBetsComponent } from './retrieve-bets/retrieve-bets.component';
 import { BetsViewModel } from './BetsViewModel';
 import { RetrieveBetsHandler } from '../../../../../../domain/features/RetrieveBetsHandler';
 import { AnswerBetHandler } from '../../../../../../domain/features/AnswerBetHandler';
+import { AnswerBetPresenter } from '../../../../../adapters/presenters/AnswerBetPresenter';
 
 const createBetPresenter = new CreateBetPresenter();
+const answerPresenter = new AnswerBetPresenter();
 
 @NgModule({
   declarations: [CreateBetComponent, RetrieveBetsComponent],
@@ -57,7 +59,7 @@ const createBetPresenter = new CreateBetPresenter();
     {
       provide: AnswerBetHandler,
       useFactory: (betRepository: IBetRepository, dateTimeProvider: IDateTimeProvider) => 
-        new AnswerBetHandler(betRepository, dateTimeProvider),
+        new AnswerBetHandler(betRepository, dateTimeProvider, answerPresenter),
       deps: ['IBetRepository', 'IDateTimeProvider']
     },
     {
