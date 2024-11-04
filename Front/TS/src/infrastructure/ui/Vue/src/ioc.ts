@@ -49,7 +49,7 @@ const ioc = (app: App) => {
                                                     betsController,
                                                     router);
     const friendsviewmodel = new FriendsViewModel(friendsPresenter, friendsController);
-    const betsviewmodel = new BetsViewModel(betsController)
+    const betsviewmodel = new BetsViewModel(betsController, answerBetPresenter)
 
     app.provide('friendsviewmodel', friendsviewmodel);
     app.provide('createbetviewmodel', createbetviewmodel);

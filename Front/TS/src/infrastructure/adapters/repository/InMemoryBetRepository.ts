@@ -6,8 +6,12 @@ export class InMemoryBetRepository implements IBetRepository {
     constructor(private readonly memberRepository: InMemoryMemberRepository, 
                 private bets: Bet[] = []){}
                 
-    AnswerAsync(BetId: string, Answer: boolean): unknown {
-        throw new Error('Method not implemented.');
+    AnswerAsync(betId: string, answer: boolean): Promise<void> {
+        const bet = this.bets.find(x => x.Id == betId);
+        if(!bet) {
+            return Promise.reject();
+        }
+        return Promise.resolve();
     }
 
     getAllAsync(): Promise<BetSummary[]> {

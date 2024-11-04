@@ -1,9 +1,10 @@
 <template>
   <main>
     <div class="page-header">
-    <h3 class="fw-bold mb-3">Mes Paris</h3>
-</div>
+        <h3 class="fw-bold mb-3">Mes Paris</h3>
+    </div>
 <div class="row">
+    <h5 style="text-align: right;" v-if="vm?.Error">{{ vm?.Error }}</h5>
   <div class="card" v-for="bet in vm?.Bets" v-bind:key="bet.Id">
         <div class="card-header">
             <h4 class="card-title">Fin: {{ bet.EndDate }} <span style="float:right">Jetons: {{ bet.Coins }}</span></h4>
@@ -16,11 +17,14 @@
         <div class="card-footer">
             <div class="row">
                 <div class="col-sm">Participant(s) : {{ bet.AcceptedCount }} / {{ bet.InvitedCount }}</div>
+                <div class="col-sm" v-if="bet.Answer != undefined">
+                    {{ bet.Answer === true ? "Accepté" : "Refusé" }}
+                </div>
                 <div class="col-sm" style="text-align:right">
-                    <button class="btn btn-success" type="button" @click="vm!.Accept(bet.Id)">
+                    <button class="btn btn-success" type="button" @click="Answer(true, bet.Id)">
                         Accepter
                     </button>
-                    <button class="btn btn-danger" type="button" @click="vm!.Decline(bet.Id)">
+                    <button class="btn btn-danger" type="button" @click="Answer(false, bet.Id)">
                         Refuser
                     </button>
                 </div>
@@ -50,7 +54,16 @@ import { BetsViewModel } from '../viewmodels/BetsViewModel';
             this.current?.proxy?.$forceUpdate();
         },
         methods: {
-          
+          Answer(answer: boolean, betId: string) {
+            if(answer === true) {
+                this.vm?.Accept(betId);
+                this.current?.proxy?.$forceUpdate();
+                return;
+            }
+
+            this.vm?.Decline(betId);
+            this.current?.proxy?.$forceUpdate();
+          }
         },
     }
 </script>

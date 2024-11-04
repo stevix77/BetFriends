@@ -92,7 +92,7 @@ const answerPresenter = new AnswerBetPresenter();
     },
     {
       provide: BetsViewModel,
-      useFactory: (betsController: BetsController) => new BetsViewModel(betsController),
+      useFactory: (betsController: BetsController) => new BetsViewModel(betsController, answerPresenter),
       deps: [BetsController]
     }
   ]
