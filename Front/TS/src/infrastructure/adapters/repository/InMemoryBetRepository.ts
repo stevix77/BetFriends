@@ -14,7 +14,7 @@ export class InMemoryBetRepository implements IBetRepository {
         return Promise.resolve();
     }
 
-    getAllAsync(): Promise<BetSummary[]> {
+    GetAllAsync(): Promise<BetSummary[]> {
         const bets = this.bets.map<BetSummary>(x => {
             return {
                 Coins: x.Coins,

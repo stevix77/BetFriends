@@ -28,4 +28,31 @@ describe('answer bet', () => {
             }))
             .ShouldRejectRequest('Bet is over')
     })
+
+    test('should not answer the same answer if has already answered', async () => {
+        (await new AnswerBetSut()
+            .WithDateProvider(new Date('2024-11-11'))
+            .WithIdentifier('identifier')
+            .WhenAnswer({
+                Answer: true,
+                BetId: 'betId',
+                BookieId: 'userid',
+                EndDate: new Date('2025-03-03'),
+                OldAnswer: true
+            }))
+            .ShouldRejectRequest(`already answer true for bet betId`)
+    })
+
+    test('should not answer to an own bet', async () => {
+        (await new AnswerBetSut()
+            .WithDateProvider(new Date('2024-11-11'))
+            .WithIdentifier('identifier')
+            .WhenAnswer({
+                Answer: true,
+                BetId: 'betId',
+                BookieId: 'identifier',
+                EndDate: new Date('2025-03-03')
+            }))
+            .ShouldRejectRequest(`cannot answer to a own bet`)
+    })
 })

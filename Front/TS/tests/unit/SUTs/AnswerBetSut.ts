@@ -3,14 +3,17 @@ import { AnswerBetHandler, IAnswerRequest } from "../../../src/domain/features/A
 import { FakeAnswerBetPresenter } from "../implems/FakeAnswerBetPresenter";
 import { FakeBetRepository } from "../implems/FakeBetRepository";
 import { StubDateTimeProvider } from "../implems/StubDateTimeProvider";
+import { FakeUserContext } from "../implems/FakeUserContext";
 
 export class AnswerBetSut {
     
     constructor() {
         this.betRepository = new FakeBetRepository();
         this.outputPort = new FakeAnswerBetPresenter();
+        this.userContext = new FakeUserContext('user');
     }
     private dateTimeProvider: StubDateTimeProvider;
+    private userContext: FakeUserContext;
     private readonly outputPort: FakeAnswerBetPresenter
     private readonly betRepository: FakeBetRepository;
 
@@ -18,11 +21,17 @@ export class AnswerBetSut {
         this.dateTimeProvider = new StubDateTimeProvider(date);
         return this;
     }
+    
+    WithIdentifier(identifier: string): AnswerBetSut {
+        this.userContext = new FakeUserContext(identifier);
+        return this;
+    }
 
     async WhenAnswer(request: IAnswerRequest): Promise<AnswerBetSut> {
         const handler = new AnswerBetHandler(this.betRepository, 
                                             this.dateTimeProvider, 
-                                            this.outputPort);
+                                            this.outputPort,
+                                            this.userContext);
         await handler.Handle(request);
         return this;
     }
@@ -32,7 +41,7 @@ export class AnswerBetSut {
     }
 
     ShouldRejectRequest(errorMessage: string) {
-        this.outputPort.Error = errorMessage;
+        expect(this.outputPort.Error).toEqual(errorMessage);
     }
 
 }
