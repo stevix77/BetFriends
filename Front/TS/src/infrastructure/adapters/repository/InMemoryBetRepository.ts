@@ -1,11 +1,15 @@
+import { IUserContext } from '../../../domain/abstractions/IUserContext';
 import { Bet } from '../../../domain/bets/Bet';
 import { BetSummary, Gambler } from '../../../domain/bets/BetSummary';
 import { IBetRepository } from '../../../domain/bets/IBetRepository';
 import { InMemoryMemberRepository } from './InMemoryMemberRepository';
 export class InMemoryBetRepository implements IBetRepository {
     constructor(private readonly memberRepository: InMemoryMemberRepository, 
+                private readonly userContext: IUserContext,
                 private bets: Bet[] = []){}
                 
+    private readonly betsUsers: Map<string, string> = new Map<string, string>();
+
     AnswerAsync(betId: string, answer: boolean): Promise<void> {
         const bet = this.bets.find(x => x.Id == betId);
         if(!bet) {
@@ -21,7 +25,7 @@ export class InMemoryBetRepository implements IBetRepository {
                 Description: x.Description,
                 EndDate: x.EndDate,
                 Id: x.Id,
-                BookieId: "",
+                BookieId: this.betsUsers.get(x.Id)!,
                 OwnerName: x.Id.substring(0, 6),
                 Gamblers: x.Friends.map<Gambler>(idFriend => {
                     const member = this.memberRepository.members.find(member => member.Id == idFriend)
@@ -38,6 +42,7 @@ export class InMemoryBetRepository implements IBetRepository {
 
     Save(bet: Bet): Promise<void> {
         this.bets.push(bet);
+        this.betsUsers.set(bet.Id, this.userContext.UserId)
         return Promise.resolve();
     }
 

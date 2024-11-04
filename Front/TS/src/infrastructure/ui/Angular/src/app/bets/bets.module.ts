@@ -22,6 +22,7 @@ import { BetsViewModel } from './BetsViewModel';
 import { RetrieveBetsHandler } from '../../../../../../domain/features/RetrieveBetsHandler';
 import { AnswerBetHandler } from '../../../../../../domain/features/AnswerBetHandler';
 import { AnswerBetPresenter } from '../../../../../adapters/presenters/AnswerBetPresenter';
+import { IUserContext } from '../../../../../../domain/abstractions/IUserContext';
 
 const createBetPresenter = new CreateBetPresenter();
 const answerPresenter = new AnswerBetPresenter();
@@ -58,9 +59,11 @@ const answerPresenter = new AnswerBetPresenter();
     },
     {
       provide: AnswerBetHandler,
-      useFactory: (betRepository: IBetRepository, dateTimeProvider: IDateTimeProvider) => 
-        new AnswerBetHandler(betRepository, dateTimeProvider, answerPresenter),
-      deps: ['IBetRepository', 'IDateTimeProvider']
+      useFactory: (betRepository: IBetRepository, 
+                  dateTimeProvider: IDateTimeProvider,
+                userContext: IUserContext) => 
+        new AnswerBetHandler(betRepository, dateTimeProvider, answerPresenter, userContext),
+      deps: ['IBetRepository', 'IDateTimeProvider', 'IUserContext']
     },
     {
       provide: BetsController,
@@ -92,8 +95,10 @@ const answerPresenter = new AnswerBetPresenter();
     },
     {
       provide: BetsViewModel,
-      useFactory: (betsController: BetsController) => new BetsViewModel(betsController, answerPresenter),
-      deps: [BetsController]
+      useFactory: (betsController: BetsController,
+                   userContext: IUserContext
+      ) => new BetsViewModel(betsController, answerPresenter, userContext),
+      deps: [BetsController, 'IUserContext']
     }
   ]
 })
