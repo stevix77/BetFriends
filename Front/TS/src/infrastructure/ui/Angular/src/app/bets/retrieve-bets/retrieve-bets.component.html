@@ -2,6 +2,7 @@
     <h3 class="fw-bold mb-3">Mes Paris</h3>
 </div>
 <div class="row">
+    <h5 style="text-align: right;" *ngIf="bvm?.Error">{{ bvm.Error }}</h5>
     <div class="card" *ngFor="let bet of bvm.Bets">
         <div class="card-header">
             <h4 class="card-title">Fin: {{ bet.EndDate }} <span style="float:right">Jetons: {{ bet.Coins }}</span></h4>
@@ -14,6 +15,9 @@
         <div class="card-footer">
             <div class="row">
                 <div class="col-sm">Participant(s) : {{ bet.AcceptedCount }} / {{ bet.InvitedCount }}</div>
+                <div class="col-sm" *ngIf="bet.Answer != undefined">
+                    {{ bet.Answer === true ? "Accepté" : "Refusé" }}
+                </div>
                 <div class="col-sm" style="text-align:right">
                     <button class="btn btn-success" type="button" (click)="bvm!.Accept(bet.Id)">
                         Accepter
