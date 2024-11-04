@@ -6,7 +6,7 @@ export class FakeBetRepository implements IBetRepository {
     AnswerAsync(BetId: string, Answer: boolean): Promise<void> {
         return Promise.resolve();
     }
-    getAllAsync(): Promise<BetSummary[]> {
+    GetAllAsync(): Promise<BetSummary[]> {
         throw new Error('Method not implemented.');
     }
     Save(bet: Bet): Promise<void> {
