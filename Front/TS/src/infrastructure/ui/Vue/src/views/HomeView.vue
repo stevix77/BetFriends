@@ -54,14 +54,14 @@ import { BetsViewModel } from '../viewmodels/BetsViewModel';
             this.current?.proxy?.$forceUpdate();
         },
         methods: {
-          Answer(answer: boolean, betId: string) {
+          async Answer(answer: boolean, betId: string) {
             if(answer === true) {
-                this.vm?.Accept(betId);
+                await this.vm?.Accept(betId);
                 this.current?.proxy?.$forceUpdate();
                 return;
             }
 
-            this.vm?.Decline(betId);
+            await this.vm?.Decline(betId);
             this.current?.proxy?.$forceUpdate();
           }
         },

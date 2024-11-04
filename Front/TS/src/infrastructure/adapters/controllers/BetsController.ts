@@ -21,12 +21,17 @@ export class BetsController {
         return this.retrieveBetsHandler.Handle();
     }
 
-    AnswerAsync(betId: string, answer: boolean, endDate: Date, bookieId: string): Promise<void> {
+    AnswerAsync(betId: string, 
+                answer: boolean, 
+                endDate: Date, 
+                bookieId: string,
+                oldAnswer?: boolean): Promise<void> {
         return this.answerBetHandler.Handle({
             BetId: betId,
             Answer: answer,
             EndDate: endDate,
-            BookieId: bookieId
+            BookieId: bookieId,
+            OldAnswer: oldAnswer
         })
     }
 }

@@ -23,11 +23,14 @@ import { RetrieveBetsHandler } from "../../../../domain/features/RetrieveBetsHan
 import { BetsViewModel } from './viewmodels/BetsViewModel';
 import { AnswerBetHandler } from "../../../../domain/features/AnswerBetHandler";
 import { AnswerBetPresenter } from '../../../adapters/presenters/AnswerBetPresenter';
+import { UserContext } from "./services/userContext";
+import { Bet } from "../../../../domain/bets/Bet";
 
 const ioc = (app: App) => {
+    const userContext = new UserContext('aeaeaeae-aeae-aeae-aeae-aeaeaeaeaeae');
     const memberRepository = new InMemoryMemberRepository()
     const friendRepository: IFriendRepository = new InMemoryFriendRepository(memberRepository);
-    const betRepository: IBetRepository = new InMemoryBetRepository(memberRepository, []);
+    const betRepository: IBetRepository = new InMemoryBetRepository(memberRepository, userContext, [new Bet("id", "description", new Date("2025-02-02"), 200, memberRepository.members.map(x => x.Id))]);
     const friendsPresenter = new FriendsPresenter()
     const retrieveFriendsHandler = new RetrieveFriendsHandler(friendRepository, friendsPresenter);
     const retrieveMembersHandler = new RetrieveMembersHandler(memberRepository, friendsPresenter);
@@ -37,7 +40,7 @@ const ioc = (app: App) => {
     const dtProvider = new DateTimeProvider();
     const createBetHandler = new CreateBetHandler(betRepository, createBetPresenter, idGenerator, dtProvider)
     const retrieveBetsHandler = new RetrieveBetsHandler(betRepository)
-    const answerBetHandler = new AnswerBetHandler(betRepository, dtProvider, answerBetPresenter)
+    const answerBetHandler = new AnswerBetHandler(betRepository, dtProvider, answerBetPresenter, userContext)
     const betsController = new BetsController(createBetHandler, retrieveBetsHandler, answerBetHandler);
     const addFriendHandler = new AddFriendHandler(friendRepository, friendsPresenter)
     const friendsController = new FriendsController(retrieveFriendsHandler, 
@@ -49,7 +52,7 @@ const ioc = (app: App) => {
                                                     betsController,
                                                     router);
     const friendsviewmodel = new FriendsViewModel(friendsPresenter, friendsController);
-    const betsviewmodel = new BetsViewModel(betsController, answerBetPresenter)
+    const betsviewmodel = new BetsViewModel(betsController, answerBetPresenter, userContext)
 
     app.provide('friendsviewmodel', friendsviewmodel);
     app.provide('createbetviewmodel', createbetviewmodel);

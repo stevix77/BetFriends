@@ -12,6 +12,9 @@ import { IdGenerator } from "../../../../adapters/IdGenerator";
 import { DateTimeProvider } from "../../../../adapters/DateTimeProvider";
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { RouterModule } from "@angular/router";
+import { UserContext } from "./services/userContext";
+import { IUserContext } from "../../../../../domain/abstractions/IUserContext";
+import { Bet } from "../../../../../domain/bets/Bet";
 
 @NgModule({
     declarations: [
@@ -36,8 +39,15 @@ import { RouterModule } from "@angular/router";
         },
         {
             provide: 'IBetRepository',
-            useFactory: (memberRepository: InMemoryMemberRepository) => new InMemoryBetRepository(memberRepository),
-            deps: ['IMemberRepository']
+            useFactory: (memberRepository: InMemoryMemberRepository,
+                        userContext: IUserContext
+            ) => {
+                const repo = new InMemoryBetRepository(memberRepository, 
+                                            userContext,
+                                        [new Bet("id", "description", new Date("2025-02-02"), 200, memberRepository.members.map(x => x.Id))])
+                return repo;
+            },
+            deps: ['IMemberRepository', 'IUserContext']
         },
         {
             provide: FriendsPresenter,
@@ -50,6 +60,10 @@ import { RouterModule } from "@angular/router";
         {
             provide: 'IDateTimeProvider',
             useFactory: () => new DateTimeProvider()
+        },
+        {
+            provide: 'IUserContext',
+            useFactory: () => new UserContext('aeaeaeae-aeae-aeae-aeae-aeaeaeaeaeae')
         }
     ],
     bootstrap: [AppComponent]
