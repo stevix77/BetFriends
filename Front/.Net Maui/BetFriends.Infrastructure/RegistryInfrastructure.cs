@@ -14,7 +14,7 @@ public static class RegistryInfrastructure
     {
         services.AddScoped<IFriendRepository, InMemoryFriendRepository>();
         services.AddScoped<IMemberRepository, InMemoryMemberRepository>();
-        services.AddScoped<IBetRepository, InMemoryBetRepository>();
+        services.AddScoped<IBetRepository>(x => new InMemoryBetRepository(x.GetRequiredService<IMemberRepository>()! as InMemoryMemberRepository));
         services.AddScoped<IIdGenerator, GuidGenerator>();
         services.AddScoped<IDateTimeProvider, DateTimeProvider>();
 

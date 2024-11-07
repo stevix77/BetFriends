@@ -71,7 +71,7 @@ public record CreateBetRequest(string Description,
 public record CreateBetResponse(string Id,
                                 string Description,
                                DateTime EndDate,
-                               int Chips,
+                               int Coins,
                                IEnumerable<string> Friends);
 
 public interface ICreateBetOutputPort

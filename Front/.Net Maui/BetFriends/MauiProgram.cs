@@ -1,12 +1,9 @@
 ﻿using BetFriend.Domain.Features.AddFriend;
 using BetFriend.Infrastructure;
-using BetFriends.Domain.Abstractions;
 using BetFriends.Domain.Features.CreateBet;
 using BetFriends.Features.Bets.CreateBet;
 using BetFriends.Features.Bets.RetrieveBets;
 using BetFriends.Features.Friends;
-using BetFriends.Infrastructure;
-using BetFriends.Services;
 using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Markup;
 using Microsoft.Extensions.Configuration;

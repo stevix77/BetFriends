@@ -1,8 +1,8 @@
-﻿using BetFriends.Domain.Features.CreateBet;
-using BetFriends.Services;
+﻿using BetFriends.Blazor.Exceptions;
+using BetFriends.Domain.Features.CreateBet;
 using CommunityToolkit.Mvvm.Messaging;
 
-namespace BetFriends.Features.Bets.CreateBet;
+namespace BetFriends.Blazor.Presenters;
 
 internal class CreateBetPresenter : ICreateBetOutputPort
 {
@@ -28,7 +28,6 @@ internal class CreateBetPresenter : ICreateBetOutputPort
 
     public void Present(CreateBetResponse createBetResponse)
     {
-        Data.Chips -= createBetResponse.Coins;
         WeakReferenceMessenger.Default.Send(createBetResponse);
     }
 }

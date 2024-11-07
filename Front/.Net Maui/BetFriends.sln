@@ -22,6 +22,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution 
 		..\..\README.md = ..\..\README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetFriends.Blazor", "BetFriends.Blazor\BetFriends.Blazor.csproj", "{5D70B763-BDF5-4F1E-B66B-C5909A534CA0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +48,12 @@ Global
 		{9132DE8F-A8E6-4E35-B982-A30ADA6F2B0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9132DE8F-A8E6-4E35-B982-A30ADA6F2B0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9132DE8F-A8E6-4E35-B982-A30ADA6F2B0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D70B763-BDF5-4F1E-B66B-C5909A534CA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D70B763-BDF5-4F1E-B66B-C5909A534CA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D70B763-BDF5-4F1E-B66B-C5909A534CA0}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{5D70B763-BDF5-4F1E-B66B-C5909A534CA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D70B763-BDF5-4F1E-B66B-C5909A534CA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D70B763-BDF5-4F1E-B66B-C5909A534CA0}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +63,7 @@ Global
 		{B5AC5B39-725A-429D-97D7-D3336F6B5895} = {A8133886-9478-4299-A547-184BE95B7E19}
 		{7AFC44FA-3BC0-4B09-84EC-7DF2A130E44A} = {A8133886-9478-4299-A547-184BE95B7E19}
 		{9132DE8F-A8E6-4E35-B982-A30ADA6F2B0D} = {468A18C9-3624-4502-B117-6AB23F5C7A1E}
+		{5D70B763-BDF5-4F1E-B66B-C5909A534CA0} = {A8133886-9478-4299-A547-184BE95B7E19}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {88A5A777-59B6-4B88-9045-387181BFF16B}

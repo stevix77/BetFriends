@@ -2,11 +2,12 @@
 using BetFriends.Domain.Features.CreateBet;
 using BetFriends.Domain.Features.RetrieveBets;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using MediatR;
 using System.Collections.ObjectModel;
 
-namespace BetFriends.Features.Bets.RetrieveBets;
+namespace BetFriends.Blazor.Components.Viewmodels;
 
 public partial class RetrieveBetsViewModel : ObservableObject
 {
@@ -23,14 +24,31 @@ public partial class RetrieveBetsViewModel : ObservableObject
         }));
     }
 
-    [ObservableProperty]
-    private ObservableCollection<BetDto> bets = [];
+    public ObservableCollection<BetDto> Bets { get; private set; } = [];
+
+    [RelayCommand]
+    private Task Accept(Guid betId)
+    {
+        var bet = Bets.First(x => x.BetId == betId);
+        bet.Answer = true;
+        bet.AcceptedCount++;
+        return Task.CompletedTask;
+    }
+
+    [RelayCommand]
+    private Task Reject(Guid betId)
+    {
+        var bet = Bets.First(x => x.BetId == betId);
+        bet.Answer = false;
+        bet.AcceptedCount--;
+        return Task.CompletedTask;
+    }
 
     internal async Task LoadAsync()
     {
         var query = new RetrieveBetsQuery();
         var bets = await mediator.Send(query);
-        Bets = new(bets.Select(x => new BetDto(x.BetId,
+        Bets = new (bets.Select(x => new BetDto(x.BetId,
                                                         x.Description,
                                                         x.Coins,
                                                         x.EndDate,

@@ -1,0 +1,50 @@
+﻿@page "/"
+@inject Components.Viewmodels.RetrieveBetsViewModel vm
+
+<h2>Mes paris en cours</h2>
+<div>
+    @foreach (var bet in vm.Bets)
+    {
+        <Card>
+            <CardHeader>
+                <h4>Fin: @bet.FormattedEndDate <span style="float:right">Jetons: @bet.Coins</span></h4>
+            </CardHeader>
+            <CardBody>
+                <p>@bet.Description</p>
+            </CardBody>
+            <CardFooter>
+                <div class="row align-items-start">
+                    <div class="col">
+                        Participant(s) : @bet.AcceptedCount / @bet.InvitedCount
+                    </div>
+                    <div class="col">
+                    @if(bet.Answer.HasValue)
+                    {
+                        if(bet.Answer.Value)
+                        {
+                                <span>Accepté</span>
+                        }
+                        if (!bet.Answer.Value)
+                        {
+                                <span>Refusé</span>
+                        }
+                    }
+                    </div>
+                    <div class="col">
+                        <Button Color="ButtonColor.Success" @onclick="(async () => await vm.AcceptCommand.ExecuteAsync(bet.BetId))">Accepter</Button>
+                        <Button Color="ButtonColor.Danger" @onclick="(async () => await vm.RejectCommand.ExecuteAsync(bet.BetId))">Refuser</Button>
+                    </div>
+
+                </div>
+            </CardFooter>
+        </Card>
+    }
+</div>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await vm.LoadAsync();
+    }
+}

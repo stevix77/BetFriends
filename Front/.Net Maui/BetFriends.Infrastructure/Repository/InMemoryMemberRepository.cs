@@ -19,4 +19,6 @@ internal class InMemoryMemberRepository : IMemberRepository
     {
         return Task.FromResult<IReadOnlyCollection<MemberDto>>(members);
     }
+
+    internal IReadOnlyCollection<MemberDto> Members { get =>  members; }
 }
