@@ -17,7 +17,9 @@ public record RetrieveBetsQuery() : IRequest<IEnumerable<RetrieveBetsItemRespons
 
 public record RetrieveBetsItemResponse(Guid BetId,
                                       string Description,
-                                      int Chips,
+                                      int Coins,
                                       DateTime EndDate,
-                                      Guid OwnerId,
-                                      string OwnerName);
+                                      Guid BookieId,
+                                      string BookieName,
+                                      IEnumerable<GamblerDto> Gamblers);
+public record GamblerDto(Guid Id, string Name, bool? HasAccepted);

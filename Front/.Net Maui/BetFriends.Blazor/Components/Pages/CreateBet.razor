@@ -1,0 +1,73 @@
+﻿@page "/bets/new"
+@inject Components.Viewmodels.CreateBetViewModel vm
+
+
+<h2>Nouveau pari</h2>
+<form method="post" @onsubmit="(async () => await vm.ChooseFriendsCommand.ExecuteAsync(friendsModal))">
+    <Toasts class="p-3" Messages="vm.Errors" AutoHide="true" Delay="2000" Placement="ToastsPlacement.TopRight" />
+    <Card>
+        <CardHeader>
+            Description
+        </CardHeader>
+        <CardBody>
+            <InputTextArea @bind-Value="vm.Description" />
+        </CardBody>
+    </Card>
+    <Card>
+        <CardHeader>
+            Jetons
+        </CardHeader>
+        <CardBody>
+            <RangeInput TValue="int" @bind-Value="vm.Coins" Min="0" Max="@vm.MaxCoins" />
+            <Badge Color="BadgeColor.Primary" Class="ms-2">@vm.Coins</Badge>
+        </CardBody>
+    </Card>
+    <Card>
+        <CardHeader>
+            Fin du pari
+        </CardHeader>
+        <CardBody>
+            <DateInput @bind-Value="vm.EndDate" Min="@vm.MinDate" /> <br />
+            <TimeInput TValue="TimeOnly" @bind-Value="@vm.EndTime" />
+        </CardBody>
+    </Card>
+    <div class="d-grid gap-2" style="margin: 3px 0px; height: 100%; display:flex; align-items: flex-end;">
+            <Button Type="ButtonType.Submit"
+                Disabled="@(!vm.CanCreate)"
+                Color="ButtonColor.Primary">
+            Sélection des amis
+        </Button>
+    </div>
+</form>
+
+    <Modal @ref="friendsModal" Title="Amis" Size="ModalSize.ExtraLarge" IsVerticallyCentered="true" CloseOnEscape="true">
+        <BodyTemplate>
+            @foreach (var item in vm.Friends)
+            {
+            @* <div class="d-grid gap-2">
+                <Button Color="ButtonColor.Primary" Outline="true" @onclick="(() => item.IsChecked = !item.IsChecked)">
+                    @item.Name <InputCheckbox style="float:right" @bind-Value="item.IsChecked" />
+                </Button>
+            </div> *@
+            <Card @onclick="(() => item.IsChecked = !item.IsChecked)">
+                <CardBody>@item.Name <InputCheckbox style="float:right" @bind-Value="item.IsChecked" /></CardBody>
+            </Card>
+            }
+            <div class="d-grid gap-2" style="margin: 3px 0px; height: 100%; display:flex; align-items: flex-end;">
+                <Button Color="ButtonColor.Primary" @onclick="@(async () => await vm.CreateBetCommand.ExecuteAsync(null))">
+                    Valider
+                </Button>
+            </div>
+    </BodyTemplate>
+</Modal>
+
+@code {
+    private Modal friendsModal = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await vm.LoadFriendsAsync();
+    }
+
+}
