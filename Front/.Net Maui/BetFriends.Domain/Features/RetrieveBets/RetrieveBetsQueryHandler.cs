@@ -15,11 +15,11 @@ public sealed class RetrieveBetsQueryHandler(IBetRepository betRepository) : IRe
 
 public record RetrieveBetsQuery() : IRequest<IEnumerable<RetrieveBetsItemResponse>>;
 
-public record RetrieveBetsItemResponse(Guid BetId,
+public record RetrieveBetsItemResponse(string BetId,
                                       string Description,
                                       int Coins,
                                       DateTime EndDate,
-                                      Guid BookieId,
+                                      string BookieId,
                                       string BookieName,
                                       IEnumerable<GamblerDto> Gamblers);
-public record GamblerDto(Guid Id, string Name, bool? HasAccepted);
+public record GamblerDto(string Id, string Name, bool? HasAccepted);

@@ -3,6 +3,7 @@
 
 <h2>Mes paris en cours</h2>
 <div>
+    <Toasts class="p-3" Messages="vm.Errors" AutoHide="true" Delay="2000" Placement="ToastsPlacement.TopRight" />
     @foreach (var bet in vm.Bets)
     {
         <Card>
@@ -31,8 +32,8 @@
                     }
                     </div>
                     <div class="col">
-                        <Button Color="ButtonColor.Success" @onclick="(async () => await vm.AcceptCommand.ExecuteAsync(bet.BetId))">Accepter</Button>
-                        <Button Color="ButtonColor.Danger" @onclick="(async () => await vm.RejectCommand.ExecuteAsync(bet.BetId))">Refuser</Button>
+                        <Button Color="ButtonColor.Success" @onclick="(() => vm.AcceptCommand.Execute(bet.BetId))">Accepter</Button>
+                        <Button Color="ButtonColor.Danger" @onclick="(() => vm.RejectCommand.Execute(bet.BetId))">Refuser</Button>
                     </div>
 
                 </div>

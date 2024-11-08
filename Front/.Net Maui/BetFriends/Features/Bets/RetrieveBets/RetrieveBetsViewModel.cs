@@ -42,39 +42,39 @@ public partial class RetrieveBetsViewModel : ObservableObject
     }
 }
 
-public partial class BetDto(Guid betId,
+public partial class BetDto(string betId,
                                   string description,
                                   int coins,
                                   DateTime endDate,
-                                  Guid bookieId,
+                                  string bookieId,
                                   string bookieName,
                                   int invitedCount) : ObservableObject
 {
 
-    public BetDto(Guid betId,
-                                  string description,
-                                  int coins,
-                                  DateTime endDate,
-                                  Guid bookieId,
-                                  string bookieName,
-                                  int invitedCount,
-                                  int acceptedCount,
-                                  bool? answer) : this(betId,
-                                                       description,
-                                                       coins,
-                                                       endDate,
-                                                       bookieId,
-                                                       bookieName,
-                                                       invitedCount)
+    public BetDto(string betId,
+                string description,
+                int coins,
+                DateTime endDate,
+                string bookieId,
+                string bookieName,
+                int invitedCount,
+                int acceptedCount,
+                bool? answer) : this(betId,
+                                    description,
+                                    coins,
+                                    endDate,
+                                    bookieId,
+                                    bookieName,
+                                    invitedCount)
     {
         this.acceptedCount = acceptedCount;
         this.answer = answer;
     }
-    public Guid BetId { get; } = betId;
+    public string BetId { get; } = betId;
     public string Description { get; } = description;
     public int Coins { get; } = coins;
     public DateTime EndDate { get; } = endDate;
-    public Guid BookieId { get; } = bookieId;
+    public string BookieId { get; } = bookieId;
     public string BookieName { get; } = bookieName;
     public int InvitedCount { get; } = invitedCount;
     public string FormattedEndDate { get => EndDate.ToLongDateString(); }

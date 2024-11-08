@@ -32,9 +32,9 @@ public static class MauiProgram
 		builder.Logging.AddDebug();
 #endif
 
-        builder.Services.AddScoped<IUserContext>(x => new UserContext(Guid.Parse("aeaeaeae-aeae-aeae-aeae-aeaeaeaeaeae")));
+        builder.Services.AddScoped<IUserContext>(x => new UserContext("userId"));
         builder.Services.AddScoped<Services.Abstractions.INavigation, Navigation>();
-        builder.Services.AddInfrastructure();
+        builder.Services.AddInfrastructure(x => x.GetRequiredService<IUserContext>());
         builder.Services.AddViewModels();
         builder.Services.AddPresenters();
         return builder.Build();
