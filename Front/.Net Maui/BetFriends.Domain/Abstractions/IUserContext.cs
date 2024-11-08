@@ -2,5 +2,5 @@
 
 public interface IUserContext
 {
-    Guid UserId { get; }
+    string UserId { get; }
 }

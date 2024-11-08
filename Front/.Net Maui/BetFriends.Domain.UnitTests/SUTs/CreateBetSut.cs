@@ -6,7 +6,7 @@ namespace BetFriends.Domain.UnitTests.SUTs;
 internal class CreateBetSut
 {
     private StubDateTimeProvider dateTimeProvider = default!;
-    private readonly StubBetRepository betRepository = new();
+    private readonly MockBetRepository betRepository = new(default!);
     private CreateBetRequest request = default!;
     private readonly StubIdGenerator idGenerator = new StubIdGenerator("id");
     private readonly StubCreateBetPresenter presenter = new StubCreateBetPresenter();
