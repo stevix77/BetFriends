@@ -2,7 +2,7 @@
 
 namespace BetFriends.Services;
 
-internal class UserContext(Guid userId) : IUserContext
+internal class UserContext(string userId) : IUserContext
 {
-    public Guid UserId => userId;
+    public string UserId => userId;
 }

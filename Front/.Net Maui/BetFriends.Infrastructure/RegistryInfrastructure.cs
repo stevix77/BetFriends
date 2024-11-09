@@ -12,7 +12,7 @@ public static class RegistryInfrastructure
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, Func<IServiceProvider, IUserContext> implementationFactory)
     {
-        services.AddScoped<IFriendRepository, InMemoryFriendRepository>();
+        services.AddScoped<IFriendRepository>(x => new InMemoryFriendRepository(x.GetRequiredService<IMemberRepository>()! as InMemoryMemberRepository));
         services.AddScoped<IMemberRepository, InMemoryMemberRepository>();
         services.AddScoped<IBetRepository>(x => new InMemoryBetRepository(x.GetRequiredService<IMemberRepository>()! as InMemoryMemberRepository,
                                                                         implementationFactory.Invoke(x)));

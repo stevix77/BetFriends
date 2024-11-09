@@ -1,4 +1,5 @@
-﻿using BetFriends.Blazor.Components.Viewmodels;
+﻿using BetFriend.Domain.Features.AddFriend;
+using BetFriends.Blazor.Components.Viewmodels;
 using BetFriends.Blazor.Presenters;
 using BetFriends.Blazor.Services;
 using BetFriends.Domain.Abstractions;
@@ -13,6 +14,7 @@ internal static class ServiceCollectionsExtensions
     {
         services.AddScoped<RetrieveBetsViewModel>();
         services.AddScoped<CreateBetViewModel>();
+        services.AddScoped<FriendsViewModel>();
 
         services.AddScoped<IDateTimeProvider, DateTimeProvider>();
 
@@ -23,6 +25,7 @@ internal static class ServiceCollectionsExtensions
     {
         services.AddScoped<ICreateBetOutputPort, CreateBetPresenter>();
         services.AddScoped<IAnswerBetOutputPort, AnswerBetPresenter>();
+        services.AddScoped<IAddFriendOutputPort, AddFriendPresenter>();
 
         return services;
     }

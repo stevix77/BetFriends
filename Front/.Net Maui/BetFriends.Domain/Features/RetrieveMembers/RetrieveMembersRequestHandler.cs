@@ -18,4 +18,16 @@ internal sealed class RetrieveMembersRequestHandler : IRequestHandler<RetrieveMe
 
 public record RetrieveMembersRequest(string SearchTerm) : IRequest<IReadOnlyCollection<MemberDto>>;
 
-public record MemberDto(string MemberId, string Name, bool IsFriend);
+public record MemberDto()
+{
+    public MemberDto(string memberId, string name, bool isFriend) : this()
+    {
+        MemberId = memberId;
+        Name = name;
+        IsFriend = isFriend;
+    }
+
+    public string MemberId { get; }
+    public string Name { get; }
+    public bool IsFriend { get; set; }
+}

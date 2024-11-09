@@ -1,7 +1,10 @@
 ﻿using BetFriends.Domain.Abstractions;
+using BetFriends.Domain.Features.AnswerBet;
 using BetFriends.Domain.Features.CreateBet;
 using BetFriends.Domain.Features.RetrieveBets;
+using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using MediatR;
 using System.Collections.ObjectModel;
@@ -17,9 +20,13 @@ public partial class RetrieveBetsViewModel : ObservableObject
     {
         this.mediator = mediator;
         this.userContext = userContext;
-        WeakReferenceMessenger.Default.Register(this, new MessageHandler<object, CreateBetResponse>((o, e) =>
+        WeakReferenceMessenger.Default.Register(this, new MessageHandler<object, AnswerBetResponse>((o, e) =>
         {
-
+            ValidateAnswer(e);
+        }));
+        WeakReferenceMessenger.Default.Register(this, new MessageHandler<object, AnswerBetError>(async(o, e) =>
+        {
+            await Toast.Make(e.Message).Show();
         }));
     }
 
@@ -39,6 +46,33 @@ public partial class RetrieveBetsViewModel : ObservableObject
                                                         x.Gamblers.Count(),
                                                         x.Gamblers.Count(y => y.HasAccepted == true),
                                                         x.Gamblers.FirstOrDefault(y => y.Id == userContext.UserId)?.HasAccepted)));
+    }
+
+    [RelayCommand]
+    private async Task Accept(string betId)
+    {
+        var bet = Bets.First(x => x.BetId == betId);
+        await mediator.Send(new AnswerBetRequest(true, betId, bet.BookieId, bet.EndDate, bet.Answer));
+    }
+
+    [RelayCommand]
+    private async Task Reject(string betId)
+    {
+        var bet = Bets.First(x => x.BetId == betId);
+        await mediator.Send(new AnswerBetRequest(false, betId, bet.BookieId, bet.EndDate, bet.Answer));
+    }
+
+    private void ValidateAnswer(AnswerBetResponse e)
+    {
+        var bet = Bets.First(x => x.BetId == e.BetId);
+        if (bet.Answer is null)
+        {
+            bet.AcceptedCount += e.Answer ? 1 : 0;
+            bet.Answer = e.Answer;
+            return;
+        }
+        bet.AcceptedCount += e.Answer ? 1 : -1;
+        bet.Answer = e.Answer;
     }
 }
 
