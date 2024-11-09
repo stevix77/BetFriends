@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="BetFriends.Features.Bets.RetrieveBets.RetrieveBetsPage"
              Title="RetrieveBetsPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <VerticalStackLayout>
-        <ListView ItemsSource="{Binding Bets}">
+        <ListView ItemsSource="{Binding Bets}" x:Name="bets">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
@@ -13,18 +19,35 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition />
                                     <ColumnDefinition />
+                                    <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                    <RowDefinition />
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="30"/>
                                 </Grid.RowDefinitions>
-                                <Label Text="{Binding OwnerName}" />
-                                <StackLayout Grid.Column="1" Grid.RowSpan="2">
-                                    <Label Text="{Binding Chips, StringFormat='Jetons: {0}'}" />
-                                    <Label Text="{Binding FormattedEndDate, StringFormat='Fin: {0}'}" />
+                                <Label Text="{Binding FormattedEndDate, StringFormat='Fin: {0}'}" />
+                                <Label Text="{Binding Coins, StringFormat='Jetons: {0}'}" Grid.Column="2" HorizontalOptions="EndAndExpand" />
+                                <Label Text="{Binding OwnerName}" Grid.Column="1" />
+                                <Label Text="{Binding Description}" Grid.ColumnSpan="3" Grid.Row="1" />
+                                <StackLayout Orientation="Horizontal"  Grid.Row="2" >
+                                    <Label Text="{Binding AcceptedCount, StringFormat='Participant(s) : {0} / '}" />
+                                    <Label Text="{Binding InvitedCount}" />
                                 </StackLayout>
-                                <Label Text="{Binding Description}" Grid.ColumnSpan="2" Grid.Row="2" />
+                                <!--<StackLayout IsVisible="{Binding HasAnswer}">
+                                    <Label Text="Accepté" IsVisible="{Binding Answer}" Grid.Row="2" Grid.Column="1" />
+                                    <Label Text="Refusé" IsVisible="{Binding Answer, Converter={StaticResource InvertedBoolConverter}}" Grid.Row="2" Grid.Column="1" />
+                                </StackLayout>-->
+                                <StackLayout Orientation="Horizontal" Grid.Column="2" Grid.Row="2">
+                                    <Button Text="Accepter" 
+                                            Command="{Binding BindingContext.AcceptCommand, Source={x:Reference bets}}"
+                                            CommandParameter="{Binding BetId}"
+                                            />
+                                    <Button Text="Refuser" 
+                                            Command="{Binding BindingContext.RejectCommand, Source={x:Reference bets}}"
+                                            CommandParameter="{Binding BetId}"
+                                            />
+                                </StackLayout>
                             </Grid>
                         </Border>
                     </ViewCell>

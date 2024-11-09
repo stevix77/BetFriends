@@ -1,0 +1,50 @@
+﻿@page "/friends"
+@inject Components.Viewmodels.FriendsViewModel vm
+
+<h3>Mes Amis</h3>
+
+<div>
+    <InputText @bind-Value="vm.Search" @oninput="((e) => vm.Search = e.Value?.ToString()!)" />
+
+    @if(vm.ShowFriends)
+    {
+        @foreach (var item in vm.Friends)
+        {
+            <Card>
+                <CardText>
+                    @item.Name
+                </CardText>
+            </Card>
+        }
+    }
+
+    @if (!vm.ShowFriends)
+    {
+        @foreach (var item in vm.Members)
+        {
+            <Card>
+                <CardText>
+                    @item.Name 
+                    @if(!item.IsFriend)
+                    {
+                        <Button Color="ButtonColor.Primary" @onclick="(() => vm.AddCommand.Execute(item.Id))" style="float:right">
+                            Add
+                        </Button>
+                    }
+                </CardText>
+            </Card>
+        }
+    }
+</div>
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await vm.LoadAsync();
+    }
+
+    private async void OnInput(ChangeEventArgs e)
+    {
+        await vm.SearchMembersAsync();
+    }
+}

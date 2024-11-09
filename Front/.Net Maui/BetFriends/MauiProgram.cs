@@ -1,9 +1,12 @@
 ﻿using BetFriend.Domain.Features.AddFriend;
 using BetFriend.Infrastructure;
+using BetFriends.Domain.Abstractions;
+using BetFriends.Domain.Features.AnswerBet;
 using BetFriends.Domain.Features.CreateBet;
 using BetFriends.Features.Bets.CreateBet;
 using BetFriends.Features.Bets.RetrieveBets;
 using BetFriends.Features.Friends;
+using BetFriends.Services;
 using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Markup;
 using Microsoft.Extensions.Configuration;
@@ -47,10 +50,12 @@ namespace BetFriend
             builder.Services.AddScoped<RetrieveBetsPage>();
             builder.Services.AddScoped<IAddFriendOutputPort, AddFriendPresenter>();
             builder.Services.AddScoped<ICreateBetOutputPort, CreateBetPresenter>();
+            builder.Services.AddScoped<IAnswerBetOutputPort, AnswerBetPresenter>();
             builder.Services.AddScoped<FriendsViewModel>();
             builder.Services.AddScoped<CreateBetViewModel>();
             builder.Services.AddScoped<RetrieveBetsViewModel>();
-            builder.Services.AddInfrastructure();
+            builder.Services.AddScoped<IUserContext>(x => new UserContext("userId"));
+            builder.Services.AddInfrastructure(x => x.GetRequiredService<IUserContext>());
             return builder.Build();
         }
     }
