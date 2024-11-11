@@ -43,12 +43,14 @@ export class CreateBetSut {
     }
     
     ShouldCreateBet() {
+        const maxAnswerDate = (this.command.EndDate.getTime() - this.dateTimeProvider.GetDate().getTime()) / 2
         expect(this.mockPresenter.Response).toEqual(new CreateBetResponse(this.command.BetId))
         expect(this.betRepository.Bets[0].Coins).toEqual(this.command.Chips)
         expect(this.betRepository.Bets[0].Description).toEqual(this.command.Description)
         expect(this.betRepository.Bets[0].EndDate).toEqual(this.command.EndDate)
         expect(this.betRepository.Bets[0].Members).toEqual(this.command.Members)
         expect(this.betRepository.Bets[0].BetId.Value).toEqual(this.command.BetId)
+        expect(this.betRepository.Bets[0].MaxAnswerEndDate.getTime()).toEqual(this.dateTimeProvider.GetDate().getTime() + maxAnswerDate)
     }
     
     ShouldNotCreateBet() {

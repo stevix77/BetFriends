@@ -15,14 +15,24 @@ import { InMemoryRetrieveBetsDataAccess } from "../../../../repositories/InMemor
 import { RetrieveBetsController } from "./features/retrieve-bets/RetrieveBets.controller";
 import { IUserContext } from "../../../../../application/Abstractions/IUserContext";
 import { IDateTimeProvider } from "../../../../../domain/IDateTimeProvider";
+import { AnswerBetController } from './features/answer-bet/AnswerBet.controller';
+import { AnswerBetPresenter } from './features/answer-bet/AnswerBetPresenter';
+import { AnswerBetCommandHandler, IAnswerBetOutputPort } from '../../../../../application/features/answer-bet/AnswerBetHandler';
+import { IBetRepository } from "../../../../../domain/bets/IBetRepository";
+import { IAnswerBetRepository } from "../../../../../domain/answerBets/IAnswerBetRepository";
+import { IMemberRepository } from "../../../../../domain/members/IMemberRepository";
 
 @Module({
-    controllers: [CreateBetController, RetrieveBetsController],
+    controllers: [CreateBetController, RetrieveBetsController, AnswerBetController],
     imports: [forwardRef(() => AppModule)],
     providers: [
         {
             provide: CreateBetPresenter,
             useFactory: () => new CreateBetPresenter()
+        },
+        {
+            provide: AnswerBetPresenter,
+            useFactory: () => new AnswerBetPresenter()
         },
         {
             provide: CreateBetCommandHandler,
@@ -50,13 +60,43 @@ import { IDateTimeProvider } from "../../../../../domain/IDateTimeProvider";
             inject: ['IUserContext', InMemoryRetrieveBetsDataAccess]
         },
         {
+            provide: AnswerBetCommandHandler,
+            useFactory: (betRepository: IBetRepository,
+                        presenter: IAnswerBetOutputPort,
+                        answerBetRepository: IAnswerBetRepository,
+                        userContext: IUserContext,
+                        memberRepository: IMemberRepository,
+                        dateTimeProvider: IDateTimeProvider
+                        ) => new AnswerBetCommandHandler(betRepository, 
+                                                        presenter,
+                                                        answerBetRepository,
+                                                        userContext,
+                                                        memberRepository,
+                                                        dateTimeProvider),
+            inject: [InMemoryBetRepository, 
+                    AnswerBetPresenter,
+                    'IAnswerBetRepository',
+                    'IUserContext',
+                    InMemoryMemberRepository,
+                    'IDateTimeProvider'
+                ]
+        },
+        {
             provide: "IBetModule",
             useFactory: (createBetCommandHandler: CreateBetCommandHandler,
-                        retrieveBetsQueryHandler: RetrieveBetsQueryHandler) => {
-                const behavior = new LoggingBehavior().SetNext(new RequestBehavior([createBetCommandHandler, retrieveBetsQueryHandler]))
+                        retrieveBetsQueryHandler: RetrieveBetsQueryHandler,
+                        answerBetCommandHandler: AnswerBetCommandHandler) => {
+                const behavior = new LoggingBehavior()
+                                    .SetNext(new RequestBehavior([
+                                        createBetCommandHandler, 
+                                        retrieveBetsQueryHandler,
+                                        answerBetCommandHandler
+                                    ]))
                 return new BetModule(behavior)
             },
-            inject: [CreateBetCommandHandler, RetrieveBetsQueryHandler]
+            inject: [CreateBetCommandHandler, 
+                    RetrieveBetsQueryHandler,
+                    AnswerBetCommandHandler]
         }
     ]
 })

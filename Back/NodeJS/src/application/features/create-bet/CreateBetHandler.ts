@@ -27,7 +27,12 @@ export class CreateBetCommandHandler implements IRequestHandler<CreateBetCommand
             return;
         }
         
-        const bet = member.Bet(request.BetId, request.Description, request.Chips, request.EndDate, request.Members)
+        const bet = member.Bet(request.BetId, 
+                                request.Description, 
+                                request.Chips, 
+                                request.EndDate, 
+                                request.Members,
+                                this.dateTimeProvider)
         await this.betRepository.Add(bet);
         this.outputPort.Present(new CreateBetResponse(request.BetId))
     }

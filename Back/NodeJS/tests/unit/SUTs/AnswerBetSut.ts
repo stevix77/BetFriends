@@ -34,7 +34,8 @@ export class AnswerBetSut {
                                 new MemberId(this.bettorId),
                             "description", 100, 
                         new Date('2024-11-21'),
-                    [this.gamblerId])
+                    [this.gamblerId],
+                    this.dateTimeProvider)
         return this;
     }
 

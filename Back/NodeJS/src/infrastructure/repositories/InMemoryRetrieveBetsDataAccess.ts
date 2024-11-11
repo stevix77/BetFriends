@@ -7,12 +7,12 @@ export class InMemoryRetrieveBetsDataAccess implements IRetrieveBetsDataAccess {
                 private readonly memberRepository: InMemoryMemberRepository) {}
 
     RetrieveBetsAsync(userId: string): Promise<RetrieveBetsResponse[]> {
-        const bets = this.betRepository.Bets.filter(x => x.MemberId.Value == userId ||
+        const bets = this.betRepository.Bets.filter(x => x.BettorId.Value == userId ||
                                                         x.Members.some(y => y == userId))
                                             .map(x => {
-                                              const member = this.memberRepository.GetMembers().find(y => y.MemberId == x.MemberId)
+                                              const member = this.memberRepository.GetMembers().find(y => y.MemberId == x.BettorId)
                                               return {
-                                                    Chips: x.Chips,
+                                                    Coins: x.Coins,
                                                     Description: x.Description,
                                                     EndDate: x.EndDate,
                                                     Id: x.BetId.Value,

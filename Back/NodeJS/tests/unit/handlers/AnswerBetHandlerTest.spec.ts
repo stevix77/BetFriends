@@ -2,14 +2,7 @@ import { describe, expect, test } from 'vitest';
 import { AnswerBetSut } from '../SUTs/AnswerBetSut';
 import { AnswerBetCommand } from '../../../src/application/features/answer-bet/AnswerBetHandler';
 describe('answer bet', () => {
-    // business rules
-    // add answer to a bet : OK
-    // bet should exist : OK
-    // member should exist : OK
-    // bet should not be over
-    // member should be invited : OK
-    // gambler should have enough coins : OK
-    // gambler should not be the bettor : OK
+    
     test('gambler can answer to a bet', async () => {
         (await new AnswerBetSut('betId', 'bettorId', 'gamblerId')
                         .WithExistingBet()
