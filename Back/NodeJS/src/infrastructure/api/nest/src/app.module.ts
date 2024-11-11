@@ -11,6 +11,7 @@ import { FriendModule } from './friend/friend.module';
 import { InMemoryBetRepository } from '../../../repositories/InMemoryBetRepository';
 import { BetsModule } from './bet/bets.module';
 import { InMemoryRetrieveBetsDataAccess } from '../../../repositories/InMemoryRetrieveBetsDataAccess';
+import { InMemoryBetAnswerRepository } from '../../../repositories/InMemoryBetAnswerRepository';
 
 @Module({
   imports: [FriendModule, BetsModule],
@@ -20,7 +21,8 @@ import { InMemoryRetrieveBetsDataAccess } from '../../../repositories/InMemoryRe
             InMemoryBetRepository,
             InMemoryRetrieveBetsDataAccess,
             'IUserContext',
-            'IDateTimeProvider'
+            'IDateTimeProvider',
+            'IAnswerBetRepository'
         ],
   providers: [
     AppService,
@@ -44,6 +46,10 @@ import { InMemoryRetrieveBetsDataAccess } from '../../../repositories/InMemoryRe
       useFactory: (betRepository: InMemoryBetRepository,
                     memberRepository: InMemoryMemberRepository) => new InMemoryRetrieveBetsDataAccess(betRepository, memberRepository),
       inject: [InMemoryBetRepository, InMemoryMemberRepository] 
+    },
+    {
+      provide: 'IAnswerBetRepository',
+      useClass: InMemoryBetAnswerRepository
     },
     {
         provide: 'IUserContext',

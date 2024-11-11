@@ -21,7 +21,7 @@ export class RetrieveBetsQuery implements IRequest<RetrieveBetsResponse[]> {
 export interface RetrieveBetsResponse {
     Id: string;
     Description: string;
-    Chips: number;
+    Coins: number;
     EndDate: Date;
     OwnerId: string;
 }

@@ -5,10 +5,16 @@ import { BetId } from '../bets/BetId';
 import { NotEnoughChipsException } from './exceptions/NotEnoughChipsException';
 import { NoneFriendException } from './exceptions/NoneFriendException';
 import { AnswerBet } from '../answerBets/AnswerBet';
+import { IDateTimeProvider } from '../IDateTimeProvider';
 
 export class Member {
     
-    Bet(betId: string, description: string, chips: number, endDate: Date, members: string[]): Bet {
+    Bet(betId: string, 
+        description: string, 
+        chips: number, 
+        endDate: Date, 
+        members: string[],
+        dateTimeProvider: IDateTimeProvider): Bet {
         if(this.Coins < chips) {
             throw new NotEnoughChipsException();
         }
@@ -22,7 +28,8 @@ export class Member {
                         description,
                         chips,
                         endDate,
-                        members);
+                        members,
+                        dateTimeProvider);
     }
 
     DecreaseBalance(chips: number) {

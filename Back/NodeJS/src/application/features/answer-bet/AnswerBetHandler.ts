@@ -34,7 +34,7 @@ export class AnswerBetCommandHandler implements IRequestHandler<AnswerBetCommand
             return;
         }
 
-        if(this.dateTimeProvider.GetDate() > bet.EndDate) {
+        if(this.CannotAnswerAnymore(bet)) {
             this.answerOutputPort.DateToAnswerIsOver();
             return;
         }
@@ -62,6 +62,10 @@ export class AnswerBetCommandHandler implements IRequestHandler<AnswerBetCommand
             return;
         }
         this.RejectBet(request.BetId, member);
+    }
+    
+    private CannotAnswerAnymore(bet: Bet) {
+        return this.dateTimeProvider.GetDate() > bet.MaxAnswerEndDate
     }
 
     private async AcceptBet(betId: string, member: Member): Promise<void> {
@@ -97,7 +101,7 @@ export class AnswerBetCommandHandler implements IRequestHandler<AnswerBetCommand
 
 export class AnswerBetCommand implements ICommand {
     constructor(public readonly BetId: string, public readonly Answer: boolean){}
-    Name: string = AnswerBetCommandHandler.name;
+    Name: string = AnswerBetCommand.name;
 }
 
 export interface IAnswerBetOutputPort {
