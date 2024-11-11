@@ -1,12 +1,15 @@
 import { Subject } from "rxjs";
 import { BetsController } from "../../../../adapters/controllers/BetsController";
 import { type AnswerResponse } from "../../../../../domain/features/AnswerBetHandler";
-import { AnswerBetPresenter, Key } from "../../../../adapters/presenters/AnswerBetPresenter";
+import { type AnswerBetPresenter, Key } from "../../../../adapters/presenters/AnswerBetPresenter";
+import type { IDateTimeProvider } from "../../../../../domain/abstractions/IDateTimeProvider";
+import type { IUserContext } from "../../../../../domain/abstractions/IUserContext";
 
 export class BetsViewModel {
     constructor(private readonly betController: BetsController,
                 private readonly answerBetPresenter: AnswerBetPresenter,
-                private readonly userContext: IUserContext
+                private readonly userContext: IUserContext,
+                private readonly dateTimeProvider: IDateTimeProvider
     ) {
         const answerBetSubject = new Subject<AnswerResponse>();
         answerBetSubject.subscribe(answerResponse => this.UpdateBet(answerResponse.BetId, answerResponse.Answer))
@@ -34,8 +37,10 @@ export class BetsViewModel {
                 Coins: x.Coins,
                 Description: x.Description,
                 EndDate: x.EndDate.toString(),
+                MaxAnswerDate: x.MaxAnswerDate,
                 BookieId: x.BookieId,
-                BookieName: x.OwnerName,
+                BookieName: x.BookieName,
+                CanAnswer: x.MaxAnswerDate.getTime() > this.dateTimeProvider.GetDate().getTime(),
                 InvitedCount: x.Gamblers.length,
                 AcceptedCount: x.Gamblers.filter(x => x.HasAccepted).length,
                 Answer: x.Gamblers.find(y => y.Id == this.userContext.UserId)?.HasAccepted
@@ -51,7 +56,7 @@ export class BetsViewModel {
         this.Error = undefined;
         await this.betController.AnswerAsync(bet.Id, 
                                             true, 
-                                            new Date(bet.EndDate), 
+                                            bet.MaxAnswerDate, 
                                             bet.BookieId,
                                             bet.Answer)
     }
@@ -64,7 +69,7 @@ export class BetsViewModel {
         this.Error = undefined;
         await this.betController.AnswerAsync(bet.Id, 
                                             false, 
-                                            new Date(bet.EndDate), 
+                                            bet.MaxAnswerDate, 
                                             bet.BookieId,
                                             bet.Answer)
     }
@@ -112,6 +117,8 @@ export interface BetDto {
     Id: string;
     Description: string;
     EndDate: string;
+    CanAnswer: boolean;
+    MaxAnswerDate: Date;
     Coins: number;
     BookieId: string;
     BookieName: string;

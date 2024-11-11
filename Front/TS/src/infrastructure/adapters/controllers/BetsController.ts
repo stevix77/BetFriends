@@ -1,5 +1,5 @@
 import { CreateBetHandler } from '../../../domain/features/CreateBetHandler';
-import { BetSummary } from '../../../domain/bets/BetSummary';
+import { type BetSummary } from '../../../domain/bets/BetSummary';
 import { RetrieveBetsHandler } from '../../../domain/features/RetrieveBetsHandler';
 import { AnswerBetHandler } from '../../../domain/features/AnswerBetHandler';
 export class BetsController {
@@ -23,13 +23,13 @@ export class BetsController {
 
     AnswerAsync(betId: string, 
                 answer: boolean, 
-                endDate: Date, 
+                maxAnswerDate: Date, 
                 bookieId: string,
                 oldAnswer?: boolean): Promise<void> {
         return this.answerBetHandler.Handle({
             BetId: betId,
             Answer: answer,
-            EndDate: endDate,
+            MaxAnswerDate: maxAnswerDate,
             BookieId: bookieId,
             OldAnswer: oldAnswer
         })

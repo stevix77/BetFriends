@@ -19,6 +19,7 @@ public record RetrieveBetsItemResponse(string BetId,
                                       string Description,
                                       int Coins,
                                       DateTime EndDate,
+                                      DateTime MaxAnswerDate,
                                       string BookieId,
                                       string BookieName,
                                       IEnumerable<GamblerDto> Gamblers);

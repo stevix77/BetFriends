@@ -1,7 +1,7 @@
-import { IUserContext } from '../../../domain/abstractions/IUserContext';
+import type { IUserContext } from '../../../domain/abstractions/IUserContext';
 import { Bet } from '../../../domain/bets/Bet';
-import { BetSummary, Gambler } from '../../../domain/bets/BetSummary';
-import { IBetRepository } from '../../../domain/bets/IBetRepository';
+import type { BetSummary, Gambler } from '../../../domain/bets/BetSummary';
+import type { IBetRepository } from '../../../domain/bets/IBetRepository';
 import { InMemoryMemberRepository } from './InMemoryMemberRepository';
 export class InMemoryBetRepository implements IBetRepository {
     constructor(private readonly memberRepository: InMemoryMemberRepository, 
@@ -25,8 +25,9 @@ export class InMemoryBetRepository implements IBetRepository {
                 Description: x.Description,
                 EndDate: x.EndDate,
                 Id: x.Id,
+                MaxAnswerDate: x.EndDate,
                 BookieId: this.betsUsers.get(x.Id)!,
-                OwnerName: x.Id.substring(0, 6),
+                BookieName: x.Id.substring(0, 6),
                 Gamblers: x.Friends.map<Gambler>(idFriend => {
                     const member = this.memberRepository.members.find(member => member.Id == idFriend)
                     return {

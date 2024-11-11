@@ -21,7 +21,7 @@ export class Bet extends Entity {
                         public Coins: number, 
                         public EndDate: Date, 
                         public Members: string[],
-                        public MaxAnswerEndDate: Date){
+                        public MaxAnswerDate: Date){
         super();
         this.AddDomainEvent(new BetCreated(BetId, BettorId))
     }

@@ -65,7 +65,7 @@ export class AnswerBetCommandHandler implements IRequestHandler<AnswerBetCommand
     }
     
     private CannotAnswerAnymore(bet: Bet) {
-        return this.dateTimeProvider.GetDate() > bet.MaxAnswerEndDate
+        return this.dateTimeProvider.GetDate() > bet.MaxAnswerDate
     }
 
     private async AcceptBet(betId: string, member: Member): Promise<void> {

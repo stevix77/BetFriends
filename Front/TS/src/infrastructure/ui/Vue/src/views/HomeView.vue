@@ -20,7 +20,7 @@
                 <div class="col-sm" v-if="bet.Answer != undefined">
                     {{ bet.Answer === true ? "Accepté" : "Refusé" }}
                 </div>
-                <div class="col-sm" style="text-align:right">
+                <div class="col-sm" style="text-align:right" v-if="bet.CanAnswer">
                     <button class="btn btn-success" type="button" @click="Answer(true, bet.Id)">
                         Accepter
                     </button>

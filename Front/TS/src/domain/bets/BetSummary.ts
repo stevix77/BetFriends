@@ -3,8 +3,9 @@ export interface BetSummary {
     Description: string;
     Coins: number;
     EndDate: Date;
+    MaxAnswerDate: Date;
     BookieId: string;
-    OwnerName: string;
+    BookieName: string;
     Gamblers: Gambler[];
 }
 

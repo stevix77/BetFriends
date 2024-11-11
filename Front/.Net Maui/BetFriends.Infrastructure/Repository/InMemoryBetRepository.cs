@@ -34,6 +34,7 @@ internal class InMemoryBetRepository : IBetRepository
                                             x.Description,
                                             x.Coins,
                                             x.EndDate,
+                                            x.EndDate,
                                             betsUsers.ContainsKey(x.Id) ? betsUsers[x.Id] : "toto",
                                             betsUsers.ContainsKey(x.Id) ? betsUsers[x.Id][^6..] : "toto",
                                             x.Friends.Select(y =>

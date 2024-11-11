@@ -31,11 +31,13 @@
                         }
                     }
                     </div>
-                    <div class="col">
-                        <Button Color="ButtonColor.Success" @onclick="(() => vm.AcceptCommand.Execute(bet.BetId))">Accepter</Button>
-                        <Button Color="ButtonColor.Danger" @onclick="(() => vm.RejectCommand.Execute(bet.BetId))">Refuser</Button>
-                    </div>
-
+                    @if(bet.CanAnswer)
+                    {
+                        <div class="col">
+                            <Button Color="ButtonColor.Success" @onclick="(() => vm.AcceptCommand.Execute(bet.BetId))">Accepter</Button>
+                            <Button Color="ButtonColor.Danger" @onclick="(() => vm.RejectCommand.Execute(bet.BetId))">Refuser</Button>
+                        </div>
+                    }
                 </div>
             </CardFooter>
         </Card>
