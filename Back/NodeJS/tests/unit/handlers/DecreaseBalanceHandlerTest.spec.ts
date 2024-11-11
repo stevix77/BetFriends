@@ -12,7 +12,7 @@ describe('Describe decrease balance handler', () => {
         const memberRepository = new InMemoryMemberRepository([member]);
         const handler = new DecreaseBalanceMemberHandler(memberRepository)
         await handler.Handle(notification);
-        expect(member.Chips).equals(80);
+        expect(member.Coins).equals(80);
     })
 
     test('Should not decrease member unknown', async() => {

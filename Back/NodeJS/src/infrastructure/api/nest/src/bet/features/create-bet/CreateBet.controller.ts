@@ -17,8 +17,8 @@ export class CreateBetController {
     constructor(@Inject('IBetModule') private betModule: IBetModule,
                 private presenter: CreateBetPresenter) {}
 
-    @Post()
-    async Create(@Body() createBetInput: CreateBetInput, @Res() res: FastifyReply) {
+    @Post('answer')
+    async Answer(@Body() createBetInput: CreateBetInput, @Res() res: FastifyReply) {
         await this.betModule.ExecuteCommand(new CreateBetCommand(createBetInput.betId,
                                                                 createBetInput.description,
                                                                 createBetInput.chips,
