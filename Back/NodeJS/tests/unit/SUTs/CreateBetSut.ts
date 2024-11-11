@@ -44,7 +44,7 @@ export class CreateBetSut {
     
     ShouldCreateBet() {
         expect(this.mockPresenter.Response).toEqual(new CreateBetResponse(this.command.BetId))
-        expect(this.betRepository.Bets[0].Chips).toEqual(this.command.Chips)
+        expect(this.betRepository.Bets[0].Coins).toEqual(this.command.Chips)
         expect(this.betRepository.Bets[0].Description).toEqual(this.command.Description)
         expect(this.betRepository.Bets[0].EndDate).toEqual(this.command.EndDate)
         expect(this.betRepository.Bets[0].Members).toEqual(this.command.Members)

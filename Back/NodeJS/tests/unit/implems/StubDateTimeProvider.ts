@@ -1,7 +1,7 @@
 import { IDateTimeProvider } from "../../../src/domain/IDateTimeProvider";
 
 export class StubDateTimeProvider implements IDateTimeProvider {
-    constructor(private date: Date){}
+    constructor(private readonly date: Date){}
     GetDate(): Date {
         return this.date;
     }
