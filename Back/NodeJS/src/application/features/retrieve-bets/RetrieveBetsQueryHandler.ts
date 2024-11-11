@@ -23,13 +23,18 @@ export interface RetrieveBetsResponse {
     Description: string;
     Coins: number;
     EndDate: Date;
-    BettorId: string;
-    BettorName: string;
-    Answer?: boolean;
-    InvitedCount: number;
-    AcceptedCount: number;
+    BookieId: string;
+    BookieName: string;
+    MaxAnswerDate: Date;
+    Gamblers: GamblerDto[]
 }
 
 export interface IRetrieveBetsDataAccess {
     RetrieveBetsAsync(userId: string): Promise<RetrieveBetsResponse[]>;
+}
+
+export interface GamblerDto {
+    Id: string;
+    Name: string;
+    HasAccepted?: boolean;
 }

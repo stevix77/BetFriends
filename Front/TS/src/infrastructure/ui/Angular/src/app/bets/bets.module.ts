@@ -96,9 +96,10 @@ const answerPresenter = new AnswerBetPresenter();
     {
       provide: BetsViewModel,
       useFactory: (betsController: BetsController,
-                   userContext: IUserContext
-      ) => new BetsViewModel(betsController, answerPresenter, userContext),
-      deps: [BetsController, 'IUserContext']
+                   userContext: IUserContext,
+                   dateTimeProvider: IDateTimeProvider
+      ) => new BetsViewModel(betsController, answerPresenter, userContext, dateTimeProvider),
+      deps: [BetsController, 'IUserContext', 'IDateTimeProvider']
     }
   ]
 })

@@ -10,7 +10,7 @@ export class AnswerBetHandler {
     ){}
 
     async Handle(request: IAnswerRequest): Promise<void> {
-        if(this.dateTimeProvider.GetDate() > request.EndDate) {
+        if(this.dateTimeProvider.GetDate() > request.MaxAnswerDate) {
             this.outputPort.BetIsOver();
             return;
         }
@@ -39,7 +39,7 @@ export interface IAnswerRequest {
     BetId: string;
     Answer: boolean;
     BookieId: string;
-    EndDate: Date;
+    MaxAnswerDate: Date;
     OldAnswer?: boolean;
 }
 

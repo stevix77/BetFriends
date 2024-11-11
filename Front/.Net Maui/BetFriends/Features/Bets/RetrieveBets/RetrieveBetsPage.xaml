@@ -38,7 +38,10 @@
                                     <Label Text="Accepté" IsVisible="{Binding Answer}" Grid.Row="2" Grid.Column="1" />
                                     <Label Text="Refusé" IsVisible="{Binding Answer, Converter={StaticResource InvertedBoolConverter}}" Grid.Row="2" Grid.Column="1" />
                                 </StackLayout>-->
-                                <StackLayout Orientation="Horizontal" Grid.Column="2" Grid.Row="2">
+                                <StackLayout Orientation="Horizontal" 
+                                             Grid.Column="2" 
+                                             Grid.Row="2"
+                                             IsVisible="{Binding CanAnswer}">
                                     <Button Text="Accepter" 
                                             Command="{Binding BindingContext.AcceptCommand, Source={x:Reference bets}}"
                                             CommandParameter="{Binding BetId}"

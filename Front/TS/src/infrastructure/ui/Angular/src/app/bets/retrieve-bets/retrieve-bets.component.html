@@ -18,7 +18,7 @@
                 <div class="col-sm" *ngIf="bet.Answer != undefined">
                     {{ bet.Answer === true ? "Accepté" : "Refusé" }}
                 </div>
-                <div class="col-sm" style="text-align:right">
+                <div class="col-sm" style="text-align:right" *ngIf="bet.CanAnswer">
                     <button class="btn btn-success" type="button" (click)="bvm!.Accept(bet.Id)">
                         Accepter
                     </button>

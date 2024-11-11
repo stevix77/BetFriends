@@ -16,11 +16,13 @@ public partial class RetrieveBetsViewModel : ObservableObject
 {
     private readonly IMediator mediator;
     private readonly IUserContext userContext;
+    private readonly IDateTimeProvider dateTimeProvider;
 
-    public RetrieveBetsViewModel(IMediator mediator, IUserContext userContext)
+    public RetrieveBetsViewModel(IMediator mediator, IUserContext userContext, IDateTimeProvider dateTimeProvider)
     {
         this.mediator = mediator;
         this.userContext = userContext;
+        this.dateTimeProvider = dateTimeProvider;
         WeakReferenceMessenger.Default.Register(this, new MessageHandler<object, AnswerBetResponse>((o, e) =>
         {
             ValidateAnswer(e);
@@ -70,6 +72,8 @@ public partial class RetrieveBetsViewModel : ObservableObject
                                                         x.Description,
                                                         x.Coins,
                                                         x.EndDate,
+                                                        x.MaxAnswerDate,
+                                                        x.MaxAnswerDate > dateTimeProvider.GetCurrentDate(),
                                                         x.BookieId,
                                                         x.BookieName,
                                                         x.Gamblers.Count(),
@@ -82,6 +86,8 @@ public partial class BetDto(string betId,
                                   string description,
                                   int coins,
                                   DateTime endDate,
+                                  DateTime maxAnswerDate,
+                                  bool canAnswer,
                                   string bookieId,
                                   string bookieName,
                                   int invitedCount) : ObservableObject
@@ -91,6 +97,8 @@ public partial class BetDto(string betId,
                 string description,
                 int coins,
                 DateTime endDate,
+                DateTime maxAnswerDate,
+                bool canAnswer,
                 string bookieId,
                 string bookieName,
                 int invitedCount,
@@ -99,6 +107,8 @@ public partial class BetDto(string betId,
                                     description,
                                     coins,
                                     endDate,
+                                    maxAnswerDate,
+                                    canAnswer,
                                     bookieId,
                                     bookieName,
                                     invitedCount)
@@ -110,10 +120,12 @@ public partial class BetDto(string betId,
     public string Description { get; } = description;
     public int Coins { get; } = coins;
     public DateTime EndDate { get; } = endDate;
+    public DateTime MaxAnswerDate { get; } = maxAnswerDate;
     public string BookieId { get; } = bookieId;
     public string BookieName { get; } = bookieName;
     public int InvitedCount { get; } = invitedCount;
     public string FormattedEndDate { get => EndDate.ToLongDateString(); }
+    public bool CanAnswer { get; } = canAnswer;
     [ObservableProperty]
     private int acceptedCount;
     [ObservableProperty]
