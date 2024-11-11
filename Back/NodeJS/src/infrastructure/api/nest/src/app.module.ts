@@ -12,6 +12,7 @@ import { InMemoryBetRepository } from '../../../repositories/InMemoryBetReposito
 import { BetsModule } from './bet/bets.module';
 import { InMemoryRetrieveBetsDataAccess } from '../../../repositories/InMemoryRetrieveBetsDataAccess';
 import { InMemoryBetAnswerRepository } from '../../../repositories/InMemoryBetAnswerRepository';
+import { IAnswerBetRepository } from '../../../../domain/answerBets/IAnswerBetRepository';
 
 @Module({
   imports: [FriendModule, BetsModule],
@@ -44,8 +45,9 @@ import { InMemoryBetAnswerRepository } from '../../../repositories/InMemoryBetAn
     {
       provide: InMemoryRetrieveBetsDataAccess,
       useFactory: (betRepository: InMemoryBetRepository,
-                    memberRepository: InMemoryMemberRepository) => new InMemoryRetrieveBetsDataAccess(betRepository, memberRepository),
-      inject: [InMemoryBetRepository, InMemoryMemberRepository] 
+                    memberRepository: InMemoryMemberRepository,
+                    answerBetRpository: InMemoryBetAnswerRepository) => new InMemoryRetrieveBetsDataAccess(betRepository, memberRepository, answerBetRpository),
+      inject: [InMemoryBetRepository, InMemoryMemberRepository, 'IAnswerBetRepository'] 
     },
     {
       provide: 'IAnswerBetRepository',

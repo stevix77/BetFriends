@@ -23,7 +23,11 @@ export interface RetrieveBetsResponse {
     Description: string;
     Coins: number;
     EndDate: Date;
-    OwnerId: string;
+    BettorId: string;
+    BettorName: string;
+    Answer?: boolean;
+    InvitedCount: number;
+    AcceptedCount: number;
 }
 
 export interface IRetrieveBetsDataAccess {
