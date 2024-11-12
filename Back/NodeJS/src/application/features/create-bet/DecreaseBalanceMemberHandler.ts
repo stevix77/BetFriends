@@ -10,7 +10,7 @@ export class DecreaseBalanceMemberHandler implements INotificationHandler<BetCre
         if(!member) {
             throw new MemberDoesNotExistException();
         }
-        member.DecreaseBalance(notification.Chips);
+        member.DecreaseBalance(notification.Coins);
         await this.memberRepository.Save(member);
         
     }
