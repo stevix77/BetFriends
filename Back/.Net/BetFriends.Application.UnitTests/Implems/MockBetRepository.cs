@@ -6,9 +6,9 @@ namespace BetFriends.Application.UnitTests.Implems
     {
         public MockBetRepository(Bet bet = null!)
         {
-            this.Bet = bet;
+            Bet = bet;
         }
-        public Bet Bet { get; private set; }
+        internal Bet Bet { get; private set; }
 
         public Task<Bet> GetByIdAsync(BetId betId)
         {
