@@ -11,6 +11,7 @@ import { AnswerBet } from "../../../src/domain/answerBets/AnswerBet";
 import { Member } from "../../../src/domain/members/Member";
 import { StubMemberRepository } from "../implems/StubMemberRepository";
 import { StubDateTimeProvider } from "../implems/StubDateTimeProvider";
+import { BetAnswered } from "../../../src/domain/answerBets/events/BetAnswered";
 
 export class AnswerBetSut {
        
@@ -76,10 +77,11 @@ export class AnswerBetSut {
     }
 
     ShouldSaveAnswer() {
-        expect(this.answerBetRepository.Answers)
-            .toContainEqual(new AnswerBet(new BetId(this.request.BetId),
+        const expectedAnswerBet = new AnswerBet(new BetId(this.request.BetId),
                                         this.request.Answer,
-                                new MemberId(this.userContext.UserId)))
+                                new MemberId(this.userContext.UserId));
+        expect(this.answerBetRepository.Answers)
+            .toContainEqual(expectedAnswerBet)
         expect(this.answerPresenter.Response).toEqual({
             BetId: this.request.BetId,
             Answer: this.request.Answer
