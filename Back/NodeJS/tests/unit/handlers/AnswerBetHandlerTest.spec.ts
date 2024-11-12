@@ -34,7 +34,7 @@ describe('answer bet', () => {
                 .ShouldNotSaveAnswer("user is not existing")
     })
 
-    test('should not answer when user is the bettor', async () => {
+    test('should not answer when user is the bookie', async () => {
         (await new AnswerBetSut('betId', 'bettorId', 'gamblerId')
                 .WithExistingBet()
                 .WithUser('bettorId')

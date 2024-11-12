@@ -1,4 +1,5 @@
-﻿using BetFriends.Domain.Events;
+﻿using BetFriends.Domain.AnswerBets;
+using BetFriends.Domain.Events;
 using BetFriends.Domain.Members;
 
 namespace BetFriends.Domain.Bets;
@@ -56,5 +57,10 @@ public class Bet : Entity
                        chips,
                        endDate,
                        friends.Split(';').Select(Guid.Parse));
+    }
+
+    public AnswerBet AddAnswer(bool answer)
+    {
+        return new AnswerBet(BetId, answer);
     }
 }
