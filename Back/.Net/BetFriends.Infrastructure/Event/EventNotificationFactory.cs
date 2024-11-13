@@ -13,7 +13,7 @@ public class EventNotificationFactory
         {
             case nameof(BetCreated):
                 var @event = JsonSerializer.Deserialize<BetCreated>(outbox.Data)!;
-                return new BetCreatedEventNotification(@event.BetId, @event.OwnerId, @event.Chips);
+                return new BetCreatedEventNotification(@event.BetId, @event.OwnerId, @event.Coins);
             default:
                 return null!;
         }

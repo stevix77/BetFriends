@@ -71,7 +71,7 @@ public class CreateBetHandlerTest
     }
 
     [Fact]
-    public async Task ShouldNotCreateBetWithNoneChip()
+    public async Task ShouldNotCreateFreeBet()
     {
         var userId = Guid.NewGuid();
         var member = new Member(new MemberId(userId), "username", 1000, 1);

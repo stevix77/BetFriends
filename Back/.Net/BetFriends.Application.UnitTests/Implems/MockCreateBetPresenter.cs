@@ -12,7 +12,7 @@ internal class MockCreateBetPresenter : ICreateBetOutputPort
     public CreateBetResponse Response { get; private set; }
     public string ErrorMessage { get; private set; }
 
-    public void ChipsMissing()
+    public void CoinsMissing()
     {
         ErrorMessage = NoneChip;
     }

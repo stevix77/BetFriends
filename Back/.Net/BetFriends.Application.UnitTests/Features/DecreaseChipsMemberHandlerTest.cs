@@ -15,9 +15,9 @@ public class DecreaseChipsMemberHandlerTest
         var member = new Member(new MemberId(memberId), "username", 3000, 3);
         var repository = new StubMemberRepository(member);
         var command = new BetCreatedNotification(default!, new(memberId), 300);
-        var handler = new DecreaseChipsNotificationHandler(repository);
+        var handler = new DecreaseCoinsNotificationHandler(repository);
         await handler.Handle(command, default!);
-        Assert.Equal(2700, member.Chips);
+        Assert.Equal(2700, member.Coins);
     }
 
     [Fact]
@@ -27,7 +27,7 @@ public class DecreaseChipsMemberHandlerTest
         var member = new Member(new MemberId(Guid.NewGuid()), "username", 3000, 3);
         var repository = new StubMemberRepository(member);
         var command = new BetCreatedNotification(default!, new(memberId), 300);
-        var handler = new DecreaseChipsNotificationHandler(repository);
+        var handler = new DecreaseCoinsNotificationHandler(repository);
         var record = await Record.ExceptionAsync(() => handler.Handle(command, default!));
         Assert.IsType<MemberDoesNotExistException>(record);
     }

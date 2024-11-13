@@ -67,7 +67,7 @@ internal class CreateBetHandlerSut
         Assert.Equal(new CreateBetResponse(betId), createBetPresenter.Response);
         Assert.Equal(command.EndDate, betRepository.Bet.EndDate);
         Assert.Equal(command.Description, betRepository.Bet.Description);
-        Assert.Equal(command.Chips, betRepository.Bet.Chips);
+        Assert.Equal(command.Chips, betRepository.Bet.Coins);
         Assert.Equal(betId, betRepository.Bet.BetId.Value);
         Assert.Equal(userId, betRepository.Bet.OwnerId.Value);
         Assert.Equivalent(command.Friends, betRepository.Bet.Guests);

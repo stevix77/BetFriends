@@ -16,7 +16,7 @@ internal class BetEntity
     {
         Id = bet.BetId.Value;
         Description = bet.Description;
-        Chips = bet.Chips;
+        Chips = bet.Coins;
         EndDate = bet.EndDate;
         Friends = string.Join(';', bet.Guests);
         OwnerId = bet.OwnerId.Value;

@@ -40,7 +40,12 @@ public class CreateBetCommandHandler : ICommandHandler<CreateBetCommand>
             createBetOutputPort.MemberDoesNotExist(userContext.UserId);
             return;
         }
-        var bet = member.Bet(new BetId(idGenerator.Generate()), command.Description, command.Chips, command.EndDate, command.Friends);
+        var bet = member.Bet(new BetId(idGenerator.Generate()),
+                             command.Description,
+                             command.Chips,
+                             command.EndDate,
+                             command.Friends,
+                             dateTimeProvider.GetDate());
         await betRepository.SaveAsync(bet);
         createBetOutputPort.Present(new CreateBetResponse(bet.BetId.Value));
     }
@@ -55,7 +60,7 @@ public class CreateBetCommandHandler : ICommandHandler<CreateBetCommand>
 
         if(command.Chips < 1)
         {
-            createBetOutputPort.ChipsMissing();
+            createBetOutputPort.CoinsMissing();
             return false;
         }
 

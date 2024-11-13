@@ -20,7 +20,7 @@ public class CreateBetController : Controller
     public async Task<IActionResult> Create([FromBody] CreateBetInput createBetInput)
     {
         await betModule.ExecuteAsync(new CreateBetCommand(createBetInput.Description,
-                                                          createBetInput.Chips,
+                                                          createBetInput.Coins,
                                                           createBetInput.EndDate,
                                                           createBetInput.Friends));
         return createBetPresenter.ViewModel;
@@ -31,7 +31,7 @@ public class CreateBetPresenter : ICreateBetOutputPort
 {
     public IActionResult ViewModel { get; private set; } = null!;
 
-    public void ChipsMissing()
+    public void CoinsMissing()
     {
         ViewModel = new BadRequestObjectResult("Cannot create bet with 0 chip");
     }
@@ -57,4 +57,4 @@ public class CreateBetPresenter : ICreateBetOutputPort
     }
 }
 
-public record CreateBetInput(string Description, int Chips, DateTime EndDate, IEnumerable<Guid> Friends);
+public record CreateBetInput(string Description, int Coins, DateTime EndDate, IEnumerable<Guid> Friends);

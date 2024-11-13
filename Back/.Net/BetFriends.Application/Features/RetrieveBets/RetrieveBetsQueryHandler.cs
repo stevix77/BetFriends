@@ -17,7 +17,16 @@ public class RetrieveBetsQueryHandler(IRetrieveBetsDataAccess retrieveBetsDataAc
 
 
 public record RetrieveBetsQuery : IQuery<IEnumerable<RetrieveBetsResponse>>;
-public record RetrieveBetsResponse(Guid Id, string Description, DateTime EndDate, int Chips, Guid OwnerId, string OwnerName);
+public record RetrieveBetsResponse(Guid Id,
+                                   string Description,
+                                   DateTime EndDate,
+                                   int Coins,
+                                   Guid OwnerId,
+                                   string OwnerName,
+                                   DateTime MaxAnswerDate,
+                                   IEnumerable<GamblerDto> Gamblers);
+
+public record GamblerDto(Guid Id, string Name, bool? HasAccepted);
 
 public interface IRetrieveBetsDataAccess
 {

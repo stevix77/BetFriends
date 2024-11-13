@@ -13,8 +13,32 @@ internal class MockAnswerBetOutputPort : IAnswerBetOutputPort
         IsSuccess = false;
     }
 
+    public void MemberDoesNotExist()
+    {
+        Message = "member does not exist";
+        IsSuccess = false;
+    }
+
+    public void MemberHasNotEnoughCoins()
+    {
+        Message = "member has not enough coins";
+        IsSuccess = false;
+    }
+
+    public void MemberIsNotAuthorized()
+    {
+        Message = "member is not authorized";
+        IsSuccess = false;
+    }
+
     public void Success()
     {
         IsSuccess = true;
+    }
+
+    public void TimeToAnswerIsOver()
+    {
+        Message = "time to answer is over";
+        IsSuccess = false;
     }
 }

@@ -4,11 +4,7 @@ namespace BetFriends.Application.UnitTests.Implems;
 
 internal class MockAnswerBetRepository : IAnswerBetRepository
 {
-    public MockAnswerBetRepository()
-    {
-    }
-
-    public List<object> Answers { get; internal set; } = new List<object>();
+    public List<AnswerBet> Answers { get; internal set; } = new();
 
     public Task SaveAsync(AnswerBet answerBet)
     {
