@@ -8,19 +8,19 @@ public class Member : Entity
 {
     private readonly MemberId memberId;
     private readonly string username;
-    private int chips;
+    private int coins;
     private readonly int countFriends;
 
-    public Member(MemberId memberId, string username, int chips, int countFriends)
+    public Member(MemberId memberId, string username, int coins, int countFriends)
     {
         this.memberId = memberId;
         this.username = username;
-        this.chips = chips;
+        this.coins = coins;
         this.countFriends = countFriends;
     }
 
     public MemberId MemberId { get => memberId; }
-    public int Chips { get => chips; }
+    public int Coins { get => coins; }
 
     public string Username { get => username; }
 
@@ -33,9 +33,10 @@ public class Member : Entity
                    string description,
                    int chips,
                    DateTime endDate,
-                   IEnumerable<Guid> friends)
+                   IEnumerable<Guid> friends,
+                   DateTime creationDate)
     {
-        if (this.chips < chips)
+        if (this.coins < chips)
             throw new CannotBetException(CannotBetException.ChipsNotEnough);
 
         if (!HasFriend())
@@ -45,16 +46,20 @@ public class Member : Entity
                                description,
                                chips,
                                endDate,
-                               friends);
+                               friends,
+                               creationDate);
     }
 
-    public void Decrease(int chips)
+    public void Decrease(int coins)
     {
-        this.chips -= chips;
+        this.coins -= coins;
     }
 
     private bool HasFriend()
     {
         return countFriends != 0;
     }
+
+    internal bool CanBet(int coins)
+        => Coins >= coins;
 }

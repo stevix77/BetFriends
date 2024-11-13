@@ -4,4 +4,4 @@ using MediatR;
 
 namespace BetFriends.Application.Features.CreateBet;
 
-public record BetCreatedNotification(BetId BetId, MemberId OwnerId, int Chips) : INotification;
+public record BetCreatedNotification(BetId BetId, MemberId OwnerId, int Coins) : INotification;

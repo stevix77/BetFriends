@@ -4,11 +4,11 @@ using MediatR;
 
 namespace BetFriends.Application.Features.CreateBet;
 
-public class DecreaseChipsNotificationHandler : INotificationHandler<BetCreatedNotification>
+public class DecreaseCoinsNotificationHandler : INotificationHandler<BetCreatedNotification>
 {
     private readonly IMemberRepository repository;
 
-    public DecreaseChipsNotificationHandler(IMemberRepository repository)
+    public DecreaseCoinsNotificationHandler(IMemberRepository repository)
     {
         this.repository = repository;
     }
@@ -16,7 +16,7 @@ public class DecreaseChipsNotificationHandler : INotificationHandler<BetCreatedN
     public async Task Handle(BetCreatedNotification notification, CancellationToken cancellationToken)
     {
         var member = await repository.GetByIdAsync(notification.OwnerId) ?? throw new MemberDoesNotExistException();
-        member.Decrease(notification.Chips);
+        member.Decrease(notification.Coins);
         await repository.SaveAsync(member);
     }
 }

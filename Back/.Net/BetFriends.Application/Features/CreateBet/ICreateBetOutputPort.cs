@@ -3,7 +3,7 @@ namespace BetFriends.Application.Features.CreateBet;
 
 public interface ICreateBetOutputPort
 {
-    void ChipsMissing();
+    void CoinsMissing();
     void EndDateIsTooOld();
     void FriendsMissing();
     void MemberDoesNotExist(Guid userId);

@@ -19,7 +19,8 @@ public class NotifyBetCreatedHandlerTest
                                                              "description",
                                                              300,
                                                              new DateTime(2024, 10, 10),
-                                                             [memberId]));
+                                                             [memberId],
+                                                             new DateTime(2024, 9, 10)));
         var memberRepository = new StubMemberRepository(new Member(new(memberId), "username", 0, 3));
         var handler = new NotifyBetCreatedNotificationHandler([emailSender], betRepository, memberRepository);
         await handler.Handle(notification, default!);

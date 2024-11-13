@@ -11,7 +11,8 @@ namespace BetFriends.Infrastructure.Event
         {
             return domainEvent switch
             {
-                BetCreated bc => new BetCreatedNotification(bc.BetId, bc.OwnerId, bc.Chips),
+                BetCreated bc => new BetCreatedNotification(bc.BetId, bc.OwnerId, bc.Coins),
+                BetAnswered ba => null!,
                 _ => null!,
             };
         }

@@ -1,5 +1,6 @@
 ﻿using BetFriends.Application.Abstractions;
 using BetFriends.Application.Features.RetrieveBets;
+using BetFriends.Domain.AnswerBets;
 using BetFriends.Domain.Bets;
 using BetFriends.Domain.Friends;
 using BetFriends.Domain.Members;
@@ -21,10 +22,12 @@ public static class DependencyInjectionsExtension
         services.AddSingleton<IMemberRepository, FakeMemberRepository>();
         services.AddSingleton<IFriendshipRepository, FakeFriendshipRepository>();
         services.AddSingleton<IBetRepository, FakeBetRepository>();
+        services.AddSingleton<IAnswerBetRepository, FakeAnswerBetRepository>();
         services.AddSingleton<IRetrieveBetsDataAccess>(x =>
         {
             return new FakeRetrieveBetsDataAccess(x.GetRequiredService<IBetRepository>() as FakeBetRepository,
-                                                  x.GetRequiredService<IMemberRepository>() as FakeMemberRepository);
+                                                  x.GetRequiredService<IMemberRepository>() as FakeMemberRepository,
+                                                  x.GetRequiredService<IAnswerBetRepository>() as FakeAnswerBetRepository);
         });
         services.AddSingleton<IIdGenerator, GuidGenerator>();
         services.AddSingleton<IDateProvider, DateTimeProvider>();

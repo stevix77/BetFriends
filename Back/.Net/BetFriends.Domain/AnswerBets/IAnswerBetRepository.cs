@@ -1,5 +1,4 @@
-﻿
-namespace BetFriends.Domain.AnswerBets;
+﻿namespace BetFriends.Domain.AnswerBets;
 
 public interface IAnswerBetRepository
 {

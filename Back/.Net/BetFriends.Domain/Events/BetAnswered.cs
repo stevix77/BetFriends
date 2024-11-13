@@ -3,4 +3,4 @@ using BetFriends.Domain.Members;
 
 namespace BetFriends.Domain.Events;
 
-public record BetCreated(BetId BetId, MemberId OwnerId, int Coins) : IDomainEvent;
+public record BetAnswered(BetId BetId, bool Answer, MemberId MemberId) : IDomainEvent;
