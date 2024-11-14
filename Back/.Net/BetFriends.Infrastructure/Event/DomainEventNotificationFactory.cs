@@ -1,4 +1,5 @@
-﻿using BetFriends.Application.Features.CreateBet;
+﻿using BetFriends.Application.Features.AnswerBet;
+using BetFriends.Application.Features.CreateBet;
 using BetFriends.Domain;
 using BetFriends.Domain.Events;
 using MediatR;
@@ -12,7 +13,7 @@ namespace BetFriends.Infrastructure.Event
             return domainEvent switch
             {
                 BetCreated bc => new BetCreatedNotification(bc.BetId, bc.OwnerId, bc.Coins),
-                BetAnswered ba => null!,
+                BetAnswered ba => new BetAnsweredNotification(ba.BetId, ba.MemberId, ba.Answer),
                 _ => null!,
             };
         }
