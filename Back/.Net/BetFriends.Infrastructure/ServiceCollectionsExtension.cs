@@ -4,6 +4,7 @@ using BetFriends.Domain.AnswerBets;
 using BetFriends.Domain.Bets;
 using BetFriends.Domain.Friends;
 using BetFriends.Domain.Members;
+using BetFriends.Domain.Members.Services;
 using BetFriends.Infrastructure.Behaviors;
 using BetFriends.Infrastructure.DataAccess;
 using BetFriends.Infrastructure.Event;
@@ -15,7 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace BetFriends.Infrastructure;
 
-public static class DependencyInjectionsExtension
+public static class ServiceCollectionsExtension
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
@@ -25,14 +26,15 @@ public static class DependencyInjectionsExtension
         services.AddSingleton<IAnswerBetRepository, FakeAnswerBetRepository>();
         services.AddSingleton<IRetrieveBetsDataAccess>(x =>
         {
-            return new FakeRetrieveBetsDataAccess(x.GetRequiredService<IBetRepository>() as FakeBetRepository,
-                                                  x.GetRequiredService<IMemberRepository>() as FakeMemberRepository,
-                                                  x.GetRequiredService<IAnswerBetRepository>() as FakeAnswerBetRepository);
+            return new FakeRetrieveBetsDataAccess((x.GetRequiredService<IBetRepository>()! as FakeBetRepository)!,
+                                                  (x.GetRequiredService<IMemberRepository>()! as FakeMemberRepository)!,
+                                                  (x.GetRequiredService<IAnswerBetRepository>() as FakeAnswerBetRepository)!);
         });
         services.AddSingleton<IIdGenerator, GuidGenerator>();
         services.AddSingleton<IDateProvider, DateTimeProvider>();
         services.AddScoped<IBetModule, BetModule>();
         services.AddScoped<IUnitOfWork, InMemoryUnitOfWork>();
+        services.AddScoped<DecreaseCoinsMember>();
         services.AddSingleton<DomainEventsAccessor>();
         services.AddScoped<IDomainEventDispatcher, DomainEventDispatcher>();
         services.AddScoped<DomainEventNotificationFactory>();

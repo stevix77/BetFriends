@@ -41,14 +41,3 @@ public class NotifyBetCreatedHandlerTest
         Assert.Empty(emailSender.Members);
     }
 }
-
-public class MockEmailSender : INotifier
-{
-    public List<Member> Members { get; } = new List<Member>();
-
-    public Task Notify(IEnumerable<Member> guests)
-    {
-        Members.AddRange(guests);
-        return Task.CompletedTask;
-    }
-}
