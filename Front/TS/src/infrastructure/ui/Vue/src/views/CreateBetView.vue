@@ -44,7 +44,7 @@
 </style>
 <script lang="ts">
 import { getCurrentInstance, inject, ref } from 'vue'
-import { CreateBetViewModel } from '../../viewmodels/CreateBetViewModel';
+import { CreateBetViewModel } from '../viewmodels/CreateBetViewModel';
 
     export default {
         setup() {

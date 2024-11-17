@@ -9,12 +9,22 @@ export class InMemoryBetRepository implements IBetRepository {
                 private bets: Bet[] = []){}
                 
     private readonly betsUsers: Map<string, string> = new Map<string, string>();
+    private readonly betsCompleted: Map<string, boolean> = new Map<string, boolean>();
 
     AnswerAsync(betId: string, answer: boolean): Promise<void> {
         const bet = this.bets.find(x => x.Id == betId);
         if(!bet) {
             return Promise.reject();
         }
+        return Promise.resolve();
+    }
+    
+    CompleteAsync(betId: string, isSuccess: boolean, proof?: string): Promise<void> {
+        const bet = this.bets.find(x => x.Id == betId);
+        if(!bet) {
+            return Promise.reject();
+        }
+        this.betsCompleted.set(betId, isSuccess)
         return Promise.resolve();
     }
 
@@ -35,7 +45,8 @@ export class InMemoryBetRepository implements IBetRepository {
                         Name: member!.Name,
                         HasAccepted: undefined
                     }
-                })
+                }),
+                IsSuccess: this.betsCompleted.get(x.Id)
             }
         });
         return Promise.resolve(bets)
