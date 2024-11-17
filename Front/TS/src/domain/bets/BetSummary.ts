@@ -7,6 +7,7 @@ export interface BetSummary {
     BookieId: string;
     BookieName: string;
     Gamblers: Gambler[];
+    IsSuccess?: boolean;
 }
 
 export interface Gambler {

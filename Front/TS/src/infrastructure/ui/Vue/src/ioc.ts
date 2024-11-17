@@ -25,6 +25,9 @@ import { AnswerBetHandler } from "../../../../domain/features/AnswerBetHandler";
 import { AnswerBetPresenter } from '../../../adapters/presenters/AnswerBetPresenter';
 import { UserContext } from "./services/userContext";
 import { Bet } from "../../../../domain/bets/Bet";
+import { CompleteBetViewModel } from "./viewmodels/CompleteBetViewModel";
+import { CompleteBetHandler } from "../../../../domain/features/CompleteBetHandler";
+import { CompleteBetPresenter } from "../../../adapters/presenters/CompleteBetPresenter";
 
 const ioc = (app: App) => {
     const userContext = new UserContext('aeaeaeae-aeae-aeae-aeae-aeaeaeaeaeae');
@@ -36,12 +39,14 @@ const ioc = (app: App) => {
     const retrieveMembersHandler = new RetrieveMembersHandler(memberRepository, friendsPresenter);
     const createBetPresenter = new CreateBetPresenter();
     const answerBetPresenter = new AnswerBetPresenter();
+    const completeBetPresenter = new CompleteBetPresenter();
     const idGenerator = new IdGenerator();
     const dtProvider = new DateTimeProvider();
     const createBetHandler = new CreateBetHandler(betRepository, createBetPresenter, idGenerator, dtProvider)
     const retrieveBetsHandler = new RetrieveBetsHandler(betRepository)
-    const answerBetHandler = new AnswerBetHandler(betRepository, dtProvider, answerBetPresenter, userContext)
-    const betsController = new BetsController(createBetHandler, retrieveBetsHandler, answerBetHandler);
+    const answerBetHandler = new AnswerBetHandler(betRepository, dtProvider, answerBetPresenter, userContext);
+    const completeBetHandler = new CompleteBetHandler(betRepository, completeBetPresenter)
+    const betsController = new BetsController(createBetHandler, retrieveBetsHandler, answerBetHandler, completeBetHandler);
     const addFriendHandler = new AddFriendHandler(friendRepository, friendsPresenter)
     const friendsController = new FriendsController(retrieveFriendsHandler, 
                                                     retrieveMembersHandler,
@@ -52,11 +57,12 @@ const ioc = (app: App) => {
                                                     betsController,
                                                     router);
     const friendsviewmodel = new FriendsViewModel(friendsPresenter, friendsController);
-    const betsviewmodel = new BetsViewModel(betsController, answerBetPresenter, userContext, dtProvider)
-
+    const betsviewmodel = new BetsViewModel(betsController, answerBetPresenter, userContext, dtProvider, router)
+    const completeBetViewModel = new CompleteBetViewModel(betsController, router, completeBetPresenter)
     app.provide('friendsviewmodel', friendsviewmodel);
     app.provide('createbetviewmodel', createbetviewmodel);
     app.provide('betsviewmodel', betsviewmodel);
+    app.provide('completebetviewmodel', completeBetViewModel);
 }
 
 export { ioc };

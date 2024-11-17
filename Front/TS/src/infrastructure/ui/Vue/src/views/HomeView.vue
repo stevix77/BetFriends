@@ -20,6 +20,9 @@
                 <div class="col-sm" v-if="bet.Answer != undefined">
                     {{ bet.Answer === true ? "Accepté" : "Refusé" }}
                 </div>
+                <div class="col-sm" v-if="bet.IsSuccess != undefined">
+                    {{ bet.Result }}
+                </div>
                 <div class="col-sm" style="text-align:right" v-if="bet.CanAnswer">
                     <button class="btn btn-success" type="button" @click="Answer(true, bet.Id)">
                         Accepter
@@ -28,13 +31,18 @@
                         Refuser
                     </button>
                 </div>
+                <div class="col-sm" style="text-align:right" v-if="bet.CanClose">
+                    <button class="btn btn-success" type="button" @click="Complete(bet.Id)">
+                        Terminer
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 </div>
   </main>
+  
 </template>
-
 
 <script lang="ts">
 import { getCurrentInstance, inject, ref } from 'vue'
@@ -63,7 +71,11 @@ import { BetsViewModel } from '../viewmodels/BetsViewModel';
 
             await this.vm?.Decline(betId);
             this.current?.proxy?.$forceUpdate();
+          },
+          async Complete(betId: string) {
+            await this.vm?.Complete(betId);  
           }
+          
         },
     }
 </script>
