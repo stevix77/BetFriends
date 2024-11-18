@@ -1,0 +1,26 @@
+<form>
+    <div *ngIf="vm?.error">
+        <span>{{ vm!.error }}</span>
+    </div>
+    <div>
+        <span><input type="radio" value="true" name="result" (change)="selectedResult(true)" />Gagné</span> 
+        <span><input type="radio" value="false" name="result" (change)="selectedResult(false)" />Perdu</span>
+    </div>
+    <div *ngIf="vm!.result == true">
+        <button class="btn btn-info" (click)="onPickFile()">Upload proof</button>
+        <input
+            type="file"
+            style="display: none"
+            #fileInput
+            accept="image/*"
+            (change)="onFilePicked()" />
+    </div>
+    <div *ngIf="vm?.proof" style="float: right;">
+        <img [src]="vm.proof" width="350" height="500" />
+    </div>
+    <div class="col-sm">
+        <button class="btn btn-success" type="button" (click)="vm.Complete(betId)">
+            Terminer 
+        </button>
+    </div>
+</form>

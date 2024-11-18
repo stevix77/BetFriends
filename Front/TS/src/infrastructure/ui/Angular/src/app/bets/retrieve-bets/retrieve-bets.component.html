@@ -18,12 +18,20 @@
                 <div class="col-sm" *ngIf="bet.Answer != undefined">
                     {{ bet.Answer === true ? "Accepté" : "Refusé" }}
                 </div>
+                <div class="col-sm" *ngIf="bet.IsSuccess != undefined">
+                    {{ bet.Result }}
+                </div>
                 <div class="col-sm" style="text-align:right" *ngIf="bet.CanAnswer">
                     <button class="btn btn-success" type="button" (click)="bvm!.Accept(bet.Id)">
                         Accepter
                     </button>
                     <button class="btn btn-danger" type="button" (click)="bvm!.Decline(bet.Id)">
                         Refuser
+                    </button>
+                </div>
+                <div class="col-sm" style="text-align:right" *ngIf="bet.CanClose">
+                    <button class="btn btn-success" type="button" (click)="bvm!.Complete(bet.Id)">
+                        Terminer
                     </button>
                 </div>
             </div>

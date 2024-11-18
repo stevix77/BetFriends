@@ -4,12 +4,16 @@ import { AnswerResponse } from "../../../../../../domain/features/AnswerBetHandl
 import { AnswerBetPresenter, Key } from "../../../../../adapters/presenters/AnswerBetPresenter";
 import { IUserContext } from "../../../../../../domain/abstractions/IUserContext";
 import { IDateTimeProvider } from "../../../../../../domain/abstractions/IDateTimeProvider";
+import { Router } from "@angular/router";
+import { BetSummary } from "../../../../../../domain/bets/BetSummary";
 
 export class BetsViewModel {
+    
     constructor(private readonly betController: BetsController,
                 private readonly answerBetPresenter: AnswerBetPresenter,
                 private readonly userContext: IUserContext,
-                private readonly dateTimeProvider: IDateTimeProvider
+                private readonly dateTimeProvider: IDateTimeProvider,
+                private readonly router: Router
     ) {
         const answerBetSubject = new Subject<AnswerResponse>();
         answerBetSubject.subscribe(answerResponse => this.UpdateBet(answerResponse.BetId, answerResponse.Answer))
@@ -40,10 +44,15 @@ export class BetsViewModel {
                 MaxAnswerDate: x.MaxAnswerDate,
                 BookieId: x.BookieId,
                 BookieName: x.BookieName,
-                CanAnswer: x.MaxAnswerDate.getTime() > this.dateTimeProvider.GetDate().getTime(),
+                CanAnswer: this.CanAnswer(x),
                 InvitedCount: x.Gamblers.length,
                 AcceptedCount: x.Gamblers.filter(x => x.HasAccepted).length,
-                Answer: x.Gamblers.find(y => y.Id == this.userContext.UserId)?.HasAccepted
+                Answer: x.Gamblers.find(y => y.Id == this.userContext.UserId)?.HasAccepted,
+                CanClose: x.BookieId == this.userContext.UserId && x.IsSuccess == undefined,
+                IsSuccess: x.IsSuccess,
+                Result: x.IsSuccess == undefined ? 
+                                    undefined : 
+                                    this.GetResult(x.IsSuccess.valueOf(), x.BookieId)
             }
         })
     }
@@ -74,8 +83,25 @@ export class BetsViewModel {
                                             bet.Answer)
     }
 
+    Complete(betId: string) {
+        return this.router.navigate([`complete`, betId]); 
+    }
+
+    private GetResult(isSuccess: boolean, bookieId: string): string {
+        if(this.userContext.UserId == bookieId) {
+            return isSuccess ? "Win" : "Lose"
+        }
+
+        return !isSuccess ? "Win" : "Lose"; 
+    }
+
     private GetBetById(betId: string): BetDto|undefined {
         return this.Bets.find(x => x.Id == betId);
+    }
+
+    private CanAnswer(betSummary: BetSummary): boolean {
+        return betSummary.Gamblers.some(x => x.Id == this.userContext.UserId) &&
+             betSummary.MaxAnswerDate.getTime() > this.dateTimeProvider.GetDate().getTime()
     }
     
     private UpdateBet(betId: string, answer: boolean) {
@@ -117,12 +143,15 @@ export interface BetDto {
     Id: string;
     Description: string;
     EndDate: string;
+    CanAnswer: boolean;
+    CanClose: boolean;
+    MaxAnswerDate: Date;
     Coins: number;
     BookieId: string;
     BookieName: string;
-    CanAnswer: boolean;
-    MaxAnswerDate: Date;
     AcceptedCount: number;
     InvitedCount: number;
     Answer?: boolean;
+    IsSuccess?: boolean;
+    Result?: string;
 }
