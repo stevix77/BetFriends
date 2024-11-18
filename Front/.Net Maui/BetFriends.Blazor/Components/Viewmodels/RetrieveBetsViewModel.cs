@@ -21,7 +21,8 @@ public partial class RetrieveBetsViewModel : ObservableObject
 
     public RetrieveBetsViewModel(IMediator mediator,
                                  IUserContext userContext,
-                                 IDateTimeProvider dateTimeProvider)
+                                 IDateTimeProvider dateTimeProvider,
+                                 Services.Abstractions.INavigation navigation)
     {
         this.mediator = mediator;
         this.userContext = userContext;
