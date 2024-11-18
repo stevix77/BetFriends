@@ -12,6 +12,10 @@ namespace BetFriends.Features.Bets.RetrieveBets;
 
 public partial class RetrieveBetsViewModel : ObservableObject
 {
+    private const string AcceptedText = "Accepté";
+    private const string RejectText = "Refusé";
+    private const string WinText = "Win";
+    private const string LoseText = "Lose";
     private readonly IMediator mediator;
     private readonly IUserContext userContext;
     private readonly IDateTimeProvider dateTimeProvider;
@@ -43,26 +47,46 @@ public partial class RetrieveBetsViewModel : ObservableObject
                                                         x.Coins,
                                                         x.EndDate,
                                                         x.MaxAnswerDate,
-                                                        x.MaxAnswerDate > dateTimeProvider.GetCurrentDate(),
+                                                        CanAnswer(x),
+                                                        x.BookieId == userContext.UserId && !x.IsSuccess.HasValue,
                                                         x.BookieId,
                                                         x.BookieName,
                                                         x.Gamblers.Count(),
                                                         x.Gamblers.Count(y => y.HasAccepted == true),
-                                                        x.Gamblers.FirstOrDefault(y => y.Id == userContext.UserId)?.HasAccepted)));
+                                                        x.Gamblers.FirstOrDefault(y => y.Id == userContext.UserId)?.HasAccepted,
+                                                        x.IsSuccess,
+                                                        x.IsSuccess == null ? null : GetResult(x.IsSuccess.Value, x.BookieId))));
+    }
+
+    private bool CanAnswer(RetrieveBetsItemResponse bet)
+        => bet.Gamblers.Any(x => x.Id == userContext.UserId) &&
+            bet.MaxAnswerDate > dateTimeProvider.GetCurrentDate();
+
+    private string GetResult(bool isSuccess, string bookieId)
+    {
+        if (bookieId == userContext.UserId)
+            return isSuccess ? WinText : LoseText;
+        return isSuccess ? LoseText : WinText;
     }
 
     [RelayCommand]
     private async Task Accept(string betId)
     {
         var bet = Bets.First(x => x.BetId == betId);
-        await mediator.Send(new AnswerBetRequest(true, betId, bet.BookieId, bet.EndDate, bet.Answer));
+        await mediator.Send(new AnswerBetRequest(true, betId, bet.BookieId, bet.EndDate, !string.IsNullOrEmpty(bet.Answer) ? bet.Answer == RetrieveBetsViewModel.AcceptedText ? true : false : null));
     }
 
     [RelayCommand]
     private async Task Reject(string betId)
     {
         var bet = Bets.First(x => x.BetId == betId);
-        await mediator.Send(new AnswerBetRequest(false, betId, bet.BookieId, bet.EndDate, bet.Answer));
+        await mediator.Send(new AnswerBetRequest(false, betId, bet.BookieId, bet.EndDate, !string.IsNullOrEmpty(bet.Answer) ? bet.Answer == RetrieveBetsViewModel.AcceptedText ? true : false : null));
+    }
+
+    [RelayCommand]
+    private Task Complete(string betId)
+    {
+        return Shell.Current.GoToAsync($"//");
     }
 
     private void ValidateAnswer(AnswerBetResponse e)
@@ -71,11 +95,11 @@ public partial class RetrieveBetsViewModel : ObservableObject
         if (bet.Answer is null)
         {
             bet.AcceptedCount += e.Answer ? 1 : 0;
-            bet.Answer = e.Answer;
+            bet.Answer = e.Answer ? AcceptedText : RejectText;
             return;
         }
         bet.AcceptedCount += e.Answer ? 1 : -1;
-        bet.Answer = e.Answer;
+        bet.Answer = e.Answer ? AcceptedText : RejectText;
     }
 }
 
@@ -85,9 +109,12 @@ public partial class BetDto(string betId,
                                   DateTime endDate,
                                   DateTime maxAnswerDate,
                                   bool canAnswer,
+                                  bool canClose,
                                   string bookieId,
                                   string bookieName,
-                                  int invitedCount) : ObservableObject
+                                  int invitedCount,
+                                  bool? isSuccess,
+                                  string result) : ObservableObject
 {
 
     public BetDto(string betId,
@@ -96,22 +123,28 @@ public partial class BetDto(string betId,
                 DateTime endDate,
                 DateTime maxAnswerDate,
                 bool canAnswer,
+                bool canClose,
                 string bookieId,
                 string bookieName,
                 int invitedCount,
                 int acceptedCount,
-                bool? answer) : this(betId,
+                bool? answer,
+                bool? isSuccess,
+                string result) : this(betId,
                                     description,
                                     coins,
                                     endDate,
                                     maxAnswerDate,
                                     canAnswer,
+                                    canClose,
                                     bookieId,
                                     bookieName,
-                                    invitedCount)
+                                    invitedCount,
+                                    isSuccess,
+                                    result)
     {
         this.acceptedCount = acceptedCount;
-        this.answer = answer;
+        this.answer = answer.HasValue ? answer.Value ? "Accepté" : "Refusé" : "";
     }
     public string BetId { get; } = betId;
     public string Description { get; } = description;
@@ -123,8 +156,11 @@ public partial class BetDto(string betId,
     public int InvitedCount { get; } = invitedCount;
     public string FormattedEndDate { get => EndDate.ToLongDateString(); }
     public bool CanAnswer { get; } = canAnswer;
+    public bool? IsSuccess { get; } = isSuccess;
+    public string Result { get; } = result;
+    public bool CanClose { get; } = canClose;
     [ObservableProperty]
     private int acceptedCount;
     [ObservableProperty]
-    private bool? answer;
+    private string answer;
 }

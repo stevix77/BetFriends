@@ -30,12 +30,22 @@
                                 <span>Refusé</span>
                         }
                     }
+                    @if (!string.IsNullOrEmpty(bet.Result))
+                    {
+                        <span>@bet.Result</span>
+                    }
                     </div>
                     @if(bet.CanAnswer)
                     {
                         <div class="col">
                             <Button Color="ButtonColor.Success" @onclick="(() => vm.AcceptCommand.Execute(bet.BetId))">Accepter</Button>
                             <Button Color="ButtonColor.Danger" @onclick="(() => vm.RejectCommand.Execute(bet.BetId))">Refuser</Button>
+                        </div>
+                    }
+                    @if (bet.CanClose)
+                    {
+                        <div class="col">
+                            <Button Color="ButtonColor.Success" @onclick="(() => vm.CompleteCommand.Execute(bet.BetId))">Terminer</Button>
                         </div>
                     }
                 </div>
