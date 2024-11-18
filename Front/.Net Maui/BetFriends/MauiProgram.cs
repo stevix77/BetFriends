@@ -54,7 +54,7 @@ namespace BetFriend
             builder.Services.AddScoped<FriendsViewModel>();
             builder.Services.AddScoped<CreateBetViewModel>();
             builder.Services.AddScoped<RetrieveBetsViewModel>();
-            builder.Services.AddScoped<IUserContext>(x => new UserContext("userId"));
+            builder.Services.AddScoped<IUserContext>(x => new UserContext(Guid.NewGuid().ToString()));
             builder.Services.AddInfrastructure(x => x.GetRequiredService<IUserContext>());
             return builder.Build();
         }
