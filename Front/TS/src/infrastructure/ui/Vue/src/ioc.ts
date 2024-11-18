@@ -32,8 +32,15 @@ import { CompleteBetPresenter } from "../../../adapters/presenters/CompleteBetPr
 const ioc = (app: App) => {
     const userContext = new UserContext('aeaeaeae-aeae-aeae-aeae-aeaeaeaeaeae');
     const memberRepository = new InMemoryMemberRepository()
+    memberRepository.members.push({
+        Id: userContext.UserId,
+        Name: userContext.UserId.substring(0, 8),
+        IsFriend: false
+    })
     const friendRepository: IFriendRepository = new InMemoryFriendRepository(memberRepository);
-    const betRepository: IBetRepository = new InMemoryBetRepository(memberRepository, userContext, [new Bet("id", "description", new Date("2025-02-02"), 200, memberRepository.members.map(x => x.Id))]);
+    const members = memberRepository.members.map(x => x.Id);
+    members.push(userContext.UserId)
+    const betRepository: IBetRepository = new InMemoryBetRepository(memberRepository, userContext, [new Bet("id", "description", new Date("2025-02-02"), 200, members)]);
     const friendsPresenter = new FriendsPresenter()
     const retrieveFriendsHandler = new RetrieveFriendsHandler(friendRepository, friendsPresenter);
     const retrieveMembersHandler = new RetrieveMembersHandler(memberRepository, friendsPresenter);
