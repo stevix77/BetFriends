@@ -3,7 +3,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import { BetsModule } from "./bets/bets.module";
 import { FriendsModule } from "./friends/friends.module";
 import { AppComponent } from "./app.component";
-import { type IMemberRepository } from "../../../../../domain/members/IMemberRepository";
+import { type IMemberRepository, MemberDto } from '../../../../../domain/members/IMemberRepository';
 import { InMemoryFriendRepository } from "../../../../adapters/repository/InMemoryFriendRepository";
 import { InMemoryMemberRepository } from "../../../../adapters/repository/InMemoryMemberRepository";
 import { InMemoryBetRepository } from "../../../../adapters/repository/InMemoryBetRepository";
@@ -30,7 +30,17 @@ import { Bet } from "../../../../../domain/bets/Bet";
     providers:[
         {
             provide: 'IMemberRepository',
-            useFactory: () => new InMemoryMemberRepository()
+            useFactory: (userContext: IUserContext) => {
+                const repository = new InMemoryMemberRepository();
+                const id = userContext.UserId
+                repository.members.push({
+                    Id: id,
+                    Name: id.substring(0, 8),
+                    IsFriend: false
+                })
+                return repository;
+            },
+            deps: ['IUserContext']
         },
         {
             provide: 'IFriendRepository',
@@ -42,9 +52,11 @@ import { Bet } from "../../../../../domain/bets/Bet";
             useFactory: (memberRepository: InMemoryMemberRepository,
                         userContext: IUserContext
             ) => {
+                const members = memberRepository.members.map(x => x.Id);
+                members.push(userContext.UserId)
                 const repo = new InMemoryBetRepository(memberRepository, 
                                             userContext,
-                                        [new Bet("id", "description", new Date("2025-02-02"), 200, memberRepository.members.map(x => x.Id))])
+                                        [new Bet("id", "description", new Date("2025-02-02"), 200, members)])
                 return repo;
             },
             deps: ['IMemberRepository', 'IUserContext']
