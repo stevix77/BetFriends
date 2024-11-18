@@ -22,5 +22,6 @@ public record RetrieveBetsItemResponse(string BetId,
                                       DateTime MaxAnswerDate,
                                       string BookieId,
                                       string BookieName,
-                                      IEnumerable<GamblerDto> Gamblers);
+                                      IEnumerable<GamblerDto> Gamblers,
+                                      bool? IsSuccess);
 public record GamblerDto(string Id, string Name, bool? HasAccepted);

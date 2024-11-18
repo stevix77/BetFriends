@@ -16,7 +16,7 @@ internal class InMemoryBetRepository : IBetRepository
     {
         bets = new List<Bet>()
         {
-            new Bet(Guid.NewGuid().ToString(), "test", new DateTime(2025, 1, 1), 150, memberRepository.Members.Select(x => x.MemberId))
+            new Bet(Guid.NewGuid().ToString(), "test", new DateTime(2025, 1, 1), 150, memberRepository.Members.Select(x => x.MemberId).Concat([userContext.UserId]))
         };
         this.memberRepository = memberRepository;
         this.userContext = userContext;
@@ -41,7 +41,8 @@ internal class InMemoryBetRepository : IBetRepository
                                             {
                                                 var member = this.memberRepository.Members.FirstOrDefault(m => m.MemberId == y);
                                                 return new GamblerDto(member.MemberId, member.Name, null!);
-                                            }))));
+                                            }),
+                                            null)));
     }
 
     public Task SaveAsync(Bet bet, CancellationToken cancellationToken)
