@@ -50,15 +50,26 @@ export class CreateBetViewModel {
         return this.betsController.Create({
             Coins: this.Coins,
             Description: this.Description,
-            EndDate: this.EndDate,
+            EndDate: new Date(this.EndDate),
             Friends: this.Friends.filter(x => x.IsSelected).map(x => x.MemberId)
         })
     }
 
     SubscribeToCreateBetSuccess() {
         const createBetSubject = new Subject<CreateBetResponse>();
-        createBetSubject.subscribe(x => this.router.navigate(['/']))
+        createBetSubject.subscribe(x => {
+            this.Reset();
+            this.router.navigate(['/'])
+        })
         this.createBetPresenter.Subscribe(KeyCreateBetPresenter.Success.toString(), createBetSubject)
+    }
+
+    private Reset() {
+        this.Description = "";
+        this.Coins = 0;
+        this.Error = "";
+        this.EndDate = new Date(this.MinDate);
+        this.Friends = [];
     }
 }
 

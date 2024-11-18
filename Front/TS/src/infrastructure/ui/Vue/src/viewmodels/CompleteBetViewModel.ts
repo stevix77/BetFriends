@@ -7,7 +7,7 @@ import { Key, type CompleteBetPresenter } from '../../../../adapters/presenters/
 export class CompleteBetViewModel {
     constructor(private readonly betController: BetsController, 
                 private readonly router: Router,
-            private readonly completeBetPresenter: CompleteBetPresenter) {
+            completeBetPresenter: CompleteBetPresenter) {
         const completeSubject = new Subject<CompleteResponse>();
         completeSubject.subscribe(x => this.router.push('/'));
         completeBetPresenter.Subscribe(Key.Success.toString(), completeSubject)
