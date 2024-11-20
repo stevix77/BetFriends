@@ -45,7 +45,7 @@
                     @if (bet.CanClose)
                     {
                         <div class="col">
-                            <Button Color="ButtonColor.Success" @onclick="(() => vm.CompleteCommand.Execute(bet.BetId))">Terminer</Button>
+                            <Button Color="ButtonColor.Success" @onclick="(() => ShowModal(bet.BetId))">Terminer</Button>
                         </div>
                     }
                 </div>
@@ -54,7 +54,52 @@
     }
 </div>
 
+<Modal @ref="completeModal" Title="Terminer le pari" Size="ModalSize.ExtraLarge" IsVerticallyCentered="true" CloseOnEscape="true">
+    <BodyTemplate>
+        <Card>
+            <CardBody>
+                <InputRadioGroup @bind-Value="@vm.IsSuccess">
+                    <InputRadio Value="true" /> Gagné 
+                    <InputRadio Value="false" /> Perdu
+                </InputRadioGroup>
+            </CardBody>
+        </Card>
+        @if(vm.IsSuccess.GetValueOrDefault(false))
+        {
+            <Card>
+                <CardHeader>
+                    Charger une preuve
+                </CardHeader>
+                <CardBody>
+                    <InputFile OnChange="GetBs64" />
+                </CardBody>
+            </Card>
+        }
+        
+    </BodyTemplate>
+    <FooterTemplate>
+        <Button Color="ButtonColor.Success" onclick="@(async() => await vm.CompleteCommand.ExecuteAsync(completeModal))">Valider</Button>
+    </FooterTemplate>
+</Modal>
+
 @code {
+
+    private Modal completeModal = default!;
+
+    private Task ShowModal(string betId)
+    {
+        vm.SetBetIdToComplete(betId);
+        return completeModal.ShowAsync();
+    }
+
+    private async Task GetBs64(InputFileChangeEventArgs e)
+    {
+        using var stream = e.File.OpenReadStream();
+        using var reader = new StreamReader(stream);
+        var bytes = System.Text.Encoding.UTF8.GetBytes(await reader.ReadToEndAsync());
+        vm.Proof = Convert.ToBase64String(bytes);
+    }
+
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();

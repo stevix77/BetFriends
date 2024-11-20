@@ -1,12 +1,14 @@
 ﻿using BetFriends.Domain.Abstractions;
 using BetFriends.Domain.Features.AnswerBet;
 using BetFriends.Domain.Features.RetrieveBets;
+using BetFriends.Features.Bets.CompleteBet;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using MediatR;
 using System.Collections.ObjectModel;
+using System.Diagnostics.Tracing;
 
 namespace BetFriends.Features.Bets.RetrieveBets;
 
@@ -73,7 +75,14 @@ public partial class RetrieveBetsViewModel : ObservableObject
     private async Task Accept(string betId)
     {
         var bet = Bets.First(x => x.BetId == betId);
-        await mediator.Send(new AnswerBetRequest(true, betId, bet.BookieId, bet.EndDate, !string.IsNullOrEmpty(bet.Answer) ? bet.Answer == RetrieveBetsViewModel.AcceptedText ? true : false : null));
+        await mediator.Send(new AnswerBetRequest(true,
+                                                 betId,
+                                                 bet.BookieId,
+                                                 bet.EndDate,
+                                                 !string.IsNullOrEmpty(bet.Answer) ? 
+                                                    bet.Answer == RetrieveBetsViewModel.AcceptedText ? 
+                                                        true : false 
+                                                        : null));
     }
 
     [RelayCommand]
@@ -86,7 +95,7 @@ public partial class RetrieveBetsViewModel : ObservableObject
     [RelayCommand]
     private Task Complete(string betId)
     {
-        return Shell.Current.GoToAsync($"//");
+        return Shell.Current.GoToAsync($"{nameof(CompleteBetPage)}?betid={betId}");
     }
 
     private void ValidateAnswer(AnswerBetResponse e)
