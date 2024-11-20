@@ -16,6 +16,8 @@ internal class MockBetRepository(IUserContext userContext) : IBetRepository
 
     internal IReadOnlyCollection<Tuple<string, string, bool>> Answers => answers;
 
+    internal List<Tuple<string, bool>> BetsCompleted { get; } = new List<Tuple<string, bool>>();
+
     public Task SaveAsync(Bet bet, CancellationToken cancellationToken)
     {
         bets.Add(bet);
@@ -30,6 +32,12 @@ internal class MockBetRepository(IUserContext userContext) : IBetRepository
     public Task AnswerBetAsync(string betId, bool answer)
     {
         answers.Add(new(betId, userContext.UserId, answer));
+        return Task.CompletedTask;
+    }
+
+    public Task CompleteBetAsync(string betId, bool isSuccess, string? proof, CancellationToken cancellationToken)
+    {
+        BetsCompleted.Add(new Tuple<string, bool>(betId, isSuccess));
         return Task.CompletedTask;
     }
 }

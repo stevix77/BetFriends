@@ -1,7 +1,7 @@
 ﻿using BetFriends.Blazor.Presenters;
 using BetFriends.Domain.Abstractions;
 using BetFriends.Domain.Features.AnswerBet;
-using BetFriends.Domain.Features.CreateBet;
+using BetFriends.Domain.Features.CompleteBet;
 using BetFriends.Domain.Features.RetrieveBets;
 using BlazorBootstrap;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -35,15 +35,38 @@ public partial class RetrieveBetsViewModel : ObservableObject
         {
             Errors.Add(new ToastMessage(ToastType.Danger, "Erreur", e.Message));
         }));
+        WeakReferenceMessenger.Default.Register(this, new MessageHandler<object, ProofMissingError>((o, e) =>
+        {
+            Errors.Add(new ToastMessage(ToastType.Danger, "Erreur", e.Message));
+        }));
+        WeakReferenceMessenger.Default.Register(this, new MessageHandler<object, BetCompleted>((o, e) =>
+        {
+            UpdateBetCompleted(e.BetId, e.IsSuccess);
+        }));
         this.navigation = navigation;
     }
 
+    [ObservableProperty]
+    private bool? isSuccess;
+
+    private string betId;
+    [ObservableProperty]
+    private string? proof;
+
     public List<ToastMessage> Errors { get; } = new List<ToastMessage>();
+
+    private void UpdateBetCompleted(string betId, bool isSuccess)
+    {
+        var bet = Bets.First(x => x.BetId == betId);
+        bet.IsSuccess = isSuccess;
+        bet.Result = GetResult(isSuccess, userContext.UserId);
+        bet.CanClose = false;
+    }
 
     private void ValidateAnswer(AnswerBetResponse e)
     {
         var bet = Bets.First(x => x.BetId == e.BetId);
-        if(bet.Answer is null)
+        if (bet.Answer is null)
         {
             bet.AcceptedCount += e.Answer ? 1 : 0;
             bet.Answer = e.Answer;
@@ -70,29 +93,45 @@ public partial class RetrieveBetsViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void Complete(string betId)
+    private async Task Complete(Modal modal)
     {
-        navigation.Navigate($"/complete/{betId}");
+        try
+        {
+            await mediator.Send(new CompleteBetRequest(betId, IsSuccess.GetValueOrDefault(), Proof));
+        }
+        catch (Exception)
+        {
+            Errors.Add(new ToastMessage(ToastType.Danger, "Erreur", "Une erreur est survenue"));
+        }
+        finally
+        {
+            await modal.HideAsync();
+        }
+    }
+
+    internal void SetBetIdToComplete(string betId)
+    {
+        this.betId = betId;
     }
 
     internal async Task LoadAsync()
     {
         var query = new RetrieveBetsQuery();
         var bets = await mediator.Send(query);
-        Bets = new (bets.Select(x => new BetDto(x.BetId,
-                                                        x.Description,
-                                                        x.Coins,
-                                                        x.EndDate,
-                                                        x.MaxAnswerDate,
-                                                        CanAnswer(x),
-                                                        x.BookieId == userContext.UserId && !x.IsSuccess.HasValue,
-                                                        x.BookieId,
-                                                        x.BookieName,
-                                                        x.Gamblers.Count(),
-                                                        x.Gamblers.Count(y => y.HasAccepted == true),
-                                                        x.Gamblers.FirstOrDefault(y => y.Id == userContext.UserId)?.HasAccepted,
-                                                        x.IsSuccess,
-                                                        x.IsSuccess == null ? null : GetResult(x.IsSuccess.Value, x.BookieId)  )));
+        Bets = new(bets.Select(x => new BetDto(x.BetId,
+                                                x.Description,
+                                                x.Coins,
+                                                x.EndDate,
+                                                x.MaxAnswerDate,
+                                                CanAnswer(x),
+                                                x.BookieId == userContext.UserId && !x.IsSuccess.HasValue,
+                                                x.BookieId,
+                                                x.BookieName,
+                                                x.Gamblers.Count(),
+                                                x.Gamblers.Count(y => y.HasAccepted == true),
+                                                x.Gamblers.FirstOrDefault(y => y.Id == userContext.UserId)?.HasAccepted,
+                                                x.IsSuccess,
+                                                x.IsSuccess == null ? null : GetResult(x.IsSuccess.Value, x.BookieId))));
     }
 
     private bool CanAnswer(RetrieveBetsItemResponse bet)
@@ -149,6 +188,9 @@ public partial class BetDto(string betId,
     {
         this.acceptedCount = acceptedCount;
         this.answer = answer;
+        this.isSuccess = isSuccess;
+        this.result = result;
+        this.canClose = canClose;
     }
     public string BetId { get; } = betId;
     public string Description { get; } = description;
@@ -160,9 +202,12 @@ public partial class BetDto(string betId,
     public int InvitedCount { get; } = invitedCount;
     public string FormattedEndDate { get => EndDate.ToLongDateString(); }
     public bool CanAnswer { get; } = canAnswer;
-    public bool? IsSuccess { get; } = isSuccess;
-    public string? Result { get; } = result;
-    public bool CanClose { get; } = canClose;
+    [ObservableProperty]
+    private bool canClose;
+    [ObservableProperty]
+    private string? result;
+    [ObservableProperty]
+    private bool? isSuccess;
     [ObservableProperty]
     private int acceptedCount;
     [ObservableProperty]
