@@ -45,7 +45,7 @@
                     @if(bet.IsSuccess.HasValue)
                     {
                         <div class="col">
-                            <Button Color="ButtonColor.Secondary" @onclick="(() => ShowProof(bet.BetId))">Fermer</Button>
+                            <Button Color="ButtonColor.Primary" @onclick="(() => ShowProof(bet.BetId))">Voir la preuve</Button>
                         </div>
                     }
                 </div>
@@ -94,6 +94,7 @@
 @code {
 
     private Modal completeModal = default!;
+    private Modal proofModal = default!;
 
     private Task ShowModal(string betId)
     {
@@ -118,5 +119,10 @@
     {
         await base.OnInitializedAsync();
         await vm.LoadAsync();
+    }
+
+    public void Dispose()
+    {
+        
     }
 }

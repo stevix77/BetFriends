@@ -18,9 +18,9 @@ public partial class CompleteBetViewModel : ObservableObject
         {
             Error = e.Message;
         }));
-        WeakReferenceMessenger.Default.Register(this, new MessageHandler<object, BetCompleted>((o, e) =>
+        WeakReferenceMessenger.Default.Register(this, new MessageHandler<object, BetCompleted>(async (o, e) =>
         {
-            Shell.Current.GoToAsync($"//{nameof(RetrieveBetsPage)}");
+            await CloseCommand.ExecuteAsync(null);
         }));
     }
 
@@ -33,7 +33,7 @@ public partial class CompleteBetViewModel : ObservableObject
     [ObservableProperty]
     private bool? isSuccess;
     [ObservableProperty]
-    private bool? win;
+    private bool? win = false;
     [ObservableProperty]
     private bool? lose;
     private FileResult file;
@@ -48,6 +48,13 @@ public partial class CompleteBetViewModel : ObservableObject
         });
         Proof = images.FullPath.ToString();
         file = images;
+    }
+
+    [RelayCommand]
+    private async Task Close()
+    {
+        await Shell.Current.Navigation.PopModalAsync();
+
     }
 
     partial void OnLoseChanged(bool? value)
@@ -68,6 +75,7 @@ public partial class CompleteBetViewModel : ObservableObject
     {
         Error = string.Empty;
         Proof = string.Empty;
+        file = null;
         IsSuccess = null;
         Win = null;
         Lose = null;
@@ -93,11 +101,5 @@ public partial class CompleteBetViewModel : ObservableObject
 
             throw;
         }
-    }
-
-    [RelayCommand]
-    private async Task Close()
-    {
-        await Shell.Current.GoToAsync("..");
     }
 }
