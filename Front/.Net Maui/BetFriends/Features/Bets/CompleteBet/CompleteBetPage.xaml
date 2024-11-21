@@ -2,11 +2,33 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BetFriends.Features.Bets.CompleteBet.CompleteBetPage"
-             Title="CompleteBetPage">
+             Title="CompleteBetPage"
+             Shell.PresentationMode="ModalAnimated"
+            Shell.TabBarIsVisible="True"
+            Shell.NavBarIsVisible="True">
     <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+        <Label Text="{Binding Error}" TextColor="Red" FontSize="Large"/>
+        <StackLayout Orientation="Horizontal" 
+                     RadioButtonGroup.SelectedValue="{Binding IsSuccess}" 
+                     RadioButtonGroup.GroupName="Result">
+            <RadioButton Content="Gagné" GroupName="Result" Value="true" IsChecked="{Binding Win}" />
+            <RadioButton Content="Perdu" GroupName="Result" Value="false" IsChecked="{Binding Lose}" />
+        </StackLayout>
+        <StackLayout IsVisible="{Binding Win}">
+            <Button
+                x:Name="ImageSelect"
+                Text="Charger une preuve"
+                Command="{Binding UploadCommand}"
+                HorizontalOptions="Center" />
+            <Image
+                Source="{Binding Proof}"
+                HeightRequest="300"
+                WidthRequest="300"
+                HorizontalOptions="Center" />
+        </StackLayout>
+        <StackLayout Orientation="Horizontal">
+            <Button Text="Valider" Command="{Binding ValidateCommand}" />
+            <Button Text="Fermer" Command="{Binding CloseCommand}" />
+        </StackLayout>
     </VerticalStackLayout>
 </ContentPage>

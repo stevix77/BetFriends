@@ -10,25 +10,26 @@
     Shell.FlyoutBehavior="Disabled">
 
     <TabBar>
-        <Tab Title="Amis">
-            <ShellContent
-Title="Home"
-ContentTemplate="{DataTemplate friends:FriendsPage}"
-Route="FriendsPage" />
-        </Tab>
-        <Tab Title="Parier">
-            <ShellContent
-Title="Créer un pari"
-ContentTemplate="{DataTemplate bets:BetPage}"
-Route="BetPage" />
-        </Tab>
+
         <Tab Title="Accueil">
             <ShellContent
 Title="Liste des paris"
 ContentTemplate="{DataTemplate betList:RetrieveBetsPage}"
 Route="RetrieveBetsPage" />
         </Tab>
-
+        
+        <Tab Title="Parier">
+            <ShellContent
+Title="Créer un pari"
+ContentTemplate="{DataTemplate bets:BetPage}"
+Route="BetPage" />
+        </Tab>
+        <Tab Title="Amis">
+            <ShellContent
+Title="Home"
+ContentTemplate="{DataTemplate friends:FriendsPage}"
+Route="FriendsPage" />
+        </Tab>
     </TabBar>
 
 </Shell>

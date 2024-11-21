@@ -1,6 +1,7 @@
 ﻿using BetFriends.Domain.Abstractions;
 using BetFriends.Domain.Features.CreateBet;
 using BetFriends.Domain.Features.RetrieveFriends;
+using BetFriends.Features.Bets.RetrieveBets;
 using BetFriends.Features.Friends;
 using BetFriends.Models;
 using BetFriends.Services;
@@ -30,7 +31,7 @@ public partial class CreateBetViewModel : ObservableObject
         {
             Reset();
             await Shell.Current.GoToAsync("..");
-            await Shell.Current.GoToAsync($"//{nameof(FriendsPage)}");
+            await Shell.Current.GoToAsync($"//{nameof(RetrieveBetsPage)}");
         }));
     }
 
@@ -80,7 +81,9 @@ public partial class CreateBetViewModel : ObservableObject
         {
             IsLoading = true;
             CanCreate = false;
-            var command = new CreateBetRequest(Description, EndDate, Chips, Friends.Where(x => x.IsChecked).Select(x => x.Id));
+            var command = new CreateBetRequest(Description, EndDate, Chips, Friends.Where(x => x.IsChecked)
+                                                                                    .Select(x => x.Id)
+                                                                                    .ToList());
             await mediator.Send(command, new CancellationToken());
         }
         catch (Exception ex)

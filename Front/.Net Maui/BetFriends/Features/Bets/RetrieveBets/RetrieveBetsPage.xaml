@@ -23,9 +23,9 @@
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="20"/>
-                                    <RowDefinition Height="40"/>
-                                    <RowDefinition Height="30"/>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
                                 </Grid.RowDefinitions>
                                 <Label Text="{Binding FormattedEndDate, StringFormat='Fin: {0}'}" />
                                 <Label Text="{Binding Coins, StringFormat='Jetons: {0}'}" Grid.Column="2" HorizontalOptions="EndAndExpand" />
@@ -35,11 +35,11 @@
                                     <Label Text="{Binding AcceptedCount, StringFormat='Participant(s) : {0} / '}" />
                                     <Label Text="{Binding InvitedCount}" />
                                 </StackLayout>
-                                <StackLayout IsVisible="{Binding HasAnswer}">
-                                    <Label Text="{Binding Answer}" Grid.Row="2" Grid.Column="1" />
+                                <StackLayout IsVisible="{Binding HasAnswer}" Grid.Row="2" Grid.Column="1">
+                                    <Label Text="{Binding Answer}"  />
                                 </StackLayout>
-                                <StackLayout IsVisible="{Binding Result, Converter={StaticResource StringNotNullConverter}}">
-                                    <Label Text="{Binding Result}" Grid.Row="2" Grid.Column="1" />
+                                <StackLayout IsVisible="{Binding Result, Converter={StaticResource StringNotNullConverter}}" Grid.Row="2" Grid.Column="1" >
+                                    <Label Text="{Binding Result}" />
                                 </StackLayout>
                                 <StackLayout Orientation="Horizontal" 
                                              Grid.Column="2" 
