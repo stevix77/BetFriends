@@ -4,6 +4,8 @@
     <IsFirstTimeProjectOpen>False</IsFirstTimeProjectOpen>
     <ActiveDebugFramework>net8.0-windows10.0.19041.0</ActiveDebugFramework>
     <ActiveDebugProfile>Windows Machine</ActiveDebugProfile>
+    <SelectedPlatformGroup>Emulator</SelectedPlatformGroup>
+    <DefaultDevice>Android_Accelerated_x86_Oreo</DefaultDevice>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-maccatalyst|AnyCPU'">
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
@@ -19,6 +21,9 @@
       <SubType>Designer</SubType>
     </MauiXaml>
     <MauiXaml Update="Features\Bets\CreateBet\SelectFriendsPage.xaml">
+      <SubType>Designer</SubType>
+    </MauiXaml>
+    <MauiXaml Update="Features\Bets\ProofBet\ProofPage.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
     <MauiXaml Update="Features\Bets\RetrieveBets\RetrieveBetsPage.xaml">
