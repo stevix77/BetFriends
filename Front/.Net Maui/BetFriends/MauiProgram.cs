@@ -2,6 +2,7 @@
 using BetFriend.Infrastructure;
 using BetFriends.Domain.Abstractions;
 using BetFriends.Domain.Features.AnswerBet;
+using BetFriends.Domain.Features.CompleteBet;
 using BetFriends.Domain.Features.CreateBet;
 using BetFriends.Features.Bets.CompleteBet;
 using BetFriends.Features.Bets.CreateBet;
@@ -53,8 +54,10 @@ namespace BetFriend
             builder.Services.AddScoped<IAddFriendOutputPort, AddFriendPresenter>();
             builder.Services.AddScoped<ICreateBetOutputPort, CreateBetPresenter>();
             builder.Services.AddScoped<IAnswerBetOutputPort, AnswerBetPresenter>();
+            builder.Services.AddScoped<ICompleteBetOutputPort, CompleteBetPresenter>();
             builder.Services.AddScoped<FriendsViewModel>();
             builder.Services.AddScoped<CreateBetViewModel>();
+            builder.Services.AddScoped<CompleteBetViewModel>();
             builder.Services.AddScoped<RetrieveBetsViewModel>();
             builder.Services.AddScoped<IUserContext>(x => new UserContext(Guid.NewGuid().ToString()));
             builder.Services.AddInfrastructure(x => x.GetRequiredService<IUserContext>());

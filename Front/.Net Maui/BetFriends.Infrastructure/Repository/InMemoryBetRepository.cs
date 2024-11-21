@@ -52,6 +52,7 @@ internal class InMemoryBetRepository : IBetRepository
         return Task.FromResult(bets.Select(x =>
         {
             var isSuccess = betsCompleted.TryGetValue(x.Id, out Tuple<bool, string?>? value) ? value.Item1 : new bool?();
+            
             return new RetrieveBetsItemResponse(x.Id,
                                             x.Description,
                                             x.Coins,
@@ -61,8 +62,13 @@ internal class InMemoryBetRepository : IBetRepository
                                             betsUsers.ContainsKey(x.Id) ? betsUsers[x.Id][^6..] : "toto",
                                             x.Friends.Select(y =>
                                             {
+                                                var answer = new bool?();
+                                                if (betsAnswered.ContainsKey(x.Id))
+                                                {
+                                                    answer = betsAnswered[x.Id].FirstOrDefault(a => a.Item1 == y)?.Item2;
+                                                }
                                                 var member = this.memberRepository.Members.FirstOrDefault(m => m.MemberId == y);
-                                                return new GamblerDto(member.MemberId, member.Name, null!);
+                                                return new GamblerDto(member.MemberId, member.Name, answer);
                                             }),
                                             isSuccess);
         }));
