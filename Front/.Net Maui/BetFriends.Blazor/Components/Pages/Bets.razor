@@ -1,5 +1,6 @@
 ﻿@page "/"
 @inject Components.Viewmodels.RetrieveBetsViewModel vm
+@implements IDisposable
 
 <h2>Mes paris en cours</h2>
 <div>
@@ -19,21 +20,14 @@
                         Participant(s) : @bet.AcceptedCount / @bet.InvitedCount
                     </div>
                     <div class="col">
-                    @if(bet.Answer.HasValue)
-                    {
-                        if(bet.Answer.Value)
+                        @if (!string.IsNullOrEmpty(bet.Answer))
                         {
-                                <span>Accepté</span>
+                            <span>@bet.Answer</span>
                         }
-                        if (!bet.Answer.Value)
+                        @if (!string.IsNullOrEmpty(bet.Result))
                         {
-                                <span>Refusé</span>
+                            <span>@bet.Result</span>
                         }
-                    }
-                    @if (!string.IsNullOrEmpty(bet.Result))
-                    {
-                        <span>@bet.Result</span>
-                    }
                     </div>
                     @if(bet.CanAnswer)
                     {
@@ -46,6 +40,12 @@
                     {
                         <div class="col">
                             <Button Color="ButtonColor.Success" @onclick="(() => ShowModal(bet.BetId))">Terminer</Button>
+                        </div>
+                    }
+                    @if(bet.IsSuccess.HasValue)
+                    {
+                        <div class="col">
+                            <Button Color="ButtonColor.Secondary" @onclick="(() => ShowProof(bet.BetId))">Fermer</Button>
                         </div>
                     }
                 </div>
@@ -82,6 +82,15 @@
     </FooterTemplate>
 </Modal>
 
+<Modal @ref="proofModal" Title="Preuve" Size="ModalSize.ExtraLarge" IsVerticallyCentered="true" CloseOnEscape="true">
+    <BodyTemplate>
+        <Image Src="@vm.Image" Class="rounded" />
+    </BodyTemplate>
+    <FooterTemplate>
+        <Button Color="ButtonColor.Primary" onclick="@(async () => await proofModal.HideAsync())">Fermer</Button>
+    </FooterTemplate>
+</Modal>
+
 @code {
 
     private Modal completeModal = default!;
@@ -98,6 +107,11 @@
         using var reader = new StreamReader(stream);
         var bytes = System.Text.Encoding.UTF8.GetBytes(await reader.ReadToEndAsync());
         vm.Proof = Convert.ToBase64String(bytes);
+    }
+
+    private async Task ShowProof(string betId)
+    {
+        await vm.LoadProof(betId, proofModal);
     }
 
     protected override async Task OnInitializedAsync()

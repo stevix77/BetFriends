@@ -96,6 +96,9 @@
 	  <MauiXaml Update="Features\Bets\CreateBet\SelectFriendsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Features\Bets\ProofBet\ProofPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Features\Bets\RetrieveBets\RetrieveBetsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

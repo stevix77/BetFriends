@@ -64,6 +64,14 @@ public partial class CompleteBetViewModel : ObservableObject
     {
         return Win.HasValue || Lose.HasValue;
     }
+    internal void Reset()
+    {
+        Error = string.Empty;
+        Proof = string.Empty;
+        IsSuccess = null;
+        Win = null;
+        Lose = null;
+    }
 
     [RelayCommand(CanExecute = "CanValidate")]
     private async Task Validate()

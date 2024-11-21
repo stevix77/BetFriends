@@ -74,6 +74,15 @@ internal class InMemoryBetRepository : IBetRepository
         }));
     }
 
+    public Task<byte[]> RetrieveProofAsync(string betId)
+    {
+        if (!betsCompleted.ContainsKey(betId) || !betsCompleted[betId].Item1)
+            return Task.FromResult<byte[]>(default!);
+
+        var betCompleted = betsCompleted[betId];
+        return Task.FromResult(Convert.FromBase64String(betCompleted.Item2!));
+    }
+
     public Task SaveAsync(Bet bet, CancellationToken cancellationToken)
     {
         bets.Add(bet);

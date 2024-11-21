@@ -40,4 +40,9 @@ internal class MockBetRepository(IUserContext userContext) : IBetRepository
         BetsCompleted.Add(new Tuple<string, bool>(betId, isSuccess));
         return Task.CompletedTask;
     }
+
+    public Task<byte[]> RetrieveProofAsync(string betId)
+    {
+        throw new NotImplementedException();
+    }
 }

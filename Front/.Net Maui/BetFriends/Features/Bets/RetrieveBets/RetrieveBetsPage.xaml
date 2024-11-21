@@ -35,7 +35,7 @@
                                     <Label Text="{Binding AcceptedCount, StringFormat='Participant(s) : {0} / '}" />
                                     <Label Text="{Binding InvitedCount}" />
                                 </StackLayout>
-                                <StackLayout IsVisible="{Binding HasAnswer}" Grid.Row="2" Grid.Column="1">
+                                <StackLayout IsVisible="{Binding Answer, Converter={StaticResource StringNotNullConverter}}" Grid.Row="2" Grid.Column="1">
                                     <Label Text="{Binding Answer}"  />
                                 </StackLayout>
                                 <StackLayout IsVisible="{Binding Result, Converter={StaticResource StringNotNullConverter}}" Grid.Row="2" Grid.Column="1" >
@@ -62,6 +62,15 @@
                                             Command="{Binding BindingContext.CompleteCommand, Source={x:Reference bets}}"
                                             CommandParameter="{Binding BetId}"
                                             />
+                                </StackLayout>
+                                <StackLayout Orientation="Horizontal" 
+                                             Grid.Column="2" 
+                                             Grid.Row="2"
+                                             IsVisible="{Binding Result, Converter={StaticResource StringNotNullConverter}}">
+                                                                <Button Text="Voir la preuve" 
+                                                                        Command="{Binding BindingContext.ProofCommand, Source={x:Reference bets}}"
+                                                                        CommandParameter="{Binding BetId}"
+                                                                        IsVisible="{Binding IsSuccess}" />          
                                 </StackLayout>
                             </Grid>
                         </Border>

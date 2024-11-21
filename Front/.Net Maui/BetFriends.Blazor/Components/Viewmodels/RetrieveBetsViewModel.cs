@@ -3,6 +3,7 @@ using BetFriends.Domain.Abstractions;
 using BetFriends.Domain.Features.AnswerBet;
 using BetFriends.Domain.Features.CompleteBet;
 using BetFriends.Domain.Features.RetrieveBets;
+using BetFriends.Domain.Features.RetrieveProof;
 using BlazorBootstrap;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -14,6 +15,10 @@ namespace BetFriends.Blazor.Components.Viewmodels;
 
 public partial class RetrieveBetsViewModel : ObservableObject
 {
+    private const string AcceptedText = "Accepté";
+    private const string RejectText = "Refusé";
+    private const string WinText = "Win";
+    private const string LoseText = "Lose";
     private readonly IMediator mediator;
     private readonly IUserContext userContext;
     private readonly IDateTimeProvider dateTimeProvider;
@@ -49,11 +54,23 @@ public partial class RetrieveBetsViewModel : ObservableObject
     [ObservableProperty]
     private bool? isSuccess;
 
-    private string betId;
+    private string? betId;
     [ObservableProperty]
     private string? proof;
+    [ObservableProperty]
+    private byte[] image;
 
     public List<ToastMessage> Errors { get; } = new List<ToastMessage>();
+
+    internal async Task LoadProof(string betId, Modal proofModal)
+    {
+        var image = await mediator.Send(new RetrieveProofRequest(betId));
+        if (image != null)
+        {
+            Image = image;
+            await proofModal.ShowAsync();
+        }
+    }
 
     private void UpdateBetCompleted(string betId, bool isSuccess)
     {
@@ -69,11 +86,11 @@ public partial class RetrieveBetsViewModel : ObservableObject
         if (bet.Answer is null)
         {
             bet.AcceptedCount += e.Answer ? 1 : 0;
-            bet.Answer = e.Answer;
+            bet.Answer = e.Answer ? AcceptedText : RejectText;
             return;
         }
         bet.AcceptedCount += e.Answer ? 1 : -1;
-        bet.Answer = e.Answer;
+        bet.Answer = e.Answer ? AcceptedText : RejectText;
     }
 
     public ObservableCollection<BetDto> Bets { get; private set; } = [];
@@ -82,14 +99,22 @@ public partial class RetrieveBetsViewModel : ObservableObject
     private async Task Accept(string betId)
     {
         var bet = Bets.First(x => x.BetId == betId);
-        await mediator.Send(new AnswerBetRequest(true, betId, bet.BookieId, bet.EndDate, bet.Answer));
+        await mediator.Send(new AnswerBetRequest(true,
+                                                 betId,
+                                                 bet.BookieId,
+                                                 bet.EndDate,
+                                                 GetAnswer(bet.Answer)));
     }
 
     [RelayCommand]
     private async Task Reject(string betId)
     {
         var bet = Bets.First(x => x.BetId == betId);
-        await mediator.Send(new AnswerBetRequest(false, betId, bet.BookieId, bet.EndDate, bet.Answer));
+        await mediator.Send(new AnswerBetRequest(false,
+                                                 betId,
+                                                 bet.BookieId,
+                                                 bet.EndDate,
+                                                 GetAnswer(bet.Answer)));
     }
 
     [RelayCommand]
@@ -97,7 +122,7 @@ public partial class RetrieveBetsViewModel : ObservableObject
     {
         try
         {
-            await mediator.Send(new CompleteBetRequest(betId, IsSuccess.GetValueOrDefault(), Proof));
+            await mediator.Send(new CompleteBetRequest(betId!, IsSuccess.GetValueOrDefault(), Proof));
         }
         catch (Exception)
         {
@@ -118,20 +143,31 @@ public partial class RetrieveBetsViewModel : ObservableObject
     {
         var query = new RetrieveBetsQuery();
         var bets = await mediator.Send(query);
-        Bets = new(bets.Select(x => new BetDto(x.BetId,
-                                                x.Description,
-                                                x.Coins,
-                                                x.EndDate,
-                                                x.MaxAnswerDate,
-                                                CanAnswer(x),
-                                                x.BookieId == userContext.UserId && !x.IsSuccess.HasValue,
-                                                x.BookieId,
-                                                x.BookieName,
-                                                x.Gamblers.Count(),
-                                                x.Gamblers.Count(y => y.HasAccepted == true),
-                                                x.Gamblers.FirstOrDefault(y => y.Id == userContext.UserId)?.HasAccepted,
-                                                x.IsSuccess,
-                                                x.IsSuccess == null ? null : GetResult(x.IsSuccess.Value, x.BookieId))));
+        Bets = new(bets.Select(x =>
+        {
+            var answer = x.Gamblers.FirstOrDefault(y => y.Id == userContext.UserId)?.HasAccepted;
+            return new BetDto(x.BetId,
+                            x.Description,
+                            x.Coins,
+                            x.EndDate,
+                            x.MaxAnswerDate,
+                            CanAnswer(x),
+                            x.BookieId == userContext.UserId && !x.IsSuccess.HasValue,
+                            x.BookieId,
+                            x.BookieName,
+                            x.Gamblers.Count(),
+                            x.Gamblers.Count(y => y.HasAccepted == true),
+                            answer.HasValue ? answer.Value ? AcceptedText : RejectText : string.Empty,
+                            x.IsSuccess,
+                            x.IsSuccess == null ? null : GetResult(x.IsSuccess.Value, x.BookieId));
+        }));
+    }
+
+    private bool? GetAnswer(string answer)
+    {
+        if (string.IsNullOrEmpty(answer))
+            return null!;
+        return answer == AcceptedText ? true : false;
     }
 
     private bool CanAnswer(RetrieveBetsItemResponse bet)
@@ -141,8 +177,8 @@ public partial class RetrieveBetsViewModel : ObservableObject
     private string GetResult(bool isSuccess, string bookieId)
     {
         if (bookieId == userContext.UserId)
-            return isSuccess ? "Win" : "Lose";
-        return isSuccess ? "Lose" : "Win";
+            return isSuccess ? WinText : LoseText;
+        return isSuccess ? LoseText : WinText;
     }
 }
 
@@ -152,12 +188,9 @@ public partial class BetDto(string betId,
                                   DateTime endDate,
                                   DateTime maxAnswerDate,
                                   bool canAnswer,
-                                  bool canClose,
                                   string bookieId,
                                   string bookieName,
-                                  int invitedCount,
-                                  bool? isSuccess,
-                                  string? result) : ObservableObject
+                                  int invitedCount) : ObservableObject
 {
 
     public BetDto(string betId,
@@ -171,7 +204,7 @@ public partial class BetDto(string betId,
                 string bookieName,
                 int invitedCount,
                 int acceptedCount,
-                bool? answer,
+                string answer,
                 bool? isSuccess,
                 string? result) : this(betId,
                                     description,
@@ -179,12 +212,9 @@ public partial class BetDto(string betId,
                                     endDate,
                                     maxAnswerDate,
                                     canAnswer,
-                                    canClose,
                                     bookieId,
                                     bookieName,
-                                    invitedCount,
-                                    isSuccess,
-                                    result)
+                                    invitedCount)
     {
         this.acceptedCount = acceptedCount;
         this.answer = answer;
@@ -211,5 +241,5 @@ public partial class BetDto(string betId,
     [ObservableProperty]
     private int acceptedCount;
     [ObservableProperty]
-    private bool? answer;
+    private string answer;
 }

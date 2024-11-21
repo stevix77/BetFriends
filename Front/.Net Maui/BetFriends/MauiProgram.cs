@@ -6,6 +6,7 @@ using BetFriends.Domain.Features.CompleteBet;
 using BetFriends.Domain.Features.CreateBet;
 using BetFriends.Features.Bets.CompleteBet;
 using BetFriends.Features.Bets.CreateBet;
+using BetFriends.Features.Bets.ProofBet;
 using BetFriends.Features.Bets.RetrieveBets;
 using BetFriends.Features.Friends;
 using BetFriends.Services;
@@ -51,6 +52,7 @@ namespace BetFriend
             builder.Services.AddScoped<SelectFriendsPage>();
             builder.Services.AddScoped<RetrieveBetsPage>();
             builder.Services.AddScoped<CompleteBetPage>();
+            builder.Services.AddScoped<ProofPage>();
             builder.Services.AddScoped<IAddFriendOutputPort, AddFriendPresenter>();
             builder.Services.AddScoped<ICreateBetOutputPort, CreateBetPresenter>();
             builder.Services.AddScoped<IAnswerBetOutputPort, AnswerBetPresenter>();
@@ -59,6 +61,7 @@ namespace BetFriend
             builder.Services.AddScoped<CreateBetViewModel>();
             builder.Services.AddScoped<CompleteBetViewModel>();
             builder.Services.AddScoped<RetrieveBetsViewModel>();
+            builder.Services.AddScoped<ProofViewModel>();
             builder.Services.AddScoped<IUserContext>(x => new UserContext(Guid.NewGuid().ToString()));
             builder.Services.AddInfrastructure(x => x.GetRequiredService<IUserContext>());
             return builder.Build();

@@ -17,4 +17,10 @@ public partial class CompleteBetPage : ContentPage
             (BindingContext as CompleteBetViewModel).BetId = value;
         }
     }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        (BindingContext as CompleteBetViewModel).Reset();
+    }
 }

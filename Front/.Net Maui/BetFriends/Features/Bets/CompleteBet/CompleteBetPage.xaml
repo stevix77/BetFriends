@@ -6,7 +6,7 @@
              Shell.PresentationMode="ModalAnimated"
             Shell.TabBarIsVisible="True"
             Shell.NavBarIsVisible="True">
-    <VerticalStackLayout>
+    <StackLayout>
         <Label Text="{Binding Error}" TextColor="Red" FontSize="Large"/>
         <StackLayout Orientation="Horizontal" 
                      RadioButtonGroup.SelectedValue="{Binding IsSuccess}" 
@@ -26,9 +26,13 @@
                 WidthRequest="300"
                 HorizontalOptions="Center" />
         </StackLayout>
-        <StackLayout Orientation="Horizontal">
-            <Button Text="Valider" Command="{Binding ValidateCommand}" />
-            <Button Text="Fermer" Command="{Binding CloseCommand}" />
-        </StackLayout>
-    </VerticalStackLayout>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button Text="Valider" Command="{Binding ValidateCommand}" Grid.Column="1" BackgroundColor="{DynamicResource Primary}"/>
+            <Button Text="Fermer" Command="{Binding CloseCommand}" Grid.Column="0" BackgroundColor="{DynamicResource Yellow100Accent}" />
+        </Grid>
+    </StackLayout>
 </ContentPage>
