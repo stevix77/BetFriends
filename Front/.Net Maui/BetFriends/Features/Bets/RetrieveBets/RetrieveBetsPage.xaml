@@ -11,7 +11,8 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <VerticalStackLayout>
-        <ListView ItemsSource="{Binding Bets}" x:Name="bets">
+        <ListView ItemsSource="{Binding Bets}" x:Name="bets"
+                                                RowHeight="100">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>

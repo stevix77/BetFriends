@@ -58,7 +58,7 @@ public partial class RetrieveBetsViewModel : ObservableObject
     [ObservableProperty]
     private string? proof;
     [ObservableProperty]
-    private byte[] image;
+    private string image;
 
     public List<ToastMessage> Errors { get; } = new List<ToastMessage>();
 
@@ -67,8 +67,15 @@ public partial class RetrieveBetsViewModel : ObservableObject
         var image = await mediator.Send(new RetrieveProofRequest(betId));
         if (image != null)
         {
-            Image = image;
-            await proofModal.ShowAsync();
+            try
+            {
+                Image = $"data:image/png;base64,{Convert.ToBase64String(image)}";
+                await proofModal.ShowAsync();
+            }
+            catch (Exception ex)
+            {
+                Errors.Add(new ToastMessage(ToastType.Danger, "Erreur", "Un problème est survenu"));
+            }
         }
     }
 

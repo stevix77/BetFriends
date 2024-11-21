@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import FriendsView from '../views/FriendsView.vue'
 import CreateBetView from '../views/CreateBetView.vue'
 import CompleteBetView from '../views/CompleteBetView.vue'
+import ProofView from '../views/ProofView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -35,6 +36,12 @@ const router = createRouter({
       name: 'complete',
       props: true,
       component: CompleteBetView
+    },
+    {
+      path: '/proof/:betId',
+      name: 'proof',
+      props: true,
+      component: ProofView
     }
   ]
 })
