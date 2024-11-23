@@ -6,6 +6,7 @@ import type { IDateTimeProvider } from "../../../../../domain/abstractions/IDate
 import type { IUserContext } from "../../../../../domain/abstractions/IUserContext";
 import type { BetSummary } from "../../../../../domain/bets/BetSummary";
 import type { Router } from 'vue-router';
+import moment from "moment";
 
 export class BetsViewModel {
     constructor(private readonly betController: BetsController,
@@ -39,7 +40,7 @@ export class BetsViewModel {
                 Id: x.Id,
                 Coins: x.Coins,
                 Description: x.Description,
-                EndDate: x.EndDate.toString(),
+                EndDate: moment(x.EndDate).format('L'),
                 MaxAnswerDate: x.MaxAnswerDate,
                 BookieId: x.BookieId,
                 BookieName: x.BookieName,
@@ -53,7 +54,7 @@ export class BetsViewModel {
             }
         })
     }
-    GetResult(isSuccess: boolean, bookieId: string): string {
+    private GetResult(isSuccess: boolean, bookieId: string): string {
         if(this.userContext.UserId == bookieId) {
             return isSuccess ? "Win" : "Lose"
         }
@@ -90,6 +91,10 @@ export class BetsViewModel {
                                             bet.MaxAnswerDate, 
                                             bet.BookieId,
                                             bet.Answer)
+    }
+
+    GetProof(betId: string): Promise<string> {
+        return this.betController.GetProof(betId);
     }
 
     async Complete(betId: string) {

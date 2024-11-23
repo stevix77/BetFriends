@@ -36,19 +36,27 @@
                         Terminer
                     </button>
                 </div>
+                <div class="col-sm" style="text-align:right" v-if="bet.IsSuccess === true">
+                    <button class="btn btn-info" type="button" @click="getProof(bet.Id)">
+                        Voir la preuve
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<dialog ref="dialog">
+    <div>
+      <img :src="proof" width="350" height="500"  />
+    </div>
+    <div>
+      <button @click="dialog?.close()">OK</button>
+    </div>
+  </dialog>
   </main>
-<!--   
-  <Teleport to="body">
-  <div v-if="open" class="modal">
-    <p>Hello from the modal!</p>
-    <button @click="open = false">Close</button>
-  </div>
-</Teleport> -->
 </template>
+
 
 <script lang="ts">
 import { getCurrentInstance, inject, ref } from 'vue'
@@ -56,30 +64,38 @@ import { BetsViewModel } from '../viewmodels/BetsViewModel';
 
     export default {
         setup() {
-            const vm = ref(inject<BetsViewModel>('betsviewmodel'))
+            const vm = ref(inject<BetsViewModel>('betsviewmodel')!)
             const current = getCurrentInstance()
+            const proof = ref("")
+            const dialog = ref<HTMLDialogElement>();
             return {
                 vm,
-                current
+                current,
+                proof,
+                dialog
             }
         },
         async mounted(): Promise<void> {
-            await this.vm!.LoadBetsAsync();
+            await this.vm.LoadBetsAsync();
             this.current?.proxy?.$forceUpdate();
         },
         methods: {
           async Answer(answer: boolean, betId: string) {
             if(answer === true) {
-                await this.vm?.Accept(betId);
+                await this.vm.Accept(betId);
                 this.current?.proxy?.$forceUpdate();
                 return;
             }
 
-            await this.vm?.Decline(betId);
+            await this.vm.Decline(betId);
             this.current?.proxy?.$forceUpdate();
           },
           async Complete(betId: string) {
-            await this.vm?.Complete(betId);  
+            await this.vm.Complete(betId);  
+          },
+          async getProof(betId: string) {
+            this.proof = await this.vm.GetProof(betId);
+            this.dialog!.showModal();
           }
           
         },

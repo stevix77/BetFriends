@@ -27,6 +27,7 @@ import { IUserContext } from '../../../../../../domain/abstractions/IUserContext
 import { CompleteBetComponent } from './complete-bet/complete-bet.component';
 import { CompleteBetHandler } from '../../../../../../domain/features/CompleteBetHandler';
 import { CompleteBetViewModel } from './CompleteBetViewModel';
+import { GetProofHandler } from '../../../../../../domain/features/GetProofHandler';
 
 const createBetPresenter = new CreateBetPresenter();
 const answerPresenter = new AnswerBetPresenter();
@@ -77,21 +78,30 @@ const completeBetPresenter = new CompleteBetPresenter();
       provide: CompleteBetHandler,
       useFactory: (betRepository: IBetRepository) => 
         new CompleteBetHandler(betRepository, completeBetPresenter),
-      deps: ['IBetRepository', ]
+      deps: ['IBetRepository']
+    },
+    {
+      provide: GetProofHandler,
+      useFactory: (betRepository: IBetRepository) => 
+        new GetProofHandler(betRepository),
+      deps: ['IBetRepository']
     },
     {
       provide: BetsController,
       useFactory: (retrieveBetsHandler: RetrieveBetsHandler,
                     createBetHandler: CreateBetHandler,
                     answerBetHandler: AnswerBetHandler,
-                    completeBetHandler: CompleteBetHandler) => new BetsController(createBetHandler, 
+                    completeBetHandler: CompleteBetHandler,
+                    getProofHandler: GetProofHandler) => new BetsController(createBetHandler, 
                                                                                 retrieveBetsHandler, 
                                                                                 answerBetHandler, 
-                                                                                completeBetHandler),
+                                                                                completeBetHandler,
+                                                                                getProofHandler),
       deps: [RetrieveBetsHandler, 
           CreateBetHandler, 
           AnswerBetHandler,
-          CompleteBetHandler]
+          CompleteBetHandler,
+          GetProofHandler]
     },
     {
       provide: CreateBetViewModel,

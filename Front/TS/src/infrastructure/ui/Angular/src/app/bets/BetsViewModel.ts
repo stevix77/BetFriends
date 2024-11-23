@@ -6,9 +6,10 @@ import { IUserContext } from "../../../../../../domain/abstractions/IUserContext
 import { IDateTimeProvider } from "../../../../../../domain/abstractions/IDateTimeProvider";
 import { Router } from "@angular/router";
 import { BetSummary } from "../../../../../../domain/bets/BetSummary";
+import moment from "moment";
 
 export class BetsViewModel {
-    
+        
     constructor(private readonly betController: BetsController,
                 private readonly answerBetPresenter: AnswerBetPresenter,
                 private readonly userContext: IUserContext,
@@ -40,7 +41,7 @@ export class BetsViewModel {
                 Id: x.Id,
                 Coins: x.Coins,
                 Description: x.Description,
-                EndDate: x.EndDate.toString(),
+                EndDate: moment(x.EndDate).format('L'),
                 MaxAnswerDate: x.MaxAnswerDate,
                 BookieId: x.BookieId,
                 BookieName: x.BookieName,
@@ -55,6 +56,10 @@ export class BetsViewModel {
                                     this.GetResult(x.IsSuccess.valueOf(), x.BookieId)
             }
         })
+    }
+    
+    GetProof(betId: string): Promise<string> {
+        return this.betController.GetProof(betId);
     }
 
     async Accept(betId: string): Promise<void>{
@@ -86,6 +91,8 @@ export class BetsViewModel {
     Complete(betId: string) {
         return this.router.navigate([`complete`, betId]); 
     }
+
+    
 
     private GetResult(isSuccess: boolean, bookieId: string): string {
         if(this.userContext.UserId == bookieId) {
