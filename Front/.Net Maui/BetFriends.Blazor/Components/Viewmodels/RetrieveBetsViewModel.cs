@@ -69,7 +69,7 @@ public partial class RetrieveBetsViewModel : ObservableObject
         {
             try
             {
-                Image = $"data:image/png;base64,{Convert.ToBase64String(image)}";
+                Image = $"data:image/png;base64, {Convert.ToBase64String(image)}";
                 await proofModal.ShowAsync();
             }
             catch (Exception ex)
