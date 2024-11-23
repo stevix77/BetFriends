@@ -3,12 +3,14 @@ import { type BetSummary } from '../../../domain/bets/BetSummary';
 import { RetrieveBetsHandler } from '../../../domain/features/RetrieveBetsHandler';
 import { AnswerBetHandler } from '../../../domain/features/AnswerBetHandler';
 import { CompleteBetHandler } from '../../../domain/features/CompleteBetHandler'
+import { GetProofHandler } from '../../../domain/features/GetProofHandler';
 export class BetsController {
-    
+       
     constructor(private readonly createBetHandler: CreateBetHandler,
                 private readonly retrieveBetsHandler: RetrieveBetsHandler,
                 private readonly answerBetHandler: AnswerBetHandler,
-            private readonly completeBetHandler: CompleteBetHandler) {}
+            private readonly completeBetHandler: CompleteBetHandler,
+            private readonly proofHandler: GetProofHandler) {}
 
     Create(request: CreateBetRequest): Promise<void> {
         return this.createBetHandler.Handle({
@@ -44,6 +46,12 @@ export class BetsController {
             betId: betId,
             isSuccess: isSuccess,
             proof: proof
+        })
+    }
+
+    GetProof(betId: string): Promise<string> {
+        return this.proofHandler.Handle({
+            BetId: betId
         })
     }
 }

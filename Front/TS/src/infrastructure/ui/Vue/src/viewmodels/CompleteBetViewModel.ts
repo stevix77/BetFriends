@@ -2,7 +2,7 @@ import type { Router } from "vue-router";
 import type { BetsController } from "../../../../adapters/controllers/BetsController";
 import { Subject } from "rxjs";
 import type { CompleteResponse } from "../../../../../domain/features/CompleteBetHandler";
-import { Key, type CompleteBetPresenter } from '../../../../adapters/presenters/CompleteBetPresenter'
+import { Key, CompleteBetPresenter } from '../../../../adapters/presenters/CompleteBetPresenter'
 
 export class CompleteBetViewModel {
     constructor(private readonly betController: BetsController, 

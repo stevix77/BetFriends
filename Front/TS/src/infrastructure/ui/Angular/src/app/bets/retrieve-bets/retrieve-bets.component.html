@@ -34,7 +34,21 @@
                         Terminer
                     </button>
                 </div>
+                <div class="col-sm" style="text-align:right" *ngIf="bet.IsSuccess === true">
+                    <button class="btn btn-info" type="button" (click)="getProof(bet.Id, dialog)">
+                        Voir la preuve
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<dialog #dialog>
+    <div>
+      <img [src]="Proof" width="350" height="500"  />
+    </div>
+    <div>
+      <button (click)="dialog.close()">OK</button>
+    </div>
+  </dialog>

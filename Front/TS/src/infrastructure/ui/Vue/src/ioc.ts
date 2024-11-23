@@ -28,6 +28,7 @@ import { Bet } from "../../../../domain/bets/Bet";
 import { CompleteBetViewModel } from "./viewmodels/CompleteBetViewModel";
 import { CompleteBetHandler } from "../../../../domain/features/CompleteBetHandler";
 import { CompleteBetPresenter } from "../../../adapters/presenters/CompleteBetPresenter";
+import { GetProofHandler } from "../../../../domain/features/GetProofHandler";
 
 const ioc = (app: App) => {
     const userContext = new UserContext('aeaeaeae-aeae-aeae-aeae-aeaeaeaeaeae');
@@ -53,7 +54,8 @@ const ioc = (app: App) => {
     const retrieveBetsHandler = new RetrieveBetsHandler(betRepository)
     const answerBetHandler = new AnswerBetHandler(betRepository, dtProvider, answerBetPresenter, userContext);
     const completeBetHandler = new CompleteBetHandler(betRepository, completeBetPresenter)
-    const betsController = new BetsController(createBetHandler, retrieveBetsHandler, answerBetHandler, completeBetHandler);
+    const getProofHandler = new GetProofHandler(betRepository)
+    const betsController = new BetsController(createBetHandler, retrieveBetsHandler, answerBetHandler, completeBetHandler, getProofHandler);
     const addFriendHandler = new AddFriendHandler(friendRepository, friendsPresenter)
     const friendsController = new FriendsController(retrieveFriendsHandler, 
                                                     retrieveMembersHandler,

@@ -8,9 +8,14 @@ import { BetsViewModel } from '../BetsViewModel';
 })
 export class RetrieveBetsComponent implements OnInit {
   constructor(protected bvm: BetsViewModel){}
-  
+  Proof: any;
   async ngOnInit(): Promise<void> {
     await this.bvm.LoadBetsAsync();
   }
   
+  async getProof(betId: string, dialog: any): Promise<void> {
+    this.Proof = await this.bvm.GetProof(betId);
+    dialog.showModal();
+  }
+
 }

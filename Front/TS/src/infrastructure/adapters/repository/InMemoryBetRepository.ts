@@ -7,9 +7,10 @@ export class InMemoryBetRepository implements IBetRepository {
     constructor(private readonly memberRepository: InMemoryMemberRepository, 
                 private readonly userContext: IUserContext,
                 private bets: Bet[] = []){}
+    
                 
     private readonly betsUsers: Map<string, string> = new Map<string, string>();
-    private readonly betsCompleted: Map<string, boolean> = new Map<string, boolean>();
+    private readonly betsCompleted: Map<string, {isSuccess: boolean, proof?: string}> = new Map<string, {isSuccess: boolean, proof?: string}>();
 
     AnswerAsync(betId: string, answer: boolean): Promise<void> {
         const bet = this.bets.find(x => x.Id == betId);
@@ -24,7 +25,7 @@ export class InMemoryBetRepository implements IBetRepository {
         if(!bet) {
             return Promise.reject();
         }
-        this.betsCompleted.set(betId, isSuccess)
+        this.betsCompleted.set(betId, { isSuccess, proof })
         return Promise.resolve();
     }
 
@@ -46,10 +47,21 @@ export class InMemoryBetRepository implements IBetRepository {
                         HasAccepted: undefined
                     }
                 }),
-                IsSuccess: this.betsCompleted.get(x.Id)
+                IsSuccess: this.betsCompleted.get(x.Id)?.isSuccess
             }
         });
         return Promise.resolve(bets)
+    }
+
+    GetProofAsync(betId: string): Promise<string> {
+        const betCompleted = this.betsCompleted.get(betId);
+        if(!betCompleted) {
+            return Promise.reject(`bet ${betId} is not over`)
+        }
+        if(!betCompleted.isSuccess) {
+            return Promise.reject(`bet ${betId} is not successful and has no proof`)
+        }
+        return Promise.resolve(betCompleted.proof!);
     }
 
     Save(bet: Bet): Promise<void> {
