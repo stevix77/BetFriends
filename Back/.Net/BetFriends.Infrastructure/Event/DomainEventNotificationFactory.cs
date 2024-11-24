@@ -1,4 +1,5 @@
 ﻿using BetFriends.Application.Features.AnswerBet;
+using BetFriends.Application.Features.CompleteBet;
 using BetFriends.Application.Features.CreateBet;
 using BetFriends.Domain;
 using BetFriends.Domain.Events;
@@ -14,6 +15,7 @@ namespace BetFriends.Infrastructure.Event
             {
                 BetCreated bc => new BetCreatedNotification(bc.BetId, bc.OwnerId, bc.Coins),
                 BetAnswered ba => new BetAnsweredNotification(ba.BetId, ba.MemberId, ba.Answer),
+                BetCompleted bc => new BetCompletedNotification(bc.BetId, bc.IsSuccessful),
                 _ => null!,
             };
         }

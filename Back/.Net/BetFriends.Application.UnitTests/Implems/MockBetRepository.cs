@@ -19,7 +19,7 @@ namespace BetFriends.Application.UnitTests.Implems
 
         public Task SaveAsync(Bet bet)
         {
-            this.Bet = bet;
+            Bet = bet;
             return Task.CompletedTask;
         }
     }
