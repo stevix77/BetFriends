@@ -1,4 +1,5 @@
 ﻿using BetFriends.Domain.AnswerBets;
+using BetFriends.Domain.Bets.Exceptions;
 using BetFriends.Domain.Events;
 using BetFriends.Domain.Members;
 
@@ -41,6 +42,8 @@ public class Bet : Entity
     public IEnumerable<Guid> Guests { get; }
     public MaxAnswerDate MaxAnswerDate { get; }
     public MemberId OwnerId { get; }
+    public bool? IsSuccessful { get; private set; }
+    public string? Proof { get; private set; }
 
     public static Bet Create(BetId betId,
                              MemberId ownerId,
@@ -73,6 +76,17 @@ public class Bet : Entity
         if (!member.CanBet(Coins))
             return (null!, AnswerErrorCode.NotEnoughCoins);
         return (new AnswerBet(BetId, answer, member.MemberId), null!);
+    }
+
+    public void Close(bool isSuccessful, Guid bookieId, string? proof)
+    {
+        if (bookieId != OwnerId.Value)
+            throw new BookieCompleteException($"bookie {bookieId} is not the bet owner");
+        if (isSuccessful && string.IsNullOrWhiteSpace(proof))
+            throw new ProofRequiredException();
+        IsSuccessful = isSuccessful;
+        Proof = proof;
+        AddEvent(new BetCompleted(BetId, isSuccessful));
     }
 
     private bool IsNotRequested(Member member)
