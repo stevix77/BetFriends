@@ -1,4 +1,5 @@
-﻿using BetFriends.Application.Features.CreateBet;
+﻿using BetFriends.Application.Features.CompleteBet;
+using BetFriends.Application.Features.CreateBet;
 using BetFriends.Domain.Events;
 using MediatR;
 using System.Text.Json;
@@ -12,8 +13,11 @@ public class EventNotificationFactory
         switch(outbox.Type)
         {
             case nameof(BetCreated):
-                var @event = JsonSerializer.Deserialize<BetCreated>(outbox.Data)!;
-                return new BetCreatedEventNotification(@event.BetId, @event.OwnerId, @event.Coins);
+                var betCreated = JsonSerializer.Deserialize<BetCreated>(outbox.Data)!;
+                return new BetCreatedEventNotification(betCreated.BetId, betCreated.OwnerId, betCreated.Coins);
+            case nameof(BetCompleted):
+                var betCompleted = JsonSerializer.Deserialize<BetCompleted>(outbox.Data)!;
+                return new BetCompletedEventNotification(betCompleted.BetId.Value, betCompleted.IsSuccessful);
             default:
                 return null!;
         }

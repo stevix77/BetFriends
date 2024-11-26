@@ -50,7 +50,7 @@ public class Member : Entity
                                creationDate);
     }
 
-    public void Decrease(int coins)
+    public void DecreaseBalance(int coins)
     {
         this.coins -= coins;
     }
@@ -62,4 +62,7 @@ public class Member : Entity
 
     internal bool CanBet(int coins)
         => Coins >= coins;
+
+    public void IncreaseBalance(int coins)
+        => this.coins += coins;
 }

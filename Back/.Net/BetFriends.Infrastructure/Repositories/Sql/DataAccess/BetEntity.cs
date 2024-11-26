@@ -19,7 +19,7 @@ internal class BetEntity
         Chips = bet.Coins;
         EndDate = bet.EndDate;
         Friends = string.Join(';', bet.Guests);
-        OwnerId = bet.OwnerId.Value;
+        OwnerId = bet.BookieId.Value;
     }
 
     [Column("surrogate_id", TypeName = "int")]

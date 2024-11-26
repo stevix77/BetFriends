@@ -1,4 +1,5 @@
 ﻿using BetFriends.Domain.AnswerBets;
+using BetFriends.Domain.Bets;
 using BetFriends.Infrastructure.Event;
 
 namespace BetFriends.Infrastructure.Repositories;
@@ -22,6 +23,11 @@ internal class FakeAnswerBetRepository : IAnswerBetRepository
         answerBets.Add(answerBet);
         domainEventsAccessor.Add(answerBet.Events);
         return Task.CompletedTask;
+    }
+
+    public Task<IEnumerable<AnswerBet>> GetAnswersAsync(BetId betId)
+    {
+        return Task.FromResult(answerBets.Where(x => x.State.BetId == betId));
     }
 
     internal IEnumerable<AnswerBetState> Answers { get => answerBets.Select(x => x.State); }

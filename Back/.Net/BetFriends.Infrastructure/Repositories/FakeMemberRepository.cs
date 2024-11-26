@@ -34,4 +34,9 @@ internal class FakeMemberRepository : IMemberRepository
         }
         return Task.CompletedTask;
     }
+
+    public Task SaveAsync(IEnumerable<Member> gamblers)
+    {
+        return Task.CompletedTask;
+    }
 }
