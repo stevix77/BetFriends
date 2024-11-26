@@ -9,7 +9,7 @@ public sealed class DecreaseCoinsMember(IMemberRepository repository)
     public async Task Decrease(MemberId memberId, int coins)
     {
         var member = await repository.GetByIdAsync(memberId) ?? throw new MemberDoesNotExistException();
-        member.Decrease(coins);
+        member.DecreaseBalance(coins);
         await repository.SaveAsync(member);
     }
 }

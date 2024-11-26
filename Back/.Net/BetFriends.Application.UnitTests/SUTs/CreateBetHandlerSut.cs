@@ -69,7 +69,7 @@ internal class CreateBetHandlerSut
         Assert.Equal(command.Description, betRepository.Bet.Description);
         Assert.Equal(command.Chips, betRepository.Bet.Coins);
         Assert.Equal(betId, betRepository.Bet.BetId.Value);
-        Assert.Equal(userId, betRepository.Bet.OwnerId.Value);
+        Assert.Equal(userId, betRepository.Bet.BookieId.Value);
         Assert.Equivalent(command.Friends, betRepository.Bet.Guests);
     }
 

@@ -10,7 +10,7 @@ public class Bet : Entity
     private Bet(Guid id, Guid ownerId, string description, int coins, DateTime endDate, IEnumerable<Guid> guests)
     {
         BetId = new(id);
-        OwnerId = new(ownerId);
+        BookieId = new(ownerId);
         Description = description;
         Coins = coins;
         EndDate = endDate;
@@ -26,7 +26,7 @@ public class Bet : Entity
                 MaxAnswerDate maxAnswerDate)
     {
         BetId = betId;
-        OwnerId = ownerId;
+        BookieId = ownerId;
         Description = description;
         Coins = coins;
         EndDate = endDate;
@@ -41,7 +41,7 @@ public class Bet : Entity
     public BetId BetId { get; }
     public IEnumerable<Guid> Guests { get; }
     public MaxAnswerDate MaxAnswerDate { get; }
-    public MemberId OwnerId { get; }
+    public MemberId BookieId { get; }
     public bool? IsSuccessful { get; private set; }
     public string? Proof { get; private set; }
 
@@ -80,7 +80,7 @@ public class Bet : Entity
 
     public void Close(bool isSuccessful, Guid bookieId, string? proof)
     {
-        if (bookieId != OwnerId.Value)
+        if (bookieId != BookieId.Value)
             throw new BookieCompleteException($"bookie {bookieId} is not the bet owner");
         if (isSuccessful && string.IsNullOrWhiteSpace(proof))
             throw new ProofRequiredException();

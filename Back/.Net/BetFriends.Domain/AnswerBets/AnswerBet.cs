@@ -20,4 +20,7 @@ public class AnswerBet : Entity
     }
 
     public AnswerBetState State { get => new AnswerBetState(betId, memberId, answer); }
+
+    public bool HasAccepted()
+        => answer;
 }

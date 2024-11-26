@@ -13,11 +13,11 @@ internal class FakeRetrieveBetsDataAccess(FakeBetRepository fakeBetRepository,
 
     public Task<IEnumerable<RetrieveBetsResponse>> GetAsync(Guid memberId)
     {
-        var bets = fakeBetRepository.Bets.Where(x => x.OwnerId.Value == memberId ||
+        var bets = fakeBetRepository.Bets.Where(x => x.BookieId.Value == memberId ||
                                         x.Guests.Contains(memberId))
                                      .Select(x =>
                                      {
-                                         var owner = fakeMemberRepository.Members.FirstOrDefault(y => y.MemberId.Value == x.OwnerId.Value);
+                                         var owner = fakeMemberRepository.Members.FirstOrDefault(y => y.MemberId.Value == x.BookieId.Value);
                                          var gamblers = fakeMemberRepository.Members.Where(y => x.Guests.Contains(y.MemberId.Value));
                                          return new RetrieveBetsResponse(x.BetId.Value,
                                                                          x.Description,
