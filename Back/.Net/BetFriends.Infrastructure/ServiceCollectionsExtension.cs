@@ -1,4 +1,5 @@
 ﻿using BetFriends.Application.Abstractions;
+using BetFriends.Application.Features.CompleteBet;
 using BetFriends.Application.Features.RetrieveBets;
 using BetFriends.Domain.AnswerBets;
 using BetFriends.Domain.Bets;
@@ -8,6 +9,7 @@ using BetFriends.Domain.Members.Services;
 using BetFriends.Infrastructure.Behaviors;
 using BetFriends.Infrastructure.DataAccess;
 using BetFriends.Infrastructure.Event;
+using BetFriends.Infrastructure.Notifiers;
 using BetFriends.Infrastructure.Outbox;
 using BetFriends.Infrastructure.Repositories;
 using BetFriends.Infrastructure.UoW;
@@ -38,6 +40,7 @@ public static class ServiceCollectionsExtension
         services.AddSingleton<DomainEventsAccessor>();
         services.AddScoped<IDomainEventDispatcher, DomainEventDispatcher>();
         services.AddScoped<DomainEventNotificationFactory>();
+        services.AddScoped<INotifyBetCompleted, NotifyBetCompleted>();
         services.AddSingleton<EventNotificationFactory>();
         services.AddSingleton<IOutboxRepository, FakeOutboxInMemoryRepository>();
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));

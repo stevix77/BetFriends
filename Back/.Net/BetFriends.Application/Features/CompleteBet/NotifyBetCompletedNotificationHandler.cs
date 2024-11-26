@@ -1,7 +1,4 @@
-﻿using BetFriends.Application.Features.CreateBet;
-using BetFriends.Domain.AnswerBets;
-using BetFriends.Domain.Bets;
-using BetFriends.Domain.Members;
+﻿using BetFriends.Domain.AnswerBets;
 using MediatR;
 
 namespace BetFriends.Application.Features.CompleteBet;
