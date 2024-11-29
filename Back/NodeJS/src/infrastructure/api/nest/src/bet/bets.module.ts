@@ -1,7 +1,5 @@
 import { forwardRef, Module } from "@nestjs/common"
 import { AppModule } from "src/app.module";
-import { DateTimeProvider } from "src/DateTimeProvider";
-import { FakeUserContext } from "src/FakeUserContext";
 import { CreateBetCommandHandler } from "../../../../../application/features/create-bet/CreateBetHandler";
 import { LoggingBehavior } from "../../../../behaviors/LoggingBehavior";
 import { RequestBehavior } from "../../../../behaviors/RequestBehavior";
@@ -21,6 +19,10 @@ import { AnswerBetCommandHandler, IAnswerBetOutputPort } from '../../../../../ap
 import { IBetRepository } from "../../../../../domain/bets/IBetRepository";
 import { IAnswerBetRepository } from "../../../../../domain/answerBets/IAnswerBetRepository";
 import { IMemberRepository } from "../../../../../domain/members/IMemberRepository";
+import { CompleteBetCommandHandler } from "../../../../../application/features/complete-bet/CompleteBetHandler";
+import { CompleteBetPresenter } from "./features/complete-bet/CompleteBetPresenter";
+
+const completeBetPresenter = new CompleteBetPresenter();
 
 @Module({
     controllers: [CreateBetController, RetrieveBetsController, AnswerBetController],
@@ -33,6 +35,10 @@ import { IMemberRepository } from "../../../../../domain/members/IMemberReposito
         {
             provide: AnswerBetPresenter,
             useFactory: () => new AnswerBetPresenter()
+        },
+        {
+            provide: CompleteBetPresenter,
+            useValue: completeBetPresenter
         },
         {
             provide: CreateBetCommandHandler,
@@ -82,6 +88,15 @@ import { IMemberRepository } from "../../../../../domain/members/IMemberReposito
                 ]
         },
         {
+            provide: CompleteBetCommandHandler,
+            useFactory: (betRepository: IBetRepository,
+                        userContext: IUserContext
+            ) => new CompleteBetCommandHandler(betRepository, completeBetPresenter, userContext),
+            inject: [InMemoryBetRepository,
+                    'IUserContext'
+            ]
+        },
+        {
             provide: "IBetModule",
             useFactory: (createBetCommandHandler: CreateBetCommandHandler,
                         retrieveBetsQueryHandler: RetrieveBetsQueryHandler,
@@ -90,7 +105,8 @@ import { IMemberRepository } from "../../../../../domain/members/IMemberReposito
                                     .SetNext(new RequestBehavior([
                                         createBetCommandHandler, 
                                         retrieveBetsQueryHandler,
-                                        answerBetCommandHandler
+                                        answerBetCommandHandler,
+
                                     ]))
                 return new BetModule(behavior)
             },

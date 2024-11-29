@@ -9,8 +9,10 @@ export class InMemoryBetRepository implements IBetRepository {
         return Promise.resolve(bet);
     }
 
-    Add(bet: Bet): Promise<void> {
-        this.Bets.push(bet);
+    Save(bet: Bet): Promise<void> {
+        if(!this.Bets.some(b => b.BetId == bet.BetId)) {
+            this.Bets.push(bet);
+        }
         return Promise.resolve();
     }
 }

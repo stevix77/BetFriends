@@ -1,11 +1,10 @@
 ﻿using BetFriends.Application.Abstractions;
 using BetFriends.Application.Abstractions.Messaging;
 using BetFriends.Domain.Bets;
-using BetFriends.Domain.Members;
 
 namespace BetFriends.Application.Features.CompleteBet;
 
-public sealed class CompleteBetCommandHandler(IBetRepository betRepository, 
+public sealed class CompleteBetCommandHandler(IBetRepository betRepository,
                                             ICompleteBetOutputPort outputPort,
                                             IUserContext userContext) : ICommandHandler<CompleteBetCommand>
 {
@@ -16,7 +15,7 @@ public sealed class CompleteBetCommandHandler(IBetRepository betRepository,
     public async Task Handle(CompleteBetCommand request, CancellationToken cancellationToken)
     {
         var bet = await betRepository.GetByIdAsync(new(request.BetId));
-        if(bet is null)
+        if (bet is null)
         {
             outputPort.BetDoesNotExist(request.BetId);
             return;
