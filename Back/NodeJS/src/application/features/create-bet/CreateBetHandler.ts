@@ -33,7 +33,7 @@ export class CreateBetCommandHandler implements IRequestHandler<CreateBetCommand
                                 request.EndDate, 
                                 request.Members,
                                 this.dateTimeProvider)
-        await this.betRepository.Add(bet);
+        await this.betRepository.Save(bet);
         this.outputPort.Present(new CreateBetResponse(request.BetId))
     }
 

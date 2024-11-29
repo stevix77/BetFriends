@@ -3,8 +3,14 @@ import { Entity } from "../Entity";
 import { MemberId } from "../members/MemberId";
 import { BetCreated } from "./events/BetCreated";
 import { IDateTimeProvider } from "../IDateTimeProvider";
+import { BetCompleted } from "./events/BetCompleted";
 
 export class Bet extends Entity {
+    
+    
+    IsSuccessful?: boolean;
+
+
     static Create(betId: BetId, 
                     memberId: MemberId, 
                     description: string, 
@@ -24,5 +30,10 @@ export class Bet extends Entity {
                         public MaxAnswerDate: Date){
         super();
         this.AddDomainEvent(new BetCreated(BetId, BettorId))
+    }
+
+    Close(isSuccessful: boolean) {
+        this.IsSuccessful = isSuccessful;
+        this.AddDomainEvent(new BetCompleted(this.BetId, isSuccessful))
     }
 }
