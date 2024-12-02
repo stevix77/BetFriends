@@ -2,12 +2,16 @@ import { BetId } from "../../../domain/bets/BetId";
 import { IBetRepository } from "../../../domain/bets/IBetRepository";
 import { IUserContext } from "../../Abstractions/IUserContext";
 import { ICommand } from "../../Abstractions/Request/ICommand";
+import { IRequestHandler } from "../../Abstractions/Request/IRequestHandler";
 
-export class CompleteBetCommandHandler {
+export class CompleteBetCommandHandler implements IRequestHandler<CompleteBetCommand, void> {
     
     constructor(private betRepository: IBetRepository, 
                 private outputPort: ICompleteBetOutputPort,
                 private userContext: IUserContext) {}
+    GetRequestType(): string {
+        return CompleteBetCommand.name;
+    }
 
     async Handle(request: CompleteBetCommand): Promise<void> {
         const bet = await this.betRepository.GetById(new BetId(request.BetId));

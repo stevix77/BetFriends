@@ -10,7 +10,6 @@ export class RetrieveBetsQueryHandler implements IRequestHandler<RetrieveBetsQue
     GetRequestType(): string {
         return RetrieveBetsQuery.name;
     }
-
 }
 
 export class RetrieveBetsQuery implements IRequest<RetrieveBetsResponse[]> {

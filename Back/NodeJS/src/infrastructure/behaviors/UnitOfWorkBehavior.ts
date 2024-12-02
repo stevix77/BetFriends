@@ -11,7 +11,7 @@ export class UnitOfWorkBehavior implements Behavior {
     
     SetNext(behavior: Behavior): Behavior {
         this.Behavior = behavior;
-        return this;
+        return behavior;
     }
     
     async Execute<T>(request: IRequest<T>): Promise<T> {
