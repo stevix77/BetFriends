@@ -17,15 +17,15 @@ export class UnitOfWorkBehavior implements Behavior {
     async Execute<T>(request: IRequest<T>): Promise<T> {
         try {
             if(this.Behavior) {
-                await this.unitOfWork.Begin();
+                // await this.unitOfWork.Begin();
                 const result = await this.Behavior.Execute<T>(request);
                 await this.domainEventsDispatcher.Dispatch();
-                await this.unitOfWork.Commit();
+                // await this.unitOfWork.Commit();
                 return result;
             }
             return Promise.reject();
         } catch(error) {
-            await this.unitOfWork.Rollback();
+            // await this.unitOfWork.Rollback();
             throw error;
         }
     }

@@ -1,5 +1,9 @@
 import { IDateTimeProvider } from "../../domain/IDateTimeProvider";
 
 export class Outbox {
-    constructor(private id: string, private type: string, private data: string, private dateProvider: IDateTimeProvider) {}
+    constructor(public Id: string, public Type: string, public Data: string, dateProvider: IDateTimeProvider) {
+        this.CreatedAt = dateProvider.GetDate()
+    }
+
+    CreatedAt: Date
 }

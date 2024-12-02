@@ -6,7 +6,7 @@ import { CreateBetPresenter } from "./CreateBetPresenter";
 
 export class CreateBetInput {
     description: string;
-    chips: number;
+    coins: number;
     members: Array<string>;
     betId: string;
     endDate: string;
@@ -21,7 +21,7 @@ export class CreateBetController {
     async Create(@Body() createBetInput: CreateBetInput, @Res() res: FastifyReply) {
         await this.betModule.ExecuteCommand(new CreateBetCommand(createBetInput.betId,
                                                                 createBetInput.description,
-                                                                createBetInput.chips,
+                                                                createBetInput.coins,
                                                                 new Date(createBetInput.endDate),
                                                                 createBetInput.members))
         return this.presenter.BuildResponse(res);

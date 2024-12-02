@@ -1,9 +1,10 @@
 import { Bet } from "../../domain/bets/Bet";
 import { BetId } from "../../domain/bets/BetId";
 import { IBetRepository } from "../../domain/bets/IBetRepository";
+import { DomainEventAccessor } from '../events/DomainEventAccessor';
 
 export class InMemoryBetRepository implements IBetRepository {
-    constructor(public Bets: Bet[] = []){}
+    constructor(private domainEventsAccessor: DomainEventAccessor, public Bets: Bet[] = []){}
     GetById(betId: BetId): Promise<Bet|undefined> {
         const bet = this.Bets.find(x => x.BetId.Value == betId.Value);
         return Promise.resolve(bet);
@@ -12,6 +13,7 @@ export class InMemoryBetRepository implements IBetRepository {
     Save(bet: Bet): Promise<void> {
         if(!this.Bets.some(b => b.BetId == bet.BetId)) {
             this.Bets.push(bet);
+            this.domainEventsAccessor.AddEvents(bet.DomainEvents)
         }
         return Promise.resolve();
     }
