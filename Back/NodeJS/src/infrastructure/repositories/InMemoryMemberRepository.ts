@@ -5,7 +5,9 @@ import { MemberId } from "../../domain/members/MemberId";
 export class InMemoryMemberRepository implements IMemberRepository {
     constructor(private members: Member[] = []){}
     Save(member: Member): PromiseLike<void> {
-        this.members.push(member);
+        if(!this.members.some(x => x.MemberId == member.MemberId)) {
+            this.members.push(member);
+        }
         return Promise.resolve();
     }
     GetByIdAsync(memberId: MemberId): PromiseLike<Member | undefined> {

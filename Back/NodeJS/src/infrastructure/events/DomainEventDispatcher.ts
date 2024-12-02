@@ -23,7 +23,6 @@ export class DomainEventDispatcher implements IDomainEventDispatcher {
         }
 
         for(let event of events) {
-            console.log(`event typeof: ${typeof event}`)
             const outbox = new Outbox(uuidv4(), typeof event, JSON.stringify(event), this.dateProvider);
             await this.outboxRepository.Save(outbox);
         }
