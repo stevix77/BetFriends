@@ -1,5 +1,5 @@
-import { Request } from "./IRequest";
+import { IRequest } from "./IRequest";
 
-export interface INotification extends Request {
+export interface INotification extends IRequest<void> {
 
 }

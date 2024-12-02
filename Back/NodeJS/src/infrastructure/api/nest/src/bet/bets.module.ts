@@ -3,6 +3,7 @@ import { AppModule } from "src/app.module";
 import { CreateBetCommandHandler } from "../../../../../application/features/create-bet/CreateBetHandler";
 import { LoggingBehavior } from "../../../../behaviors/LoggingBehavior";
 import { RequestBehavior } from "../../../../behaviors/RequestBehavior";
+import { UnitOfWorkBehavior } from "../../../../behaviors/UnitOfWorkBehavior";
 import { BetModule } from "../../../../BetModule";
 import { InMemoryBetRepository } from "../../../../repositories/InMemoryBetRepository";
 import { InMemoryMemberRepository } from "../../../../repositories/InMemoryMemberRepository";
@@ -21,8 +22,11 @@ import { IAnswerBetRepository } from "../../../../../domain/answerBets/IAnswerBe
 import { IMemberRepository } from "../../../../../domain/members/IMemberRepository";
 import { CompleteBetCommandHandler } from "../../../../../application/features/complete-bet/CompleteBetHandler";
 import { CompleteBetPresenter } from "./features/complete-bet/CompleteBetPresenter";
+import { IMediator, Mediator } from "../../../../Mediator";
+import { DomainEventDispatcher } from "../../../../events/DomainEventDispatcher";
 
 const completeBetPresenter = new CompleteBetPresenter();
+const domainEventsDispatcher = new DomainEventDispatcher()
 
 @Module({
     controllers: [CreateBetController, RetrieveBetsController, AnswerBetController],
@@ -96,23 +100,36 @@ const completeBetPresenter = new CompleteBetPresenter();
                     'IUserContext'
             ]
         },
+        // {
+
+        // },
         {
             provide: "IBetModule",
+            useFactory: (mediator: IMediator) => new BetModule(mediator),
+            inject: ['IMediator']
+        },
+        {
+            provide: "IMediator",
             useFactory: (createBetCommandHandler: CreateBetCommandHandler,
                         retrieveBetsQueryHandler: RetrieveBetsQueryHandler,
-                        answerBetCommandHandler: AnswerBetCommandHandler) => {
+                        answerBetCommandHandler: AnswerBetCommandHandler,
+                        completeBetCommandHandler: CompleteBetCommandHandler) => {
                 const behavior = new LoggingBehavior()
+                                    .SetNext(new UnitOfWorkBehavior(undefined!, new DomainEventsDispatcher()))
                                     .SetNext(new RequestBehavior([
                                         createBetCommandHandler, 
                                         retrieveBetsQueryHandler,
                                         answerBetCommandHandler,
+                                        completeBetCommandHandler
+                                    ], [
 
                                     ]))
-                return new BetModule(behavior)
+                return new Mediator(behavior)
             },
             inject: [CreateBetCommandHandler, 
                     RetrieveBetsQueryHandler,
-                    AnswerBetCommandHandler]
+                    AnswerBetCommandHandler,
+                CompleteBetCommandHandler]
         }
     ]
 })

@@ -7,7 +7,7 @@ export class LoggingBehavior implements Behavior {
 
     SetNext(behavior: Behavior) {
         this.Behavior = behavior;
-        return this;
+        return behavior;
     }
 
     async Execute<T>(request: IRequest<T>): Promise<T> {
@@ -19,7 +19,9 @@ export class LoggingBehavior implements Behavior {
         console.log(new Date() + " " + str);
         
         if(this.Behavior) {
-            return await this.Behavior.Execute(request);
+            const response = await this.Behavior.Execute<T>(request);
+            console.log(new Date() + `request executed ${typeof request}`);
+            return response;
         }
         return Promise.reject();
     }

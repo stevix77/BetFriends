@@ -6,14 +6,11 @@ using System.Text;
 
 namespace BetFriends.Infrastructure.Behaviors;
 
-internal class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+internal class LoggingBehavior<TRequest, TResponse>(ILogger<LoggingBehavior<TRequest, TResponse>> logger)
+            : IPipelineBehavior<TRequest, TResponse>
 {
-    private readonly ILogger<LoggingBehavior<TRequest, TResponse>> logger;
+    private readonly ILogger<LoggingBehavior<TRequest, TResponse>> logger = logger;
 
-    public LoggingBehavior(ILogger<LoggingBehavior<TRequest, TResponse>> logger)
-    {
-        this.logger = logger;
-    }
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
         var watch = new Stopwatch();

@@ -9,6 +9,7 @@ import { IDateTimeProvider } from '../IDateTimeProvider';
 
 export class Member {
     
+    
     Bet(betId: string, 
         description: string, 
         chips: number, 
@@ -32,8 +33,12 @@ export class Member {
                         dateTimeProvider);
     }
 
-    DecreaseBalance(chips: number) {
-        this.Coins -= chips; 
+    DecreaseBalance(coins: number) {
+        this.Coins -= coins; 
+    }
+
+    IncreaseBalance(coins: number) {
+        this.Coins += coins
     }
 
     constructor(public readonly MemberId: MemberId, 
