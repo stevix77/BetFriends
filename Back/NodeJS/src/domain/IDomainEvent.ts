@@ -1,1 +1,3 @@
-export interface IDomainEvent{}
+export interface IDomainEvent{
+    Type: string;
+}

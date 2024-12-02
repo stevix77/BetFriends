@@ -1,4 +1,3 @@
-import { IBetModule } from "../../application/Abstractions/IBetModule";
 import { IDomainEvent } from "../../domain/IDomainEvent";
 import { IDateTimeProvider } from "../../domain/IDateTimeProvider";
 import { DomainEventAccessor } from "./DomainEventAccessor";
@@ -7,7 +6,7 @@ import { IDomainEventDispatcher } from "./IDomainEventDispatcher";
 import { IOutboxRepository } from "../Outbox/IOutboxRepository";
 import  {v4 as uuidv4} from 'uuid';
 import { Outbox } from "../Outbox/Outbox";
-import { IMediator } from "../Mediator";
+import { EventEmitter2 } from "@nestjs/event-emitter";
 
 export class DomainEventDispatcher implements IDomainEventDispatcher {
     
@@ -15,7 +14,7 @@ export class DomainEventDispatcher implements IDomainEventDispatcher {
                 private commandFactory: ICommandFactory,
                 private outboxRepository: IOutboxRepository,
                 private dateProvider: IDateTimeProvider,
-                private mediator: IMediator
+                private eventEmitter: EventEmitter2
     ){}
     
     async Dispatch(): Promise<void> {
@@ -24,7 +23,7 @@ export class DomainEventDispatcher implements IDomainEventDispatcher {
         for(let event of events) {
             const command = this.commandFactory.Create(event);
             if(command) {
-                await this.mediator.Send(command);
+                await this.eventEmitter.emitAsync(command.Name, command)
             }
         }
 

@@ -4,4 +4,5 @@ import { BetId } from "../BetId";
 
 export class BetCreated implements IDomainEvent {
     constructor(public BetId: BetId, public MemberId: MemberId){}
+    Type: string = BetCreated.name;
 }

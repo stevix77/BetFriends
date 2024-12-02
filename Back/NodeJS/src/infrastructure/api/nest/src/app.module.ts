@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { Member } from '../../../../domain/members/Member';
 import { MemberId } from '../../../../domain/members/MemberId';
 import { InMemoryFriendshipRepository } from '../../../repositories/InMemoryFriendshipRepository';
@@ -12,10 +12,23 @@ import { InMemoryBetRepository } from '../../../repositories/InMemoryBetReposito
 import { BetsModule } from './bet/bets.module';
 import { InMemoryRetrieveBetsDataAccess } from '../../../repositories/InMemoryRetrieveBetsDataAccess';
 import { InMemoryBetAnswerRepository } from '../../../repositories/InMemoryBetAnswerRepository';
-import { IAnswerBetRepository } from '../../../../domain/answerBets/IAnswerBetRepository';
+import { InMemoryOutboxRepository } from '../../../repositories/InMemoryOutboxRepository';
+import { CommandFactory } from '../../../factories/CommandFactory';
+import { DomainEventAccessor } from '../../../events/DomainEventAccessor';
+import { BetModule } from '../../../BetModule';
+import { IMediator, Mediator } from '../../../Mediator';
+import { RequestBehavior } from '../../../behaviors/RequestBehavior';
+import { LoggingBehavior } from '../../../behaviors/LoggingBehavior';
+import { UnitOfWorkBehavior } from '../../../behaviors/UnitOfWorkBehavior';
+import { DomainEventDispatcher } from '../../../events/DomainEventDispatcher';
+import { IDateTimeProvider } from '../../../../domain/IDateTimeProvider';
+import { IOutboxRepository } from '../../../Outbox/IOutboxRepository';
+import { IDomainEventDispatcher } from '../../../events/IDomainEventDispatcher';
+import { ICommandFactory } from '../../../factories/ICommandFactory';
+import { EventEmitterModule, EventEmitter2 } from '@nestjs/event-emitter';
 
 @Module({
-  imports: [FriendModule, BetsModule],
+  imports: [EventEmitterModule.forRoot(), FriendModule, BetsModule],
   controllers: [AppController],
   exports: [InMemoryFriendshipRepository,
             InMemoryMemberRepository,
@@ -23,7 +36,12 @@ import { IAnswerBetRepository } from '../../../../domain/answerBets/IAnswerBetRe
             InMemoryRetrieveBetsDataAccess,
             'IUserContext',
             'IDateTimeProvider',
-            'IAnswerBetRepository'
+            'IAnswerBetRepository',
+            'IOutboxRepository',
+            'ICommandFactory',
+            DomainEventAccessor,
+            'IBetModule',
+            'IMediator'
         ],
   providers: [
     AppService,
@@ -40,7 +58,8 @@ import { IAnswerBetRepository } from '../../../../domain/answerBets/IAnswerBetRe
     },
     {
       provide: InMemoryBetRepository,
-      useClass: InMemoryBetRepository
+      useFactory: (domainEventAccessor: DomainEventAccessor) => new InMemoryBetRepository(domainEventAccessor),
+      inject: [DomainEventAccessor]
     },
     {
       provide: InMemoryRetrieveBetsDataAccess,
@@ -60,6 +79,57 @@ import { IAnswerBetRepository } from '../../../../domain/answerBets/IAnswerBetRe
     {
       provide: 'IDateTimeProvider',
       useClass: DateTimeProvider
+    },
+    {
+      provide: 'IOutboxRepository',
+      useClass: InMemoryOutboxRepository
+    },
+    {
+      provide: 'ICommandFactory',
+      useClass: CommandFactory
+    },
+    {
+      provide: DomainEventAccessor,
+      useClass: DomainEventAccessor
+    },
+    {
+      provide: 'IMediator',
+      useFactory: (loggingBehavior: LoggingBehavior) => new Mediator(loggingBehavior),
+      inject: [LoggingBehavior]
+    },
+    {
+      provide: LoggingBehavior,
+      useFactory: (unitOfWorkBehavior: UnitOfWorkBehavior,
+                  requestBehavior: RequestBehavior) => {
+        const loggingBehavior = new LoggingBehavior();
+        loggingBehavior.SetNext(unitOfWorkBehavior).SetNext(requestBehavior)
+        return loggingBehavior
+      },
+      inject: [UnitOfWorkBehavior, RequestBehavior]
+    },
+    {
+        provide: "IDomainEventDispatcher",
+        useFactory: (domainEventAccessor: DomainEventAccessor,
+                    outboxRepository: IOutboxRepository,
+                    dtProvider: IDateTimeProvider,
+                    eventEmitter: EventEmitter2,
+                    commandFactory: ICommandFactory) => 
+                    new DomainEventDispatcher(domainEventAccessor,
+                                              commandFactory,
+                                              outboxRepository,
+                                              dtProvider,
+                                              eventEmitter),
+        inject: [DomainEventAccessor, 'IOutboxRepository', 'IDateTimeProvider', EventEmitter2, 'ICommandFactory']
+    },
+    {
+      provide: UnitOfWorkBehavior,
+      useFactory: (domainEventDispatcher: IDomainEventDispatcher) => new UnitOfWorkBehavior(undefined, domainEventDispatcher),
+      inject: ["IDomainEventDispatcher"]
+    },
+    {
+      provide: 'IBetModule',
+      useFactory: (mediator: IMediator) => new BetModule(mediator),
+      inject:['IMediator']
     }
   ],
 })

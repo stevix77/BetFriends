@@ -2,7 +2,7 @@ import { IDomainEvent } from "../../domain/IDomainEvent";
 
 export class DomainEventAccessor {
     Clear() {
-        throw new Error("Method not implemented.");
+        this.events = [];
     }
     private events: IDomainEvent[] = []
 
@@ -11,6 +11,6 @@ export class DomainEventAccessor {
     }
 
     AddEvents(events: IDomainEvent[]) {
-        this.events.push(events);
+        this.events.push(...events);
     }
 }

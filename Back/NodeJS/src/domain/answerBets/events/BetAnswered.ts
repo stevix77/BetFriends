@@ -7,4 +7,5 @@ export class BetAnswered implements IDomainEvent {
                 public readonly GamblerId: MemberId,
                 public readonly Answer: boolean
     ) {}
+    Type: string = BetAnswered.name;
 }

@@ -29,7 +29,7 @@ export class CreateBetCommandHandler implements IRequestHandler<CreateBetCommand
         
         const bet = member.Bet(request.BetId, 
                                 request.Description, 
-                                request.Chips, 
+                                request.Coins, 
                                 request.EndDate, 
                                 request.Members,
                                 this.dateTimeProvider)
@@ -43,7 +43,7 @@ export class CreateBetCommandHandler implements IRequestHandler<CreateBetCommand
             return false;
         }
 
-        if(request.Chips == 0) {
+        if(request.Coins == 0) {
             this.outputPort.InvalidChips();
             return false;
         }
@@ -53,7 +53,7 @@ export class CreateBetCommandHandler implements IRequestHandler<CreateBetCommand
 }
 
 export class CreateBetCommand implements ICommand {
-    constructor(public BetId: string, public Description: string, public Chips: number, public EndDate: Date, public Members: Array<string>){}
+    constructor(public BetId: string, public Description: string, public Coins: number, public EndDate: Date, public Members: Array<string>){}
     Name: string = CreateBetCommand.name;
 }
 

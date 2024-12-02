@@ -34,13 +34,17 @@ import { RequestBehavior } from '../../../../behaviors/RequestBehavior';
                     AddFriendPresenter,
                     'IUserContext']
         },
+        // {
+        //     provide: "IBetModule",
+        //     useFactory: (addFriendCommandHandler: AddFriendCommandHandler) => {
+        //         const behavior = new LoggingBehavior().SetNext(new RequestBehavior([addFriendCommandHandler]))
+        //         return new BetModule(behavior)
+        //     },
+        //     inject: [AddFriendCommandHandler]
+        // }
         {
-            provide: "IBetModule",
-            useFactory: (addFriendCommandHandler: AddFriendCommandHandler) => {
-                const behavior = new LoggingBehavior().SetNext(new RequestBehavior([addFriendCommandHandler]))
-                return new BetModule(behavior)
-            },
-            inject: [AddFriendCommandHandler]
+            provide: 'IBetModule',
+            useClass: BetModule
         }
     ]
 })

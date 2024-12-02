@@ -23,22 +23,29 @@ import { IMemberRepository } from "../../../../../domain/members/IMemberReposito
 import { CompleteBetCommandHandler } from "../../../../../application/features/complete-bet/CompleteBetHandler";
 import { CompleteBetPresenter } from "./features/complete-bet/CompleteBetPresenter";
 import { IMediator, Mediator } from "../../../../Mediator";
-import { DomainEventDispatcher } from "../../../../events/DomainEventDispatcher";
+import { BetCompletedCommandHandler } from "../../../../handlers/commands/BetCompletedCommand";
+import { UpdateBalanceGamblersHandler } from '../../../../../application/features/complete-bet/UpdateBalanceGamblersHandler';
+import { UpdateBalanceBookieHandler } from '../../../../../application/features/complete-bet/UpdateBalanceBookieHandler';
+import { DomainEventDispatcher } from '../../../../events/DomainEventDispatcher';
+import { CompleteBetController } from './features/complete-bet/CompleteBet.controller';
+import { BetCreatedListener } from "./listeners/betCreatedListener";
 
 const completeBetPresenter = new CompleteBetPresenter();
-const domainEventsDispatcher = new DomainEventDispatcher()
+const createBetPresenter = new CreateBetPresenter();
+const answerBetPresenter = new AnswerBetPresenter();
 
 @Module({
-    controllers: [CreateBetController, RetrieveBetsController, AnswerBetController],
+    controllers: [CreateBetController, RetrieveBetsController, AnswerBetController, CompleteBetController],
     imports: [forwardRef(() => AppModule)],
-    providers: [
+    exports: [RequestBehavior],
+    providers: [BetCreatedListener,
         {
             provide: CreateBetPresenter,
-            useFactory: () => new CreateBetPresenter()
+            useValue: createBetPresenter
         },
         {
             provide: AnswerBetPresenter,
-            useFactory: () => new AnswerBetPresenter()
+            useValue: answerBetPresenter
         },
         {
             provide: CompleteBetPresenter,
@@ -48,18 +55,16 @@ const domainEventsDispatcher = new DomainEventDispatcher()
             provide: CreateBetCommandHandler,
             useFactory: (dateTimeProvider: IDateTimeProvider,
                         memberRepository: InMemoryMemberRepository,
-                        presenter: CreateBetPresenter,
                         userContext: IUserContext,
                         betRepository: InMemoryBetRepository) => 
                         new CreateBetCommandHandler(betRepository, 
-                                                    presenter,
+                                                    createBetPresenter,
                                                     memberRepository,
                                                     userContext,
                                                     dateTimeProvider),
                         
             inject: ['IDateTimeProvider', 
-                    InMemoryMemberRepository, 
-                    CreateBetPresenter,
+                    InMemoryMemberRepository,
                     'IUserContext',
                     InMemoryBetRepository]
         },
@@ -100,36 +105,57 @@ const domainEventsDispatcher = new DomainEventDispatcher()
                     'IUserContext'
             ]
         },
-        // {
-
-        // },
         {
-            provide: "IBetModule",
-            useFactory: (mediator: IMediator) => new BetModule(mediator),
+            provide: BetCompletedCommandHandler,
+            useFactory: (mediator: IMediator) => new BetCompletedCommandHandler(mediator),
             inject: ['IMediator']
         },
         {
-            provide: "IMediator",
+            provide: UpdateBalanceGamblersHandler,
+            useFactory: (betRepository: IBetRepository,
+                        answerBetRepository: IAnswerBetRepository,
+                        memberRepository: IMemberRepository) => new UpdateBalanceGamblersHandler(
+                            betRepository,
+                            memberRepository,
+                            answerBetRepository
+                        ),
+            inject: [InMemoryBetRepository, 'IAnswerBetRepository', InMemoryMemberRepository]
+        },
+        {
+            provide: UpdateBalanceBookieHandler,
+            useFactory: (betRepository: IBetRepository,
+                        answerBetRepository: IAnswerBetRepository,
+                        memberRepository: IMemberRepository) => new UpdateBalanceBookieHandler(
+                            betRepository,
+                            memberRepository,
+                            answerBetRepository
+                        ),
+            inject: [InMemoryBetRepository, 'IAnswerBetRepository', InMemoryMemberRepository]
+        },
+        {
+            provide: RequestBehavior,
             useFactory: (createBetCommandHandler: CreateBetCommandHandler,
                         retrieveBetsQueryHandler: RetrieveBetsQueryHandler,
                         answerBetCommandHandler: AnswerBetCommandHandler,
-                        completeBetCommandHandler: CompleteBetCommandHandler) => {
-                const behavior = new LoggingBehavior()
-                                    .SetNext(new UnitOfWorkBehavior(undefined!, new DomainEventsDispatcher()))
-                                    .SetNext(new RequestBehavior([
-                                        createBetCommandHandler, 
-                                        retrieveBetsQueryHandler,
-                                        answerBetCommandHandler,
-                                        completeBetCommandHandler
-                                    ], [
-
-                                    ]))
-                return new Mediator(behavior)
+                        completeBetCommandHandler: CompleteBetCommandHandler,
+                        updateBalanceBookieHandler: UpdateBalanceBookieHandler,
+                        updateBalanceGamblersHandler: UpdateBalanceGamblersHandler) => {
+                return new RequestBehavior([
+                    createBetCommandHandler, 
+                    retrieveBetsQueryHandler,
+                    answerBetCommandHandler,
+                    completeBetCommandHandler
+                ], [
+                    updateBalanceGamblersHandler,
+                    updateBalanceBookieHandler
+                ])
             },
             inject: [CreateBetCommandHandler, 
                     RetrieveBetsQueryHandler,
                     AnswerBetCommandHandler,
-                CompleteBetCommandHandler]
+                CompleteBetCommandHandler,
+                UpdateBalanceBookieHandler,
+                UpdateBalanceGamblersHandler]
         }
     ]
 })
