@@ -13,6 +13,7 @@ import { RequestBehavior } from '../../../../behaviors/RequestBehavior';
 @Module({
     controllers: [AddFriendController],
     imports: [forwardRef(() => AppModule)],
+    exports: [RequestBehavior],
     providers: [
         {
             provide: AddFriendPresenter,
@@ -34,17 +35,15 @@ import { RequestBehavior } from '../../../../behaviors/RequestBehavior';
                     AddFriendPresenter,
                     'IUserContext']
         },
-        // {
-        //     provide: "IBetModule",
-        //     useFactory: (addFriendCommandHandler: AddFriendCommandHandler) => {
-        //         const behavior = new LoggingBehavior().SetNext(new RequestBehavior([addFriendCommandHandler]))
-        //         return new BetModule(behavior)
-        //     },
-        //     inject: [AddFriendCommandHandler]
-        // }
         {
-            provide: 'IBetModule',
-            useClass: BetModule
+            provide: RequestBehavior,
+            useFactory: (addFriendCommandHandler: AddFriendCommandHandler) => {
+                return new RequestBehavior([
+                    addFriendCommandHandler
+                ], [
+                ])
+            },
+            inject: [AddFriendCommandHandler]
         }
     ]
 })

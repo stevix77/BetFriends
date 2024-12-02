@@ -5,7 +5,11 @@ import { BetCreatedNotification } from "./BetCreatedNotification";
 
 export class DecreaseBalanceMemberHandler implements INotificationHandler<BetCreatedNotification> {
     constructor(private memberRepository: IMemberRepository){}
+    GetRequestType(): string {
+        return BetCreatedNotification.name;
+    }
     async Handle(notification: BetCreatedNotification): Promise<void> {
+        throw new Error();
         const member = await this.memberRepository.GetByIdAsync(notification.MemberId);
         if(!member) {
             throw new MemberDoesNotExistException();

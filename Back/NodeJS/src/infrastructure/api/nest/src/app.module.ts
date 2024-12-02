@@ -24,7 +24,7 @@ import { DomainEventDispatcher } from '../../../events/DomainEventDispatcher';
 import { IDateTimeProvider } from '../../../../domain/IDateTimeProvider';
 import { IOutboxRepository } from '../../../Outbox/IOutboxRepository';
 import { IDomainEventDispatcher } from '../../../events/IDomainEventDispatcher';
-import { ICommandFactory } from '../../../factories/ICommandFactory';
+import { InMemoryUnitOfWork } from '../../../uow/InMemoryUnitOfWork';
 import { EventEmitterModule, EventEmitter2 } from '@nestjs/event-emitter';
 
 @Module({
@@ -121,7 +121,7 @@ import { EventEmitterModule, EventEmitter2 } from '@nestjs/event-emitter';
     },
     {
       provide: UnitOfWorkBehavior,
-      useFactory: (domainEventDispatcher: IDomainEventDispatcher) => new UnitOfWorkBehavior(undefined, domainEventDispatcher),
+      useFactory: (domainEventDispatcher: IDomainEventDispatcher) => new UnitOfWorkBehavior(new InMemoryUnitOfWork(), domainEventDispatcher),
       inject: ["IDomainEventDispatcher"]
     },
     {
