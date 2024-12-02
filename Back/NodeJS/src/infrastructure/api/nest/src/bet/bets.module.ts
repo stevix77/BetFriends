@@ -22,11 +22,10 @@ import { IAnswerBetRepository } from "../../../../../domain/answerBets/IAnswerBe
 import { IMemberRepository } from "../../../../../domain/members/IMemberRepository";
 import { CompleteBetCommandHandler } from "../../../../../application/features/complete-bet/CompleteBetHandler";
 import { CompleteBetPresenter } from "./features/complete-bet/CompleteBetPresenter";
-import { IMediator, Mediator } from "../../../../Mediator";
+import { IMediator } from "../../../../Mediator";
 import { BetCompletedCommandHandler } from "../../../../handlers/commands/BetCompletedCommand";
 import { UpdateBalanceGamblersHandler } from '../../../../../application/features/complete-bet/UpdateBalanceGamblersHandler';
 import { UpdateBalanceBookieHandler } from '../../../../../application/features/complete-bet/UpdateBalanceBookieHandler';
-import { DomainEventDispatcher } from '../../../../events/DomainEventDispatcher';
 import { CompleteBetController } from './features/complete-bet/CompleteBet.controller';
 import { BetCreatedListener } from "./listeners/betCreatedListener";
 

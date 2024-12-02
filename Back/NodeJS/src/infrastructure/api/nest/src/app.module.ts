@@ -112,14 +112,12 @@ import { EventEmitterModule, EventEmitter2 } from '@nestjs/event-emitter';
         useFactory: (domainEventAccessor: DomainEventAccessor,
                     outboxRepository: IOutboxRepository,
                     dtProvider: IDateTimeProvider,
-                    eventEmitter: EventEmitter2,
-                    commandFactory: ICommandFactory) => 
+                    eventEmitter: EventEmitter2) => 
                     new DomainEventDispatcher(domainEventAccessor,
-                                              commandFactory,
                                               outboxRepository,
                                               dtProvider,
                                               eventEmitter),
-        inject: [DomainEventAccessor, 'IOutboxRepository', 'IDateTimeProvider', EventEmitter2, 'ICommandFactory']
+        inject: [DomainEventAccessor, 'IOutboxRepository', 'IDateTimeProvider', EventEmitter2]
     },
     {
       provide: UnitOfWorkBehavior,
