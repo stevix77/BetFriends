@@ -9,7 +9,6 @@ export class DecreaseBalanceMemberHandler implements INotificationHandler<BetCre
         return BetCreatedNotification.name;
     }
     async Handle(notification: BetCreatedNotification): Promise<void> {
-        throw new Error();
         const member = await this.memberRepository.GetByIdAsync(notification.MemberId);
         if(!member) {
             throw new MemberDoesNotExistException();

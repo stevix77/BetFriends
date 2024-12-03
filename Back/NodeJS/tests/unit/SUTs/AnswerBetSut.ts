@@ -12,6 +12,7 @@ import { Member } from "../../../src/domain/members/Member";
 import { StubMemberRepository } from "../implems/StubMemberRepository";
 import { StubDateTimeProvider } from "../implems/StubDateTimeProvider";
 import { BetAnswered } from "../../../src/domain/answerBets/events/BetAnswered";
+import { DomainEventAccessor } from "../../../src/infrastructure/events/DomainEventAccessor";
 
 export class AnswerBetSut {
        
@@ -66,7 +67,7 @@ export class AnswerBetSut {
     async WhenExecuteHandler(request: AnswerBetCommand): Promise<AnswerBetSut> {
         this.request = request;
         const handler = new AnswerBetCommandHandler(
-                new InMemoryBetRepository(this.bet != undefined ? [this.bet] : []), 
+                new InMemoryBetRepository(new DomainEventAccessor(), this.bet != undefined ? [this.bet] : []), 
                 this.answerPresenter, 
                 this.answerBetRepository, 
                 this.userContext,

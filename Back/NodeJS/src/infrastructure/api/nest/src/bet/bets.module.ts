@@ -20,9 +20,9 @@ import { IAnswerBetRepository } from "../../../../../domain/answerBets/IAnswerBe
 import { IMemberRepository } from "../../../../../domain/members/IMemberRepository";
 import { CompleteBetCommandHandler } from "../../../../../application/features/complete-bet/CompleteBetHandler";
 import { CompleteBetPresenter } from "./features/complete-bet/CompleteBetPresenter";
-import { IMediator } from "../../../../Mediator";
 import { UpdateBalanceGamblersHandler } from '../../../../../application/features/complete-bet/UpdateBalanceGamblersHandler';
 import { UpdateBalanceBookieHandler } from '../../../../../application/features/complete-bet/UpdateBalanceBookieHandler';
+import { UpdateBalanceGamblerHandler } from '../../../../../application/features/answer-bet/UpdateBalanceGamblerHandler';
 import { CompleteBetController } from './features/complete-bet/CompleteBet.controller';
 import { BetCreatedListener } from "./listeners/betCreatedListener";
 import { BetAnsweredListener } from "./listeners/betAnsweredListener";
@@ -135,6 +135,13 @@ const answerBetPresenter = new AnswerBetPresenter();
             inject: [InMemoryMemberRepository]
         },
         {
+            provide: UpdateBalanceGamblerHandler,
+            useFactory: (memberRepository: IMemberRepository,
+                        betRepository: IBetRepository
+            ) => new UpdateBalanceGamblerHandler(memberRepository, betRepository),
+            inject: [InMemoryMemberRepository, InMemoryBetRepository]
+        },
+        {
             provide: RequestBehavior,
             useFactory: (createBetCommandHandler: CreateBetCommandHandler,
                         retrieveBetsQueryHandler: RetrieveBetsQueryHandler,
@@ -142,7 +149,8 @@ const answerBetPresenter = new AnswerBetPresenter();
                         completeBetCommandHandler: CompleteBetCommandHandler,
                         updateBalanceBookieHandler: UpdateBalanceBookieHandler,
                         updateBalanceGamblersHandler: UpdateBalanceGamblersHandler,
-                        decreaseBalanceMemberHandler: DecreaseBalanceMemberHandler) => {
+                        decreaseBalanceMemberHandler: DecreaseBalanceMemberHandler,
+                        updateBalanceGamblerHandler: UpdateBalanceGamblerHandler) => {
                 return new RequestBehavior([
                     createBetCommandHandler, 
                     retrieveBetsQueryHandler,
@@ -151,7 +159,8 @@ const answerBetPresenter = new AnswerBetPresenter();
                 ], [
                     updateBalanceGamblersHandler,
                     updateBalanceBookieHandler,
-                    decreaseBalanceMemberHandler
+                    decreaseBalanceMemberHandler,
+                    updateBalanceGamblerHandler
                 ])
             },
             inject: [CreateBetCommandHandler, 
@@ -160,7 +169,8 @@ const answerBetPresenter = new AnswerBetPresenter();
                 CompleteBetCommandHandler,
                 UpdateBalanceBookieHandler,
                 UpdateBalanceGamblersHandler,
-                DecreaseBalanceMemberHandler]
+                DecreaseBalanceMemberHandler,
+                UpdateBalanceGamblerHandler]
         }
     ]
 })

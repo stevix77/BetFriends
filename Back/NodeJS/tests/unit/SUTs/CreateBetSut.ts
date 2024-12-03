@@ -7,12 +7,13 @@ import { Member } from "../../../src/domain/members/Member";
 import { MemberId } from "../../../src/domain/members/MemberId";
 import { StubUserContext } from "../implems/StubUserContext";
 import { StubDateTimeProvider } from "../implems/StubDateTimeProvider";
+import { DomainEventAccessor } from "../../../src/infrastructure/events/DomainEventAccessor";
 
 export class CreateBetSut {   
     
     private userId: string = "memberId"
     private command: CreateBetCommand;
-    private betRepository = new InMemoryBetRepository();
+    private betRepository = new InMemoryBetRepository(new DomainEventAccessor());
     private mockPresenter = new MockCreateBetPresenter();
     private memberRepository = new StubMemberRepository(new Member(new MemberId(this.userId), "member", 1000, 2));
     private userContext = new StubUserContext(this.userId);
@@ -45,7 +46,7 @@ export class CreateBetSut {
     ShouldCreateBet() {
         const maxAnswerDate = (this.command.EndDate.getTime() - this.dateTimeProvider.GetDate().getTime()) / 2
         expect(this.mockPresenter.Response).toEqual(new CreateBetResponse(this.command.BetId))
-        expect(this.betRepository.Bets[0].Coins).toEqual(this.command.Chips)
+        expect(this.betRepository.Bets[0].Coins).toEqual(this.command.Coins)
         expect(this.betRepository.Bets[0].Description).toEqual(this.command.Description)
         expect(this.betRepository.Bets[0].EndDate).toEqual(this.command.EndDate)
         expect(this.betRepository.Bets[0].Members).toEqual(this.command.Members)
