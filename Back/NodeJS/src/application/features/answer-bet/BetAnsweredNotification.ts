@@ -1,4 +1,4 @@
-import { INotification } from "../../../application/Abstractions/Request/INotification";
+import { INotification } from "../../Abstractions/Request/INotification";
 
 export class BetAnsweredNotification implements INotification {
     Name: string = BetAnsweredNotification.name;

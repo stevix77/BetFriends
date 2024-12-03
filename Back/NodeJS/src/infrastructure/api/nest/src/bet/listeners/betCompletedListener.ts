@@ -2,7 +2,7 @@ import { Inject } from "@nestjs/common";
 import { OnEvent } from "@nestjs/event-emitter";
 import { IBetModule } from "../../../../../../application/Abstractions/IBetModule";
 import { BetCompleted } from "../../../../../../domain/bets/events/BetCompleted";
-import { BetCompletedNotification } from "../../../../../handlers/notifications/betCompleted/BetCompletedNotification";
+import { BetCompletedNotification } from "../../../../../../application/features/complete-bet/BetCompletedNotification";
 
 export class BetCompletedListener {
     constructor(@Inject('IBetModule') private betModule: IBetModule) {}

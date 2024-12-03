@@ -5,7 +5,9 @@ import { BetId } from "../../domain/bets/BetId";
 export class InMemoryBetAnswerRepository implements IAnswerBetRepository {
     private readonly answers: AnswerBet[] = [];
     
-    constructor() {}
+    constructor(answers: AnswerBet[] = []) {
+        this.answers = answers;
+    }
 
     GetAnswersForBet(betId: BetId): Promise<AnswerBet[]> {
         const answers = this.answers.filter(x => x.BetId == betId);

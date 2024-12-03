@@ -4,6 +4,7 @@ import { Bet } from "../../../src/domain/bets/Bet";
 import { InMemoryBetRepository } from "../../../src/infrastructure/repositories/InMemoryBetRepository";
 import { MockCompleteBetPresenter } from "../implems/MockCompleteBetPresenter";
 import { StubUserContext } from "../implems/StubUserContext";
+import { DomainEventAccessor } from "../../../src/infrastructure/events/DomainEventAccessor";
 
 export class CompleteBetSut {
     WithUser(userId: string): CompleteBetSut {
@@ -23,7 +24,7 @@ export class CompleteBetSut {
     }
 
     async WhenExecuteHandler(command: CompleteBetCommand): Promise<CompleteBetSut> {
-        const betRepository = new InMemoryBetRepository([this.bet]);
+        const betRepository = new InMemoryBetRepository(new DomainEventAccessor(), [this.bet]);
         const handler = new CompleteBetCommandHandler(betRepository, this.outputPort, new StubUserContext(this.userId));
         await handler.Handle(command);
         return this;

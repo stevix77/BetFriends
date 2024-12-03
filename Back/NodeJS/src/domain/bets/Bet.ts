@@ -11,15 +11,17 @@ export class Bet extends Entity {
     IsSuccessful?: boolean;
 
 
+
     static Create(betId: BetId, 
                     memberId: MemberId, 
                     description: string, 
                     chips: number, 
                     endDate: Date, 
                     members: string[],
-                    dateTimeProvider: IDateTimeProvider): Bet {
+                    dateTimeProvider: IDateTimeProvider,
+                    isSuccessful: boolean|undefined = undefined): Bet {
             const maxAnswerEndDate = new Date(dateTimeProvider.GetDate().getTime() + ((endDate.getTime() - dateTimeProvider.GetDate().getTime()) / 2))
-        return new Bet(betId, memberId, description, chips, endDate, members, maxAnswerEndDate);
+        return new Bet(betId, memberId, description, chips, endDate, members, maxAnswerEndDate, isSuccessful);
     }
     private constructor(public BetId: BetId, 
                         public BettorId: MemberId, 
@@ -27,8 +29,10 @@ export class Bet extends Entity {
                         public Coins: number, 
                         public EndDate: Date, 
                         public Members: string[],
-                        public MaxAnswerDate: Date){
+                        public MaxAnswerDate: Date,
+                    isSuccessful?: boolean){
         super();
+        this.IsSuccessful = isSuccessful;
         this.AddDomainEvent(new BetCreated(BetId, BettorId, Coins))
     }
 

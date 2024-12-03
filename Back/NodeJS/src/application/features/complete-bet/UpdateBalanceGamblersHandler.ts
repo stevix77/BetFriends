@@ -1,4 +1,4 @@
-import { BetCompletedNotification } from "../../../infrastructure/handlers/notifications/betCompleted/BetCompletedNotification";
+import { BetCompletedNotification } from "./BetCompletedNotification";
 import { INotificationHandler } from "../../Abstractions/Request/INotificationHandler";
 import { IBetRepository } from "../../../domain/bets/IBetRepository";
 import { BetId } from "../../../domain/bets/BetId";
@@ -22,7 +22,7 @@ export class UpdateBalanceGamblersHandler implements INotificationHandler<BetCom
             const answers = await this.answerBetRepository.GetAnswersForBet(bet.BetId);
             for(let answer of answers) {
                 const gambler = await this.memberRepository.GetByIdAsync(answer.GamberId);
-                gambler?.IncreaseBalance(bet.Coins / answers.length)
+                gambler?.IncreaseBalance(bet.Coins / answers.length + bet.Coins)
                 await this.memberRepository.Save(gambler!);
             }
         }
