@@ -17,7 +17,7 @@ export class RequestBehavior implements Behavior {
 
         const handlers = this.notificationHandlers.filter(x => x.GetRequestType() == request.Name);
         if(handlers.length == 0) {
-            return Promise.reject(`INotification ${request.Name} is unknown`)
+            return Promise.reject(`Request ${request.Name} is unknown`)
         }
         
         const promises = handlers.map(x => x.Handle(request));

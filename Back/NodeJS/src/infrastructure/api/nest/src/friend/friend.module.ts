@@ -6,14 +6,11 @@ import { InMemoryFriendshipRepository } from '../../../../../infrastructure/repo
 import { AddFriendPresenter } from './features/add-friend/AddFriendPresenter';
 import { AddFriendCommandHandler } from '../../../../../application/features/add-friend/AddFriendHandler';
 import { FakeUserContext } from 'src/FakeUserContext';
-import { BetModule } from '../../../../BetModule';
-import { LoggingBehavior } from '../../../../behaviors/LoggingBehavior';
-import { RequestBehavior } from '../../../../behaviors/RequestBehavior';
 
 @Module({
     controllers: [AddFriendController],
+    exports: [AddFriendCommandHandler],
     imports: [forwardRef(() => AppModule)],
-    exports: [RequestBehavior],
     providers: [
         {
             provide: AddFriendPresenter,
@@ -34,16 +31,6 @@ import { RequestBehavior } from '../../../../behaviors/RequestBehavior';
                     InMemoryMemberRepository, 
                     AddFriendPresenter,
                     'IUserContext']
-        },
-        {
-            provide: RequestBehavior,
-            useFactory: (addFriendCommandHandler: AddFriendCommandHandler) => {
-                return new RequestBehavior([
-                    addFriendCommandHandler
-                ], [
-                ])
-            },
-            inject: [AddFriendCommandHandler]
         }
     ]
 })

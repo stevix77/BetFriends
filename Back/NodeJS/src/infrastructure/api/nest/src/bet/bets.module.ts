@@ -2,7 +2,6 @@ import { forwardRef, Module } from "@nestjs/common"
 import { AppModule } from "src/app.module";
 import { CreateBetCommandHandler } from "../../../../../application/features/create-bet/CreateBetHandler";
 import { DecreaseBalanceMemberHandler } from "../../../../../application/features/create-bet/DecreaseBalanceMemberHandler";
-import { RequestBehavior } from "../../../../behaviors/RequestBehavior";
 import { InMemoryBetRepository } from "../../../../repositories/InMemoryBetRepository";
 import { InMemoryMemberRepository } from "../../../../repositories/InMemoryMemberRepository";
 import { CreateBetController } from "./features/create-bet/CreateBet.controller";
@@ -34,8 +33,16 @@ const answerBetPresenter = new AnswerBetPresenter();
 
 @Module({
     controllers: [CreateBetController, RetrieveBetsController, AnswerBetController, CompleteBetController],
+    exports: [CreateBetCommandHandler, 
+        RetrieveBetsQueryHandler,
+        AnswerBetCommandHandler,
+    CompleteBetCommandHandler,
+    UpdateBalanceBookieHandler,
+    UpdateBalanceGamblersHandler,
+    DecreaseBalanceMemberHandler,
+    UpdateBalanceGamblerHandler
+    ],
     imports: [forwardRef(() => AppModule)],
-    exports: [RequestBehavior],
     providers: [BetCreatedListener, 
         BetAnsweredListener, 
         BetCompletedListener,
@@ -140,37 +147,6 @@ const answerBetPresenter = new AnswerBetPresenter();
                         betRepository: IBetRepository
             ) => new UpdateBalanceGamblerHandler(memberRepository, betRepository),
             inject: [InMemoryMemberRepository, InMemoryBetRepository]
-        },
-        {
-            provide: RequestBehavior,
-            useFactory: (createBetCommandHandler: CreateBetCommandHandler,
-                        retrieveBetsQueryHandler: RetrieveBetsQueryHandler,
-                        answerBetCommandHandler: AnswerBetCommandHandler,
-                        completeBetCommandHandler: CompleteBetCommandHandler,
-                        updateBalanceBookieHandler: UpdateBalanceBookieHandler,
-                        updateBalanceGamblersHandler: UpdateBalanceGamblersHandler,
-                        decreaseBalanceMemberHandler: DecreaseBalanceMemberHandler,
-                        updateBalanceGamblerHandler: UpdateBalanceGamblerHandler) => {
-                return new RequestBehavior([
-                    createBetCommandHandler, 
-                    retrieveBetsQueryHandler,
-                    answerBetCommandHandler,
-                    completeBetCommandHandler
-                ], [
-                    updateBalanceGamblersHandler,
-                    updateBalanceBookieHandler,
-                    decreaseBalanceMemberHandler,
-                    updateBalanceGamblerHandler
-                ])
-            },
-            inject: [CreateBetCommandHandler, 
-                    RetrieveBetsQueryHandler,
-                    AnswerBetCommandHandler,
-                CompleteBetCommandHandler,
-                UpdateBalanceBookieHandler,
-                UpdateBalanceGamblersHandler,
-                DecreaseBalanceMemberHandler,
-                UpdateBalanceGamblerHandler]
         }
     ]
 })
