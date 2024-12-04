@@ -12,11 +12,12 @@ export class UpdateBalanceGamblerHandler implements INotificationHandler<BetAnsw
     ) {}
     async Handle(notification: BetAnsweredNotification): Promise<void> {
         const member = await this.memberRepository.GetByIdAsync(new MemberId(notification.MemberId));
-        if(!member) throw new MemberDoesNotExistException();
         const bet = await this.betRepository.GetById(new BetId(notification.BetId));
         if(!bet) throw new Error(`Bet ${notification.BetId} does not exist`);
-        member.DecreaseBalance(bet.Coins)
-        await this.memberRepository.Save(member);
+        if(notification.Answer === true) {
+            member!.DecreaseBalance(bet.Coins)
+            await this.memberRepository.Save(member!);
+        }
 
     }
     GetRequestType(): string {

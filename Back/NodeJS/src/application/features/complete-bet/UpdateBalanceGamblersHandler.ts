@@ -22,7 +22,7 @@ export class UpdateBalanceGamblersHandler implements INotificationHandler<BetCom
             const answers = await this.answerBetRepository.GetAnswersForBet(bet.BetId);
             for(let answer of answers) {
                 const gambler = await this.memberRepository.GetByIdAsync(answer.GamberId);
-                gambler?.IncreaseBalance(bet.Coins / answers.length + bet.Coins)
+                gambler!.IncreaseBalance(bet.Coins + bet.Coins / answers.length)
                 await this.memberRepository.Save(gambler!);
             }
         }

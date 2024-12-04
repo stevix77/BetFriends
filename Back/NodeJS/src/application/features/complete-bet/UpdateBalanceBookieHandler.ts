@@ -20,13 +20,12 @@ export class UpdateBalanceBookieHandler implements INotificationHandler<BetCompl
         
         if(bet.IsSuccessful == true) {
             const bookie = await this.memberRepository.GetByIdAsync(bet.BettorId);
-            console.log("toto")
-            console.log(bookie)
             const answers = await this.answerBetRepository.GetAnswersForBet(bet.BetId);
-            bookie!.IncreaseBalance(bet.Coins * answers.filter(x => x.Answer).length);
+            bookie!.IncreaseBalance(bet.Coins + bet.Coins * answers.filter(x => x.Answer).length);
             await this.memberRepository.Save(bookie!);
         }    
     }
+
     GetRequestType(): string {
         return BetCompletedNotification.name;
     }
