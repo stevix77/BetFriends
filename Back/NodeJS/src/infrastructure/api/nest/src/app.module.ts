@@ -26,9 +26,21 @@ import { IOutboxRepository } from '../../../Outbox/IOutboxRepository';
 import { IDomainEventDispatcher } from '../../../events/IDomainEventDispatcher';
 import { InMemoryUnitOfWork } from '../../../uow/InMemoryUnitOfWork';
 import { EventEmitterModule, EventEmitter2 } from '@nestjs/event-emitter';
+import { ScheduleModule } from '@nestjs/schedule';
+import { ProcessOutboxJobs } from './jobs/processOutboxJobs';
+import { AnswerBetCommandHandler } from '../../../../application/features/answer-bet/AnswerBetHandler';
+import { UpdateBalanceGamblerHandler } from '../../../../application/features/answer-bet/UpdateBalanceGamblerHandler';
+import { CompleteBetCommandHandler } from '../../../../application/features/complete-bet/CompleteBetHandler';
+import { UpdateBalanceBookieHandler } from '../../../../application/features/complete-bet/UpdateBalanceBookieHandler';
+import { UpdateBalanceGamblersHandler } from '../../../../application/features/complete-bet/UpdateBalanceGamblersHandler';
+import { CreateBetCommandHandler } from '../../../../application/features/create-bet/CreateBetHandler';
+import { DecreaseBalanceMemberHandler } from '../../../../application/features/create-bet/DecreaseBalanceMemberHandler';
+import { RetrieveBetsQueryHandler } from '../../../../application/features/retrieve-bets/RetrieveBetsQueryHandler';
+import { ProcessOutboxCommandHandler } from '../../../Outbox/ProcessOutboxCommand';
+import { AddFriendCommandHandler } from '../../../../application/features/add-friend/AddFriendHandler';
 
 @Module({
-  imports: [EventEmitterModule.forRoot(), FriendModule, BetsModule],
+  imports: [EventEmitterModule.forRoot(), ScheduleModule.forRoot(), FriendModule, BetsModule],
   controllers: [AppController],
   exports: [InMemoryFriendshipRepository,
             InMemoryMemberRepository,
@@ -45,6 +57,7 @@ import { EventEmitterModule, EventEmitter2 } from '@nestjs/event-emitter';
         ],
   providers: [
     AppService,
+    ProcessOutboxJobs,
     {
       provide: InMemoryMemberRepository,
       useFactory: () => new InMemoryMemberRepository([
@@ -128,6 +141,50 @@ import { EventEmitterModule, EventEmitter2 } from '@nestjs/event-emitter';
       provide: 'IBetModule',
       useFactory: (mediator: IMediator) => new BetModule(mediator),
       inject:['IMediator']
+    },
+    {
+        provide: ProcessOutboxCommandHandler,
+        useFactory: (outboxRepository: IOutboxRepository,
+                    dateTimeProvider: IDateTimeProvider
+        ) => new ProcessOutboxCommandHandler(outboxRepository, dateTimeProvider),
+        inject: ['IOutboxRepository', 'IDateTimeProvider']
+    },
+    {
+        provide: RequestBehavior,
+        useFactory: (createBetCommandHandler: CreateBetCommandHandler,
+                    retrieveBetsQueryHandler: RetrieveBetsQueryHandler,
+                    answerBetCommandHandler: AnswerBetCommandHandler,
+                    completeBetCommandHandler: CompleteBetCommandHandler,
+                    updateBalanceBookieHandler: UpdateBalanceBookieHandler,
+                    updateBalanceGamblersHandler: UpdateBalanceGamblersHandler,
+                    decreaseBalanceMemberHandler: DecreaseBalanceMemberHandler,
+                    updateBalanceGamblerHandler: UpdateBalanceGamblerHandler,
+                    processOutboxCommandHandler: ProcessOutboxCommandHandler,
+                    addFriendCommandHandler: AddFriendCommandHandler) => {
+            return new RequestBehavior([
+                createBetCommandHandler, 
+                retrieveBetsQueryHandler,
+                answerBetCommandHandler,
+                completeBetCommandHandler,
+                processOutboxCommandHandler,
+                addFriendCommandHandler
+            ], [
+                updateBalanceGamblersHandler,
+                updateBalanceBookieHandler,
+                decreaseBalanceMemberHandler,
+                updateBalanceGamblerHandler
+            ])
+        },
+        inject: [CreateBetCommandHandler, 
+                RetrieveBetsQueryHandler,
+                AnswerBetCommandHandler,
+            CompleteBetCommandHandler,
+            UpdateBalanceBookieHandler,
+            UpdateBalanceGamblersHandler,
+            DecreaseBalanceMemberHandler,
+            UpdateBalanceGamblerHandler,
+            ProcessOutboxCommandHandler,
+            AddFriendCommandHandler]
     }
   ],
 })
