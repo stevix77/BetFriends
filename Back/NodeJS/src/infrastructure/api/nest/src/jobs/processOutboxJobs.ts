@@ -7,9 +7,8 @@ import { ProcessOutboxCommand } from "../../../../Outbox/ProcessOutboxCommand";
 export class ProcessOutboxJobs {
     constructor(@Inject('IBetModule') private module: IBetModule){
     }
-    @Cron('*/10 * * * * *')
+    // @Cron('*/10 * * * * *')
     async handleCron() {
-        const command = new ProcessOutboxCommand();
-        await this.module.ExecuteCommand(command);
+        await this.module.ExecuteCommand(new ProcessOutboxCommand());
     }
 }

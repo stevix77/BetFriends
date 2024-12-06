@@ -17,7 +17,7 @@ export class CreateBetCommandHandler implements IRequestHandler<CreateBetCommand
     }
     
     async Handle(request: CreateBetCommand): Promise<void> {
-        const member = await this.memberRepository.GetByIdAsync(new MemberId(this.userContext.UserId));
+        const member = await this.memberRepository.GetByIdAsync(new MemberId(this.userContext.GetUserId()));
         if(member == undefined) {
             this.outputPort.RequesterIsUnknown();
             return;

@@ -5,7 +5,7 @@ import { InMemoryMemberRepository } from '../../../../../infrastructure/reposito
 import { InMemoryFriendshipRepository } from '../../../../../infrastructure/repositories/InMemoryFriendshipRepository'
 import { AddFriendPresenter } from './features/add-friend/AddFriendPresenter';
 import { AddFriendCommandHandler } from '../../../../../application/features/add-friend/AddFriendHandler';
-import { FakeUserContext } from 'src/FakeUserContext';
+import { StubUserContext } from 'src/userContext/StubUserContext';
 
 @Module({
     controllers: [AddFriendController],
@@ -21,7 +21,7 @@ import { FakeUserContext } from 'src/FakeUserContext';
             useFactory: (friendshipRepository: InMemoryFriendshipRepository,
                         memberRepository: InMemoryMemberRepository,
                         presenter: AddFriendPresenter,
-                        userContext: FakeUserContext) => 
+                        userContext: StubUserContext) => 
                         new AddFriendCommandHandler(friendshipRepository, 
                                                     memberRepository,
                                                     userContext,
