@@ -8,8 +8,8 @@ export class ProcessOutboxCommand implements ICommand {
 }
 
 export class ProcessOutboxCommandHandler implements IRequestHandler<ProcessOutboxCommand, void> {
-    constructor(private outboxRepository: IOutboxRepository,
-                private dateProvider: IDateTimeProvider
+    constructor(private readonly outboxRepository: IOutboxRepository,
+                private readonly dateProvider: IDateTimeProvider
     ) {}
 
     async Handle(request: ProcessOutboxCommand): Promise<void> {
