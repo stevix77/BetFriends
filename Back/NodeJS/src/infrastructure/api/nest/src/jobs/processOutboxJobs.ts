@@ -1,14 +1,13 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
-import { IBetModule } from '../../../../../application/Abstractions/IBetModule';
-import { ProcessOutboxCommand } from "../../../../Outbox/ProcessOutboxCommand";
+import { ProcessOutboxCommand, ProcessOutboxCommandHandler } from "../../../../Outbox/ProcessOutboxCommand";
 
 @Injectable()
 export class ProcessOutboxJobs {
-    constructor(@Inject('IBetModule') private module: IBetModule){
+    constructor(@Inject(ProcessOutboxCommandHandler) private processOutboxCommandHandler: ProcessOutboxCommandHandler){
     }
-    // @Cron('*/10 * * * * *')
+    @Cron('*/10 * * * * *')
     async handleCron() {
-        await this.module.ExecuteCommand(new ProcessOutboxCommand());
+        await this.processOutboxCommandHandler.Handle(new ProcessOutboxCommand());
     }
 }
