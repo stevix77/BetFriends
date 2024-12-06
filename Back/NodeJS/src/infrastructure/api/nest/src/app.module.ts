@@ -1,4 +1,4 @@
-import { forwardRef, Module } from '@nestjs/common';
+import { forwardRef, Module, Scope } from '@nestjs/common';
 import { Member } from '../../../../domain/members/Member';
 import { MemberId } from '../../../../domain/members/MemberId';
 import { InMemoryFriendshipRepository } from '../../../repositories/InMemoryFriendshipRepository';
@@ -6,7 +6,7 @@ import { InMemoryMemberRepository } from '../../../repositories/InMemoryMemberRe
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DateTimeProvider } from './DateTimeProvider';
-import { FakeUserContext } from './FakeUserContext';
+import { StubUserContext } from './userContext/StubUserContext';
 import { FriendModule } from './friend/friend.module';
 import { InMemoryBetRepository } from '../../../repositories/InMemoryBetRepository';
 import { BetsModule } from './bet/bets.module';
@@ -38,6 +38,10 @@ import { DecreaseBalanceMemberHandler } from '../../../../application/features/c
 import { RetrieveBetsQueryHandler } from '../../../../application/features/retrieve-bets/RetrieveBetsQueryHandler';
 import { ProcessOutboxCommandHandler } from '../../../Outbox/ProcessOutboxCommand';
 import { AddFriendCommandHandler } from '../../../../application/features/add-friend/AddFriendHandler';
+import { FakeUserContext } from './userContext/FakeUserContext';
+import { ExecutionContextHost } from '@nestjs/core/helpers/execution-context-host';
+import { EventBus } from './events/eventBus';
+import { IEventBus } from '../../../events/IEventBus';
 
 @Module({
   imports: [EventEmitterModule.forRoot(), ScheduleModule.forRoot(), FriendModule, BetsModule],
@@ -87,7 +91,13 @@ import { AddFriendCommandHandler } from '../../../../application/features/add-fr
     },
     {
         provide: 'IUserContext',
-        useClass: FakeUserContext
+        useClass: FakeUserContext,
+        scope: Scope.REQUEST
+    },
+    {
+      provide: 'IEventBus',
+      useFactory: (eventEmitter: EventEmitter2) => new EventBus(eventEmitter),
+      inject: [EventEmitter2] 
     },
     {
       provide: 'IDateTimeProvider',
@@ -125,12 +135,12 @@ import { AddFriendCommandHandler } from '../../../../application/features/add-fr
         useFactory: (domainEventAccessor: DomainEventAccessor,
                     outboxRepository: IOutboxRepository,
                     dtProvider: IDateTimeProvider,
-                    eventEmitter: EventEmitter2) => 
+                    eventBus: IEventBus) => 
                     new DomainEventDispatcher(domainEventAccessor,
                                               outboxRepository,
                                               dtProvider,
-                                              eventEmitter),
-        inject: [DomainEventAccessor, 'IOutboxRepository', 'IDateTimeProvider', EventEmitter2]
+                                              eventBus),
+        inject: [DomainEventAccessor, 'IOutboxRepository', 'IDateTimeProvider', 'IEventBus']
     },
     {
       provide: UnitOfWorkBehavior,
@@ -185,7 +195,11 @@ import { AddFriendCommandHandler } from '../../../../application/features/add-fr
             UpdateBalanceGamblerHandler,
             ProcessOutboxCommandHandler,
             AddFriendCommandHandler]
-    }
+    },
+    {
+      provide: ExecutionContextHost,
+      useClass: ExecutionContextHost
+  }
   ],
 })
 export class AppModule {}

@@ -15,7 +15,6 @@ export class ProcessOutboxCommandHandler implements IRequestHandler<ProcessOutbo
     async Handle(request: ProcessOutboxCommand): Promise<void> {
         const outboxes = await this.outboxRepository.GetAll();
         for(let item of outboxes) {
-            console.log(item)
             item.Handled(this.dateProvider);
             await this.outboxRepository.Save(item);
         }

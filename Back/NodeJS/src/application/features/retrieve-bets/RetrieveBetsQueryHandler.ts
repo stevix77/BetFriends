@@ -5,7 +5,7 @@ export class RetrieveBetsQueryHandler implements IRequestHandler<RetrieveBetsQue
     constructor(private readonly dataAccess: IRetrieveBetsDataAccess,
         private userContext: IUserContext){}
     Handle(request: RetrieveBetsQuery): Promise<RetrieveBetsResponse[]> {
-        return this.dataAccess.RetrieveBetsAsync(this.userContext.UserId);
+        return this.dataAccess.RetrieveBetsAsync(this.userContext.GetUserId());
     }
     GetRequestType(): string {
         return RetrieveBetsQuery.name;

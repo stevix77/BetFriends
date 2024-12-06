@@ -1,4 +1,4 @@
 export interface IUserContext {
-    UserId: string;
+    GetUserId(): string;
 
 }

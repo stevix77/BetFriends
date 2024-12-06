@@ -17,7 +17,7 @@ export class AddFriendCommandHandler implements IRequestHandler<AddFriendCommand
             this.outputPort.MemberDoesNotExist(request.MemberId);
             return;
         }
-        const friendship = member.AddFriendship(this.userContext.UserId)
+        const friendship = member.AddFriendship(this.userContext.GetUserId())
         await this.friendshipRepository.SaveAsync(friendship);
         this.outputPort.Present();
     }

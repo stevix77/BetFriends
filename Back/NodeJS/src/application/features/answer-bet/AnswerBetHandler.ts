@@ -40,7 +40,7 @@ export class AnswerBetCommandHandler implements IRequestHandler<AnswerBetCommand
         }
 
         const member = await this.memberRepository.GetByIdAsync(
-            new MemberId(this.userContext.UserId)
+            new MemberId(this.userContext.GetUserId())
         );
         if(!member) {
             this.answerOutputPort.MemberDoesNotExisting()
@@ -91,11 +91,11 @@ export class AnswerBetCommandHandler implements IRequestHandler<AnswerBetCommand
     }
 
     private IsUserIsBettor(userId: string): boolean {
-        return userId == this.userContext.UserId;
+        return userId == this.userContext.GetUserId();
     }
 
     private IsUserCannotAnswer(members: string[]): boolean {
-        return !members.some(x => x == this.userContext.UserId)
+        return !members.some(x => x == this.userContext.GetUserId())
     }
 }
 

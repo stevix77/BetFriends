@@ -25,8 +25,8 @@ export class CompleteBetCommandHandler implements IRequestHandler<CompleteBetCom
             return;
         }
 
-        if(this.userContext.UserId != bet.BettorId.Value) {
-            this.outputPort.UnAuthorized(this.userContext.UserId)
+        if(this.userContext.GetUserId() != bet.BettorId.Value) {
+            this.outputPort.UnAuthorized(this.userContext.GetUserId())
             return;
         }
 
