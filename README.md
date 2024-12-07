@@ -13,7 +13,7 @@ I am Steve VALENTIN, a software engineer interested about craftsmanship subjects
 - [x] add a friend
 - [x] make a bet
 - [x] accept/reject a bet
-- [ ] give bet result
+- [x] give bet result
 - [x] display bets list
 - [ ] create an account
 - [ ] authenticate
