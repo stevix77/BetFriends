@@ -1,7 +1,6 @@
 import { ICommand } from "../../application/Abstractions/Request/ICommand";
 import { BetCompleted } from "../../domain/bets/events/BetCompleted";
 import { IDomainEvent } from "../../domain/IDomainEvent";
-import { ICommandFactory } from "./ICommandFactory";
 import { BetCreated } from '../../domain/bets/events/BetCreated';
 
 export class CommandFactory implements ICommandFactory {
@@ -11,5 +10,10 @@ export class CommandFactory implements ICommandFactory {
                 return undefined!;
         }
     }
+
+}
+
+export interface ICommandFactory {
+    Create(event: IDomainEvent): ICommand;
 
 }

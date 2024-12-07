@@ -6,8 +6,8 @@ import { BetAnswered } from "./events/BetAnswered";
 export class AnswerBet extends Entity {
     constructor(public readonly BetId: BetId, 
                 public readonly Answer: boolean,
-                public readonly GamberId: MemberId) {
+                public readonly GamblerId: MemberId) {
         super()
-        this.AddDomainEvent(new BetAnswered(this.BetId, this.GamberId, this.Answer))
+        this.AddDomainEvent(new BetAnswered(this.BetId, this.GamblerId, this.Answer))
     }
 }
