@@ -26,7 +26,7 @@ export class InMemoryRetrieveBetsDataAccess implements IRetrieveBetsDataAccess {
                                                         return {
                                                             Id: m,
                                                             Name: gambler!.Username,
-                                                            HasAccepted: answers.find(a => a.GamberId.Value == m)?.Answer
+                                                            HasAccepted: answers.find(a => a.GamblerId.Value == m)?.Answer
                                                         }
                                                     })
                                                 }

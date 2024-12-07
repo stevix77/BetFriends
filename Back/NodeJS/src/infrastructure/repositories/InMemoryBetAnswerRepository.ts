@@ -16,7 +16,7 @@ export class InMemoryBetAnswerRepository implements IAnswerBetRepository {
 
     Save(answerBet: AnswerBet): Promise<void> {
         const index = this.Answers.findIndex(x => x.BetId == answerBet.BetId && 
-                                            x.GamberId == answerBet.GamberId
+                                            x.GamblerId == answerBet.GamblerId
         )
         if(index != -1) {
             this.Answers.splice(index, 1)

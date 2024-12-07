@@ -39,9 +39,11 @@ import { RetrieveBetsQueryHandler } from '../../../../application/features/retri
 import { ProcessOutboxCommandHandler } from '../../../Outbox/ProcessOutboxCommand';
 import { AddFriendCommandHandler } from '../../../../application/features/add-friend/AddFriendHandler';
 import { FakeUserContext } from './userContext/FakeUserContext';
-import { ExecutionContextHost } from '@nestjs/core/helpers/execution-context-host';
 import { EventBus } from './events/eventBus';
 import { IEventBus } from '../../../events/IEventBus';
+import { NotifyGamblersBetCompletedHandler } from '../../../../application/features/complete-bet/NotifyGamblersBetCompletedHandler';
+import { INotificationFactory, NotificationFactory } from '../../../factories/NotificationFactory';
+import { NotifyRequestersHandler } from '../../../../application/features/create-bet/NotifyRequestersHandler';
 
 @Module({
   imports: [EventEmitterModule.forRoot(), ScheduleModule.forRoot(), FriendModule, BetsModule],
@@ -153,11 +155,27 @@ import { IEventBus } from '../../../events/IEventBus';
       inject:['IMediator']
     },
     {
+      provide: 'INotificationFactory',
+      useClass: NotificationFactory
+    },
+    {
         provide: ProcessOutboxCommandHandler,
         useFactory: (outboxRepository: IOutboxRepository,
-                    dateTimeProvider: IDateTimeProvider
-        ) => new ProcessOutboxCommandHandler(outboxRepository, dateTimeProvider),
-        inject: ['IOutboxRepository', 'IDateTimeProvider']
+                    dateTimeProvider: IDateTimeProvider,
+                    notificationFactory: INotificationFactory,
+                    notifyGamblersBetCompletedHandler: NotifyGamblersBetCompletedHandler,
+                    notifyRequestersHandler: NotifyRequestersHandler
+        ) => new ProcessOutboxCommandHandler(outboxRepository, 
+                                              dateTimeProvider, 
+                                              notificationFactory, [
+          notifyGamblersBetCompletedHandler,
+          notifyRequestersHandler
+        ]),
+        inject: ['IOutboxRepository', 
+              'IDateTimeProvider', 
+              'INotificationFactory', 
+              NotifyGamblersBetCompletedHandler,
+              NotifyRequestersHandler]
     },
     {
         provide: RequestBehavior,
@@ -194,12 +212,9 @@ import { IEventBus } from '../../../events/IEventBus';
             DecreaseBalanceMemberHandler,
             UpdateBalanceGamblerHandler,
             ProcessOutboxCommandHandler,
-            AddFriendCommandHandler]
-    },
-    {
-      provide: ExecutionContextHost,
-      useClass: ExecutionContextHost
-  }
+            AddFriendCommandHandler
+          ]
+    }
   ],
 })
 export class AppModule {}

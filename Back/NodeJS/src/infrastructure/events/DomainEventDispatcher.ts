@@ -23,7 +23,7 @@ export class DomainEventDispatcher implements IDomainEventDispatcher {
         }
 
         for(let event of events) {
-            const outbox = new Outbox(uuidv4(), typeof event, JSON.stringify(event), this.dateProvider);
+            const outbox = new Outbox(uuidv4(), event.Type, JSON.stringify(event), this.dateProvider);
             await this.outboxRepository.Save(outbox);
         }
     }

@@ -26,6 +26,10 @@ import { CompleteBetController } from './features/complete-bet/CompleteBet.contr
 import { BetCreatedListener } from "./listeners/betCreatedListener";
 import { BetAnsweredListener } from "./listeners/betAnsweredListener";
 import { BetCompletedListener } from "./listeners/betCompletedListener";
+import { NotifyBetCompleted } from "../../../../../infrastructure/notifiers/NotifyBetCompleted"
+import { NotifyGamblersBetCompletedHandler } from "../../../../../application/features/complete-bet/NotifyGamblersBetCompletedHandler";
+import { NotifyRequestersHandler } from "../../../../../application/features/create-bet/NotifyRequestersHandler";
+import { INotifyBetCompleted } from "../../../../../application/features/complete-bet/NotifyGamblersBetCompletedHandler"
 
 const completeBetPresenter = new CompleteBetPresenter();
 const createBetPresenter = new CreateBetPresenter();
@@ -40,7 +44,9 @@ const answerBetPresenter = new AnswerBetPresenter();
     UpdateBalanceBookieHandler,
     UpdateBalanceGamblersHandler,
     DecreaseBalanceMemberHandler,
-    UpdateBalanceGamblerHandler
+    UpdateBalanceGamblerHandler,
+    NotifyGamblersBetCompletedHandler,
+    NotifyRequestersHandler
     ],
     imports: [forwardRef(() => AppModule)],
     providers: [BetCreatedListener, 
@@ -147,6 +153,23 @@ const answerBetPresenter = new AnswerBetPresenter();
                         betRepository: IBetRepository
             ) => new UpdateBalanceGamblerHandler(memberRepository, betRepository),
             inject: [InMemoryMemberRepository, InMemoryBetRepository]
+        },
+        {
+            provide: "INotifyCompletBet",
+            useClass: NotifyBetCompleted
+        },
+        {
+            provide: NotifyGamblersBetCompletedHandler,
+            useFactory: (notifyCompletBet: INotifyBetCompleted,
+                        answerBetRepository: IAnswerBetRepository,
+                        betRepository: IBetRepository,
+                        memberRepository: IMemberRepository
+            ) => new NotifyGamblersBetCompletedHandler(answerBetRepository, notifyCompletBet, memberRepository, betRepository),
+            inject: ["INotifyCompletBet", "IAnswerBetRepository", InMemoryBetRepository, InMemoryMemberRepository]
+        },
+        {
+            provide: NotifyRequestersHandler,
+            useClass: NotifyRequestersHandler
         }
     ]
 })
