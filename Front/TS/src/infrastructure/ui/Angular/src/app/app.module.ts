@@ -15,6 +15,9 @@ import { RouterModule } from "@angular/router";
 import { UserContext } from "./services/userContext";
 import { IUserContext } from "../../../../../domain/abstractions/IUserContext";
 import { Bet } from "../../../../../domain/bets/Bet";
+import { AuthModule } from "./auth/auth.module";
+import { AuthGuard } from './services/authGuard';
+import { AuthService } from './services/authService';
 
 @NgModule({
     declarations: [
@@ -24,10 +27,13 @@ import { Bet } from "../../../../../domain/bets/Bet";
         BrowserModule,
         FriendsModule,
         BetsModule,
+        AuthModule,
         NavbarComponent,
         RouterModule
     ],
     providers:[
+        AuthGuard,
+        AuthService,
         {
             provide: 'IMemberRepository',
             useFactory: (userContext: IUserContext) => {

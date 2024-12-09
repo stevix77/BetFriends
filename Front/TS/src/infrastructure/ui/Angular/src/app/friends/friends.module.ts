@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { inject, NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { InMemoryMemberRepository } from '../../../../../adapters/repository/InMemoryMemberRepository';
@@ -14,6 +14,7 @@ import { FriendsViewModel } from "./FriendsViewModel";
 import { FriendsComponent } from "./friends.component";
 import { AddFriendComponent } from "./add/add-friend.component";
 import { SearchComponent } from "./search/search.component";
+import { AuthGuard } from '../services/authGuard';
 
 @NgModule({
     declarations: [
@@ -25,7 +26,7 @@ import { SearchComponent } from "./search/search.component";
         CommonModule,
         RouterModule.forRoot([
             {
-                path: 'friends', component: FriendsComponent
+                path: 'friends', component: FriendsComponent, canActivate: [() => inject(AuthGuard).canActivate()]
             }
         ])
     ],

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { inject, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { CreateBetComponent } from './create-bet/create-bet.component';
@@ -28,6 +28,7 @@ import { CompleteBetComponent } from './complete-bet/complete-bet.component';
 import { CompleteBetHandler } from '../../../../../../domain/features/CompleteBetHandler';
 import { CompleteBetViewModel } from './CompleteBetViewModel';
 import { GetProofHandler } from '../../../../../../domain/features/GetProofHandler';
+import { AuthGuard } from '../services/authGuard';
 
 const createBetPresenter = new CreateBetPresenter();
 const answerPresenter = new AnswerBetPresenter();
@@ -40,13 +41,13 @@ const completeBetPresenter = new CompleteBetPresenter();
     FormsModule,
     RouterModule.forRoot([
       {
-        path: '', component: RetrieveBetsComponent,
+        path: '', component: RetrieveBetsComponent, canActivate: [() => inject(AuthGuard).canActivate()]
       },
       {
-        path: 'bets/new', component: CreateBetComponent
+        path: 'bets/new', component: CreateBetComponent, canActivate: [() => inject(AuthGuard).canActivate()]
       },
       {
-        path: 'complete/:betId', component: CompleteBetComponent
+        path: 'complete/:betId', component: CompleteBetComponent, canActivate: [() => inject(AuthGuard).canActivate()]
       }
     ])
   ],

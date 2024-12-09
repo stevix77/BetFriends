@@ -1,0 +1,54 @@
+<div class="content">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-5 col-md-6 offset-lg-0 offset-md-3">
+          <div class="square square-7" id="square7"></div>
+          <div class="square square-8" id="square8"></div>
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">Connexion</h4>
+            </div>
+            <form class="form" (submit)="vm.Signin()" method="POST">
+                <div class="card-body">
+                    <div
+                    class="input-group"
+                    >
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                        <i class="tim-icons icon-email-85"> </i>
+                        </div>
+                    </div>
+                    <input
+                        class="form-control"
+                        placeholder="Email"
+                        type="email"
+                        name="email"
+                        [(ngModel)]="vm.email"
+                    />
+                    </div>
+                    <div
+                    class="input-group"
+                    >
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                        <i class="tim-icons icon-lock-circle"> </i>
+                        </div>
+                    </div>
+                    <input
+                        class="form-control"
+                        placeholder="Password"
+                        type="password"
+                        name="password"
+                        [(ngModel)]="vm.password"
+                    />
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <input type="submit" value="Connexion" />
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
