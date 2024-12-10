@@ -18,6 +18,7 @@ import { Bet } from "../../../../../domain/bets/Bet";
 import { AuthModule } from "./auth/auth.module";
 import { AuthGuard } from './services/authGuard';
 import { AuthService } from './services/authService';
+import { UserGuard } from "./services/userGuard";
 
 @NgModule({
     declarations: [
@@ -33,6 +34,7 @@ import { AuthService } from './services/authService';
     ],
     providers:[
         AuthGuard,
+        UserGuard,
         AuthService,
         {
             provide: 'IMemberRepository',

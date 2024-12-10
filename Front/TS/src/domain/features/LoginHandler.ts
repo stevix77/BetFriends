@@ -6,9 +6,9 @@ export class LoginHandler {
                 private readonly hasher: IHashService
     ) {}
 
-    private HasError: boolean = false;
+    private HasError?: boolean;
     async Handle(request: ILoginRequest): Promise<void> {
-        
+        this.HasError = false;
         this.ValidateRequest(request)
         if(this.HasError) {
             return Promise.resolve();
