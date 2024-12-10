@@ -1,31 +1,29 @@
-import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, tap } from "rxjs";
+import { IAuthenticateService } from "../../../../../adapters/IAuthenticateService";
+import { AuthToken } from "../../../../../../domain/features/LoginHandler";
+import { BehaviorSubject, Observable } from "rxjs";
 
 @Injectable({
     providedIn: 'root'
   })
-  export class AuthService {
-    
-  
+  export class AuthService implements IAuthenticateService {
+    private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
+    public isAuthenticated$: Observable<boolean> = this.isAuthenticatedSubject.asObservable();
+    LogOut() {
+      localStorage.removeItem('auth_token')
+      this.isAuthenticatedSubject.next(false);
+    }
+
+    IsLoggedIn(): boolean {
+      const authToken = localStorage.getItem('auth_token')
+      this.isAuthenticatedSubject.next(!!authToken);
+      if(authToken) return true;
+      return false;
+    }
+      
     constructor() {}
-  
-    // login(credentials: { email: string; password: string }) {
-    //   return this.http.post<{ token: string }>('/api/login', credentials).pipe(
-    //     tap(response => {
-    //       localStorage.setItem('auth_token', response.token);
-    //       this.isAuthenticatedSubject.next(true);
-    //     })
-    //   );
-    // }
-  
-    // logout() {
-    //   localStorage.removeItem('auth_token');
-    //   this.isAuthenticatedSubject.next(false);
-    // }
-  
-    // isLoggedIn(): boolean {
-    //   const token = localStorage.getItem('auth_token');
-    //   return !!token; // Check if token exists
-    // }
+    LoggedIn(authToken: AuthToken): void {
+      localStorage.setItem('auth_token', JSON.stringify(authToken));
+      this.isAuthenticatedSubject.next(true);
+    }
   }

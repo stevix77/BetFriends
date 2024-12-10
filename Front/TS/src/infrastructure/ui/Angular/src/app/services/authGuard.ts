@@ -9,9 +9,9 @@ import { AuthService } from "./authService";
     constructor(private authService: AuthService, private router: Router) {}
   
     canActivate(): boolean {
-    //   if (this.authService.isLoggedIn()) {
-    //     return true;
-    //   }
+      if (this.authService.IsLoggedIn()) {
+        return true;
+      }
       this.router.navigate(['/signin']);
       return false;
     }
