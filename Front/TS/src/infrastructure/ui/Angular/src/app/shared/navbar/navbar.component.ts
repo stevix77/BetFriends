@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { AuthService } from '../../services/authService';
 
 @Component({
   selector: 'app-navbar',
@@ -9,5 +10,8 @@ import { RouterModule } from '@angular/router';
   imports: [RouterModule]
 })
 export class NavbarComponent {
-
+  constructor(@Inject(AuthService) private readonly authService: AuthService) {}
+  Logout() {
+    this.authService.LogOut();
+  }
 }

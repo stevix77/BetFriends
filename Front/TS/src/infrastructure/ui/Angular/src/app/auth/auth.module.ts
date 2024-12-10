@@ -5,8 +5,13 @@ import { RegisterComponent } from './register/register.component';
 import { RouterModule } from '@angular/router';
 import { SignInViewModel } from '../../../../../adapters/viewmodels/SignInViewModel';
 import { FormsModule } from '@angular/forms';
-
-
+import { InMemoryAuthRepository } from "../../../../../adapters/repository/InMemoryAuthRepository"
+import { IAuthRepository, LoginHandler } from '../../../../../../domain/features/LoginHandler';
+import { LoginPresenter } from "../../../../../adapters/presenters/LoginPresenter";
+import { Router } from '../services/router';
+import { AuthService } from '../services/authService';
+import { IAuthenticateService } from '../../../../../adapters/IAuthenticateService';
+const loginPresenter = new LoginPresenter();
 
 @NgModule({
   declarations: [SigninComponent, RegisterComponent],
@@ -23,9 +28,31 @@ import { FormsModule } from '@angular/forms';
     ])
   ],
   providers: [
+    Router,
+    AuthService,
+    {
+      provide: LoginHandler,
+      useFactory: (authRepository: IAuthRepository) => new LoginHandler(authRepository, loginPresenter, {
+        Hash(password) {
+          return `hashed${password}`
+        },
+      }),
+      deps: ["IAuthRepository"]
+    },
+    {
+      provide: "IAuthRepository",
+      useClass: InMemoryAuthRepository
+    },
     {
       provide: SignInViewModel,
-      useFactory: () => new SignInViewModel()
+      useFactory: (loginHandler: LoginHandler,
+                  router: Router,
+                  authService: IAuthenticateService
+      ) => new SignInViewModel(loginHandler, 
+                                loginPresenter, 
+                                router,
+                                authService),
+      deps: [LoginHandler, Router, AuthService]
     }
   ]
 })
