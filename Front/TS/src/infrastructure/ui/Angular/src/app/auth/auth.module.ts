@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { inject, Inject, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SigninComponent } from './signin/signin.component';
 import { RegisterComponent } from './register/register.component';
@@ -11,6 +11,8 @@ import { LoginPresenter } from "../../../../../adapters/presenters/LoginPresente
 import { Router } from '../services/router';
 import { AuthService } from '../services/authService';
 import { IAuthenticateService } from '../../../../../adapters/IAuthenticateService';
+import { Route } from '../../../../../adapters/IRouter';
+import { UserGuard } from '../services/userGuard';
 const loginPresenter = new LoginPresenter();
 
 @NgModule({
@@ -20,10 +22,10 @@ const loginPresenter = new LoginPresenter();
     FormsModule,
     RouterModule.forRoot([
       {
-        path: 'signin', component: SigninComponent,
+        path: 'signin', component: SigninComponent, canActivate: [() => inject(UserGuard).canActivate()]
       },
       {
-        path: 'register', component: RegisterComponent
+        path: 'register', component: RegisterComponent, canActivate: [() => inject(UserGuard).canActivate()]
       },
     ])
   ],
