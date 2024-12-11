@@ -103,6 +103,7 @@ router.beforeEach((to, from, next) => {
     }
     if((to.name == 'signin' || to.name == 'register') && authService.IsLoggedIn()) {
         next('/');
+        return;
     }
     next();
 });
