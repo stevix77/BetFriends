@@ -9,9 +9,11 @@ const router = ref(inject<IRouter>('router'))
 let isConnected = ref(authService.value?.IsLoggedIn());
 authService.value!.isAuthenticated$.subscribe(
       (status) => {
-        isConnected.value = status
-        if(!status) {
-          router.value!.Navigate(Route.Signin)
+        if(isConnected.value != status) {
+          isConnected.value = status
+          if(!status) {
+            router.value!.Navigate(Route.Signin)
+          }
         }
       }
     );
