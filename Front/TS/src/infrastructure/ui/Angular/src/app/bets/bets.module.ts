@@ -28,7 +28,7 @@ import { CompleteBetComponent } from './complete-bet/complete-bet.component';
 import { CompleteBetHandler } from '../../../../../../domain/features/CompleteBetHandler';
 import { CompleteBetViewModel } from './CompleteBetViewModel';
 import { GetProofHandler } from '../../../../../../domain/features/GetProofHandler';
-import { AuthGuard } from '../services/authGuard';
+import { AuthGuard } from '../guards/authGuard';
 
 const createBetPresenter = new CreateBetPresenter();
 const answerPresenter = new AnswerBetPresenter();

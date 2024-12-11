@@ -14,7 +14,7 @@ import { FriendsViewModel } from "./FriendsViewModel";
 import { FriendsComponent } from "./friends.component";
 import { AddFriendComponent } from "./add/add-friend.component";
 import { SearchComponent } from "./search/search.component";
-import { AuthGuard } from '../services/authGuard';
+import { AuthGuard } from '../guards/authGuard';
 
 @NgModule({
     declarations: [

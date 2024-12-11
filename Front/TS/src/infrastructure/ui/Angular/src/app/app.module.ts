@@ -16,9 +16,9 @@ import { UserContext } from "./services/userContext";
 import { IUserContext } from "../../../../../domain/abstractions/IUserContext";
 import { Bet } from "../../../../../domain/bets/Bet";
 import { AuthModule } from "./auth/auth.module";
-import { AuthGuard } from './services/authGuard';
+import { AuthGuard } from './guards/authGuard';
 import { AuthService } from './services/authService';
-import { UserGuard } from "./services/userGuard";
+import { GuestGuard } from "./guards/guestGuard";
 
 @NgModule({
     declarations: [
@@ -34,7 +34,7 @@ import { UserGuard } from "./services/userGuard";
     ],
     providers:[
         AuthGuard,
-        UserGuard,
+        GuestGuard,
         AuthService,
         {
             provide: 'IMemberRepository',

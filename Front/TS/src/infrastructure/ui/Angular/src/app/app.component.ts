@@ -14,9 +14,11 @@ export class AppComponent {
   ) {
     this.authService.isAuthenticated$.subscribe(
       (status) => {
-        this.isConnected = status
-        if(!status) {
-          this.router.Navigate(Route.Signin)
+        if(this.isConnected != status) {
+          this.isConnected = status
+          if(!status) {
+            this.router.Navigate(Route.Signin)
+          }
         }
       }
     );
