@@ -3,6 +3,8 @@ using BetFriend.Infrastructure.Repository;
 using BetFriends.Domain.Abstractions;
 using BetFriends.Domain.Bets;
 using BetFriends.Infrastructure;
+using BetFriends.Infrastructure.Gateways;
+using BetFriends.Infrastructure.Hash;
 using BetFriends.Infrastructure.Repository;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -18,6 +20,8 @@ public static class RegistryInfrastructure
                                                                         implementationFactory.Invoke(x)));
         services.AddScoped<IIdGenerator, GuidGenerator>();
         services.AddScoped<IDateTimeProvider, DateTimeProvider>();
+        services.AddScoped<IAuthenticationGateway, InMemoryAuthenticationGateway>();
+        services.AddSingleton<IHashPassword, FakeHashPassword>();
 
         services.AddMediatR(x => x.RegisterServicesFromAssembly(typeof(Domain.Domain).Assembly));
         return services;
