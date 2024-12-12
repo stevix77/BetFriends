@@ -87,6 +87,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Features\Auth\Signin\SigninPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Features\Bets\CompleteBet\CompleteBetPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
