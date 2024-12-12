@@ -1,5 +1,7 @@
-﻿using BetFriends.Domain.Features.SignIn;
+﻿using BetFriends;
+using BetFriends.Domain.Features.SignIn;
 using BetFriends.Features.Auth.Signin;
+using BetFriends.Services;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Mvvm.Messaging;
 
@@ -19,14 +21,22 @@ namespace BetFriend
             {
                 MainPage = new AppShell();
             }));
+            WeakReferenceMessenger.Default.Register(this, new MessageHandler<object, SignOffRequest>((o, e) =>
+            {
+                MainPage = new SigninPage(serviceProvider.GetRequiredService<SigninViewModel>());
+            }));
             InitializeComponent();
             this.serviceProvider = serviceProvider;
         }
 
         protected override Window CreateWindow(IActivationState activationState)
         {
-            var data = SecureStorage.Default.GetAsync("auth_token").Result;
-            MainPage = serviceProvider.GetRequiredService<SigninPage>();
+            var authenticationService = serviceProvider.GetRequiredService<AuthenticationService>();
+            authenticationService.Load();
+            if (!authenticationService.IsConnected())
+                MainPage = new SigninPage(serviceProvider.GetRequiredService<SigninViewModel>());
+            else
+                MainPage = new AppShell();
             return base.CreateWindow(activationState);
         }
     }

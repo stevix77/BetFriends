@@ -26,9 +26,9 @@ public partial class SigninViewModel : ObservableObject
         {
             Error = e.Message;
         }));
-        WeakReferenceMessenger.Default.Register(this, new MessageHandler<object, Authentication>((o, e) =>
+        WeakReferenceMessenger.Default.Register(this, new MessageHandler<object, Authentication>(async (o, e) =>
         {
-            authenticationService.Save(e);
+            await authenticationService.SaveAsync(e);
         }));
     }
 

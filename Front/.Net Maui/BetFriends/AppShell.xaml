@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:BetFriend"
+    xmlns:betfriends="clr-namespace:BetFriends"
     xmlns:friends="clr-namespace:BetFriends.Features.Friends"
     xmlns:bets="clr-namespace:BetFriends.Features.Bets.CreateBet"
     xmlns:betList="clr-namespace:BetFriends.Features.Bets.RetrieveBets"
@@ -26,9 +27,16 @@ Route="BetPage" />
         </Tab>
         <Tab Title="Amis">
             <ShellContent
-Title="Home"
+Title="Amis"
 ContentTemplate="{DataTemplate friends:FriendsPage}"
 Route="FriendsPage" />
+        </Tab>
+        
+        <Tab Title="Déconnexion">
+            <ShellContent
+                Title="Déconnexion" 
+                ContentTemplate="{DataTemplate betfriends:SignOutPage}" 
+                Route="SignOutPage" />
         </Tab>
     </TabBar>
 

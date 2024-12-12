@@ -1,5 +1,6 @@
 ﻿using BetFriend.Domain.Features.AddFriend;
 using BetFriend.Infrastructure;
+using BetFriends;
 using BetFriends.Domain.Abstractions;
 using BetFriends.Domain.Features.AnswerBet;
 using BetFriends.Domain.Features.CompleteBet;
@@ -51,6 +52,7 @@ namespace BetFriend
 
             builder.Services.AddScoped<BetPage>();
             builder.Services.AddScoped<FriendsPage>();
+            builder.Services.AddScoped<SignOutPage>();
             builder.Services.AddScoped<SelectFriendsPage>();
             builder.Services.AddScoped<RetrieveBetsPage>();
             builder.Services.AddScoped<CompleteBetPage>();

@@ -3,6 +3,7 @@ using BetFriends.Features.Bets.CreateBet;
 using BetFriends.Features.Bets.RetrieveBets;
 using BetFriends.Features.Bets.CompleteBet;
 using BetFriends.Features.Bets.ProofBet;
+using BetFriends;
 
 namespace BetFriend
 {
@@ -17,6 +18,7 @@ namespace BetFriend
             Routing.RegisterRoute(nameof(SelectFriendsPage), typeof(SelectFriendsPage));
             Routing.RegisterRoute(nameof(ProofPage), typeof(ProofPage));
             Routing.RegisterRoute(nameof(CompleteBetPage), typeof(CompleteBetPage));
+            Routing.RegisterRoute(nameof(SignOutPage), typeof(SignOutPage));
             Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
         }
     }
