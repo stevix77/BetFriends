@@ -1,5 +1,8 @@
 ﻿@page "/friends"
 @inject Components.Viewmodels.FriendsViewModel vm
+@layout Components.Layout.MainLayout
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
 
 <h3>Mes Amis</h3>
 

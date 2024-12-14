@@ -1,6 +1,8 @@
 ﻿@page "/bets/new"
 @inject Components.Viewmodels.CreateBetViewModel vm
-
+@layout Components.Layout.MainLayout
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
 
 <h2>Nouveau pari</h2>
 <form method="post" @onsubmit="(async () => await vm.ChooseFriendsCommand.ExecuteAsync(friendsModal))">
@@ -44,14 +46,9 @@
         <BodyTemplate>
             @foreach (var item in vm.Friends)
             {
-            @* <div class="d-grid gap-2">
-                <Button Color="ButtonColor.Primary" Outline="true" @onclick="(() => item.IsChecked = !item.IsChecked)">
-                    @item.Name <InputCheckbox style="float:right" @bind-Value="item.IsChecked" />
-                </Button>
-            </div> *@
-            <Card @onclick="(() => item.IsChecked = !item.IsChecked)">
-                <CardBody>@item.Name <InputCheckbox style="float:right" @bind-Value="item.IsChecked" /></CardBody>
-            </Card>
+                <Card @onclick="(() => item.IsChecked = !item.IsChecked)">
+                    <CardBody>@item.Name <InputCheckbox style="float:right" @bind-Value="item.IsChecked" /></CardBody>
+                </Card>
             }
             <div class="d-grid gap-2" style="margin: 3px 0px; height: 100%; display:flex; align-items: flex-end;">
                 <Button Color="ButtonColor.Primary" @onclick="@(async () => await vm.CreateBetCommand.ExecuteAsync(null))">

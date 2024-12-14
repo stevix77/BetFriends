@@ -1,8 +1,8 @@
 ﻿@page "/signin"
 @using BetFriends.Blazor.Components.Layout
 @using BetFriends.Blazor.Components.Viewmodels
-@layout OfflineLayout
 @inject SignInViewModel vm
+@layout Components.Layout.OfflineLayout
 
 <h2>Connexion</h2>
 <form method="post" onsubmit="@(async () => await vm.ValidateCommand.ExecuteAsync(null))">

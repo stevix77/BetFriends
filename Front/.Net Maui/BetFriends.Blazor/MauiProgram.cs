@@ -2,6 +2,7 @@
 using BetFriends.Blazor.Services;
 using BetFriends.Domain.Abstractions;
 using CommunityToolkit.Maui;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System.Reflection;
@@ -34,6 +35,8 @@ public static class MauiProgram
         builder.Services.AddBlazorWebViewDeveloperTools();
 		builder.Logging.AddDebug();
 #endif
+        builder.Services.AddAuthorizationCore();
+        builder.Services.AddScoped<AuthenticationStateProvider>(s => s.GetRequiredService<AuthenticationService>());
         builder.Services.AddScoped<AuthenticationService>();
         builder.Services.AddScoped<IUserContext>(x => new UserContext(Guid.NewGuid().ToString()));
         builder.Services.AddScoped<Services.Abstractions.INavigation, Navigation>();

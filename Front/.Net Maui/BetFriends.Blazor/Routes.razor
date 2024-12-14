@@ -1,24 +1,34 @@
-﻿@using BetFriends.Blazor.Services
+﻿@using BetFriends.Blazor.Components.Layout
+@using BetFriends.Blazor.Services
 @using BetFriends.Domain.Features.SignIn
 @using CommunityToolkit.Mvvm.Messaging
+@using Microsoft.AspNetCore.Components.Authorization
 @using static BetFriends.Blazor.Components.Pages.Signout
-<Router AppAssembly="@typeof(MauiProgram).Assembly">
-    <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(Components.Layout.MainLayout)" />
-        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
-    </Found>
-</Router>
+<Router AppAssembly="@GetType().Assembly">
+            <Found Context="routeData">
+                <AuthorizeRouteView RouteData="@routeData">
+                    <Authorizing>
+                        Authorizing...
+                    </Authorizing>
+                    <NotAuthorized>
+                        <BetFriends.Blazor.Components.Pages.RedirectToLogin />
+                    </NotAuthorized>
+                </AuthorizeRouteView>
+            </Found>
+            <NotFound>
+                <CascadingAuthenticationState>
+                    <LayoutView Layout="@typeof(MainLayout)">
+                        <p>Sorry, there's nothing at this address.</p>
+                    </LayoutView>
+                </CascadingAuthenticationState>
+            </NotFound>
+        </Router>
 
 @inject AuthenticationService authenticationService;
 @inject NavigationManager navigationManager;
 @code {
     protected override async Task OnInitializedAsync()
     {
-        await authenticationService.LoadAsync();
-        if (!authenticationService.IsConnected())
-        {
-            navigationManager.NavigateTo("/signin");
-        }
         await base.OnInitializedAsync();
         WeakReferenceMessenger.Default.Register(this, new MessageHandler<object, Authentication>((o, e) =>
         {
