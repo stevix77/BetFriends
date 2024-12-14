@@ -1,7 +1,7 @@
 ﻿using BetFriends.Domain.Features.SignIn;
 using CommunityToolkit.Mvvm.Messaging;
 
-namespace BetFriends.Features.Auth.Signin;
+namespace BetFriends.Blazor.Presenters;
 
 internal class SignInPresenter : ISignInOutputPort
 {

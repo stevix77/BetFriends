@@ -1,0 +1,13 @@
+﻿@page "/signout"
+@inject Services.AuthenticationService authenticationService
+
+@code {
+    protected override Task OnInitializedAsync()
+    {
+        authenticationService.Logoff();
+        return base.OnInitializedAsync();
+    }
+
+
+    internal record SignOutRequest();
+}

@@ -6,6 +6,7 @@ using BetFriends.Domain.Abstractions;
 using BetFriends.Domain.Features.AnswerBet;
 using BetFriends.Domain.Features.CompleteBet;
 using BetFriends.Domain.Features.CreateBet;
+using BetFriends.Domain.Features.SignIn;
 
 namespace BetFriends.Blazor;
 
@@ -16,6 +17,7 @@ internal static class ServiceCollectionsExtensions
         services.AddScoped<RetrieveBetsViewModel>();
         services.AddScoped<CreateBetViewModel>();
         services.AddScoped<FriendsViewModel>();
+        services.AddScoped<SignInViewModel>();
 
         services.AddScoped<IDateTimeProvider, DateTimeProvider>();
 
@@ -26,6 +28,7 @@ internal static class ServiceCollectionsExtensions
     {
         services.AddScoped<ICreateBetOutputPort, CreateBetPresenter>();
         services.AddScoped<ICompleteBetOutputPort, CompleteBetPresenter>();
+        services.AddScoped<ISignInOutputPort, SignInPresenter>();
         services.AddScoped<IAnswerBetOutputPort, AnswerBetPresenter>();
         services.AddScoped<IAddFriendOutputPort, AddFriendPresenter>();
 

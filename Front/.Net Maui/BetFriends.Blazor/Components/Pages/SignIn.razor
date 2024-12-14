@@ -1,0 +1,38 @@
+﻿@page "/signin"
+@using BetFriends.Blazor.Components.Layout
+@using BetFriends.Blazor.Components.Viewmodels
+@layout OfflineLayout
+@inject SignInViewModel vm
+
+<h2>Connexion</h2>
+<form method="post" onsubmit="@(async () => await vm.ValidateCommand.ExecuteAsync(null))">
+    <Toasts class="p-3" Messages="vm.Errors" AutoHide="true" Delay="2000" Placement="ToastsPlacement.TopRight" />
+    <Card>
+        <CardHeader>
+            Email
+        </CardHeader>
+        <CardBody>
+            <InputText @bind-Value="vm.Email" type="email" />
+            <span style="color:red">@vm.ErrorEmail</span>
+        </CardBody>
+    </Card>
+    <Card>
+        <CardHeader>
+            Password
+        </CardHeader>
+        <CardBody>
+            <InputText @bind-Value="vm.Password" type="password" />
+            <span style="color:red">@vm.ErrorPassword</span>
+        </CardBody>
+    </Card>
+    <div class="d-grid gap-2" style="margin: 3px 0px; height: 100%; display:flex; align-items: flex-end;">
+        <Button Type="ButtonType.Submit"
+                Color="ButtonColor.Primary">
+            Connexion
+        </Button>
+    </div>
+</form>
+
+@code {
+
+}

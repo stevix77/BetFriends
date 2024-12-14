@@ -1,6 +1,32 @@
-﻿<Router AppAssembly="@typeof(MauiProgram).Assembly">
+﻿@using BetFriends.Blazor.Services
+@using BetFriends.Domain.Features.SignIn
+@using CommunityToolkit.Mvvm.Messaging
+@using static BetFriends.Blazor.Components.Pages.Signout
+<Router AppAssembly="@typeof(MauiProgram).Assembly">
     <Found Context="routeData">
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(Components.Layout.MainLayout)" />
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />
     </Found>
 </Router>
+
+@inject AuthenticationService authenticationService;
+@inject NavigationManager navigationManager;
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await authenticationService.LoadAsync();
+        if (!authenticationService.IsConnected())
+        {
+            navigationManager.NavigateTo("/signin");
+        }
+        await base.OnInitializedAsync();
+        WeakReferenceMessenger.Default.Register(this, new MessageHandler<object, Authentication>((o, e) =>
+        {
+            navigationManager.NavigateTo("/");
+        }));
+        WeakReferenceMessenger.Default.Register(this, new MessageHandler<object, SignOutRequest>((o, e) =>
+        {
+            navigationManager.NavigateTo("/signin");
+        }));
+    }
+}
