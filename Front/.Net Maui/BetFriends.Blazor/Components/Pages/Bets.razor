@@ -1,6 +1,8 @@
-﻿@page "/"
+﻿@layout Components.Layout.MainLayout
+@page "/"
 @inject Components.Viewmodels.RetrieveBetsViewModel vm
-@implements IDisposable
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
 
 <h2>Mes paris en cours</h2>
 <div>
@@ -119,10 +121,5 @@
     {
         await base.OnInitializedAsync();
         await vm.LoadAsync();
-    }
-
-    public void Dispose()
-    {
-        
     }
 }

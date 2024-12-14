@@ -1,33 +1,42 @@
 ﻿using BetFriends.Domain.Features.SignIn;
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.AspNetCore.Components.Authorization;
+using System.Security.Claims;
 using System.Text.Json;
 using static BetFriends.Blazor.Components.Pages.Signout;
 
 namespace BetFriends.Blazor.Services;
 
-public class AuthenticationService
+public class AuthenticationService : AuthenticationStateProvider
 {
     private Authentication authentication = default!;
-    internal bool IsConnected()
+
+    public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
-        return authentication != null;
+        await LoadAsync();
+        if (authentication == null)
+            return new AuthenticationState(new ClaimsPrincipal());
+        var claims = new[] { new Claim(ClaimTypes.Name, authentication.AccessToken) };
+        return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(claims, "Server authentication")));
     }
 
-    internal async Task LoadAsync()
+    private async Task LoadAsync()
     {
         var value = await SecureStorage.GetAsync("auth_token");
         if (!string.IsNullOrEmpty(value))
-            authentication = JsonSerializer.Deserialize<Authentication>(value);
+            authentication = JsonSerializer.Deserialize<Authentication>(value)!;
     }
 
     internal void Logoff()
     {
         SecureStorage.Remove("auth_token");
-        WeakReferenceMessenger.Default.Send(new SignOutRequest());
+        NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
+        //WeakReferenceMessenger.Default.Send(new SignOutRequest());
     }
 
-    internal async Task SaveAsync(Authentication e)
+    internal async Task SaveAsync(Authentication authentication)
     {
-        await SecureStorage.SetAsync("auth_token", JsonSerializer.Serialize(e));
+        await SecureStorage.SetAsync("auth_token", JsonSerializer.Serialize(authentication));
+        NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
     }
 }

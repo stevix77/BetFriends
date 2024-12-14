@@ -1,11 +1,13 @@
 ﻿@page "/signout"
 @inject Services.AuthenticationService authenticationService
+@inject NavigationManager navigationManager
 
 @code {
     protected override Task OnInitializedAsync()
     {
         authenticationService.Logoff();
-        return base.OnInitializedAsync();
+        navigationManager.NavigateTo("/signin");
+        return Task.CompletedTask;
     }
 
 
