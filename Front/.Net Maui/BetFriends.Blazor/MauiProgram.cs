@@ -34,7 +34,7 @@ public static class MauiProgram
         builder.Services.AddBlazorWebViewDeveloperTools();
 		builder.Logging.AddDebug();
 #endif
-
+        builder.Services.AddScoped<AuthenticationService>();
         builder.Services.AddScoped<IUserContext>(x => new UserContext(Guid.NewGuid().ToString()));
         builder.Services.AddScoped<Services.Abstractions.INavigation, Navigation>();
         builder.Services.AddInfrastructure(x => x.GetRequiredService<IUserContext>());
