@@ -6,13 +6,17 @@ using BetFriends.Domain.Bets;
 using BetFriends.Domain.Friends;
 using BetFriends.Domain.Members;
 using BetFriends.Domain.Members.Services;
-using BetFriends.Infrastructure.Behaviors;
 using BetFriends.Infrastructure.DataAccess;
 using BetFriends.Infrastructure.Event;
 using BetFriends.Infrastructure.Notifiers;
 using BetFriends.Infrastructure.Outbox;
 using BetFriends.Infrastructure.Repositories;
 using BetFriends.Infrastructure.UoW;
+using BetFriends.Shared.Application.Abstractions;
+using BetFriends.Shared.Infrastructure;
+using BetFriends.Shared.Infrastructure.Behaviors;
+using BetFriends.Shared.Infrastructure.Event;
+using BetFriends.Shared.Infrastructure.UoW;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 

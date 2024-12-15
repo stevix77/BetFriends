@@ -1,8 +1,8 @@
 ﻿using BetFriends.Application.Features.AnswerBet;
 using BetFriends.Application.Features.CompleteBet;
 using BetFriends.Application.Features.CreateBet;
-using BetFriends.Domain;
 using BetFriends.Domain.Events;
+using BetFriends.Shared.Domain;
 using MediatR;
 
 namespace BetFriends.Infrastructure.Event

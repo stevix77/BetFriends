@@ -1,5 +1,4 @@
-﻿
-using BetFriends.Application.Abstractions;
+﻿using BetFriends.Shared.Application.Abstractions;
 
 namespace BetFriends.Application.UnitTests.Implems;
 

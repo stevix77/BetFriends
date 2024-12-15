@@ -1,4 +1,5 @@
 ﻿using BetFriends.Domain.Bets;
+using BetFriends.Shared.Domain;
 
 namespace BetFriends.Domain.Events;
 

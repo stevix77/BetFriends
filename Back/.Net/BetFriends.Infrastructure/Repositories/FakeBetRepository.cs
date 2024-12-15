@@ -1,5 +1,6 @@
 ﻿using BetFriends.Domain.Bets;
 using BetFriends.Infrastructure.Event;
+using BetFriends.Shared.Infrastructure.Event;
 
 namespace BetFriends.Infrastructure.Repositories;
 

@@ -1,7 +1,8 @@
 ﻿using BetFriends.Application.Abstractions;
-using BetFriends.Application.Abstractions.Messaging;
 using BetFriends.Domain.Bets;
 using BetFriends.Domain.Members;
+using BetFriends.Shared.Application.Abstractions;
+using BetFriends.Shared.Application.Abstractions.Messaging;
 
 namespace BetFriends.Application.Features.CreateBet;
 
@@ -58,13 +59,13 @@ public class CreateBetCommandHandler : ICommandHandler<CreateBetCommand>
             return false;
         }
 
-        if(command.Chips < 1)
+        if (command.Chips < 1)
         {
             createBetOutputPort.CoinsMissing();
             return false;
         }
 
-        if(!command.Friends.Any())
+        if (!command.Friends.Any())
         {
             createBetOutputPort.FriendsMissing();
             return false;

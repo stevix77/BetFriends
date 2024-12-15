@@ -1,5 +1,5 @@
 ﻿using BetFriends.Application.Abstractions;
-using BetFriends.Application.Abstractions.Messaging;
+using BetFriends.Shared.Application.Abstractions.Messaging;
 using MediatR;
 
 namespace BetFriends.Infrastructure;

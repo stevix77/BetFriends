@@ -1,6 +1,7 @@
 ﻿using BetFriends.Application.Features.CreateBet;
 using BetFriends.Application.UnitTests.Implems;
 using BetFriends.Domain.Members;
+using BetFriends.Shared.Application.UnitTests.Implems;
 
 namespace BetFriends.Application.UnitTests.SUTs;
 

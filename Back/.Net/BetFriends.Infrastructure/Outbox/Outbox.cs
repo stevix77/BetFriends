@@ -1,4 +1,5 @@
 ﻿using BetFriends.Application.Abstractions;
+using BetFriends.Shared.Application.Abstractions;
 
 namespace BetFriends.Infrastructure.Outbox
 {

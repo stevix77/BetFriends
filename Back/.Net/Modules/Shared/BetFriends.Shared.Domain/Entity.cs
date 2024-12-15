@@ -1,4 +1,4 @@
-﻿namespace BetFriends.Domain;
+﻿namespace BetFriends.Shared.Domain;
 
 public abstract class Entity
 {

@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Text;
 
-namespace BetFriends.Infrastructure.Behaviors;
+namespace BetFriends.Shared.Infrastructure.Behaviors;
 
-internal class LoggingBehavior<TRequest, TResponse>(ILogger<LoggingBehavior<TRequest, TResponse>> logger)
+public class LoggingBehavior<TRequest, TResponse>(ILogger<LoggingBehavior<TRequest, TResponse>> logger)
             : IPipelineBehavior<TRequest, TResponse>
 {
     private readonly ILogger<LoggingBehavior<TRequest, TResponse>> logger = logger;

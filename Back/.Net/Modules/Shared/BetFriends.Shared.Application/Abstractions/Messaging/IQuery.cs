@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace BetFriends.Application.Abstractions.Messaging;
+namespace BetFriends.Shared.Application.Abstractions.Messaging;
 
 public interface IQuery<out T> : IRequest<T>;
 

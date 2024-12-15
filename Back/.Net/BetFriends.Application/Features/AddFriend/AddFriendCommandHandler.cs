@@ -1,7 +1,7 @@
 ﻿using BetFriends.Application.Abstractions;
-using BetFriends.Application.Abstractions.Messaging;
 using BetFriends.Domain.Friends;
 using BetFriends.Domain.Members;
+using BetFriends.Shared.Application.Abstractions.Messaging;
 
 namespace BetFriends.Application.Features.AddFriend;
 

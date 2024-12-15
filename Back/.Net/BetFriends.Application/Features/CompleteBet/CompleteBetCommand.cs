@@ -1,4 +1,4 @@
-﻿using BetFriends.Application.Abstractions.Messaging;
+﻿using BetFriends.Shared.Application.Abstractions.Messaging;
 
 namespace BetFriends.Application.Features.CompleteBet;
 
