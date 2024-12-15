@@ -9,13 +9,29 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8E1C5411-869
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{FED97050-B9AA-491D-BAE7-BB1046E481CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetFriends.Domain", "BetFriends.Domain\BetFriends.Domain.csproj", "{1E295A89-96C6-4579-9278-01CDAD3AB71C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BetFriends.Domain", "BetFriends.Domain\BetFriends.Domain.csproj", "{1E295A89-96C6-4579-9278-01CDAD3AB71C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetFriends.Application.UnitTests", "BetFriends.Application.UnitTests\BetFriends.Application.UnitTests.csproj", "{A9497485-ADE3-4761-991C-94E082AB647E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BetFriends.Application.UnitTests", "BetFriends.Application.UnitTests\BetFriends.Application.UnitTests.csproj", "{A9497485-ADE3-4761-991C-94E082AB647E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetFriends.Infrastructure", "BetFriends.Infrastructure\BetFriends.Infrastructure.csproj", "{67C6A265-C5F2-4C2D-9DA8-0D982D70FFC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BetFriends.Infrastructure", "BetFriends.Infrastructure\BetFriends.Infrastructure.csproj", "{67C6A265-C5F2-4C2D-9DA8-0D982D70FFC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetFriends.Api", "BetFriends.Api\BetFriends.Api.csproj", "{E3C25455-5118-4F86-996A-78EE78DB9FF3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BetFriends.Api", "BetFriends.Api\BetFriends.Api.csproj", "{E3C25455-5118-4F86-996A-78EE78DB9FF3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{DD37B69E-5DBC-4A7E-9301-F781A086F804}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Users", "Users", "{56213228-EE93-4630-BF41-7424E5B36D3A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetFriends.Users.Application", "Modules\Users\BetFriends.Users.Application\BetFriends.Users.Application.csproj", "{03C02B13-2714-4C48-8428-2D51D08D5063}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{A1AB7A9C-DA33-4717-AD33-59FDF88C363A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetFriends.Shared.Application", "Modules\Shared\BetFriends.Shared.Application\BetFriends.Shared.Application.csproj", "{28F7878E-6043-4993-8E75-142444BB907D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetFriends.Users.Infrastructure", "Modules\Users\BetFriends.Users.Infrastructure\BetFriends.Users.Infrastructure.csproj", "{9D291425-5BB6-418C-9D55-71D5684E171A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetFriends.Shared.Infrastructure", "Modules\Shared\BetFriends.Shared.Infrastructure\BetFriends.Shared.Infrastructure.csproj", "{ACF61A1C-2613-4D40-AC69-600C1673A319}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetFriends.Shared.Domain", "Modules\Shared\BetFriends.Shared.Domain\BetFriends.Shared.Domain.csproj", "{21078829-7C6C-4818-8C5B-F71A8B5412B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +59,26 @@ Global
 		{E3C25455-5118-4F86-996A-78EE78DB9FF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E3C25455-5118-4F86-996A-78EE78DB9FF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E3C25455-5118-4F86-996A-78EE78DB9FF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03C02B13-2714-4C48-8428-2D51D08D5063}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03C02B13-2714-4C48-8428-2D51D08D5063}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03C02B13-2714-4C48-8428-2D51D08D5063}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03C02B13-2714-4C48-8428-2D51D08D5063}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28F7878E-6043-4993-8E75-142444BB907D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28F7878E-6043-4993-8E75-142444BB907D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28F7878E-6043-4993-8E75-142444BB907D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28F7878E-6043-4993-8E75-142444BB907D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D291425-5BB6-418C-9D55-71D5684E171A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D291425-5BB6-418C-9D55-71D5684E171A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D291425-5BB6-418C-9D55-71D5684E171A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D291425-5BB6-418C-9D55-71D5684E171A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACF61A1C-2613-4D40-AC69-600C1673A319}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACF61A1C-2613-4D40-AC69-600C1673A319}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACF61A1C-2613-4D40-AC69-600C1673A319}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACF61A1C-2613-4D40-AC69-600C1673A319}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21078829-7C6C-4818-8C5B-F71A8B5412B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21078829-7C6C-4818-8C5B-F71A8B5412B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21078829-7C6C-4818-8C5B-F71A8B5412B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21078829-7C6C-4818-8C5B-F71A8B5412B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,6 +89,14 @@ Global
 		{A9497485-ADE3-4761-991C-94E082AB647E} = {FED97050-B9AA-491D-BAE7-BB1046E481CD}
 		{67C6A265-C5F2-4C2D-9DA8-0D982D70FFC1} = {8E1C5411-8694-4FC1-993F-D3887A5CF72D}
 		{E3C25455-5118-4F86-996A-78EE78DB9FF3} = {8E1C5411-8694-4FC1-993F-D3887A5CF72D}
+		{DD37B69E-5DBC-4A7E-9301-F781A086F804} = {8E1C5411-8694-4FC1-993F-D3887A5CF72D}
+		{56213228-EE93-4630-BF41-7424E5B36D3A} = {DD37B69E-5DBC-4A7E-9301-F781A086F804}
+		{03C02B13-2714-4C48-8428-2D51D08D5063} = {56213228-EE93-4630-BF41-7424E5B36D3A}
+		{A1AB7A9C-DA33-4717-AD33-59FDF88C363A} = {DD37B69E-5DBC-4A7E-9301-F781A086F804}
+		{28F7878E-6043-4993-8E75-142444BB907D} = {A1AB7A9C-DA33-4717-AD33-59FDF88C363A}
+		{9D291425-5BB6-418C-9D55-71D5684E171A} = {56213228-EE93-4630-BF41-7424E5B36D3A}
+		{ACF61A1C-2613-4D40-AC69-600C1673A319} = {A1AB7A9C-DA33-4717-AD33-59FDF88C363A}
+		{21078829-7C6C-4818-8C5B-F71A8B5412B5} = {A1AB7A9C-DA33-4717-AD33-59FDF88C363A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E50D7076-60D6-4F25-9D2F-D39102CD001E}

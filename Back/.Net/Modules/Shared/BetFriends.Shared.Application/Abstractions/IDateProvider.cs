@@ -1,5 +1,4 @@
-﻿
-namespace BetFriends.Application.Abstractions;
+﻿namespace BetFriends.Shared.Application.Abstractions;
 
 public interface IDateProvider
 {

@@ -1,6 +1,6 @@
-﻿using BetFriends.Application.Abstractions;
-using BetFriends.Infrastructure.Event;
+﻿using BetFriends.Infrastructure.Event;
 using BetFriends.Infrastructure.Outbox;
+using BetFriends.Shared.Application.Abstractions;
 using MediatR;
 
 namespace BetFriends.Api.HostedServices;

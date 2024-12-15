@@ -6,12 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="MediatR" Version="12.2.0" />
-	</ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\BetFriends.Domain\BetFriends.Domain.csproj" />
+    <ProjectReference Include="..\Modules\Shared\BetFriends.Shared.Application\BetFriends.Shared.Application.csproj" />
   </ItemGroup>
 
 </Project>

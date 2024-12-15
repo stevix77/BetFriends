@@ -1,5 +1,5 @@
-﻿
-using BetFriends.Infrastructure.Event;
+﻿using BetFriends.Shared.Infrastructure.Event;
+using BetFriends.Shared.Infrastructure.UoW;
 
 namespace BetFriends.Infrastructure.UoW;
 

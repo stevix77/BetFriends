@@ -1,12 +1,13 @@
 ﻿using BetFriends.Application.Abstractions;
-using BetFriends.Application.Abstractions.Messaging;
 using BetFriends.Domain.AnswerBets;
 using BetFriends.Domain.Bets;
 using BetFriends.Domain.Members;
+using BetFriends.Shared.Application.Abstractions;
+using BetFriends.Shared.Application.Abstractions.Messaging;
 
 namespace BetFriends.Application.Features.AnswerBet;
 
-public sealed class AnswerBetCommandHandler(IAnswerBetRepository answerBetRepository, 
+public sealed class AnswerBetCommandHandler(IAnswerBetRepository answerBetRepository,
                                             IAnswerBetOutputPort answerBetOutputPort,
                                             IBetRepository betRepository,
                                             IUserContext userContext,
@@ -30,7 +31,7 @@ public sealed class AnswerBetCommandHandler(IAnswerBetRepository answerBetReposi
         }
 
         var member = await memberRepository.GetByIdAsync(new(userContext.UserId));
-        if(member is null)
+        if (member is null)
         {
             answerBetOutputPort.MemberDoesNotExist();
             return;
@@ -42,7 +43,7 @@ public sealed class AnswerBetCommandHandler(IAnswerBetRepository answerBetReposi
             answerBetOutputPort.Success();
             return;
         }
-        switch(answerBetResponse.Error)
+        switch (answerBetResponse.Error)
         {
             case AnswerErrorCode.NotRequested:
                 answerBetOutputPort.MemberIsNotAuthorized();

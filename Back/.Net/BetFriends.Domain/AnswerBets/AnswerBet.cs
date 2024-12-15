@@ -2,6 +2,7 @@
 using BetFriends.Domain.Bets;
 using BetFriends.Domain.Events;
 using BetFriends.Domain.Members;
+using BetFriends.Shared.Domain;
 
 namespace BetFriends.Domain.AnswerBets;
 

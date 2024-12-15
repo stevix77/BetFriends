@@ -1,6 +1,6 @@
-﻿using BetFriends.Application.Abstractions;
+﻿using BetFriends.Shared.Application.Abstractions;
 
-namespace BetFriends.Application.UnitTests.Implems;
+namespace BetFriends.Shared.Application.UnitTests.Implems;
 
 internal class StubIdGenerator : IIdGenerator
 {

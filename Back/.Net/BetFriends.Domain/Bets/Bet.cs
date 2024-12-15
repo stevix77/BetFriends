@@ -2,6 +2,7 @@
 using BetFriends.Domain.Bets.Exceptions;
 using BetFriends.Domain.Events;
 using BetFriends.Domain.Members;
+using BetFriends.Shared.Domain;
 
 namespace BetFriends.Domain.Bets;
 

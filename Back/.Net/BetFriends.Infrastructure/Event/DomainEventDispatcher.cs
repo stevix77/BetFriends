@@ -1,12 +1,13 @@
-﻿using BetFriends.Application.Abstractions;
-using BetFriends.Infrastructure.Outbox;
+﻿using BetFriends.Infrastructure.Outbox;
+using BetFriends.Shared.Application.Abstractions;
+using BetFriends.Shared.Infrastructure.Event;
 using MediatR;
 using System.Text.Json;
 
 namespace BetFriends.Infrastructure.Event;
 
-internal class DomainEventDispatcher(DomainEventsAccessor domainEventsAccessor, 
-                                    DomainEventNotificationFactory domainEventNotificationFactory, 
+internal class DomainEventDispatcher(DomainEventsAccessor domainEventsAccessor,
+                                    DomainEventNotificationFactory domainEventNotificationFactory,
                                     IMediator mediator,
                                     IOutboxRepository outboxRepository,
                                     IDateProvider dateProvider) : IDomainEventDispatcher
@@ -16,7 +17,7 @@ internal class DomainEventDispatcher(DomainEventsAccessor domainEventsAccessor,
         var domainEvents = domainEventsAccessor.GetDomainEvents();
         var domainEventTasks = new List<Task>();
         var outboxes = new List<Outbox.Outbox>();
-        foreach(var item in domainEvents)
+        foreach (var item in domainEvents)
         {
             var notification = domainEventNotificationFactory.Create(item);
             if (notification != null)

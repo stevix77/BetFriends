@@ -1,6 +1,7 @@
 ﻿using BetFriends.Domain.Bets;
 using BetFriends.Domain.Friendships;
 using BetFriends.Domain.Members.Exceptions;
+using BetFriends.Shared.Domain;
 
 namespace BetFriends.Domain.Members;
 

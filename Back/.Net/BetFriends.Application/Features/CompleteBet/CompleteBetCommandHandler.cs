@@ -1,6 +1,6 @@
 ﻿using BetFriends.Application.Abstractions;
-using BetFriends.Application.Abstractions.Messaging;
 using BetFriends.Domain.Bets;
+using BetFriends.Shared.Application.Abstractions.Messaging;
 
 namespace BetFriends.Application.Features.CompleteBet;
 
