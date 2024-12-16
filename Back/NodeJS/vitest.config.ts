@@ -9,9 +9,9 @@ export default defineConfig({
       extension: [
         '.ts'
       ],
-      exclude: ['src/infrastructure/**'],
+      exclude: ['modules/shared/**', 'modules/bets/src/infrastructure/**', 'api'],
       allowExternal: true,
     },
-    dir: 'tests'
+    dir: 'modules',
   },
 })
