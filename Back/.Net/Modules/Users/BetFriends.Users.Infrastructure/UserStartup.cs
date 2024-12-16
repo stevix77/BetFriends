@@ -5,23 +5,25 @@ using BetFriends.Users.Infrastructure.Gateways;
 using BetFriends.Users.Infrastructure.Hash;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace BetFriends.Users.Infrastructure;
 
-public static class ServiceCollectionsExtension
+public static class UserStartup
 {
-    public static IServiceCollection AddUsersInfrastructure(this IServiceCollection services)
+    public static void Init(ILogger logger)
     {
+        var services = new ServiceCollection();
+        services.AddLogging(x => x.Services.AddScoped(sp => logger));
         services.AddScoped<IAuthenticationGateway, FakeAuthenticationGateway>();
         services.AddScoped<IHashPassword, FakeHashPassword>();
         services.AddSingleton<DomainEventsAccessor>();
 
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
-        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(UnitOfWorkBehavior<,>));
         services.AddMediatR(x =>
         {
             x.RegisterServicesFromAssembly(typeof(Application.Application).Assembly);
         });
-        return services;
+        UserCompositionRoot.SetProvider(services.BuildServiceProvider());
     }
 }

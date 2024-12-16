@@ -12,7 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BetFriends.Infrastructure\BetFriends.Infrastructure.csproj" />
+    <ProjectReference Include="..\Modules\Bets\BetFriends.Bets.Infrastructure\BetFriends.Bets.Infrastructure.csproj" />
+    <ProjectReference Include="..\Modules\Users\BetFriends.Users.Infrastructure\BetFriends.Users.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
