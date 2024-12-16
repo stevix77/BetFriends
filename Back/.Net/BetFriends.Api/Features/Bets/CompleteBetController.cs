@@ -1,6 +1,6 @@
-﻿using BetFriends.Application.Abstractions;
-using BetFriends.Application.Features.CompleteBet;
-using BetFriends.Domain.Bets.Exceptions;
+﻿using BetFriends.Bets.Application.Abstractions;
+using BetFriends.Bets.Application.Features.CompleteBet;
+using BetFriends.Bets.Domain.Bets.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BetFriends.Api.Features.Bets;

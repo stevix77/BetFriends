@@ -1,5 +1,5 @@
-﻿using BetFriends.Infrastructure.Event;
-using BetFriends.Infrastructure.Outbox;
+﻿using BetFriends.Bets.Infrastructure.Event;
+using BetFriends.Bets.Infrastructure.Outbox;
 using BetFriends.Shared.Application.Abstractions;
 using MediatR;
 

@@ -1,5 +1,5 @@
-﻿using BetFriends.Application.Abstractions;
-using BetFriends.Application.Features.AddFriend;
+﻿using BetFriends.Bets.Application.Abstractions;
+using BetFriends.Bets.Application.Features.AddFriend;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BetFriends.Api.Features.Friendship

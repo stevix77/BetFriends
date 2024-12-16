@@ -1,5 +1,5 @@
-﻿using BetFriends.Application.Abstractions;
-using BetFriends.Application.Features.CreateBet;
+﻿using BetFriends.Bets.Application.Abstractions;
+using BetFriends.Bets.Application.Features.CreateBet;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 

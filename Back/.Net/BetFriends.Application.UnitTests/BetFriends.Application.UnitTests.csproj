@@ -24,8 +24,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\BetFriends.Application\BetFriends.Application.csproj" />
-  </ItemGroup>
-
 </Project>

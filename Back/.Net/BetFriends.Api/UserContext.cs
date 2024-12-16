@@ -1,4 +1,4 @@
-﻿using BetFriends.Application.Abstractions;
+﻿using BetFriends.Bets.Application.Abstractions;
 
 namespace BetFriends.Api;
 

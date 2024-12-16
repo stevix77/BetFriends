@@ -1,5 +1,5 @@
-﻿using BetFriends.Application.Abstractions;
-using BetFriends.Application.Features.RetrieveBets;
+﻿using BetFriends.Bets.Application.Abstractions;
+using BetFriends.Bets.Application.Features.RetrieveBets;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BetFriends.Api.Features.Bets
