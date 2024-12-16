@@ -1,6 +1,6 @@
 import { IMemberRepository } from "../../../domain/members/IMemberRepository";
 import { MemberDoesNotExistException } from "../../../domain/members/exceptions/MemberDoesNotExistException";
-import { INotificationHandler } from "../../Abstractions/Request/INotificationHandler";
+import { INotificationHandler } from "../../../../../shared/application/Request/INotificationHandler";
 import { BetCreatedNotification } from "./BetCreatedNotification";
 
 export class DecreaseBalanceMemberHandler implements INotificationHandler<BetCreatedNotification> {

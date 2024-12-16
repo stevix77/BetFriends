@@ -1,14 +1,14 @@
 import { IAnswerBetRepository } from "../../../domain/answerBets/IAnswerBetRepository";
 import { Bet } from "../../../domain/bets/Bet";
 import { BetId } from "../../../domain/bets/BetId";
-import { ICommand } from "../../Abstractions/Request/ICommand"
+import { ICommand } from "../../../../../shared/application/Request/ICommand"
 import { IBetRepository } from "../../../domain/bets/IBetRepository";
 import { IMemberRepository } from "../../../domain/members/IMemberRepository";
 import { Member } from "../../../domain/members/Member";
 import { MemberId } from "../../../domain/members/MemberId";
 import { IUserContext } from "../../Abstractions/IUserContext";
-import { IRequestHandler } from "../../Abstractions/Request/IRequestHandler"
-import { IDateTimeProvider } from "../../../domain/IDateTimeProvider";
+import { IRequestHandler } from "../../../../../shared/application/Request/IRequestHandler"
+import { IDateTimeProvider } from "../../../../../shared/domain/IDateTimeProvider";
 
 export class AnswerBetCommandHandler implements IRequestHandler<AnswerBetCommand, void> {
     constructor(private readonly betRepository: IBetRepository,

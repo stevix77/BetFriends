@@ -1,5 +1,5 @@
-import { IRequestHandler } from '../../Abstractions/Request/IRequestHandler';
-import { IRequest } from '../../Abstractions/Request/IRequest';
+import { IRequestHandler } from '../../../../../shared/application/Request/IRequestHandler';
+import { IRequest } from '../../../../../shared/application/Request/IRequest';
 import { IUserContext } from '../../Abstractions/IUserContext';
 export class RetrieveBetsQueryHandler implements IRequestHandler<RetrieveBetsQuery, RetrieveBetsResponse[]> {
     constructor(private readonly dataAccess: IRetrieveBetsDataAccess,
