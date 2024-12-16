@@ -1,8 +1,8 @@
 import { BetId } from "../../../domain/bets/BetId";
 import { IBetRepository } from "../../../domain/bets/IBetRepository";
 import { IUserContext } from "../../Abstractions/IUserContext";
-import { ICommand } from "../../Abstractions/Request/ICommand";
-import { IRequestHandler } from "../../Abstractions/Request/IRequestHandler";
+import { ICommand } from "../../../../../shared/application/Request/ICommand";
+import { IRequestHandler } from "../../../../../shared/application/Request/IRequestHandler";
 
 export class CompleteBetCommandHandler implements IRequestHandler<CompleteBetCommand, void> {
     

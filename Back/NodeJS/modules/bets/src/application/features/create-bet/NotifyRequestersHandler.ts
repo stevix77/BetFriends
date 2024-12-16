@@ -1,4 +1,4 @@
-import { INotificationHandler } from "../../Abstractions/Request/INotificationHandler";
+import { INotificationHandler } from "../../../../../shared/application/Request/INotificationHandler";
 import { BetCreatedEventNotification } from "./BetCreatedEventNotification";
 
 export class NotifyRequestersHandler implements INotificationHandler<BetCreatedEventNotification> {

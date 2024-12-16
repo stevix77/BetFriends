@@ -1,4 +1,4 @@
-import { INotificationHandler } from "../../Abstractions/Request/INotificationHandler";
+import { INotificationHandler } from "../../../../../shared/application/Request/INotificationHandler";
 import { BetAnsweredNotification } from "./BetAnsweredNotification"
 import { IMemberRepository } from "../../../domain/members/IMemberRepository"
 import { MemberId } from "../../../domain/members/MemberId";

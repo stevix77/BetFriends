@@ -2,8 +2,8 @@ import { IFriendshipRepository } from "../../../domain/friendships/IFriendshipRe
 import { IMemberRepository } from "../../../domain/members/IMemberRepository";
 import { MemberId } from "../../../domain/members/MemberId";
 import { IUserContext } from "../../Abstractions/IUserContext";
-import { ICommand } from '../../Abstractions/Request/ICommand';
-import { IRequestHandler } from '../../Abstractions/Request/IRequestHandler';
+import { ICommand } from "../../../../../shared/application/Request/ICommand";
+import { IRequestHandler } from '../../../../../Shared/Application/Request/IRequestHandler';
 
 export class AddFriendCommandHandler implements IRequestHandler<AddFriendCommand, void> {
     constructor(private friendshipRepository: IFriendshipRepository,

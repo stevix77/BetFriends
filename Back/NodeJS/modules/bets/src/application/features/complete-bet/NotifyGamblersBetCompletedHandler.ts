@@ -1,5 +1,5 @@
 import { BetCompletedEventNotification } from "./BetCompletedEventNotification";
-import { INotificationHandler } from "../../../application/Abstractions/Request/INotificationHandler";
+import { INotificationHandler } from "../../../../../shared/application/Request/INotificationHandler";
 import { IAnswerBetRepository } from "../../../domain/answerBets/IAnswerBetRepository"
 import { BetId } from "../../../domain/bets/BetId";
 import { IMemberRepository } from "../../../domain/members/IMemberRepository"
