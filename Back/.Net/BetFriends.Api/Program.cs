@@ -1,7 +1,7 @@
-using BetFriends.Api;
 using BetFriends.Api.Features.Bets;
 using BetFriends.Api.Features.Friendship;
 using BetFriends.Api.HostedServices;
+using BetFriends.Api.UserContexts;
 using BetFriends.Bets.Application.Abstractions;
 using BetFriends.Bets.Application.Features.AddFriend;
 using BetFriends.Bets.Application.Features.AnswerBet;
@@ -23,7 +23,7 @@ builder.Services.AddScoped<AnswerBetPresenter>();
 builder.Services.AddScoped<IAnswerBetOutputPort>(x => x.GetRequiredService<AnswerBetPresenter>());
 builder.Services.AddScoped<CompleteBetPresenter>();
 builder.Services.AddScoped<ICompleteBetOutputPort>(x => x.GetRequiredService<CompleteBetPresenter>());
-builder.Services.AddScoped<IUserContext, UserContext>();
+builder.Services.AddScoped<IUserContext, HttpUserContext>();
 builder.Services.AddHostedService<ProcessOutboxHostedService>();
 builder.Services.AddCors();
 builder.Services.AddControllers();
