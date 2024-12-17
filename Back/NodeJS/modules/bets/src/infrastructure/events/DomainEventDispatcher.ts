@@ -1,11 +1,11 @@
-import { IDomainEvent } from "../../domain/IDomainEvent";
-import { IDateTimeProvider } from "../../domain/IDateTimeProvider";
-import { DomainEventAccessor } from "./DomainEventAccessor";
-import { IDomainEventDispatcher } from "./IDomainEventDispatcher";
+import { IDomainEvent } from "../../../../shared/domain/IDomainEvent";
+import { IDateTimeProvider } from "../../../../shared/domain/IDateTimeProvider";
+import { DomainEventAccessor } from "../../../../shared/infrastructure/events/DomainEventAccessor";
+import { IDomainEventDispatcher } from "../../../../shared/infrastructure/events/IDomainEventDispatcher";
 import { IOutboxRepository } from "../Outbox/IOutboxRepository";
 import  {v4 as uuidv4} from 'uuid';
 import { Outbox } from "../Outbox/Outbox";
-import { IEventBus } from "./IEventBus";
+import { IEventBus } from "../../../../shared/infrastructure/events/IEventBus";
 
 export class DomainEventDispatcher implements IDomainEventDispatcher {
     

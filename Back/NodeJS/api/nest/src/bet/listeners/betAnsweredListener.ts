@@ -1,8 +1,8 @@
 import { OnEvent } from "@nestjs/event-emitter";
-import { BetAnswered } from "../../../../../modules/bets/domain/answerBets/events/BetAnswered";
+import { BetAnswered } from "../../../../../modules/bets/src/domain/answerBets/events/BetAnswered";
 import { Inject, Injectable } from "@nestjs/common";
-import { IBetModule } from "../../../../../modules/bets/application/Abstractions/IBetModule";
-import { BetAnsweredNotification } from "../../../../../modules/bets/application/features/answer-bet/BetAnsweredNotification"
+import { IBetModule } from "../../../../../modules/bets/src/application/Abstractions/IBetModule";
+import { BetAnsweredNotification } from "../../../../../modules/bets/src/application/features/answer-bet/BetAnsweredNotification"
 @Injectable()
 export class BetAnsweredListener {
     constructor(@Inject('IBetModule') private betModule: IBetModule) {}

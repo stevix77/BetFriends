@@ -1,4 +1,4 @@
-import { IDomainEvent } from "../../IDomainEvent";
+import { IDomainEvent } from "../../../../../shared/domain/IDomainEvent";
 
 export class FriendshipsRequested implements IDomainEvent {
     constructor(public RequesterId: string, public FriendId: string){}

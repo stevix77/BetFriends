@@ -1,7 +1,7 @@
 import { Bet } from "../../domain/bets/Bet";
 import { BetId } from "../../domain/bets/BetId";
 import { IBetRepository } from "../../domain/bets/IBetRepository";
-import { DomainEventAccessor } from '../events/DomainEventAccessor';
+import { DomainEventAccessor } from '../../../../shared/infrastructure/events/DomainEventAccessor';
 
 export class InMemoryBetRepository implements IBetRepository {
     constructor(private domainEventsAccessor: DomainEventAccessor, public Bets: Bet[] = []){}

@@ -1,8 +1,8 @@
-import { Behavior } from "../../../../application/Abstractions/Behavior";
-import { IRequestHandler } from '../../../../application/Abstractions/Request/IRequestHandler';
-import { IRequest, Request } from '../../../../application/Abstractions/Request/IRequest';
-import { INotificationHandler } from "../../../../application/Abstractions/Request/INotificationHandler";
-import { INotification } from "../../../../application/Abstractions/Request/INotification";
+import { Behavior } from "../../application/abstractions/Behavior";
+import { IRequestHandler } from '../../application/Request/IRequestHandler';
+import { IRequest, Request } from '../../application/Request/IRequest';
+import { INotificationHandler } from "../../application/Request/INotificationHandler";
+import { INotification } from "../../application/Request/INotification";
 
 export class RequestBehavior implements Behavior {
 

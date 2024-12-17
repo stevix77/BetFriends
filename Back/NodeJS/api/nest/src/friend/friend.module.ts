@@ -1,10 +1,10 @@
 import { Module, forwardRef } from '@nestjs/common';
 import { AddFriendController } from './features/add-friend/AddFriend.controller';
 import { AppModule } from 'src/app.module';
-import { InMemoryMemberRepository } from '../../../../modules/bets/infrastructure/repositories/InMemoryMemberRepository'
-import { InMemoryFriendshipRepository } from '../../../../modules/bets/infrastructure/repositories/InMemoryFriendshipRepository'
+import { InMemoryMemberRepository } from '../../../../modules/bets/src/infrastructure/repositories/InMemoryMemberRepository'
+import { InMemoryFriendshipRepository } from '../../../../modules/bets/src/infrastructure/repositories/InMemoryFriendshipRepository'
 import { AddFriendPresenter } from './features/add-friend/AddFriendPresenter';
-import { AddFriendCommandHandler } from '../../../../modules/bets/application/features/add-friend/AddFriendHandler';
+import { AddFriendCommandHandler } from '../../../../modules/bets/src/application/features/add-friend/AddFriendHandler';
 import { StubUserContext } from 'src/userContext/StubUserContext';
 
 @Module({

@@ -1,7 +1,7 @@
 import { Body, Controller, Inject, Post, Res } from "@nestjs/common";
-import { IBetModule } from '../../../../../../modules/bets/application/Abstractions/IBetModule';
+import { IBetModule } from '../../../../../../modules/bets/src/application/Abstractions/IBetModule';
 import { FastifyReply } from 'fastify';
-import { CreateBetCommand } from '../../../../../../modules/bets/application/features/create-bet/CreateBetHandler';
+import { CreateBetCommand } from '../../../../../../modules/bets/src/application/features/create-bet/CreateBetHandler';
 import { CreateBetPresenter } from "./CreateBetPresenter";
 
 export class CreateBetInput {

@@ -1,5 +1,5 @@
 import { Presenter } from "src/Presenter";
-import { AnswerResponse, IAnswerBetOutputPort } from "../../../../../../modules/bets/application/features/answer-bet/AnswerBetHandler";
+import { AnswerResponse, IAnswerBetOutputPort } from "../../../../../../modules/bets/src/application/features/answer-bet/AnswerBetHandler";
 import { FastifyReply } from 'fastify';
 import { HttpStatus } from '@nestjs/common';
 

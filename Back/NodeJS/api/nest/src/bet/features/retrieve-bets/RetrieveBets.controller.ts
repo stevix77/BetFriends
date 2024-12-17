@@ -1,7 +1,7 @@
 import { Controller, Get, HttpStatus, Inject, Res } from "@nestjs/common";
-import { IBetModule } from "../../../../../../modules/bets/application/Abstractions/IBetModule";
+import { IBetModule } from "../../../../../../modules/bets/src/application/Abstractions/IBetModule";
 import { FastifyReply } from 'fastify';
-import { RetrieveBetsQuery, RetrieveBetsResponse } from '../../../../../../modules/bets/application/features/retrieve-bets/RetrieveBetsQueryHandler';
+import { RetrieveBetsQuery, RetrieveBetsResponse } from '../../../../../../modules/bets/src/application/features/retrieve-bets/RetrieveBetsQueryHandler';
 
 @Controller('bets')
 export class RetrieveBetsController {

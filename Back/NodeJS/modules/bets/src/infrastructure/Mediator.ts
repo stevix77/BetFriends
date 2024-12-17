@@ -1,6 +1,6 @@
-import { INotification } from "../application/Abstractions/Request/INotification";
-import { Behavior } from "../application/Abstractions/Behavior";
-import { IRequest } from "../application/Abstractions/Request/IRequest";
+import { INotification } from "../../../shared/application/Request/INotification";
+import { Behavior } from "../../../shared/application/abstractions/Behavior";
+import { IRequest } from "../../../shared/application/Request/IRequest";
 
 export interface IMediator {
     Send<T>(query: IRequest<T>): Promise<T>;

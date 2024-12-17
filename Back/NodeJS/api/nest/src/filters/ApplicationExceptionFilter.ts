@@ -1,7 +1,7 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from '@nestjs/common';
 import { FastifyReply } from 'fastify';
-import { NoneFriendException } from '../../../../modules/bets/domain/members/exceptions/NoneFriendException';
-import { NotEnoughChipsException } from '../../../../modules/bets/domain/members/exceptions/NotEnoughChipsException';
+import { NoneFriendException } from '../../../../modules/bets/src/domain/members/exceptions/NoneFriendException';
+import { NotEnoughChipsException } from '../../../../modules/bets/src/domain/members/exceptions/NotEnoughChipsException';
 
 @Catch()
 export class ApplicationExceptionFilter implements ExceptionFilter {
