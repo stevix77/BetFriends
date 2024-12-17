@@ -8,7 +8,7 @@ public class HttpUserContext(IHttpContextAccessor httpContextAccessor) : IUserCo
     {
         get
         {
-            if(Guid.TryParse(httpContextAccessor.HttpContext?.Request.Headers.Authorization, out Guid id))
+            if(Guid.TryParse(httpContextAccessor.HttpContext?.Request.Headers["userid"], out Guid id))
                 return id;
             return Guid.Empty;
         }
