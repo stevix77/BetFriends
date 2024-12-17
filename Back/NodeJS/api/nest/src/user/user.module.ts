@@ -6,11 +6,14 @@ import { FakeAuthenticationGateway } from "../../../../modules/users/src/infrast
 import { FakeHashPassword } from "../../../../modules/users/src/infrastructure/FakeHashPassword";
 import { IAuthenticationGateway } from "../../../../modules/users/src/application/abstractions/IAuthenticationGateway";
 import { IHashPassword } from "../../../../modules/users/src/application/abstractions/IHashPassword";
-
+import { RegisterHandler } from "../../../../modules/users/src/application/features/register/RegisterHandler"
+import { CqrsModule } from "@nestjs/cqrs";
+const commandHandlers = [RegisterHandler]
 @Module({
     controllers: [SignInController],
-    imports: [forwardRef(() => AppModule)],
+    imports: [forwardRef(() => AppModule), CqrsModule],
     providers: [
+        ...commandHandlers,
         {
             provide: 'IAuthenticationGateway',
             useClass: FakeAuthenticationGateway
