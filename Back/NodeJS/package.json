@@ -12,6 +12,7 @@
     "test:watch": "vitest --coverage --config vitest.config.ts --coverage.all"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-decorators": "^7.25.9",
     "@types/uuid": "^9.0.8"
   }
 }
