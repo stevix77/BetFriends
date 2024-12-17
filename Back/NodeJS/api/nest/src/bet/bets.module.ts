@@ -1,35 +1,35 @@
 import { forwardRef, Module } from "@nestjs/common"
 import { AppModule } from "src/app.module";
-import { CreateBetCommandHandler } from "../../../../modules/bets/application/features/create-bet/CreateBetHandler";
-import { DecreaseBalanceMemberHandler } from "../../../../modules/bets/application/features/create-bet/DecreaseBalanceMemberHandler";
-import { InMemoryBetRepository } from "../../../../modules/bets/infrastructure/repositories/InMemoryBetRepository";
-import { InMemoryMemberRepository } from "../../../../modules/bets/infrastructure/repositories/InMemoryMemberRepository";
+import { CreateBetCommandHandler } from "../../../../modules/bets/src/application/features/create-bet/CreateBetHandler";
+import { DecreaseBalanceMemberHandler } from "../../../../modules/bets/src/application/features/create-bet/DecreaseBalanceMemberHandler";
+import { InMemoryBetRepository } from "../../../../modules/bets/src/infrastructure/repositories/InMemoryBetRepository";
+import { InMemoryMemberRepository } from "../../../../modules/bets/src/infrastructure/repositories/InMemoryMemberRepository";
 import { CreateBetController } from "./features/create-bet/CreateBet.controller";
 import { CreateBetPresenter } from './features/create-bet/CreateBetPresenter';
-import { RetrieveBetsQueryHandler } from '../../../../modules/bets/application/features/retrieve-bets/RetrieveBetsQueryHandler';
-import { InMemoryRetrieveBetsDataAccess } from "../../../../modules/bets/infrastructure/repositories/InMemoryRetrieveBetsDataAccess";
+import { RetrieveBetsQueryHandler } from '../../../../modules/bets/src/application/features/retrieve-bets/RetrieveBetsQueryHandler';
+import { InMemoryRetrieveBetsDataAccess } from "../../../../modules/bets/src/infrastructure/repositories/InMemoryRetrieveBetsDataAccess";
 import { RetrieveBetsController } from "./features/retrieve-bets/RetrieveBets.controller";
-import { IUserContext } from "../../../../modules/bets/application/Abstractions/IUserContext";
-import { IDateTimeProvider } from "../../../../../domain/IDateTimeProvider";
+import { IUserContext } from "../../../../modules/bets/src/application/Abstractions/IUserContext";
+import { IDateTimeProvider } from "../../../../modules/shared/domain/IDateTimeProvider";
 import { AnswerBetController } from './features/answer-bet/AnswerBet.controller';
 import { AnswerBetPresenter } from './features/answer-bet/AnswerBetPresenter';
-import { AnswerBetCommandHandler, IAnswerBetOutputPort } from '../../../../modules/bets/application/features/answer-bet/AnswerBetHandler';
-import { IBetRepository } from "../../../../modules/bets/domain/bets/IBetRepository";
-import { IAnswerBetRepository } from "../../../../modules/bets/domain/answerBets/IAnswerBetRepository";
-import { IMemberRepository } from "../../../../modules/bets/domain/members/IMemberRepository";
-import { CompleteBetCommandHandler } from "../../../../modules/bets/application/features/complete-bet/CompleteBetHandler";
+import { AnswerBetCommandHandler, IAnswerBetOutputPort } from '../../../../modules/bets/src/application/features/answer-bet/AnswerBetHandler';
+import { IBetRepository } from "../../../../modules/bets/src/domain/bets/IBetRepository";
+import { IAnswerBetRepository } from "../../../../modules/bets/src/domain/answerBets/IAnswerBetRepository";
+import { IMemberRepository } from "../../../../modules/bets/src/domain/members/IMemberRepository";
+import { CompleteBetCommandHandler } from "../../../../modules/bets/src/application/features/complete-bet/CompleteBetHandler";
 import { CompleteBetPresenter } from "./features/complete-bet/CompleteBetPresenter";
-import { UpdateBalanceGamblersHandler } from '../../../../modules/bets/application/features/complete-bet/UpdateBalanceGamblersHandler';
-import { UpdateBalanceBookieHandler } from '../../../../modules/bets/application/features/complete-bet/UpdateBalanceBookieHandler';
-import { UpdateBalanceGamblerHandler } from '../../../../modules/bets/application/features/answer-bet/UpdateBalanceGamblerHandler';
+import { UpdateBalanceGamblersHandler } from '../../../../modules/bets/src/application/features/complete-bet/UpdateBalanceGamblersHandler';
+import { UpdateBalanceBookieHandler } from '../../../../modules/bets/src/application/features/complete-bet/UpdateBalanceBookieHandler';
+import { UpdateBalanceGamblerHandler } from '../../../../modules/bets/src/application/features/answer-bet/UpdateBalanceGamblerHandler';
 import { CompleteBetController } from './features/complete-bet/CompleteBet.controller';
 import { BetCreatedListener } from "./listeners/betCreatedListener";
 import { BetAnsweredListener } from "./listeners/betAnsweredListener";
 import { BetCompletedListener } from "./listeners/betCompletedListener";
-import { NotifyBetCompleted } from "../../../../modules/bets/infrastructure/notifiers/NotifyBetCompleted"
-import { NotifyGamblersBetCompletedHandler } from "../../../../modules/bets/application/features/complete-bet/NotifyGamblersBetCompletedHandler";
-import { NotifyRequestersHandler } from "../../../../modules/bets/application/features/create-bet/NotifyRequestersHandler";
-import { INotifyBetCompleted } from "../../../../modules/bets/application/features/complete-bet/NotifyGamblersBetCompletedHandler"
+import { NotifyBetCompleted } from "../../../../modules/bets/src/infrastructure/notifiers/NotifyBetCompleted"
+import { NotifyGamblersBetCompletedHandler } from "../../../../modules/bets/src/application/features/complete-bet/NotifyGamblersBetCompletedHandler";
+import { NotifyRequestersHandler } from "../../../../modules/bets/src/application/features/create-bet/NotifyRequestersHandler";
+import { INotifyBetCompleted } from "../../../../modules/bets/src/application/features/complete-bet/NotifyGamblersBetCompletedHandler"
 
 const completeBetPresenter = new CompleteBetPresenter();
 const createBetPresenter = new CreateBetPresenter();

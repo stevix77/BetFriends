@@ -1,6 +1,6 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
-import { ProcessOutboxCommand, ProcessOutboxCommandHandler } from "../../../../modules/bets/infrastructure/Outbox/ProcessOutboxCommand";
+import { ProcessOutboxCommand, ProcessOutboxCommandHandler } from "../../../../modules/bets/src/infrastructure/Outbox/ProcessOutboxCommand";
 
 @Injectable()
 export class ProcessOutboxJobs {

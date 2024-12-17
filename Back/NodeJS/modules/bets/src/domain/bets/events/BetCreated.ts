@@ -1,4 +1,4 @@
-import { IDomainEvent } from "../../IDomainEvent";
+import { IDomainEvent } from "../../../../../shared/domain/IDomainEvent";
 import { MemberId } from "../../members/MemberId";
 import { BetId } from "../BetId";
 

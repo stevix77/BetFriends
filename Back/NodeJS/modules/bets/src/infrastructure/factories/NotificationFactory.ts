@@ -1,4 +1,4 @@
-import { INotification } from "../../application/Abstractions/Request/INotification"
+import { INotification } from "../../../../shared/application/Request/INotification"
 import { BetCompletedEventNotification } from "../../application/features/complete-bet/BetCompletedEventNotification"
 import { BetCreatedEventNotification } from "../../application/features/create-bet/BetCreatedEventNotification"
 import { BetCompleted } from "../../domain/bets/events/BetCompleted"

@@ -1,4 +1,4 @@
-import { Request } from '../../../shared/application/Request/IRequest'
+import { Request } from '../../application/Request/IRequest'
 export interface Behavior {
     Execute<T>(request: Request): Promise<T>;
     SetNext(behavior: Behavior): Behavior;

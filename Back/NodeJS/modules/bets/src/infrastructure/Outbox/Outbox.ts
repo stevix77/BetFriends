@@ -1,4 +1,4 @@
-import { IDateTimeProvider } from "../../domain/IDateTimeProvider";
+import { IDateTimeProvider } from "../../../../shared/domain/IDateTimeProvider";
 
 export class Outbox {
     HandledAt?: Date;

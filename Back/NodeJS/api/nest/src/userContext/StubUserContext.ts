@@ -1,4 +1,4 @@
-import { IUserContext } from "../../../../modules/bets/application/Abstractions/IUserContext";
+import { IUserContext } from "../../../../modules/bets/src/application/Abstractions/IUserContext";
 
 export class StubUserContext implements IUserContext {
     GetUserId(): string {

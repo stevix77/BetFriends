@@ -1,4 +1,4 @@
-import { IDomainEvent } from "../../IDomainEvent";
+import { IDomainEvent } from "../../../../../shared/domain/IDomainEvent";
 import { BetId } from "../BetId";
 
 export class BetCompleted implements IDomainEvent {

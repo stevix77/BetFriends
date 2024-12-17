@@ -1,9 +1,9 @@
 import { Body, Controller, Inject, Param, Post, Res } from "@nestjs/common";
-import { IBetModule } from "../../../../../../modules/bets/application/Abstractions/IBetModule";
+import { IBetModule } from "../../../../../../modules/bets/src/application/Abstractions/IBetModule";
 import { CompleteBetInput } from "./CompleteBetInput";
 import { FastifyReply } from 'fastify';
 import { CompleteBetPresenter } from "./CompleteBetPresenter";
-import { CompleteBetCommand } from "../../../../../../modules/bets/application/features/complete-bet/CompleteBetHandler";
+import { CompleteBetCommand } from "../../../../../../modules/bets/src/application/features/complete-bet/CompleteBetHandler";
 
 @Controller('bets')
 export class CompleteBetController {

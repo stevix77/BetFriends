@@ -1,7 +1,5 @@
-import { ICommand } from "../../application/Abstractions/Request/ICommand";
-import { BetCompleted } from "../../domain/bets/events/BetCompleted";
-import { IDomainEvent } from "../../domain/IDomainEvent";
-import { BetCreated } from '../../domain/bets/events/BetCreated';
+import { ICommand } from "../../../../shared/application/Request/ICommand";
+import { IDomainEvent } from "../../../../shared/domain/IDomainEvent";
 
 export class CommandFactory implements ICommandFactory {
     Create(event: IDomainEvent): ICommand {

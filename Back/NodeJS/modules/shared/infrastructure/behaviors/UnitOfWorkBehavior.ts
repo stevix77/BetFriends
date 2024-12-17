@@ -1,5 +1,5 @@
-import { Behavior } from "../../application/Abstractions/Behavior";
-import { IRequest } from "../../application/Abstractions/Request/IRequest";
+import { Behavior } from "../../application/abstractions/Behavior";
+import { IRequest } from "../../application/Request/IRequest";
 import { IDomainEventDispatcher } from "../events/IDomainEventDispatcher";
 import { IUnitOfWork } from "../uow/IUnitOfWork";
 

@@ -1,10 +1,10 @@
-import { ICommand } from "../../application/Abstractions/Request/ICommand"
-import { IRequestHandler } from "../../application/Abstractions/Request/IRequestHandler";
-import { IDateTimeProvider } from "../../domain/IDateTimeProvider";
+import { ICommand } from "../../../../shared/application/Request/ICommand"
+import { IRequestHandler } from "../../../../shared/application/Request/IRequestHandler";
+import { IDateTimeProvider } from "../../../../shared/domain/IDateTimeProvider";
 import { IOutboxRepository } from "./IOutboxRepository";
 import { INotificationFactory } from "../factories/NotificationFactory"
-import { INotificationHandler } from "../../application/Abstractions/Request/INotificationHandler";
-import { INotification } from "../../application/Abstractions/Request/INotification";
+import { INotificationHandler } from "../../../../shared/application/Request/INotificationHandler";
+import { INotification } from "../../../../shared/application/Request/INotification";
 
 export class ProcessOutboxCommand implements ICommand {
     Name: string = ProcessOutboxCommand.name;

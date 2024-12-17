@@ -1,7 +1,7 @@
 import { Controller, Inject, Param, Post, Res } from "@nestjs/common";
-import { AddFriendCommand } from "../../../../../../modules/bets/application/features/add-friend/AddFriendHandler";
+import { AddFriendCommand } from "../../../../../../modules/bets/src/application/features/add-friend/AddFriendHandler";
 import { AddFriendPresenter } from "./AddFriendPresenter";
-import { IBetModule } from '../../../../../../modules/bets/application/Abstractions/IBetModule';
+import { IBetModule } from '../../../../../../modules/bets/src/application/Abstractions/IBetModule';
 import { FastifyReply } from 'fastify';
 
 @Controller('friends')

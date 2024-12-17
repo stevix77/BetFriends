@@ -1,8 +1,8 @@
-import { ICommand } from "../application/Abstractions/Request/ICommand";
+import { ICommand } from "../../../shared/application/Request/ICommand";
 import { IBetModule } from "../application/Abstractions/IBetModule";
-import { INotification } from "../application/Abstractions/Request/INotification";
+import { INotification } from "../../../shared/application/Request/INotification";
 import { IMediator } from "../infrastructure/Mediator";
-import { IRequest } from "../application/Abstractions/Request/IRequest";
+import { IRequest } from "../../../shared/application/Request/IRequest";
 
 export class BetModule implements IBetModule {
     constructor(private mediator: IMediator) {}

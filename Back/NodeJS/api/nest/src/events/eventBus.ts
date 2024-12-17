@@ -1,6 +1,6 @@
 import { EventEmitter2 } from "@nestjs/event-emitter";
-import { IDomainEvent } from "../../../../../domain/IDomainEvent";
-import { IEventBus } from "../../../../events/IEventBus";
+import { IDomainEvent } from "../../../../modules/shared/domain/IDomainEvent";
+import { IEventBus } from "../../../../modules/shared/infrastructure/events/IEventBus";
 import { Inject } from "@nestjs/common";
 
 export class EventBus implements IEventBus {

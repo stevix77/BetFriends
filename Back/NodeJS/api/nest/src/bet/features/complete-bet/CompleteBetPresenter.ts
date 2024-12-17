@@ -1,7 +1,7 @@
 import { Presenter } from "src/Presenter";
 import { FastifyReply } from 'fastify';
 import { HttpStatus } from '@nestjs/common';
-import { CompleteBetResponse, ICompleteBetOutputPort } from "../../../../../../modules/bets/application/features/complete-bet/CompleteBetHandler";
+import { CompleteBetResponse, ICompleteBetOutputPort } from "../../../../../../modules/bets/src/application/features/complete-bet/CompleteBetHandler";
 
 export class CompleteBetPresenter extends Presenter implements ICompleteBetOutputPort {
     BuildResponse(res: FastifyReply) {

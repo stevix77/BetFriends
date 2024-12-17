@@ -1,5 +1,5 @@
 import { BetId } from "../../bets/BetId";
-import { IDomainEvent } from "../../IDomainEvent";
+import { IDomainEvent } from "../../../../../shared/domain/IDomainEvent";
 import { MemberId } from "../../members/MemberId";
 
 export class BetAnswered implements IDomainEvent {

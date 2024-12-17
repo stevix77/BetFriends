@@ -5,5 +5,5 @@
   "compilerOptions": {
     "deleteOutDir": true
   },
-  "entryFile": "infrastructure/api/nest/src/main"
+  "entryFile": "api/nest/src/main"
 }

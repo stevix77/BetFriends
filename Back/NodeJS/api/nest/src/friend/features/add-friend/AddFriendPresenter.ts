@@ -1,6 +1,6 @@
 import { HttpStatus } from '@nestjs/common';
 import { FastifyReply } from 'fastify';
-import { IAddFriendOutputPort } from '../../../../../../modules/bets/application/features/add-friend/AddFriendHandler'
+import { IAddFriendOutputPort } from '../../../../../../modules/bets/src/application/features/add-friend/AddFriendHandler'
 
 export class AddFriendPresenter implements IAddFriendOutputPort {
     MemberDoesNotExist(memberId: string): void {
