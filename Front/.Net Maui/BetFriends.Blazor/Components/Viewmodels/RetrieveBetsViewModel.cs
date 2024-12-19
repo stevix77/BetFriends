@@ -1,8 +1,10 @@
 ﻿using BetFriends.Blazor.Presenters;
+using BetFriends.Blazor.Services;
 using BetFriends.Domain.Abstractions;
 using BetFriends.Domain.Features.AnswerBet;
 using BetFriends.Domain.Features.CompleteBet;
 using BetFriends.Domain.Features.RetrieveBets;
+using BetFriends.Domain.Features.RetrieveInfo;
 using BetFriends.Domain.Features.RetrieveProof;
 using BlazorBootstrap;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -48,6 +50,9 @@ public partial class RetrieveBetsViewModel : ObservableObject
         {
             UpdateBetCompleted(e.BetId, e.IsSuccess);
         }));
+        var retrieveInfo = mediator.Send(new RetrieveInfoQuery());
+        retrieveInfo.Wait();
+        Data.SetInfo(retrieveInfo.Result.Username, retrieveInfo.Result.Coins);
         this.navigation = navigation;
     }
 
@@ -110,7 +115,7 @@ public partial class RetrieveBetsViewModel : ObservableObject
                                                  betId,
                                                  bet.BookieId,
                                                  bet.EndDate,
-                                                 GetAnswer(bet.Answer)));
+                                                 RetrieveBetsViewModel.GetAnswer(bet.Answer)));
     }
 
     [RelayCommand]
@@ -121,7 +126,7 @@ public partial class RetrieveBetsViewModel : ObservableObject
                                                  betId,
                                                  bet.BookieId,
                                                  bet.EndDate,
-                                                 GetAnswer(bet.Answer)));
+                                                 RetrieveBetsViewModel.GetAnswer(bet.Answer)));
     }
 
     [RelayCommand]
@@ -148,8 +153,7 @@ public partial class RetrieveBetsViewModel : ObservableObject
 
     internal async Task LoadAsync()
     {
-        var query = new RetrieveBetsQuery();
-        var bets = await mediator.Send(query);
+        var bets = await mediator.Send(new RetrieveBetsQuery());
         Bets = new(bets.Select(x =>
         {
             var answer = x.Gamblers.FirstOrDefault(y => y.Id == userContext.UserId)?.HasAccepted;
@@ -170,11 +174,11 @@ public partial class RetrieveBetsViewModel : ObservableObject
         }));
     }
 
-    private bool? GetAnswer(string answer)
+    private static bool? GetAnswer(string answer)
     {
         if (string.IsNullOrEmpty(answer))
             return null!;
-        return answer == AcceptedText ? true : false;
+        return answer == AcceptedText;
     }
 
     private bool CanAnswer(RetrieveBetsItemResponse bet)

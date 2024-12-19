@@ -64,7 +64,7 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        await vm.LoadFriendsAsync();
+        await Task.WhenAll(vm.LoadFriendsAsync(), Task.Run(() => vm.Init()));
     }
 
 }

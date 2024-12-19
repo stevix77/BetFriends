@@ -1,5 +1,4 @@
-﻿
-namespace BetFriends.Domain.Abstractions;
+﻿namespace BetFriends.Domain.Abstractions;
 
 public interface IAuthenticationGateway
 {

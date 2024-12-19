@@ -30,6 +30,7 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
+        
         WeakReferenceMessenger.Default.Register(this, new MessageHandler<object, Authentication>((o, e) =>
         {
             navigationManager.NavigateTo("/");

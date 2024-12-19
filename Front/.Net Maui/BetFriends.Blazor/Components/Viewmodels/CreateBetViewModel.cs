@@ -1,4 +1,5 @@
 ﻿using BetFriends.Blazor.Exceptions;
+using BetFriends.Blazor.Services;
 using BetFriends.Blazor.Services.Abstractions;
 using BetFriends.Domain.Abstractions;
 using BetFriends.Domain.Features.CreateBet;
@@ -23,14 +24,13 @@ public partial class CreateBetViewModel : ObservableObject
         this.mediator = mediator;
         this.dateTimeProvider = dateTimeProvider;
         this.navigation = navigation;
-        MaxCoins = 1000;
-        EndDate = dateTimeProvider.GetCurrentDate();
         WeakReferenceMessenger.Default.Register(this, new MessageHandler<object, CreateBetException>((o, e) =>
         {
             Errors.Add(new ToastMessage(ToastType.Danger, "Erreur", e.Message));
         }));
         WeakReferenceMessenger.Default.Register(this, new MessageHandler<object, CreateBetResponse>((o, e) =>
         {
+            Data.DecreaseCoins(e.Coins);
             Reset();
             this.navigation.Navigate("/");
         }));
@@ -65,15 +65,6 @@ public partial class CreateBetViewModel : ObservableObject
 
     public List<ToastMessage> Errors { get; } = new List<ToastMessage>();
 
-    partial void OnSearchChanged(string value)
-    {
-        //var friendsHidden = Friends.Where(x => !x.Name.Contains(value));
-        //var friendsVisible = Friends.Where(x => !friendsHidden.Any(y => y.Id == x.Id));
-        //foreach (var item in friendsHidden)
-        //    item.IsVisible = false;
-        //foreach (var item in friendsVisible)
-        //    item.IsVisible = true;
-    }
 
     [RelayCommand]
     private async Task ChooseFriends(Modal modal)
@@ -115,6 +106,13 @@ public partial class CreateBetViewModel : ObservableObject
         {
             WeakReferenceMessenger.Default.Send(ex);
         }
+    }
+
+    internal void Init()
+    {
+        MaxCoins = Data.Coins;
+        MinDate = dateTimeProvider.GetCurrentDate();
+        EndDate = MinDate;
     }
     private void Reset()
     {

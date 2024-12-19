@@ -28,7 +28,7 @@ internal class CreateBetPresenter : ICreateBetOutputPort
 
     public void Present(CreateBetResponse createBetResponse)
     {
-        Data.Chips -= createBetResponse.Coins;
+        Data.DecreaseCoins(createBetResponse.Coins);
         WeakReferenceMessenger.Default.Send(createBetResponse);
     }
 }

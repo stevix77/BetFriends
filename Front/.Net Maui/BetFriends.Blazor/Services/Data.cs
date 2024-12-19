@@ -1,6 +1,4 @@
-﻿using BetFriends.Models;
-
-namespace BetFriends.Services;
+﻿namespace BetFriends.Blazor.Services;
 
 internal static class Data
 {
