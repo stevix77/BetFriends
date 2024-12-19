@@ -30,6 +30,7 @@ public partial class SigninViewModel : ObservableObject
         }));
         WeakReferenceMessenger.Default.Register(this, new MessageHandler<object, Authentication>(async (o, e) =>
         {
+            Clear();
             await authenticationService.SaveAsync(e);
         }));
     }
@@ -65,10 +66,10 @@ public partial class SigninViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private async Task Register()
+    private Task Register()
     {
         Clear();
-        await navigation.PushModalAsync(registerPage);
+        return navigation.PushModalAsync(registerPage);
     }
     private void Clear()
     {
