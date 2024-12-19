@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BetFriends.Features.Auth.Register.RegisterPage"
+             Title="S'inscrire">
+    <VerticalStackLayout Padding="5,0" Margin="5, 5" Spacing="10" >
+        <Label FontSize="Title" Text="Inscription" HorizontalOptions="CenterAndExpand" />
+        <Label FontSize="Small" TextColor="Red" Text="{Binding Error}" />
+        <StackLayout>
+            <Label Text="Username:" FontSize="Subtitle" />
+            <Entry Text="{Binding Username}" 
+Placeholder="Username" 
+    />
+        </StackLayout>
+        <StackLayout>
+            <Label Text="Email:" FontSize="Subtitle" />
+            <Entry Text="{Binding Email}" 
+Placeholder="Email" 
+    />
+        </StackLayout>
+        <StackLayout>
+            <Label Text="Password:" FontSize="Subtitle" />
+            <Entry Text="{Binding Password}" IsPassword="True" 
+                Placeholder="Password" 
+                    />
+        </StackLayout>
+        <StackLayout>
+            <Label Text="Confirm password:" FontSize="Subtitle" />
+            <Entry Text="{Binding ConfirmPassword}" IsPassword="True" 
+        Placeholder="Password" 
+            />
+        </StackLayout>
+        <StackLayout Orientation="Horizontal">
+            <Button Text="Se connecter" 
+             Command="{Binding SignInCommand}" 
+             VerticalOptions="EndAndExpand" />
+            <Button Text="Valider" 
+         Command="{Binding ValidateCommand}" 
+         VerticalOptions="EndAndExpand" />
+        </StackLayout>
+
+    </VerticalStackLayout>
+</ContentPage>

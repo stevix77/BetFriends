@@ -1,4 +1,5 @@
 ﻿using BetFriends.Domain.Features.SignIn;
+using BetFriends.Features.Auth.Register;
 using BetFriends.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -9,9 +10,12 @@ namespace BetFriends.Features.Auth.Signin;
 
 public partial class SigninViewModel : ObservableObject
 {
-    public SigninViewModel(IMediator mediator, AuthenticationService authenticationService)
+    public SigninViewModel(IMediator mediator, 
+                           AuthenticationService authenticationService,
+                           RegisterPage registerPage)
     {
         this.mediator = mediator;
+        this.registerPage = registerPage;
         WeakReferenceMessenger.Default.Register(this, new MessageHandler<object, ErrorEmail>((o, e) =>
         {
             ErrorEmail = e.Message;
@@ -41,7 +45,14 @@ public partial class SigninViewModel : ObservableObject
     private string errorPassword;
     [ObservableProperty]
     private string error;
+    private INavigation navigation;
     private readonly IMediator mediator;
+    private readonly RegisterPage registerPage;
+
+    internal void SetNavigation(INavigation navigation)
+    {
+        this.navigation = navigation;
+    }
 
     [RelayCommand]
     private Task Validate()
@@ -51,5 +62,20 @@ public partial class SigninViewModel : ObservableObject
         ErrorEmail = string.Empty;
         var request = new SignInRequest(Email, Password);
         return mediator.Send(request);
+    }
+
+    [RelayCommand]
+    private async Task Register()
+    {
+        Clear();
+        await navigation.PushModalAsync(registerPage);
+    }
+    private void Clear()
+    {
+        ErrorPassword = string.Empty;
+        ErrorEmail = string.Empty;
+        Error = string.Empty;
+        Email = string.Empty;
+        Password = string.Empty;
     }
 }
