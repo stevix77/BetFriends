@@ -114,7 +114,7 @@ public partial class CreateBetViewModel : ObservableObject
 
     internal void Init()
     {
-        MaxChips = Data.Chips;
+        MaxChips = Data.Coins;
         MinDate = dateTimeProvider.GetCurrentDate();
     }
     private void Reset()

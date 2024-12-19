@@ -31,7 +31,6 @@ public class AuthenticationService : AuthenticationStateProvider
     {
         SecureStorage.Remove("auth_token");
         NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
-        //WeakReferenceMessenger.Default.Send(new SignOutRequest());
     }
 
     internal async Task SaveAsync(Authentication authentication)

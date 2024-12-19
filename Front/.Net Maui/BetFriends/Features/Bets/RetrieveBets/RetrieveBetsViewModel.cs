@@ -1,8 +1,10 @@
 ﻿using BetFriends.Domain.Abstractions;
 using BetFriends.Domain.Features.AnswerBet;
 using BetFriends.Domain.Features.RetrieveBets;
+using BetFriends.Domain.Features.RetrieveInfo;
 using BetFriends.Features.Bets.CompleteBet;
 using BetFriends.Features.Bets.ProofBet;
+using BetFriends.Services;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -34,6 +36,9 @@ public partial class RetrieveBetsViewModel : ObservableObject
         {
             await Toast.Make(e.Message).Show();
         }));
+        var retrieveInfo = mediator.Send(new RetrieveInfoQuery());
+        retrieveInfo.Wait();
+        Data.SetInfo(retrieveInfo.Result.Username, retrieveInfo.Result.Coins);
         this.dateTimeProvider = dateTimeProvider;
     }
 

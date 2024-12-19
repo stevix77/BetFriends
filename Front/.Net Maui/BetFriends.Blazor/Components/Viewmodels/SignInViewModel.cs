@@ -32,7 +32,6 @@ public partial class SignInViewModel : ObservableObject
         WeakReferenceMessenger.Default.Register(this, new MessageHandler<object, Authentication>(async (o, e) =>
         {
             await authenticationService.SaveAsync(e);
-            navigationManager.NavigateTo("/");
         }));
     }
 

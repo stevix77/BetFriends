@@ -18,9 +18,9 @@ public partial class RegisterViewModel : ObservableObject
         this.mediator = mediator;
         WeakReferenceMessenger.Default.Register(this, new MessageHandler<object, UserRegistered>(async (o, e) =>
         {
-            Clear();
             var request = new SignInRequest(Email!, Password!);
             await mediator.Send(request);
+            Clear();
         }));
         WeakReferenceMessenger.Default.Register(this, new MessageHandler<object, FieldMissing>((o, e) =>
         {
