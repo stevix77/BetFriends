@@ -20,7 +20,8 @@ public static class RegistryInfrastructure
                                                                         implementationFactory.Invoke(x)));
         services.AddScoped<IIdGenerator, GuidGenerator>();
         services.AddScoped<IDateTimeProvider, DateTimeProvider>();
-        services.AddScoped<IAuthenticationGateway, InMemoryAuthenticationGateway>();
+        services.AddScoped<IAuthenticationGateway>(x => new InMemoryAuthenticationGateway(x.GetRequiredService<IUserGateway>() as InMemoryUserGateway));
+        services.AddScoped<IUserGateway, InMemoryUserGateway>();
         services.AddSingleton<IHashPassword, FakeHashPassword>();
 
         services.AddMediatR(x => x.RegisterServicesFromAssembly(typeof(Domain.Domain).Assembly));

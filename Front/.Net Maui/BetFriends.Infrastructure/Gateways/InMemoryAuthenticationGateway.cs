@@ -2,11 +2,13 @@
 
 namespace BetFriends.Infrastructure.Gateways;
 
-internal class InMemoryAuthenticationGateway : IAuthenticationGateway
+internal class InMemoryAuthenticationGateway(InMemoryUserGateway userGateway) : IAuthenticationGateway
 {
+    private readonly InMemoryUserGateway userGateway = userGateway;
+
     public Task<AuthToken> AuthenticateAsync(string email, string password)
     {
-        if (email == "email@email.fr" && password == "hashedpassword")
+        if (userGateway.Users.Any(x => x.Email == email && x.Password == password))
             return Task.FromResult(new AuthToken("accesstoken", "refresh"));
         return Task.FromResult<AuthToken>(default!);
     }
