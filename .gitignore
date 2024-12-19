@@ -15,3 +15,5 @@
 /Back/.Net/**/obj
 /Back/NodeJS/**/node_modules
 /Back/NodeJS/coverage
+/Back/NodeJS/src/infrastructure/api/nest/dist
+/Back/NodeJS/api/nest/dist

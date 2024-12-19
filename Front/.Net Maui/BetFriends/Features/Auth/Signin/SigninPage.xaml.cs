@@ -10,6 +10,7 @@ public partial class SigninPage : ContentPage
 	{
 		InitializeComponent();
 		BindingContext = signinViewModel;
+		signinViewModel.SetNavigation(Navigation);
         
     }
 }

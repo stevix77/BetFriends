@@ -20,8 +20,14 @@
                        />
             <Label FontSize="Small" TextColor="Red" Text="{Binding ErrorPassword}" />
         </StackLayout>
-        <Button Text="Connexion" 
+        <StackLayout Orientation="Horizontal">
+            <Button Text="S'inscrire" 
+                Command="{Binding RegisterCommand}" 
+                VerticalOptions="EndAndExpand" />
+            <Button Text="Connexion" 
             Command="{Binding ValidateCommand}" 
             VerticalOptions="EndAndExpand" />
+        </StackLayout>
+        
     </StackLayout>
 </ContentPage>
