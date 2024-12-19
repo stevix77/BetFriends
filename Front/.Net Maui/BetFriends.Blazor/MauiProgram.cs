@@ -41,6 +41,7 @@ public static class MauiProgram
         builder.Services.AddScoped<IUserContext>(x => new UserContext(Guid.NewGuid().ToString()));
         builder.Services.AddScoped<Services.Abstractions.INavigation, Navigation>();
         builder.Services.AddInfrastructure(x => x.GetRequiredService<IUserContext>());
+        builder.Services.AddScoped<IDateTimeProvider, DateTimeProvider>();
         builder.Services.AddViewModels();
         builder.Services.AddPresenters();
         return builder.Build();
