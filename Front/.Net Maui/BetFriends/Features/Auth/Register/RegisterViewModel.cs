@@ -18,6 +18,7 @@ public partial class RegisterViewModel : ObservableObject
         this.mediator = mediator;
         WeakReferenceMessenger.Default.Register(this, new MessageHandler<object, UserRegistered>(async (o, e) =>
         {
+            Clear();
             var request = new SignInRequest(Email!, Password!);
             await mediator.Send(request);
         }));
@@ -56,7 +57,7 @@ public partial class RegisterViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private Task SignIn()
+    private Task<Page> SignIn()
     {
         Clear();
         return navigation.PopModalAsync();
