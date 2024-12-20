@@ -12,7 +12,23 @@ import { Router } from '../services/router';
 import { AuthService } from '../services/authService';
 import { IAuthenticateService } from '../../../../../adapters/IAuthenticateService';
 import { GuestGuard } from '../guards/guestGuard';
+import { InMemoryUserRepository } from '../../../../../adapters/repository/InMemoryUserRepository';
+import { RegisterHandler } from '../../../../../../domain/features/RegisterHandler';
+import { RegisterPresenter } from '../../../../../adapters/presenters/RegisterPresenter';
+import { IdGenerator } from '../../../../../adapters/IdGenerator';
+import { Sha256Hash } from '../../../../../adapters/Sha256Hash';
+import { RegisterViewModel } from '../../../../../adapters/viewmodels/RegisterViewModel';
 const loginPresenter = new LoginPresenter();
+const userGateway = new InMemoryUserRepository();
+const registerPresenter = new RegisterPresenter();
+const authRepository = new InMemoryAuthRepository(userGateway);
+const idGenerator = new IdGenerator();
+const passwordHasher = new Sha256Hash();
+const registerHandler = new RegisterHandler(userGateway, 
+                                            registerPresenter, 
+                                            idGenerator, 
+                                            passwordHasher)
+const loginHandler = new LoginHandler(authRepository, loginPresenter, passwordHasher)
 
 @NgModule({
   declarations: [SigninComponent, RegisterComponent],
@@ -32,28 +48,26 @@ const loginPresenter = new LoginPresenter();
     Router,
     AuthService,
     {
-      provide: LoginHandler,
-      useFactory: (authRepository: IAuthRepository) => new LoginHandler(authRepository, loginPresenter, {
-        Hash(password) {
-          return `hashed${password}`
-        },
-      }),
-      deps: ["IAuthRepository"]
-    },
-    {
-      provide: "IAuthRepository",
-      useClass: InMemoryAuthRepository
-    },
-    {
       provide: SignInViewModel,
-      useFactory: (loginHandler: LoginHandler,
-                  router: Router,
+      useFactory: (router: Router,
                   authService: IAuthenticateService
       ) => new SignInViewModel(loginHandler, 
                                 loginPresenter, 
                                 router,
                                 authService),
-      deps: [LoginHandler, Router, AuthService]
+      deps: [Router, AuthService]
+    },
+    {
+      provide: RegisterViewModel,
+      useFactory: (router: Router,
+                  authService: IAuthenticateService) => 
+            new RegisterViewModel(loginHandler, 
+                                registerPresenter, 
+                                registerHandler,
+                                loginPresenter ,
+                                router,
+                                authService),
+      deps: [Router, AuthService]
     }
   ]
 })

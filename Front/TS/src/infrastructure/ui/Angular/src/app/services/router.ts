@@ -5,13 +5,13 @@ import { Router as AngularRouter} from "@angular/router"
 @Injectable()
 export class Router implements IRouter {
     constructor(private readonly router: AngularRouter) {}
-    Navigate(route: Route): void {
+    async Navigate(route: Route): Promise<void> {
         switch(route) {
             case Route.Home:
-                this.router.navigate([''])
+                await this.router.navigate([''])
                 break;
             case Route.Signin:
-                this.router.navigate(['signin'])
+                await this.router.navigate(['signin'])
                 break;
             default:
                 return;
