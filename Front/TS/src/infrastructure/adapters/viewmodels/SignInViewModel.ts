@@ -42,7 +42,7 @@ export class SignInViewModel extends Presenter {
         })
     }
 
-    ResetErrors() {
+    private ResetErrors() {
         this.error = undefined;
         this.errorEmail = undefined;
         this.errorPassword = undefined;
