@@ -1,13 +1,20 @@
 import { Subject } from 'rxjs';
-import { LoginHandler } from '../../../domain/features/LoginHandler';
+import { AuthToken, LoginHandler } from '../../../domain/features/LoginHandler';
 import { Presenter } from '../presenters/Presenter';
-import { Key, RegisterPresenter } from '../presenters/RegisterPresenter';
+import { Key as RegisterKey, RegisterPresenter } from '../presenters/RegisterPresenter';
+import { Key as LoginKey } from '../presenters/LoginPresenter';
 import { RegisterHandler } from '../../../domain/features/RegisterHandler';
+import { LoginPresenter } from '../presenters/LoginPresenter';
+import { IAuthenticateService } from '../IAuthenticateService';
+import { IRouter, Route } from '../IRouter';
 
 export class RegisterViewModel extends Presenter {
     constructor(loginHandler: LoginHandler,
                 registerPresenter: RegisterPresenter,
-                private readonly registerHandler: RegisterHandler){
+                private readonly registerHandler: RegisterHandler,
+                loginPresenter: LoginPresenter,
+                router: IRouter,
+                authService: IAuthenticateService){
         super();
         const registerErrorSubject = new Subject<string>();
         registerErrorSubject.subscribe((error) => this.error = error)
@@ -18,8 +25,14 @@ export class RegisterViewModel extends Presenter {
                 password: this.password!
             })
         })
-        registerPresenter.Subscribe(Key.Error.toString(), registerErrorSubject)
-        registerPresenter.Subscribe(Key.Registered.toString(), registerSubject)
+        const loginSubject = new Subject<AuthToken>();
+        loginSubject.subscribe((authToken) => {
+            authService.LoggedIn(authToken)
+            router.Navigate(Route.Home)
+        })
+        registerPresenter.Subscribe(RegisterKey.Error.toString(), registerErrorSubject)
+        registerPresenter.Subscribe(RegisterKey.Registered.toString(), registerSubject)
+        loginPresenter.Subscribe(LoginKey.Connected.toString(), loginSubject)
     }
 
     error?: string;

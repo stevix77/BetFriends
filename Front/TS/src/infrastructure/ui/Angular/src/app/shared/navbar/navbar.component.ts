@@ -11,7 +11,8 @@ import { AuthService } from '../../services/authService';
 })
 export class NavbarComponent {
   constructor(@Inject(AuthService) private readonly authService: AuthService) {}
-  Logout() {
+  Logout(e:Event) {
+    e.stopPropagation()
     this.authService.LogOut();
   }
 }
