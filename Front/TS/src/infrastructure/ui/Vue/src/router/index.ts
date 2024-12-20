@@ -4,6 +4,7 @@ import FriendsView from '../views/FriendsView.vue'
 import CreateBetView from '../views/CreateBetView.vue'
 import CompleteBetView from '../views/CompleteBetView.vue'
 import SignInView from '../views/SignInView.vue'
+import RegisterView from '../views/RegisterView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -37,6 +38,11 @@ const router = createRouter({
       path: '/signin',
       name: 'signin',
       component: SignInView,
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: RegisterView,
     },
     {
       path: '/:pathMatch(.*)*',
