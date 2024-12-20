@@ -10,7 +10,7 @@
             </div>
             <form class="form" (submit)="vm.Register()" method="POST">
                 <div class="card-body">
-                  <span *ngIf="vm.error">{{vm.error}}</span>
+                  <span *ngIf="vm.error" style="color: red;">{{vm.error}}</span>
                   <div
                   class="input-group"
                   >

@@ -26,6 +26,32 @@ describe('register user', () => {
             password: "hashedpassword"
         })
     })
+
+    test('should not create registration when one field is empty', async () => {
+        const request: IRegisterRequest = {
+            username: "",
+            email: "",
+            password: "",
+            confirmPassword: ""
+        }
+        const presenter = new MockRegisterPresenter();
+        const handler = new RegisterHandler(undefined!, presenter, undefined!, undefined!);
+        await handler.Handle(request);
+        expect(presenter.Error).toEqual("field is empty")
+    })
+
+    test('should not create registration when passwords are not equal', async () => {
+        const request: IRegisterRequest = {
+            username: "username",
+            email: "email",
+            password: "password",
+            confirmPassword: "pword"
+        }
+        const presenter = new MockRegisterPresenter();
+        const handler = new RegisterHandler(undefined!, presenter, undefined!, undefined!);
+        await handler.Handle(request);
+        expect(presenter.Error).toEqual("passwords are different")
+    })
 })
 
 

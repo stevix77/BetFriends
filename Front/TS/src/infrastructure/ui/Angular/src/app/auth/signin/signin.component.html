@@ -10,7 +10,7 @@
             </div>
             <form class="form" (submit)="vm.Signin()" method="POST">
                 <div class="card-body">
-                  <span *ngIf="vm.error">{{vm.error}}</span>
+                  <span *ngIf="vm.error" style="color: red;">{{vm.error}}</span>
                     <div
                     class="input-group"
                     >
@@ -26,7 +26,7 @@
                         name="email"
                         [(ngModel)]="vm.email"
                     />
-                    <span *ngIf="vm.errorEmail">{{ vm.errorEmail }}</span>
+                    <span *ngIf="vm.errorEmail" style="color: red;">{{ vm.errorEmail }}</span>
                     </div>
                     <div
                     class="input-group"
@@ -43,7 +43,7 @@
                         name="password"
                         [(ngModel)]="vm.password"
                     />
-                    <span *ngIf="vm.errorPassword">{{ vm.errorPassword }}</span>
+                    <span *ngIf="vm.errorPassword" style="color: red;">{{ vm.errorPassword }}</span>
                     </div>
                     <div>
                       <a routerLink="/register">Créer un compte</a>
