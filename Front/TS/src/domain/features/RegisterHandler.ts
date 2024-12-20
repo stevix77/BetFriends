@@ -4,6 +4,18 @@ import { IHashService } from '../abstractions/IHashService';
 
 export class RegisterHandler {
     async Handle(request: IRegisterRequest): Promise<void> {
+        if(request.confirmPassword.length == 0 ||
+            request.username.length == 0 ||
+            request.email.length == 0 ||
+            request.password.length == 0) {
+            this.outputPort.FieldIsEmpty()
+            return;
+        }
+
+        if(request.confirmPassword != request.password) {
+            this.outputPort.PasswordsAreDifferent()
+            return;
+        }
         const userId = this.idGenerator.Generate()
         const password = this.passwordHasher.Hash(request.password)
         const user = {
@@ -29,6 +41,8 @@ export interface IRegisterRequest {
 }
 
 export interface IRegisterOutputPort {
+    PasswordsAreDifferent(): void;
+    FieldIsEmpty(): void;
     UserRegistered(userId: string): void;
 
 }

@@ -16,8 +16,10 @@ export class RegisterViewModel extends Presenter {
                 router: IRouter,
                 authService: IAuthenticateService){
         super();
-        const registerErrorSubject = new Subject<string>();
-        registerErrorSubject.subscribe((error) => this.error = error)
+        const registerErrorFieldSubject = new Subject<any>();
+        registerErrorFieldSubject.subscribe(() => this.error = "Tous les champs sont requis")
+        const registerErrorPasswordSubject = new Subject<any>();
+        registerErrorPasswordSubject.subscribe(() => this.error = "Les mots de passe ne sont pas identiques")
         const registerSubject = new Subject<string>()
         registerSubject.subscribe(async (userId) => {
             await loginHandler.Handle({
@@ -30,16 +32,17 @@ export class RegisterViewModel extends Presenter {
             authService.LoggedIn(authToken)
             router.Navigate(Route.Home)
         })
-        registerPresenter.Subscribe(RegisterKey.Error.toString(), registerErrorSubject)
+        registerPresenter.Subscribe(RegisterKey.FieldEmpty.toString(), registerErrorFieldSubject)
+        registerPresenter.Subscribe(RegisterKey.PasswordsDifferent.toString(), registerErrorPasswordSubject)
         registerPresenter.Subscribe(RegisterKey.Registered.toString(), registerSubject)
         loginPresenter.Subscribe(LoginKey.Connected.toString(), loginSubject)
     }
 
     error?: string;
-    username?: string;
-    email?: string;
-    password?: string;
-    confirmPassword?: string;
+    username: string = "";
+    email: string = "";
+    password: string = "";
+    confirmPassword: string = "";
 
     Register(): Promise<void> {
         this.ResetError();
