@@ -36,6 +36,10 @@ import { LoginPresenter } from "../../../adapters/presenters/LoginPresenter";
 import type { IHashService } from "../../../../domain/abstractions/IHashService";
 import { Router } from "./services/router";
 import { AuthService } from "./services/authService";
+import { InMemoryUserRepository } from "../../../adapters/repository/InMemoryUserRepository";
+import { RegisterPresenter } from '../../../adapters/presenters/RegisterPresenter';
+import { RegisterHandler } from "../../../../domain/features/RegisterHandler";
+import { RegisterViewModel } from '../../../adapters/viewmodels/RegisterViewModel';
 
 const authService = new AuthService();
 const ioc = (app: App) => {
@@ -52,7 +56,8 @@ const ioc = (app: App) => {
         Name: userContext.UserId.substring(0, 8),
         IsFriend: false
     })
-    const authRepository: IAuthRepository = new InMemoryAuthRepository()
+    const userRepository = new InMemoryUserRepository()
+    const authRepository: IAuthRepository = new InMemoryAuthRepository(userRepository)
     const friendRepository: IFriendRepository = new InMemoryFriendRepository(memberRepository);
     const members = memberRepository.members.map(x => x.Id);
     members.push(userContext.UserId)
@@ -64,6 +69,7 @@ const ioc = (app: App) => {
     const answerBetPresenter = new AnswerBetPresenter();
     const completeBetPresenter = new CompleteBetPresenter();
     const loginPresenter = new LoginPresenter();
+    const registerPrenseter = new RegisterPresenter();
     const idGenerator = new IdGenerator();
     const dtProvider = new DateTimeProvider();
     const createBetHandler = new CreateBetHandler(betRepository, createBetPresenter, idGenerator, dtProvider)
@@ -71,6 +77,7 @@ const ioc = (app: App) => {
     const answerBetHandler = new AnswerBetHandler(betRepository, dtProvider, answerBetPresenter, userContext);
     const completeBetHandler = new CompleteBetHandler(betRepository, completeBetPresenter)
     const getProofHandler = new GetProofHandler(betRepository)
+    const registerHandler = new RegisterHandler(userRepository, registerPrenseter, idGenerator, hasherService)
     const betsController = new BetsController(createBetHandler, retrieveBetsHandler, answerBetHandler, completeBetHandler, getProofHandler);
     const addFriendHandler = new AddFriendHandler(friendRepository, friendsPresenter)
     const loginHandler = new LoginHandler(authRepository, loginPresenter, hasherService)
@@ -86,11 +93,13 @@ const ioc = (app: App) => {
     const betsviewmodel = new BetsViewModel(betsController, answerBetPresenter, userContext, dtProvider, router)
     const completeBetViewModel = new CompleteBetViewModel(betsController, router, completeBetPresenter)
     const signinBetViewModel = new SignInViewModel(loginHandler, loginPresenter, routerService, authService)
+    const registerViewModel = new RegisterViewModel(loginHandler, registerPrenseter, registerHandler, loginPresenter, routerService, authService)
     app.provide('friendsviewmodel', friendsviewmodel);
     app.provide('createbetviewmodel', createbetviewmodel);
     app.provide('betsviewmodel', betsviewmodel);
     app.provide('completebetviewmodel', completeBetViewModel);
     app.provide('signinviewmodel', signinBetViewModel)
+    app.provide('registerviewmodel', registerViewModel)
     app.provide('authservice', authService)
     app.provide('router', routerService)
 }

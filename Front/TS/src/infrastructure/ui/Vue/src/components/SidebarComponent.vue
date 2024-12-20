@@ -40,7 +40,7 @@
             </RouterLink>
           </li>
           <li class="nav-item">
-            <a @click="authService?.LogOut" href="/">
+            <a @click="LogOut($event)" href="/">
               <i class="fas fa-layer-group"></i>
               <p>Déconnexion</p>
             </a>
@@ -61,6 +61,12 @@ import { AuthService } from '../services/authService';
             return {
                 authService
             }
+        },
+        methods: {
+          LogOut(event) {
+            event.preventDefault();
+            this.authService?.LogOut()
+          }
         }
     }
 </script>
