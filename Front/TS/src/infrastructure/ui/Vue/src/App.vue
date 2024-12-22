@@ -8,11 +8,14 @@ const authService = ref(inject<AuthService>('authservice'))
 const router = ref(inject<IRouter>('router'))
 let isConnected = ref(authService.value?.IsLoggedIn());
 authService.value!.isAuthenticated$.subscribe(
-      (status) => {
+      async (status) => {
         if(isConnected.value != status) {
           isConnected.value = status
           if(!status) {
             router.value!.Navigate(Route.Signin)
+          }
+          if(isConnected.value) {
+            await authService.value.GetMemberInfo();
           }
         }
       }

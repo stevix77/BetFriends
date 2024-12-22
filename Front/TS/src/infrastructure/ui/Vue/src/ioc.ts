@@ -41,9 +41,9 @@ import { RegisterPresenter } from '../../../adapters/presenters/RegisterPresente
 import { RegisterHandler } from "../../../../domain/features/RegisterHandler";
 import { RegisterViewModel } from '../../../adapters/viewmodels/RegisterViewModel';
 
-const authService = new AuthService();
+let authService: AuthService = undefined!
 const ioc = (app: App) => {
-    const userContext = new UserContext('aeaeaeae-aeae-aeae-aeae-aeaeaeaeaeae');
+    const userContext = new UserContext();
     const hasherService: IHashService = {
         Hash(password) {
             return `hashed${password}`
@@ -51,16 +51,11 @@ const ioc = (app: App) => {
     }
     const routerService = new Router(router)
     const memberRepository = new InMemoryMemberRepository()
-    memberRepository.members.push({
-        Id: userContext.UserId,
-        Name: userContext.UserId.substring(0, 8),
-        IsFriend: false
-    })
-    const userRepository = new InMemoryUserRepository()
-    const authRepository: IAuthRepository = new InMemoryAuthRepository(userRepository)
+    const userRepository = new InMemoryUserRepository(userContext, memberRepository)
+    authService = new AuthService(userRepository);
+    const authRepository: IAuthRepository = new InMemoryAuthRepository(userRepository, userContext)
     const friendRepository: IFriendRepository = new InMemoryFriendRepository(memberRepository);
     const members = memberRepository.members.map(x => x.Id);
-    members.push(userContext.UserId)
     const betRepository: IBetRepository = new InMemoryBetRepository(memberRepository, userContext, [new Bet("id", "description", new Date("2025-02-02"), 200, members)]);
     const friendsPresenter = new FriendsPresenter()
     const retrieveFriendsHandler = new RetrieveFriendsHandler(friendRepository, friendsPresenter);
@@ -88,7 +83,8 @@ const ioc = (app: App) => {
                                                     createBetPresenter,
                                                     friendsController,
                                                     betsController,
-                                                    router);
+                                                    router,
+                                                authService);
     const friendsviewmodel = new FriendsViewModel(friendsPresenter, friendsController);
     const betsviewmodel = new BetsViewModel(betsController, answerBetPresenter, userContext, dtProvider, router)
     const completeBetViewModel = new CompleteBetViewModel(betsController, router, completeBetPresenter)

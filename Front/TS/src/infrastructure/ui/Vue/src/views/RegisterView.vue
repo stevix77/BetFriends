@@ -97,11 +97,11 @@ import { useRouter } from "vue-router";
 import { ref, inject, getCurrentInstance } from 'vue';
 
 const vm = ref(inject<RegisterViewModel>('registerviewmodel')!)
-
+const current = getCurrentInstance()
 async function submit(form) {
     form.preventDefault()
     await vm.value.Register();
-    getCurrentInstance()!.proxy?.$forceUpdate();
+    current!.proxy?.$forceUpdate();
 }
 
 </script>
