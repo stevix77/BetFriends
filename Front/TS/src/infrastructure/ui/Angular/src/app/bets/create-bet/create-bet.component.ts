@@ -1,5 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CreateBetViewModel } from '../CreateBetViewModel';
+import { AuthService } from '../../services/authService';
 
 @Component({
   selector: 'app-create-bet',

@@ -29,6 +29,7 @@ import { CompleteBetHandler } from '../../../../../../domain/features/CompleteBe
 import { CompleteBetViewModel } from './CompleteBetViewModel';
 import { GetProofHandler } from '../../../../../../domain/features/GetProofHandler';
 import { AuthGuard } from '../guards/authGuard';
+import { AuthService } from '../services/authService';
 
 const createBetPresenter = new CreateBetPresenter();
 const answerPresenter = new AnswerBetPresenter();
@@ -110,7 +111,8 @@ const completeBetPresenter = new CompleteBetPresenter();
                     friendRepository: IFriendRepository,
                     memberRepository: IMemberRepository,
                     betsController: BetsController,
-                    router: Router) => {
+                    router: Router,
+                    authService: AuthService) => {
         const retrieveFriendsHandler = new RetrieveFriendsHandler(friendRepository, friendsPresenter);
         const retrieveMembersHandler = new RetrieveMembersHandler(memberRepository, friendsPresenter);
         const addFriendHandler = new AddFriendHandler(friendRepository, friendsPresenter)
@@ -121,9 +123,10 @@ const completeBetPresenter = new CompleteBetPresenter();
                                       createBetPresenter, 
                                       friendsController, 
                                       betsController,
-                                      router);
+                                      router,
+                                      authService);
       },
-      deps: [FriendsPresenter, 'IFriendRepository', 'IMemberRepository', BetsController, Router]
+      deps: [FriendsPresenter, 'IFriendRepository', 'IMemberRepository', BetsController, Router, AuthService]
     },
     {
       provide: BetsViewModel,

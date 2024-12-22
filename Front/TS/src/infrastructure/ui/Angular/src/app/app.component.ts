@@ -1,4 +1,4 @@
-import { Component, Inject, inject } from '@angular/core';
+import { Component, Inject, inject, OnInit } from '@angular/core';
 import { AuthService } from './services/authService';
 import { IRouter, Route } from '../../../../adapters/IRouter';
 import { Router } from './services/router';
@@ -13,11 +13,14 @@ export class AppComponent {
               @Inject(Router) private readonly router: IRouter
   ) {
     this.authService.isAuthenticated$.subscribe(
-      (status) => {
+      async (status): Promise<void> => {
         if(this.isConnected != status) {
           this.isConnected = status
           if(!status) {
             this.router.Navigate(Route.Signin)
+          }
+          if(this.isConnected) {
+            await authService.GetMemberInfo();
           }
         }
       }
@@ -25,4 +28,6 @@ export class AppComponent {
   }
   title = 'BetFriends';
   isConnected: boolean = this.authService.IsLoggedIn();
+
+  
 }
