@@ -19,6 +19,8 @@ import { IdGenerator } from '../../../../../adapters/IdGenerator';
 import { Sha256Hash } from '../../../../../adapters/Sha256Hash';
 import { RegisterViewModel } from '../../../../../adapters/viewmodels/RegisterViewModel';
 import { IUserContext } from '../../../../../../domain/abstractions/IUserContext';
+import { IMemberRepository } from '../../../../../../domain/members/IMemberRepository';
+import { InMemoryMemberRepository } from '../../../../../adapters/repository/InMemoryMemberRepository';
 const loginPresenter = new LoginPresenter();
 const registerPresenter = new RegisterPresenter();
 const idGenerator = new IdGenerator();
@@ -43,8 +45,10 @@ const passwordHasher = new Sha256Hash();
     AuthService,
     {
       provide: InMemoryUserRepository,
-      useFactory: (userContext: IUserContext) => new InMemoryUserRepository(userContext),
-      deps: ['IUserContext']
+      useFactory: (userContext: IUserContext,
+                  memberRepository: IMemberRepository
+      ) => new InMemoryUserRepository(userContext, memberRepository as InMemoryMemberRepository),
+      deps: ['IUserContext', 'IMemberRepository']
     },
     {
       provide: 'IMemberGateway',

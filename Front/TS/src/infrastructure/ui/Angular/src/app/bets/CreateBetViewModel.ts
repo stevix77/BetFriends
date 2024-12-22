@@ -33,7 +33,9 @@ export class CreateBetViewModel {
 
         this.SubscribeToCreateBetSuccess();
         authService.memberInfo$.subscribe(member => {
-            this.MaxCoins = member.coins;
+            if(member != undefined) {
+                this.MaxCoins = member.coins;
+            }
         })
     }
     

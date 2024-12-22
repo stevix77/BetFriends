@@ -64,7 +64,6 @@ import { CreateBetViewModel } from '../viewmodels/CreateBetViewModel';
                 form.preventDefault();
                 await this.vm!.CreateBet()
                 this.current?.proxy?.$forceUpdate();
-                this.vm!.Reset();
             }
         },
     }
