@@ -15,9 +15,9 @@ internal class InMemoryMemberRepository : IMemberRepository
         for (var i = 0; i < membersCount; i++)
         {
             var id = Guid.NewGuid().ToString();
-            members.Add(new MemberDto(Guid.NewGuid().ToString(), id.Substring(0, 8), new Random().Next(1000) % 2 == 0));
+            members.Add(new MemberDto(Guid.NewGuid().ToString(), id[..8], new Random().Next(1000) % 2 == 0));
         }
-        members.Add(new MemberDto(userContext.UserId, userContext.UserId.Substring(0, 8), false));
+        members.Add(new MemberDto(userContext.UserId, userContext.UserId[..8], false));
         this.userContext = userContext;
     }
     public Task<IReadOnlyCollection<MemberDto>> RetrieveMembersByKeyword(string searchTerm)

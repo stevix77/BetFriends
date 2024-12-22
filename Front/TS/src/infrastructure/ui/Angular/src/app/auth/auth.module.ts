@@ -18,17 +18,11 @@ import { RegisterPresenter } from '../../../../../adapters/presenters/RegisterPr
 import { IdGenerator } from '../../../../../adapters/IdGenerator';
 import { Sha256Hash } from '../../../../../adapters/Sha256Hash';
 import { RegisterViewModel } from '../../../../../adapters/viewmodels/RegisterViewModel';
+import { IUserContext } from '../../../../../../domain/abstractions/IUserContext';
 const loginPresenter = new LoginPresenter();
-const userGateway = new InMemoryUserRepository();
 const registerPresenter = new RegisterPresenter();
-const authRepository = new InMemoryAuthRepository(userGateway);
 const idGenerator = new IdGenerator();
 const passwordHasher = new Sha256Hash();
-const registerHandler = new RegisterHandler(userGateway, 
-                                            registerPresenter, 
-                                            idGenerator, 
-                                            passwordHasher)
-const loginHandler = new LoginHandler(authRepository, loginPresenter, passwordHasher)
 
 @NgModule({
   declarations: [SigninComponent, RegisterComponent],
@@ -48,26 +42,58 @@ const loginHandler = new LoginHandler(authRepository, loginPresenter, passwordHa
     Router,
     AuthService,
     {
+      provide: InMemoryUserRepository,
+      useFactory: (userContext: IUserContext) => new InMemoryUserRepository(userContext),
+      deps: ['IUserContext']
+    },
+    {
+      provide: 'IMemberGateway',
+      useFactory: (userRepository: InMemoryUserRepository) => userRepository,
+      deps: [InMemoryUserRepository]
+    },
+    {
+      provide: LoginHandler,
+      useFactory: (userRepository: InMemoryUserRepository,
+                  userContext: IUserContext
+      ) => 
+          new LoginHandler(new InMemoryAuthRepository(userRepository, userContext), 
+                          loginPresenter, 
+                          passwordHasher),
+      deps: [InMemoryUserRepository, 'IUserContext']
+    },
+    {
+      provide: RegisterHandler,
+      useFactory: (userRepository: InMemoryUserRepository) => 
+          new RegisterHandler(userRepository, 
+                          registerPresenter,
+                          idGenerator, 
+                          passwordHasher),
+      deps: [InMemoryUserRepository]
+    },
+    {
       provide: SignInViewModel,
       useFactory: (router: Router,
-                  authService: IAuthenticateService
+                  authService: IAuthenticateService,
+                  loginHandler: LoginHandler
       ) => new SignInViewModel(loginHandler, 
                                 loginPresenter, 
                                 router,
                                 authService),
-      deps: [Router, AuthService]
+      deps: [Router, AuthService, LoginHandler]
     },
     {
       provide: RegisterViewModel,
       useFactory: (router: Router,
-                  authService: IAuthenticateService) => 
+                  authService: IAuthenticateService,
+                registerHandler: RegisterHandler,
+              loginHandler: LoginHandler) => 
             new RegisterViewModel(loginHandler, 
                                 registerPresenter, 
                                 registerHandler,
                                 loginPresenter ,
                                 router,
                                 authService),
-      deps: [Router, AuthService]
+      deps: [Router, AuthService, RegisterHandler, LoginHandler]
     }
   ]
 })

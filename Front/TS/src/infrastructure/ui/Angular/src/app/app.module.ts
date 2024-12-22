@@ -83,7 +83,7 @@ import { GuestGuard } from "./guards/guestGuard";
         },
         {
             provide: 'IUserContext',
-            useFactory: () => new UserContext('aeaeaeae-aeae-aeae-aeae-aeaeaeaeaeae')
+            useFactory: () => new UserContext()
         }
     ],
     bootstrap: [AppComponent]

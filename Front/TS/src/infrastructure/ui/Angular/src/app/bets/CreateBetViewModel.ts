@@ -7,12 +7,14 @@ import type { FriendsController } from '../../../../../adapters/controllers/Frie
 import type { BetsController } from '../../../../../adapters/controllers/BetsController';
 import type { CreateBetResponse } from '../../../../../../domain/features/CreateBetHandler';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/authService';
 export class CreateBetViewModel {
     constructor(friendsPresenter: FriendsPresenter, 
                 private createBetPresenter: CreateBetPresenter, 
                 private friendsController: FriendsController,
                 private betsController: BetsController,
-                private router: Router) {
+                private router: Router,
+                authService: AuthService) {
         const friendsSubject = new Subject<FriendDto[]>();
         friendsSubject.subscribe(friends => {
             this.Friends = friends.map<MemberSelected>((x) => {
@@ -30,10 +32,13 @@ export class CreateBetViewModel {
         createBetPresenter.Subscribe(KeyCreateBetPresenter.CreateBetError.toString(), createBetErrorsSubject)
 
         this.SubscribeToCreateBetSuccess();
+        authService.memberInfo$.subscribe(member => {
+            this.MaxCoins = member.coins;
+        })
     }
     
 
-    MaxCoins: number = 1000;
+    MaxCoins: number = 0;
     Description: string = "";
     EndDate: Date = new Date();
     Coins: number = 0;
@@ -58,6 +63,7 @@ export class CreateBetViewModel {
     SubscribeToCreateBetSuccess() {
         const createBetSubject = new Subject<CreateBetResponse>();
         createBetSubject.subscribe(x => {
+            this.MaxCoins -= this.Coins;
             this.Reset();
             this.router.navigate(['/'])
         })
