@@ -71,6 +71,7 @@ public partial class RetrieveBetsViewModel : ObservableObject
 
     private bool CanAnswer(RetrieveBetsItemResponse bet)
         => bet.Gamblers.Any(x => x.Id == userContext.UserId) &&
+        !bet.IsSuccess.HasValue &&
             bet.MaxAnswerDate > dateTimeProvider.GetCurrentDate();
 
     private string GetResult(bool isSuccess, string bookieId)

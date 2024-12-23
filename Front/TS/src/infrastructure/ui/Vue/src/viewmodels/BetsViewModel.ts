@@ -64,6 +64,7 @@ export class BetsViewModel {
 
     private CanAnswer(betSummary: BetSummary): boolean {
         return betSummary.Gamblers.some(x => x.Id == this.userContext.UserId) &&
+        betSummary.IsSuccess == undefined &&
         moment(betSummary.MaxAnswerDate).date() > moment(this.dateTimeProvider.GetDate()).date()
     }
 
