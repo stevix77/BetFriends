@@ -1,7 +1,6 @@
-﻿using BetFriends.Bets.Application.Abstractions;
-using BetFriends.Shared.Application.Abstractions;
+﻿using BetFriends.Shared.Application.Abstractions;
 
-namespace BetFriends.Bets.Infrastructure.Outbox;
+namespace BetFriends.Shared.Infrastructure.Outboxes;
 
 public class Outbox
 {

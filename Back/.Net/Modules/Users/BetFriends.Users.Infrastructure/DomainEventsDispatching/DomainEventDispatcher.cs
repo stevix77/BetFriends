@@ -4,7 +4,7 @@ using BetFriends.Shared.Infrastructure.Outboxes;
 using MediatR;
 using System.Text.Json;
 
-namespace BetFriends.Bets.Infrastructure.Event;
+namespace BetFriends.Users.Infrastructure.DomainEventsDispatching;
 
 internal class DomainEventDispatcher(DomainEventsAccessor domainEventsAccessor,
                                     DomainEventNotificationFactory domainEventNotificationFactory,

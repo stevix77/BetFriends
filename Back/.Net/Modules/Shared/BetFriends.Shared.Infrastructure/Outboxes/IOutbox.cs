@@ -1,6 +1,6 @@
-﻿namespace BetFriends.Bets.Infrastructure.Outbox;
+﻿namespace BetFriends.Shared.Infrastructure.Outboxes;
 
-public interface IOutboxRepository
+public interface IOutbox
 {
     Task AddAsync(Outbox outbox);
     Task<IEnumerable<Outbox>> GetAllAsync();
