@@ -11,14 +11,14 @@ public class RegisterHandlerTest
     [Fact]
     public async Task ShouldRegisterUser()
     {
-        var command = new RegisterCommand("username", "email@email.fr", "password");
         var outputPort = new MockRegisterPresenter();
+        var command = new RegisterCommand("username", "email@email.fr", "password", outputPort);
         var repository = new MockUserRepository();
         var id = Guid.NewGuid();
         var idGenerator = new StubIdGenerator(id);
         var passwordHasher = new MockPasswordHasher();
         var tokenGenerator = new StubTokenGenerator();
-        var handler = new RegisterCommandHandler(repository, outputPort, idGenerator, passwordHasher, tokenGenerator);
+        var handler = new RegisterCommandHandler(repository, idGenerator, passwordHasher, tokenGenerator);
         await handler.Handle(command, CancellationToken.None);
         Assert.Equal(new RegisterResponse(id), outputPort.Response);
         Assert.Equal(new UserState(id, "username", "email@email.fr", "hashedpassword", "refreshToken"), repository.User.State);
@@ -27,13 +27,13 @@ public class RegisterHandlerTest
     [Fact]
     public async Task ShouldNotRegisterUserWhenEmailOrUsernameAlreadyExist()
     {
-        var command = new RegisterCommand("username", "email@email.fr", "password");
         var outputPort = new MockRegisterPresenter();
+        var command = new RegisterCommand("username", "email@email.fr", "password", outputPort);
         var repository = new MockUserRepository(User.FromState(new UserState(Guid.Empty, "username", "email", "password", "refreshtoken")));
         var idGenerator = new StubIdGenerator(Guid.NewGuid());
         var passwordHasher = new MockPasswordHasher();
         var tokenGenerator = new StubTokenGenerator();
-        var handler = new RegisterCommandHandler(repository, outputPort, idGenerator, passwordHasher, tokenGenerator);
+        var handler = new RegisterCommandHandler(repository, idGenerator, passwordHasher, tokenGenerator);
         await handler.Handle(command, CancellationToken.None);
         Assert.Equal("user already exist", outputPort.ErrorMessage);
     }

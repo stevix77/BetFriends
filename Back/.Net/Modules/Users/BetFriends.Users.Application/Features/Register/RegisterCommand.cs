@@ -2,4 +2,4 @@
 
 namespace BetFriends.Users.Application.Features.Register;
 
-public record RegisterCommand(string Username, string Email, string Password) : ICommand;
+public record RegisterCommand(string Username, string Email, string Password, IRegisterOutputPort outputPort) : ICommand;

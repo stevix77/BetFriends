@@ -13,7 +13,10 @@ public class UserRegisterController(IUserModule userModule,
     [HttpPost("users")]
     public async Task<IActionResult> RegisterAsync([FromBody] RegisterInput registerInput)
     {
-        var command = new RegisterCommand(registerInput.Username, registerInput.Email, registerInput.Password);
+        var command = new RegisterCommand(registerInput.Username,
+                                          registerInput.Email,
+                                          registerInput.Password,
+                                          registerPresenter);
         await userModule.ExecuteAsync(command);
         return registerPresenter.ViewModel;
     }
@@ -23,10 +26,6 @@ public record RegisterInput(string Username, string Email, string Password);
 
 public class RegisterPresenter : IRegisterOutputPort
 {
-    public RegisterPresenter()
-    {
-        
-    }
     internal IActionResult ViewModel { get; private set; }
     public void Present(RegisterResponse registerResponse)
     {

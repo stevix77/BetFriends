@@ -26,8 +26,7 @@ builder.Services.AddScoped<AnswerBetPresenter>();
 builder.Services.AddScoped<IAnswerBetOutputPort>(x => x.GetRequiredService<AnswerBetPresenter>());
 builder.Services.AddScoped<CompleteBetPresenter>();
 builder.Services.AddScoped<ICompleteBetOutputPort>(x => x.GetRequiredService<CompleteBetPresenter>());
-builder.Services.AddSingleton<RegisterPresenter>();
-builder.Services.AddSingleton<IRegisterOutputPort>(x => x.GetRequiredService<RegisterPresenter>());
+builder.Services.AddScoped<RegisterPresenter>();
 builder.Services.AddScoped<IUserContext, HttpUserContext>();
 builder.Services.AddHostedService<ProcessOutboxHostedService>();
 builder.Services.AddCors();
@@ -41,7 +40,7 @@ builder.Services.AddBetInfrastructure();
 var app = builder.Build();
 
 
-UserStartup.Init(app.Logger, app.Services);
+UserStartup.Init(app.Logger);
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
