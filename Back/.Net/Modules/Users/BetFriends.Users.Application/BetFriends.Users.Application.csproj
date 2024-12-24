@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\BetFriends.Shared.Application\BetFriends.Shared.Application.csproj" />
+    <ProjectReference Include="..\BetFriends.Users.Domain\BetFriends.Users.Domain.csproj" />
   </ItemGroup>
 
 </Project>

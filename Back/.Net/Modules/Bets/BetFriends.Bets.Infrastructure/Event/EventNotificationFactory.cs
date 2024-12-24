@@ -1,6 +1,7 @@
 ﻿using BetFriends.Bets.Application.Features.CompleteBet;
 using BetFriends.Bets.Application.Features.CreateBet;
 using BetFriends.Bets.Domain.Events;
+using BetFriends.Shared.Infrastructure.Outboxes;
 using MediatR;
 using System.Text.Json;
 
@@ -8,7 +9,7 @@ namespace BetFriends.Bets.Infrastructure.Event;
 
 public class EventNotificationFactory
 {
-    public INotification Create(Outbox.Outbox outbox)
+    public INotification Create(Outbox outbox)
     {
         switch(outbox.Type)
         {

@@ -13,4 +13,11 @@ public class UserModule : IUserModule
         var mediator = scope.ServiceProvider.GetService(typeof(IMediator)) as IMediator;
         return mediator!.Send(query);
     }
+
+    public Task ExecuteAsync(ICommand command)
+    {
+        using IServiceScope scope = UserCompositionRoot.BeginScope();
+        var mediator = scope.ServiceProvider.GetService(typeof(IMediator)) as IMediator;
+        return mediator!.Send(command);
+    }
 }

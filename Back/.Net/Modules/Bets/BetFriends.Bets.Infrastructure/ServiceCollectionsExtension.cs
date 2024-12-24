@@ -4,21 +4,22 @@ using BetFriends.Bets.Application.Features.RetrieveBets;
 using BetFriends.Bets.Domain.AnswerBets;
 using BetFriends.Bets.Domain.Bets;
 using BetFriends.Bets.Domain.Friends;
-using BetFriends.Bets.Domain.Members.Services;
 using BetFriends.Bets.Domain.Members;
+using BetFriends.Bets.Domain.Members.Services;
+using BetFriends.Bets.Infrastructure.DataAccess;
 using BetFriends.Bets.Infrastructure.Event;
 using BetFriends.Bets.Infrastructure.Notifiers;
-using BetFriends.Bets.Infrastructure.Outbox;
+using BetFriends.Bets.Infrastructure.Outboxes;
 using BetFriends.Bets.Infrastructure.Repositories;
 using BetFriends.Bets.Infrastructure.UoW;
 using BetFriends.Shared.Application.Abstractions;
+using BetFriends.Shared.Infrastructure;
 using BetFriends.Shared.Infrastructure.Behaviors;
 using BetFriends.Shared.Infrastructure.Event;
+using BetFriends.Shared.Infrastructure.Outboxes;
 using BetFriends.Shared.Infrastructure.UoW;
-using BetFriends.Shared.Infrastructure;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using BetFriends.Bets.Infrastructure.DataAccess;
 
 namespace BetFriends.Bets.Infrastructure;
 
@@ -46,7 +47,7 @@ public static class ServiceCollectionsExtension
         services.AddScoped<DomainEventNotificationFactory>();
         services.AddScoped<INotifyBetCompleted, NotifyBetCompleted>();
         services.AddSingleton<EventNotificationFactory>();
-        services.AddSingleton<IOutboxRepository, FakeOutboxInMemoryRepository>();
+        services.AddSingleton<IOutbox, InMemoryOutboxAccessor>();
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(UnitOfWorkBehavior<,>));
         services.AddMediatR(x =>
