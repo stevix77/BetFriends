@@ -23,7 +23,7 @@ namespace BetFriends.Users.Infrastructure;
 
 public static class UserStartup
 {
-    public static void Init(ILogger logger, IServiceProvider serviceProvider)
+    public static void Init(ILogger logger)
     {
         var services = new ServiceCollection();
         services.AddLogging(x => x.Services.AddScoped(sp => logger));
@@ -37,7 +37,6 @@ public static class UserStartup
         services.AddSingleton<DomainEventsAccessor>();
         services.AddScoped<IDomainEventDispatcher, DomainEventDispatcher>();
         services.AddSingleton<IOutbox, InMemoryOutboxAccessor>();
-        services.AddScoped(x => serviceProvider.GetRequiredService<IRegisterOutputPort>());
         services.AddScoped<IUnitOfWork, InMemoryUnitOfWork>();
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(UnitOfWorkBehavior<,>));
