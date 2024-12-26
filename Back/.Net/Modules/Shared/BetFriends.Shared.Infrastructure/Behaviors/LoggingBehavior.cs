@@ -6,10 +6,10 @@ using System.Text;
 
 namespace BetFriends.Shared.Infrastructure.Behaviors;
 
-public class LoggingBehavior<TRequest, TResponse>(ILogger<LoggingBehavior<TRequest, TResponse>> logger)
+public class LoggingBehavior<TRequest, TResponse>(ILogger logger)
             : IPipelineBehavior<TRequest, TResponse>
 {
-    private readonly ILogger<LoggingBehavior<TRequest, TResponse>> logger = logger;
+    private readonly ILogger logger = logger;
 
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {

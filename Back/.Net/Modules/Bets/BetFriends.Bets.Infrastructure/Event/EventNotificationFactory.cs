@@ -11,7 +11,7 @@ public class EventNotificationFactory
 {
     public INotification Create(Outbox outbox)
     {
-        switch(outbox.Type)
+        switch (outbox.Type)
         {
             case nameof(BetCreated):
                 var betCreated = JsonSerializer.Deserialize<BetCreated>(outbox.Data)!;

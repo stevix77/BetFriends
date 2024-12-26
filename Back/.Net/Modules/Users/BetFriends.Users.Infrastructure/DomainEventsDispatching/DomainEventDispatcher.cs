@@ -14,7 +14,8 @@ internal class DomainEventDispatcher(DomainEventsAccessor domainEventsAccessor,
 {
     public async Task DispatchAsync()
     {
-        var domainEvents = domainEventsAccessor.GetDomainEvents();
+        var domainEvents = domainEventsAccessor.GetDomainEvents().ToList();
+        domainEventsAccessor.ClearDomainEvents();
         var domainEventTasks = new List<Task>();
         var outboxes = new List<Outbox>();
         foreach (var item in domainEvents)

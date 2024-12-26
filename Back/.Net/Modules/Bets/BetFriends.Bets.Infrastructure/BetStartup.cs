@@ -4,8 +4,8 @@ using BetFriends.Bets.Application.Features.RetrieveBets;
 using BetFriends.Bets.Domain.AnswerBets;
 using BetFriends.Bets.Domain.Bets;
 using BetFriends.Bets.Domain.Friends;
-using BetFriends.Bets.Domain.Members;
 using BetFriends.Bets.Domain.Members.Services;
+using BetFriends.Bets.Domain.Members;
 using BetFriends.Bets.Infrastructure.DataAccess;
 using BetFriends.Bets.Infrastructure.Event;
 using BetFriends.Bets.Infrastructure.Notifiers;
@@ -13,20 +13,23 @@ using BetFriends.Bets.Infrastructure.Outboxes;
 using BetFriends.Bets.Infrastructure.Repositories;
 using BetFriends.Bets.Infrastructure.UoW;
 using BetFriends.Shared.Application.Abstractions;
-using BetFriends.Shared.Infrastructure;
 using BetFriends.Shared.Infrastructure.Behaviors;
 using BetFriends.Shared.Infrastructure.Event;
 using BetFriends.Shared.Infrastructure.Outboxes;
 using BetFriends.Shared.Infrastructure.UoW;
+using BetFriends.Shared.Infrastructure;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace BetFriends.Bets.Infrastructure;
 
-public static class ServiceCollectionsExtension
+public static class BetStartup
 {
-    public static IServiceCollection AddBetInfrastructure(this IServiceCollection services)
+    public static void Init(ILogger logger)
     {
+        var services = new ServiceCollection();
+        services.AddScoped(x => logger);
         services.AddSingleton<IMemberRepository, FakeMemberRepository>();
         services.AddSingleton<IFriendshipRepository, FakeFriendshipRepository>();
         services.AddSingleton<IBetRepository, FakeBetRepository>();
@@ -39,7 +42,7 @@ public static class ServiceCollectionsExtension
         });
         services.AddSingleton<IIdGenerator, GuidGenerator>();
         services.AddSingleton<IDateProvider, DateTimeProvider>();
-        services.AddScoped<IBetModule, BetModule>();
+        services.AddSingleton<IBetModule, BetModule>();
         services.AddScoped<IUnitOfWork, InMemoryUnitOfWork>();
         services.AddScoped<DecreaseCoinsMember>();
         services.AddSingleton<DomainEventsAccessor>();
@@ -48,12 +51,12 @@ public static class ServiceCollectionsExtension
         services.AddScoped<INotifyBetCompleted, NotifyBetCompleted>();
         services.AddSingleton<EventNotificationFactory>();
         services.AddSingleton<IOutbox, InMemoryOutboxAccessor>();
-        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
-        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(UnitOfWorkBehavior<,>));
+        services.AddSingleton(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
+        services.AddSingleton(typeof(IPipelineBehavior<,>), typeof(UnitOfWorkBehavior<,>));
         services.AddMediatR(x =>
         {
-            x.RegisterServicesFromAssembly(typeof(Application.Application).Assembly);
+            x.RegisterServicesFromAssemblies(typeof(Application.Application).Assembly, typeof(BetModule).Assembly);
         });
-        return services;
+        BetCompositionRoot.SetProvider(services.BuildServiceProvider());
     }
 }
