@@ -2,7 +2,4 @@
 
 namespace BetFriends.Users.Infrastructure.IntegrationEvents;
 
-public record UserRegisteredIntegrationEvent(Guid UserId, string Username, string Email) : IIntegrationEvent
-{
-    public string Name => nameof(UserRegisteredIntegrationEvent).ToLower();
-}
+public record UserRegisteredIntegrationEvent(Guid UserId, string Username, string Email) : IIntegrationEvent;

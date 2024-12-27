@@ -8,10 +8,17 @@ using BetFriends.Bets.Application.Features.AnswerBet;
 using BetFriends.Bets.Application.Features.CompleteBet;
 using BetFriends.Bets.Application.Features.CreateBet;
 using BetFriends.Bets.Infrastructure;
+using BetFriends.Bets.Infrastructure.IntegrationEvents;
 using BetFriends.Bets.Infrastructure.Outboxes;
+using BetFriends.Shared.Application.Abstractions;
+using BetFriends.Shared.Infrastructure;
+using BetFriends.Shared.Infrastructure.BackgroundTaskQueue;
+using BetFriends.Shared.Infrastructure.EventBus;
 using BetFriends.Users.Application.Abstractions;
 using BetFriends.Users.Infrastructure;
+using BetFriends.Users.Infrastructure.IntegrationEvents;
 using BetFriends.Users.Infrastructure.Outboxes;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,8 +38,16 @@ builder.Services.AddScoped<CompleteBetPresenter>();
 builder.Services.AddScoped<ICompleteBetOutputPort>(x => x.GetRequiredService<CompleteBetPresenter>());
 builder.Services.AddScoped<RegisterPresenter>();
 builder.Services.AddScoped<IUserContext, HttpUserContext>();
+builder.Services.AddSingleton<IDateProvider, DateTimeProvider>();
+builder.Services.AddSingleton<BetFriends.Bets.Infrastructure.IntegrationEvents.BackgroundTaskQueue>();
+builder.Services.AddSingleton<BetFriends.Users.Infrastructure.IntegrationEvents.BackgroundTaskQueue>();
+builder.Services.AddSingleton<IBackgroundTaskQueue>(x => x.GetRequiredService<BetFriends.Bets.Infrastructure.IntegrationEvents.BackgroundTaskQueue>());
+builder.Services.AddSingleton<IBackgroundTaskQueue>(x => x.GetRequiredService<BetFriends.Users.Infrastructure.IntegrationEvents.BackgroundTaskQueue>());
+builder.Services.AddSingleton<IEventBus, InMemoryEventBus>();
 builder.Services.AddHostedService<ProcessUsersOutboxBackgroundService>();
-//builder.Services.AddHostedService<ProcessBetsOutboxBackgroundService>();
+builder.Services.AddHostedService<ProcessBetsOutboxBackgroundService>();
+builder.Services.AddHostedService<UserIntegrationEventsBackgroundService>();
+builder.Services.AddHostedService<BetIntegrationEventsBackgroundService>();
 builder.Services.AddCors();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -42,9 +57,9 @@ builder.Services.AddSingleton<IUserModule, UserModule>();
 builder.Services.AddSingleton<IBetModule, BetModule>();
 var app = builder.Build();
 
-
-UserStartup.Init(app.Logger);
-BetStartup.Init(app.Logger);
+var eventBus = app.Services.GetRequiredService<IEventBus>();
+UserStartup.Init(app.Logger, eventBus);
+BetStartup.Init(app.Logger, eventBus);
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

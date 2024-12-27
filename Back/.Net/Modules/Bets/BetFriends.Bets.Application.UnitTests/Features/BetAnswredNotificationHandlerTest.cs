@@ -1,9 +1,7 @@
 ﻿using BetFriends.Bets.Application.Features.AnswerBet;
-using BetFriends.Bets.Application.Features.CreateBet;
 using BetFriends.Bets.Application.UnitTests.Implems;
 using BetFriends.Bets.Domain.Bets;
 using BetFriends.Bets.Domain.Members;
-using BetFriends.Bets.Domain.Members.Exceptions;
 using BetFriends.Bets.Domain.Members.Services;
 
 namespace BetFriends.Bets.Application.UnitTests.Features;
@@ -27,7 +25,7 @@ public class BetAnswredNotificationHandlerTest
         var command = new BetAnsweredNotification(new(betId), new(memberId), true);
         var handler = new BetAnsweredNotificationHandler(new DecreaseCoinsMember(repository), betRepository);
         await handler.Handle(command, default!);
-        Assert.Equal(2500, member.Coins);
+        Assert.Equal(new MemberState(memberId, "username", 2500, 3), member.State);
     }
 
     [Fact]
@@ -47,7 +45,7 @@ public class BetAnswredNotificationHandlerTest
         var command = new BetAnsweredNotification(new(betId), new(memberId), false);
         var handler = new BetAnsweredNotificationHandler(new DecreaseCoinsMember(repository), betRepository);
         await handler.Handle(command, default!);
-        Assert.Equal(3000, member.Coins);
+        Assert.Equal(new MemberState(memberId, "username", 3000, 3), member.State);
     }
 
     [Fact]
@@ -61,6 +59,6 @@ public class BetAnswredNotificationHandlerTest
         var command = new BetAnsweredNotification(new(betId), new(memberId), true);
         var handler = new BetAnsweredNotificationHandler(new DecreaseCoinsMember(repository), betRepository);
         await handler.Handle(command, default!);
-        Assert.Equal(3000, member.Coins);
+        Assert.Equal(new MemberState(memberId, "username", 3000, 3), member.State);
     }
 }

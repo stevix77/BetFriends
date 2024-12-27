@@ -24,7 +24,7 @@ internal class FakeRetrieveBetsDataAccess(FakeBetRepository fakeBetRepository,
                                                                          x.EndDate,
                                                                          x.Coins,
                                                                          owner!.MemberId.Value,
-                                                                         owner!.Username,
+                                                                         owner!.State.Username,
                                                                          x.MaxAnswerDate.Value,
                                                                          gamblers.Select(y =>
                                                                          {
@@ -32,7 +32,7 @@ internal class FakeRetrieveBetsDataAccess(FakeBetRepository fakeBetRepository,
                                                                                             .Answers
                                                                                             .FirstOrDefault(a => a.BetId == x.BetId &&
                                                                                                                 a.MemberId == y.MemberId);
-                                                                             return new GamblerDto(y.MemberId.Value, y.Username, answer?.Answer);
+                                                                             return new GamblerDto(y.MemberId.Value, y.State.Username, answer?.Answer);
                                                                          }));
                                      });
         return Task.FromResult(bets);

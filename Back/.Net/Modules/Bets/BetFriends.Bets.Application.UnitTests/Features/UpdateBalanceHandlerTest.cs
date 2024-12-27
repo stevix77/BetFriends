@@ -26,7 +26,7 @@ public class UpdateBalanceHandlerTest
             ]);
         var handler = new UpdateBalanceNotificationHandler(betRepository, memberRepository, answersRepository);
         await handler.Handle(notification, default!);
-        Assert.Equal(1200, memberRepository.Member.Coins);
+        Assert.Equal(new MemberState(memberId.Value, "username", 1200, 5), memberRepository.Member.State);
     }
 
     [Fact]
@@ -40,7 +40,7 @@ public class UpdateBalanceHandlerTest
         var answersRepository = new StubAnswerBetRepository([]);
         var handler = new UpdateBalanceNotificationHandler(betRepository, memberRepository, answersRepository);
         await handler.Handle(notification, default!);
-        Assert.Equal(1000, memberRepository.Member.Coins);
+        Assert.Equal(new MemberState(memberId.Value, "username", 1000, 5), memberRepository.Member.State);
     }
 
     [Fact]
@@ -60,6 +60,6 @@ public class UpdateBalanceHandlerTest
             ]);
         var handler = new UpdateBalanceNotificationHandler(betRepository, memberRepository, answersRepository);
         await handler.Handle(notification, default!);
-        Assert.Equal(1100, memberRepository.Member.Coins);
+        Assert.Equal(new MemberState(memberId.Value, "username", 1100, 5), memberRepository.Member.State);
     }
 }

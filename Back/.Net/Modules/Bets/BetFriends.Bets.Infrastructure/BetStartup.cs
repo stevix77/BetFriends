@@ -26,10 +26,11 @@ namespace BetFriends.Bets.Infrastructure;
 
 public static class BetStartup
 {
-    public static void Init(ILogger logger)
+    public static void Init(ILogger logger, Shared.Infrastructure.EventBus.IEventBus eventBus)
     {
         var services = new ServiceCollection();
         services.AddScoped(x => logger);
+        services.AddScoped(x => eventBus);
         services.AddSingleton<IMemberRepository, FakeMemberRepository>();
         services.AddSingleton<IFriendshipRepository, FakeFriendshipRepository>();
         services.AddSingleton<IBetRepository, FakeBetRepository>();

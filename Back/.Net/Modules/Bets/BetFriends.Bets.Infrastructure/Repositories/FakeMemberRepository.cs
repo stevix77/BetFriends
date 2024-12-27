@@ -39,4 +39,9 @@ internal class FakeMemberRepository : IMemberRepository
     {
         return Task.CompletedTask;
     }
+
+    public Task<bool> IsMemberExistAsync(MemberId memberId)
+    {
+        return Task.FromResult(members.Any(m => m.MemberId == memberId));
+    }
 }

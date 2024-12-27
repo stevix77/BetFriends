@@ -24,10 +24,11 @@ namespace BetFriends.Users.Infrastructure;
 
 public static class UserStartup
 {
-    public static void Init(ILogger logger)
+    public static void Init(ILogger logger, Shared.Infrastructure.EventBus.IEventBus eventBus)
     {
         var services = new ServiceCollection();
         services.AddScoped(x => logger);
+        services.AddScoped(x => eventBus);
         services.AddScoped<IAuthenticationGateway>(x => new FakeAuthenticationGateway((x.GetRequiredService<IUserRepository>()! as InMemoryUserRepository)!));
         services.AddScoped<IHashPassword, FakeHashPassword>();
         services.AddSingleton<IDateProvider, DateTimeProvider>();

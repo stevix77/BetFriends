@@ -1,23 +1,22 @@
-﻿using BetFriends.Shared.Domain;
-using BetFriends.Shared.Infrastructure.BackgroundTaskQueue;
-using BetFriends.Shared.Infrastructure.Inboxes;
-using BetFriends.Shared.Infrastructure.IntegrationsEvents.Abstractions;
+﻿using BetFriends.Shared.Infrastructure.Inboxes;
 using BetFriends.Users.Application.Abstractions;
-using BetFriends.Users.Infrastructure.Notifications;
+using BetFriends.Users.Application.Features.Register;
 using MediatR;
 using Microsoft.Extensions.Hosting;
 using System.Text.Json.Nodes;
 
 namespace BetFriends.Users.Infrastructure.IntegrationEvents;
 
-internal class UserIntegrationEventsBackgroundService(IBackgroundTaskQueue backgroundTaskQueue, IUserModule userModule) : BackgroundService
+public class UserIntegrationEventsBackgroundService(BackgroundTaskQueue backgroundTaskQueue, IUserModule userModule) : BackgroundService
 {
+    private readonly BackgroundTaskQueue backgroundTaskQueue = backgroundTaskQueue;
+
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         while (!stoppingToken.IsCancellationRequested)
         {
-			try
-			{
+            try
+            {
                 var inbox = await backgroundTaskQueue.DequeueAsync(stoppingToken);
                 if (inbox != null)
                 {
@@ -25,20 +24,20 @@ internal class UserIntegrationEventsBackgroundService(IBackgroundTaskQueue backg
                     await userModule.ExecuteNotificationAsync(notification);
                 }
             }
-			catch (Exception)
-			{
+            catch (Exception)
+            {
 
-			}
+            }
         }
     }
 
     private static INotification BuildNotification(Inbox inbox)
     {
-        switch(inbox.Type)
+        switch (inbox.Type)
         {
             case "userregisteredintegrationevent":
                 var data = JsonNode.Parse(inbox.Data);
-                return new UserRegisteredNotificationEvent(data["UserId"].GetValue<Guid>(),
+                return new UserRegisteredNotification(data["UserId"].GetValue<Guid>(),
                                                             data["Username"].GetValue<string>(),
                                                             data["Email"].GetValue<string>());
             default:

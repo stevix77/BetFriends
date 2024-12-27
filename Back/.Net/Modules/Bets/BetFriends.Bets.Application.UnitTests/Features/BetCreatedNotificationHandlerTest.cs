@@ -16,7 +16,7 @@ public class BetCreatedNotificationHandlerTest
         var command = new BetCreatedNotification(default!, new(memberId), 300);
         var handler = new BetCreatedNotificationHandler(new Domain.Members.Services.DecreaseCoinsMember(repository));
         await handler.Handle(command, default!);
-        Assert.Equal(2700, member.Coins);
+        Assert.Equal(new MemberState(memberId, "username", 2700, 3), member.State);
     }
 
     [Fact]
