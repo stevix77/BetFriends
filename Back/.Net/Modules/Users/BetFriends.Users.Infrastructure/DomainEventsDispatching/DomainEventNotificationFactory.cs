@@ -9,6 +9,7 @@ internal class DomainEventNotificationFactory
     {
         return domainEvent switch
         {
+
             _ => null!,
         };
     }

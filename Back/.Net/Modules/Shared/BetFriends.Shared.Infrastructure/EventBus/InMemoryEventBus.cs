@@ -9,10 +9,10 @@ namespace BetFriends.Shared.Infrastructure.EventBus;
 public class InMemoryEventBus(IEnumerable<IBackgroundTaskQueue> backgroundTaskQueues,
                                 IDateProvider dateProvider) : IEventBus
 {
-    public Task PublishAsync(IIntegrationEvent integrationEvent)
+    public async Task PublishAsync(IIntegrationEvent integrationEvent)
     {
-        var inbox = new Inbox(Guid.NewGuid(), dateProvider.GetDate(), integrationEvent.GetType().Name.ToLower(), JsonSerializer.Serialize(integrationEvent));
-        return Task.WhenAll(backgroundTaskQueues.Select(x => x.EnqueueAsync(inbox)));
+        var inbox = new Inbox(Guid.NewGuid(), dateProvider.GetDate(), integrationEvent.GetType().Name.ToLower(), JsonSerializer.Serialize(integrationEvent, integrationEvent.GetType()));
+        await Task.WhenAll(backgroundTaskQueues.Select(async x => await x.EnqueueAsync(inbox)));
     }
 
 }

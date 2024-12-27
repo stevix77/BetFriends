@@ -20,10 +20,23 @@ public class Member : Entity
         this.countFriends = countFriends;
     }
 
-    public MemberId MemberId { get => memberId; }
-    public int Coins { get => coins; }
+    private Member(MemberId memberId, string username, int coins)
+    {
+        this.memberId = memberId;
+        this.username = username;
+        this.coins = coins;
+    }
 
-    public string Username { get => username; }
+    private Member(MemberState memberState)
+    {
+        memberId = new MemberId(memberState.MemberId);
+        username = memberState.Username;
+        coins = memberState.Coins;
+        countFriends = memberState.CountFriends;
+    }
+
+    public MemberId MemberId { get => memberId; }
+    public MemberState State { get => new(memberId.Value, username, coins, countFriends); }
 
     public Friendship AddFriendship(Guid requesterId)
     {
@@ -32,20 +45,20 @@ public class Member : Entity
 
     public Bet Bet(BetId betId,
                    string description,
-                   int chips,
+                   int coins,
                    DateTime endDate,
                    IEnumerable<Guid> friends,
                    DateTime creationDate)
     {
-        if (this.coins < chips)
-            throw new CannotBetException(CannotBetException.ChipsNotEnough);
+        if (this.coins < coins)
+            throw new CannotBetException(CannotBetException.CoinsNotEnough);
 
         if (!HasFriend())
             throw new CannotBetException(CannotBetException.NoneFriends);
         return Bets.Bet.Create(betId,
                                memberId,
                                description,
-                               chips,
+                               coins,
                                endDate,
                                friends,
                                creationDate);
@@ -62,8 +75,18 @@ public class Member : Entity
     }
 
     internal bool CanBet(int coins)
-        => Coins >= coins;
+        => this.coins >= coins;
 
     public void IncreaseBalance(int coins)
         => this.coins += coins;
+
+    public static Member Create(MemberId memberId, string username)
+    {
+        return new Member(memberId, username, 2000);
+    }
+
+    public static Member FromState(MemberState memberState)
+    {
+        return new Member(memberState);
+    }
 }

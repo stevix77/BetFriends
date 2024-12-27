@@ -1,5 +1,4 @@
 ﻿using BetFriends.Users.Application.Abstractions;
-using BetFriends.Users.Infrastructure.Outboxes;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -17,7 +16,7 @@ public class ProcessUsersOutboxBackgroundService(IUserModule userModule,
         {
             try
             {
-                await Task.Delay(15000, stoppingToken);
+                await Task.Delay(5000, stoppingToken);
                 await userModule.ExecuteAsync(new ProcessOutboxCommand());
             }
             catch (Exception ex)

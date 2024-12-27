@@ -1,5 +1,5 @@
 ﻿using BetFriends.Bets.Application.Abstractions;
-using BetFriends.Shared.Infrastructure.BackgroundTaskQueue;
+using BetFriends.Bets.Application.Features.UserRegistered;
 using BetFriends.Shared.Infrastructure.Inboxes;
 using MediatR;
 using Microsoft.Extensions.Hosting;
@@ -7,9 +7,9 @@ using System.Text.Json.Nodes;
 
 namespace BetFriends.Bets.Infrastructure.IntegrationEvents;
 
-internal class BetIntegrationEventsBackgroundService(IBackgroundTaskQueue backgroundTaskQueue, IBetModule betModule) : BackgroundService
+public class BetIntegrationEventsBackgroundService(BackgroundTaskQueue backgroundTaskQueue, IBetModule betModule) : BackgroundService
 {
-    private readonly IBackgroundTaskQueue backgroundTaskQueue = backgroundTaskQueue;
+    private readonly BackgroundTaskQueue backgroundTaskQueue = backgroundTaskQueue;
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
@@ -35,11 +35,11 @@ internal class BetIntegrationEventsBackgroundService(IBackgroundTaskQueue backgr
     {
         switch (inbox.Type)
         {
-            //case "userregisteredintegrationevent":
-            //    var data = JsonNode.Parse(inbox.Data);
-            //    return new UserRegisteredNotificationEvent(data["UserId"].GetValue<Guid>(),
-            //                                                data["Username"].GetValue<string>(),
-            //                                                data["Email"].GetValue<string>());
+            case "userregisteredintegrationevent":
+                var data = JsonNode.Parse(inbox.Data);
+                return new UserRegisteredNotification(data["UserId"].GetValue<Guid>(),
+                                                            data["Username"].GetValue<string>(),
+                                                            data["Email"].GetValue<string>());
             default:
                 return null!;
         }

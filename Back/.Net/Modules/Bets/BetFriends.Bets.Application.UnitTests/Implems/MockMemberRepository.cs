@@ -2,35 +2,33 @@
 
 namespace BetFriends.Bets.Application.UnitTests.Implems;
 
-internal class StubMemberRepository(Member member) : IMemberRepository
+internal class MockMemberRepository(Member member = null!) : IMemberRepository
 {
-    private readonly Member member = member;
+    internal Member Member { get; private set; } = member;
 
-    internal Member Member { get => member; }
     public Task<Member> GetByIdAsync(MemberId memberId)
-    {
-        if(member?.MemberId == memberId)
-            return Task.FromResult(member);
-        return Task.FromResult<Member>(default!);
-    }
-
-    public Task<IEnumerable<Member>> GetByIdsAsync(IEnumerable<Guid> guests)
-    {
-        return Task.FromResult<IEnumerable<Member>>([member]);
-    }
-
-    public Task<bool> IsMemberExistAsync(MemberId memberId)
     {
         throw new NotImplementedException();
     }
 
+    public Task<IEnumerable<Member>> GetByIdsAsync(IEnumerable<Guid> guests)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<bool> IsMemberExistAsync(MemberId memberId)
+    {
+        return Task.FromResult(Member?.State.MemberId == memberId.Value);
+    }
+
     public Task SaveAsync(Member member)
     {
+        Member = member;
         return Task.CompletedTask;
     }
 
     public Task SaveAsync(IEnumerable<Member> gamblers)
     {
-        return Task.CompletedTask;
+        throw new NotImplementedException();
     }
 }

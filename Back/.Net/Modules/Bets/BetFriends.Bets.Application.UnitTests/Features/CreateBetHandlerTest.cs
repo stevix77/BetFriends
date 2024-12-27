@@ -50,7 +50,7 @@ public class CreateBetHandlerTest
                                                 new DateTime(2024, 4, 23),
                                                 [Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa")]))
                 .WhenExecuteCommand())
-                .ShouldNotCreateBet(typeof(CannotBetException), CannotBetException.ChipsNotEnough);
+                .ShouldNotCreateBet(typeof(CannotBetException), CannotBetException.CoinsNotEnough);
     }
 
     [Fact]

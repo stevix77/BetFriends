@@ -22,12 +22,10 @@ internal class DomainEventDispatcher(DomainEventsAccessor domainEventsAccessor,
         {
             var notification = domainEventNotificationFactory.Create(item);
             if (notification != null)
-            {
                 domainEventTasks.Add(mediator.Publish(notification));
 
-                var outbox = new Outbox(item.GetType().Name, JsonSerializer.Serialize(item, item.GetType()), dateProvider.GetDate());
-                outboxes.Add(outbox);
-            }
+            var outbox = new Outbox(item.GetType().Name, JsonSerializer.Serialize(item, item.GetType()), dateProvider.GetDate());
+            outboxes.Add(outbox);
         }
 
         domainEventsAccessor.ClearDomainEvents();
