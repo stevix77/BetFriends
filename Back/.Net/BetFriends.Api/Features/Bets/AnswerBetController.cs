@@ -1,6 +1,7 @@
 ﻿using BetFriends.Bets.Application.Abstractions;
 using BetFriends.Bets.Application.Features.AnswerBet;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace BetFriends.Api.Features.Bets;
 
@@ -15,6 +16,7 @@ public class AnswerBetController : Controller
         this.answerBetPresenter = answerBetPresenter;
     }
 
+    [SwaggerOperation(Tags = new[] { "Bets" })]
     [HttpPost("bets/{betId:guid}/answer")]
     public async Task<IActionResult> Create([FromBody] AnswerBetInput answerBetInput, Guid betId)
     {

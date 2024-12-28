@@ -2,6 +2,7 @@
 using BetFriends.Bets.Application.Features.CompleteBet;
 using BetFriends.Bets.Domain.Bets.Exceptions;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace BetFriends.Api.Features.Bets;
 
@@ -20,6 +21,7 @@ public class CompleteBetController : Controller
         this.logger = logger;
     }
 
+    [SwaggerOperation(Tags = new[] { "Bets" })]
     [HttpPost("bets/{betId:guid}/complete")]
     public async Task<IActionResult> Complete([FromBody] CompleteBetInput completeBetInput, Guid betId)
     {

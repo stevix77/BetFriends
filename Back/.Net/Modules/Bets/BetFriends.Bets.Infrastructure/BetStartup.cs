@@ -21,6 +21,7 @@ using BetFriends.Shared.Infrastructure;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using BetFriends.Bets.Application.Features.MemberInfo;
 
 namespace BetFriends.Bets.Infrastructure;
 
@@ -35,6 +36,12 @@ public static class BetStartup
         services.AddSingleton<IFriendshipRepository, FakeFriendshipRepository>();
         services.AddSingleton<IBetRepository, FakeBetRepository>();
         services.AddSingleton<IAnswerBetRepository, FakeAnswerBetRepository>();
+        services.AddSingleton<IGetMemberInfoDataAccess>(x =>
+        {
+            return new FakeGetMemberInfoDataAccess(
+                (x.GetRequiredService<IMemberRepository>()! as FakeMemberRepository)!
+            );
+        });
         services.AddSingleton<IRetrieveBetsDataAccess>(x =>
         {
             return new FakeRetrieveBetsDataAccess((x.GetRequiredService<IBetRepository>()! as FakeBetRepository)!,

@@ -2,6 +2,7 @@
 using BetFriends.Bets.Application.Features.CreateBet;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace BetFriends.Api.Features.Bets;
 
@@ -16,6 +17,7 @@ public class CreateBetController : Controller
         this.createBetPresenter = createBetPresenter;
     }
 
+    [SwaggerOperation(Tags = new[] { "Bets" })]
     [HttpPost("bets")]
     public async Task<IActionResult> Create([FromBody] CreateBetInput createBetInput)
     {

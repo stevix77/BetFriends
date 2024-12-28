@@ -1,7 +1,7 @@
 ﻿using BetFriends.Users.Application.Abstractions;
 using BetFriends.Users.Application.Features.Register;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace BetFriends.Api.Features.Users;
 
@@ -10,6 +10,7 @@ public class UserRegisterController(IUserModule userModule,
 {
     private readonly IUserModule userModule = userModule;
 
+    [SwaggerOperation(Tags = new[] { "Users" })]
     [HttpPost("users")]
     public async Task<IActionResult> RegisterAsync([FromBody] RegisterInput registerInput)
     {
