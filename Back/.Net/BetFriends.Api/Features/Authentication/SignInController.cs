@@ -1,6 +1,7 @@
 ﻿using BetFriends.Users.Application.Abstractions;
 using BetFriends.Users.Application.Features.SignIn;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace BetFriends.Api.Features.Authentication;
 
@@ -9,6 +10,7 @@ public class SignInController(IUserModule userModule) : Controller
 {
     private readonly IUserModule userModule = userModule;
 
+    [SwaggerOperation(Tags = new[] { "Authentication" })]
     [HttpPost]
     public async Task<IActionResult> SignInAsync(SignInRequest signInRequest)
     {
