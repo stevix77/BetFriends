@@ -1,10 +1,9 @@
-import { IQueryHandler } from "@nestjs/cqrs";
 import { IAuthenticationGateway } from "../../abstractions/IAuthenticationGateway";
 import { IHashPassword } from "../../abstractions/IHashPassword";
 import { SignInRequest } from "./SignInQuery"
 
 // @QueryHandler(SignInRequest)
-export class SignInHandler implements IQueryHandler<SignInRequest, Authenticate> {
+export class SignInHandler  {
     constructor(private readonly authenticationGateway: IAuthenticationGateway,
                 private readonly hashPassword: IHashPassword
     ){}

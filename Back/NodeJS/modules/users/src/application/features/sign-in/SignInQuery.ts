@@ -1,6 +1,5 @@
-import { IQuery } from "@nestjs/cqrs";
 
-export class SignInRequest implements IQuery {
+export class SignInRequest {
     constructor(public readonly Email: string, public readonly  Password: string){}
     
 }

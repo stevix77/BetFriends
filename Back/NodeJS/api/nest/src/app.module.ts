@@ -45,7 +45,6 @@ import { NotifyGamblersBetCompletedHandler } from '../../../modules/bets/src/app
 import { INotificationFactory, NotificationFactory } from '../../../modules/bets/src/infrastructure/factories/NotificationFactory';
 import { NotifyRequestersHandler } from '../../../modules/bets/src/application/features/create-bet/NotifyRequestersHandler';
 import { UserModule } from './user/user.module';
-import { CqrsModule } from '@nestjs/cqrs';
 
 @Module({
   imports: [EventEmitterModule.forRoot(), ScheduleModule.forRoot(), FriendModule, BetsModule, UserModule],

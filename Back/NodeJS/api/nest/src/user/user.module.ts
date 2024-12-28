@@ -7,11 +7,10 @@ import { FakeHashPassword } from "../../../../modules/users/src/infrastructure/F
 import { IAuthenticationGateway } from "../../../../modules/users/src/application/abstractions/IAuthenticationGateway";
 import { IHashPassword } from "../../../../modules/users/src/application/abstractions/IHashPassword";
 import { RegisterHandler } from "../../../../modules/users/src/application/features/register/RegisterHandler"
-import { CqrsModule } from "@nestjs/cqrs";
-
+import { RegisterController } from "./features/register.controller";
 @Module({
-    controllers: [SignInController],
-    imports: [forwardRef(() => AppModule), CqrsModule],
+    controllers: [SignInController, RegisterController],
+    imports: [forwardRef(() => AppModule)],
     providers: [
         {
             provide: 'IAuthenticationGateway',
@@ -27,6 +26,10 @@ import { CqrsModule } from "@nestjs/cqrs";
                         hashPassword: IHashPassword
             ) => new SignInHandler(authenticationGateway, hashPassword),
             inject: ['IAuthenticationGateway', 'IHashPassword']
+        },
+        {
+            provide: RegisterHandler,
+            useFactory: () => new RegisterHandler()
         }
     ]
 })
