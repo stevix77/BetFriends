@@ -3,6 +3,12 @@ import { IBetModule } from '../../../../../../modules/bets/src/application/Abstr
 import { FastifyReply } from 'fastify';
 import { AnswerBetCommand } from '../../../../../../modules/bets/src/application/features/answer-bet/AnswerBetHandler'
 import { AnswerBetPresenter } from "./AnswerBetPresenter";
+import { ApiProperty } from "@nestjs/swagger";
+
+export class AnswerBetInput {
+    @ApiProperty()  
+    Answer: boolean
+}
 
 @Controller('bets')
 export class AnswerBetController {
@@ -14,8 +20,4 @@ export class AnswerBetController {
         await this.betModule.ExecuteCommand(new AnswerBetCommand(betId, answerBetInput.Answer))
         return this.presenter.BuildResponse(res);
     }
-}
-
-export interface AnswerBetInput {
-    Answer: boolean
 }

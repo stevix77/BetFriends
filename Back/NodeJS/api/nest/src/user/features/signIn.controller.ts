@@ -2,6 +2,15 @@ import { Body, Controller, Inject, Post, Res } from "@nestjs/common";
 import { SignInRequest } from "../../../../../modules/users/src/application/features/sign-in/SignInQuery"
 import { SignInHandler } from "../../../../../modules/users/src/application/features/sign-in/SignInHandler";
 import { FastifyReply } from "fastify";
+import { ApiProperty } from "@nestjs/swagger";
+
+
+export class AuthRequest {
+  @ApiProperty()
+    email: string;
+    @ApiProperty()
+    password: string;
+}
 
 @Controller('signin')
 export class SignInController {
@@ -15,9 +24,4 @@ export class SignInController {
     }
     return res.code(200).send(authentication)
   }
-}
-
-export interface AuthRequest {
-    email: string;
-    password: string;
 }
