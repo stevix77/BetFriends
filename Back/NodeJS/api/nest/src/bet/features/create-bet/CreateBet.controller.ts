@@ -3,19 +3,25 @@ import { IBetModule } from '../../../../../../modules/bets/src/application/Abstr
 import { FastifyReply } from 'fastify';
 import { CreateBetCommand } from '../../../../../../modules/bets/src/application/features/create-bet/CreateBetHandler';
 import { CreateBetPresenter } from "./CreateBetPresenter";
+import { ApiProperty } from "@nestjs/swagger";
 
 export class CreateBetInput {
+    @ApiProperty()  
     description: string;
+    @ApiProperty()  
     coins: number;
+    @ApiProperty()  
     members: Array<string>;
+    @ApiProperty()  
     betId: string;
+    @ApiProperty()  
     endDate: string;
 }
 
 @Controller('bets')
 export class CreateBetController {
-    constructor(@Inject('IBetModule') private betModule: IBetModule,
-                private presenter: CreateBetPresenter) {}
+    constructor(@Inject('IBetModule') private readonly betModule: IBetModule,
+                private readonly presenter: CreateBetPresenter) {}
 
     @Post()
     async Create(@Body() createBetInput: CreateBetInput, @Res() res: FastifyReply) {

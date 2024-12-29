@@ -31,13 +31,13 @@ public sealed class RegisterCommandHandler : ICommandHandler<RegisterCommand>
             request.outputPort.UserAlreadyExist();
             return;
         }
-
-        var user = User.Create(idGenerator.Generate(),
+        var userId = idGenerator.Generate();
+        var user = User.Create(userId,
                                request.Username,
                                request.Email,
                                passwordHasher.Hash(request.Password),
                                tokenGenerator);
         await repository.SaveAsync(user);
-        request.outputPort.Present(new RegisterResponse(idGenerator.Generate()));
+        request.outputPort.Present(new RegisterResponse(userId));
     }
 }
