@@ -8,7 +8,8 @@ import { FakeHashPassword } from "../../../../modules/users/src/infrastructure/F
 import { IAuthenticationGateway } from "../../../../modules/users/src/application/abstractions/IAuthenticationGateway";
 import { IHashPassword } from "../../../../modules/users/src/application/abstractions/IHashPassword";
 import { RegisterHandler } from "../../../../modules/users/src/application/features/register/RegisterHandler"
-import { RegisterController, RegisterPresenter } from "./features/register.controller";
+import { RegisterController } from "./features/register/register.controller";
+import { RegisterPresenter } from "./features/register/registerPresenter";
 const userRepository = new FakeUserRepository()
 const registerPresenter = new RegisterPresenter()
 @Module({
@@ -31,8 +32,13 @@ const registerPresenter = new RegisterPresenter()
             inject: ['IAuthenticationGateway', 'IHashPassword']
         },
         {
+            provide: RegisterPresenter,
+            useValue: registerPresenter
+        },
+        {
             provide: RegisterHandler,
-            useFactory: (hashPassword: IHashPassword) => new RegisterHandler(registerPresenter, userRepository, hashPassword),
+            useFactory: (hashPassword: IHashPassword) => 
+                new RegisterHandler(registerPresenter, userRepository, hashPassword),
             inject: ['IHashPassword']
         }
     ]
