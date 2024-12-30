@@ -3,11 +3,25 @@ import { User } from "../../domain/users/User";
 
 
 export class FakeUserRepository implements IUserRepository {
-    IsExists(): Promise<boolean> {
-        throw new Error("Method not implemented.");
+    
+    private readonly users: User[] = [];
+    
+    IsExists(email: string, userId: string, username: string): Promise<boolean> {
+        if(this.users.some(x => {
+            const snapshot = x.GetSnapshot();
+            return snapshot.UserId == userId ||
+                    snapshot.Username == username ||
+                    snapshot.Email == email
+        })) {
+            return Promise.resolve(true);
+        }
+
+        return Promise.resolve(false);
     }
+    
     Save(user: User): Promise<void> {
-        throw new Error("Method not implemented.");
+        this.users.push(user);
+        return Promise.resolve();
     }
 
 }
