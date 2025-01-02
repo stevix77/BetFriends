@@ -1,11 +1,20 @@
 import { IAuthenticationGateway } from "../application/abstractions/IAuthenticationGateway"
 import { Authenticate } from "../application/features/sign-in/signInHandler";
+import { FakeUserRepository } from "./repositories/FakeUserRepository";
+import { ITokenGenerator } from "../application/abstractions/ITokenGenerator";
 
 export class FakeAuthenticationGateway implements IAuthenticationGateway {
+    constructor(private readonly userRepository: FakeUserRepository,
+                private readonly tokenGenerator: ITokenGenerator
+    ) {}
     Authenticate(email: string, password: string): Promise<Authenticate> {
-        if(email == "email@email.fr" && password == "hashedpassword") {
+        const user = this.userRepository.GetUsers().find(user => {
+            const snapshot = user.GetSnapshot();
+            return snapshot.Email == email && snapshot.Password == password;
+        });
+        if(user) {
             return Promise.resolve({
-                AccessToken: "accesstoken",
+                AccessToken: this.tokenGenerator.Generate(user),
                 RefreshToken: "refreshtoken"
             });
         }

@@ -19,7 +19,7 @@ export class LoggingBehavior implements Behavior {
         console.log(new Date() + " " + str);
         
         if(this.Behavior) {
-            const response = await this.Behavior.Execute<T>(request);
+            const response = await this.Behavior.Execute(request);
             console.log(new Date() + `request executed ${request.Name}`);
             return response;
         }

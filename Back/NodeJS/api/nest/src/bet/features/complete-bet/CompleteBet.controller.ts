@@ -4,16 +4,19 @@ import { CompleteBetInput } from "./CompleteBetInput";
 import { FastifyReply } from 'fastify';
 import { CompleteBetPresenter } from "./CompleteBetPresenter";
 import { CompleteBetCommand } from "../../../../../../modules/bets/src/application/features/complete-bet/CompleteBetHandler";
+import { FakeUserContext } from "src/userContext/FakeUserContext";
 
 @Controller('bets')
 export class CompleteBetController {
     constructor(@Inject('IBetModule') private betModule: IBetModule,
-                private presenter: CompleteBetPresenter) {}
+                private presenter: CompleteBetPresenter,
+            @Inject('IUserContext') private userContext: FakeUserContext) {}
 
     @Post(':betId/complete')
     async Complete(@Body() input: CompleteBetInput, @Param('betId') betId: string, @Res() res: FastifyReply) {
+        this.userContext.SetRequest(res.getHeaders())
         const command = new CompleteBetCommand(betId, input.isSuccessful, input.proof);
-        await this.betModule.ExecuteCommand(command);
+        await this.betModule.Execute(command);
         return this.presenter.BuildResponse(res);
     }
 }

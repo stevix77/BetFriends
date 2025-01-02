@@ -10,6 +10,6 @@ export class BetCompletedListener {
     @OnEvent(BetCompleted.name)
     async Handle(event: BetCompleted) {
         const notification = new BetCompletedNotification(event.BetId.Value, event.IsSuccessful);
-        await this.betModule.ExecuteNotification(notification);
+        await this.betModule.Execute(notification);
     }
 }
