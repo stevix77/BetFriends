@@ -18,7 +18,7 @@ export class UnitOfWorkBehavior implements Behavior {
         try {
             if(this.Behavior) {
                 await this.unitOfWork.Begin();
-                const result = await this.Behavior.Execute<T>(request);
+                const result = await this.Behavior.Execute(request);
                 await this.domainEventsDispatcher.Dispatch();
                 await this.unitOfWork.Commit();
                 return result;

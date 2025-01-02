@@ -1,2 +1,2 @@
 import { IRequest } from './IRequest';
-export interface ICommand extends IRequest<void> {}
+export abstract class ICommand extends IRequest<void> {}

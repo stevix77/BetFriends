@@ -1,5 +1,3 @@
 import { IRequest } from "./IRequest";
 
-export interface INotification extends IRequest<void> {
-
-}
+export abstract class INotification extends IRequest<void> {}

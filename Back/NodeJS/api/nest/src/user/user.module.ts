@@ -10,36 +10,69 @@ import { IHashPassword } from "../../../../modules/users/src/application/abstrac
 import { RegisterHandler } from "../../../../modules/users/src/application/features/register/RegisterHandler"
 import { RegisterController } from "./features/register/register.controller";
 import { RegisterPresenter } from "./features/register/registerPresenter";
-const userRepository = new FakeUserRepository()
-const registerPresenter = new RegisterPresenter()
+import { UserModule as UserApplicationModule } from "../../../../modules/users/src/infrastructure/UserModule";
+import { LoggingBehavior } from "../../../../modules/shared/infrastructure/behaviors/LoggingBehavior";
+import { UnitOfWorkBehavior } from "../../../../modules/shared/infrastructure/behaviors/UnitOfWorkBehavior";
+import { InMemoryUnitOfWork } from "../../../../modules/shared/infrastructure/uow/InMemoryUnitOfWork";
+import { DomainEventDispatcher } from "../../../../modules/bets/src/infrastructure/events/DomainEventDispatcher";
+import { DomainEventAccessor } from "../../../../modules/shared/infrastructure/events/DomainEventAccessor";
+import { InMemoryOutboxAccessor } from "../../../../modules/users/src/infrastructure/outbox/InMemoryOutboxAccessor";
+import { DateTimeProvider } from "src/DateTimeProvider";
+import { IEventBus } from "../../../../modules/shared/infrastructure/events/IEventBus";
+import { RequestBehavior } from "../../../../modules/shared/infrastructure/behaviors/RequestBehavior";
+import { Mediator } from "../../../../modules/shared/infrastructure/Mediator";
+import { IDateTimeProvider } from "../../../../modules/shared/domain/IDateTimeProvider";
+import { TokenGenerator } from "src/TokenGenerator";
+import { JwtModule } from "@nestjs/jwt";
+import { randomUUID } from "crypto";
+const domainEventAccessor = new DomainEventAccessor();
+const userRepository = new FakeUserRepository(domainEventAccessor)
+const registerPresenter = new RegisterPresenter();
+const outboxAccessor = new InMemoryOutboxAccessor();
+const passwordHasher = new FakeHashPassword();
+
 @Module({
     controllers: [SignInController, RegisterController],
-    imports: [forwardRef(() => AppModule)],
+    imports: [forwardRef(() => AppModule), JwtModule.register({
+        global: true,
+        secret: randomUUID(),
+        signOptions: { expiresIn: '3600s' },
+      })],
     providers: [
         {
-            provide: 'IAuthenticationGateway',
-            useClass: FakeAuthenticationGateway
+            provide: DomainEventDispatcher,
+            useFactory: (eventBus: IEventBus, 
+                        dateTimeProvider: IDateTimeProvider) => 
+                new DomainEventDispatcher(domainEventAccessor, 
+                                        outboxAccessor,
+                                        dateTimeProvider,
+                                        eventBus),
+            inject: ['IEventBus', 'IDateTimeProvider']
         },
         {
-            provide: 'IHashPassword',
-            useClass: FakeHashPassword
-        },
-        {
-            provide: SignInHandler,
-            useFactory: (authenticationGateway: IAuthenticationGateway,
-                        hashPassword: IHashPassword
-            ) => new SignInHandler(authenticationGateway, hashPassword),
-            inject: ['IAuthenticationGateway', 'IHashPassword']
+            provide: TokenGenerator,
+            useClass: TokenGenerator
         },
         {
             provide: RegisterPresenter,
             useValue: registerPresenter
         },
         {
-            provide: RegisterHandler,
-            useFactory: (hashPassword: IHashPassword) => 
-                new RegisterHandler(registerPresenter, userRepository, hashPassword),
-            inject: ['IHashPassword']
+            provide: 'IUserModule',
+            useFactory: (domainEventDispatcher: DomainEventDispatcher,
+                            tokenGenerator: TokenGenerator
+            ) => {
+                const authenticationGateway = new FakeAuthenticationGateway(userRepository, tokenGenerator)
+                const signinHandler = new SignInHandler(authenticationGateway, passwordHasher);
+                const registerHandler = new RegisterHandler(registerPresenter, userRepository, passwordHasher);
+                const mediator = new Mediator([signinHandler, registerHandler], [])
+                const unitOfWorkBehavior = new UnitOfWorkBehavior(new InMemoryUnitOfWork(), domainEventDispatcher)
+                const requestBehavior = new RequestBehavior(mediator)
+                const loggingBehavior = new LoggingBehavior();
+                loggingBehavior.SetNext(unitOfWorkBehavior).SetNext(requestBehavior)
+                return new UserApplicationModule(loggingBehavior);
+            },
+            inject: [DomainEventDispatcher, TokenGenerator]
         }
     ]
 })

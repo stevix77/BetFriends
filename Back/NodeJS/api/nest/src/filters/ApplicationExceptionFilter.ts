@@ -11,7 +11,7 @@ export class ApplicationExceptionFilter implements ExceptionFilter {
         const request = ctx.getRequest<Request>();
         const status = this.GetStatus(exception)
     
-        console.error(exception.stack)
+        console.error(exception)
         response
           .status(status)
           .send({

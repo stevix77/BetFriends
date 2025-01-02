@@ -1,9 +1,8 @@
 import { Body, Controller, Inject, Post, Res } from "@nestjs/common";
 import { SignInRequest } from "../../../../../modules/users/src/application/features/sign-in/SignInQuery"
-import { SignInHandler } from "../../../../../modules/users/src/application/features/sign-in/SignInHandler";
 import { FastifyReply } from "fastify";
 import { ApiProperty } from "@nestjs/swagger";
-
+import { IUserModule } from "../../../../../modules/users/src/application/abstractions/IUserModule";
 
 export class AuthRequest {
   @ApiProperty()
@@ -14,11 +13,11 @@ export class AuthRequest {
 
 @Controller('signin')
 export class SignInController {
-    constructor(@Inject(SignInHandler) private readonly signinHandler: SignInHandler) {}
+    constructor(@Inject('IUserModule') private readonly userModule: IUserModule) {}
 
   @Post()
   async create(@Body() input: AuthRequest, @Res() res: FastifyReply) {
-    const authentication = await this.signinHandler.execute(new SignInRequest(input.email, input.password));
+    const authentication = await this.userModule.Execute(new SignInRequest(input.email, input.password));
     if(authentication == undefined) {
       return res.code(400).send("Erreur d'identification");
     }
