@@ -22,10 +22,12 @@ export class CreateBetInput {
 @Controller('bets')
 export class CreateBetController {
     constructor(@Inject('IBetModule') private readonly betModule: IBetModule,
-                private readonly presenter: CreateBetPresenter) {}
+                private readonly presenter: CreateBetPresenter,
+                @Inject('IUserContext')private userContext: FakeUserContext) {}
 
     @Post()
     async Create(@Body() createBetInput: CreateBetInput, @Res() res: FastifyReply) {
+        this.userContext.SetRequest(res.getHeaders());
         await this.betModule.Execute(new CreateBetCommand(createBetInput.betId,
                                                                 createBetInput.description,
                                                                 createBetInput.coins,
