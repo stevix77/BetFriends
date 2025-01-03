@@ -11,21 +11,21 @@ export class InMemoryRetrieveBetsDataAccess implements IRetrieveBetsDataAccess {
         const bets = this.betRepository.Bets.filter(x => x.BettorId.Value == userId ||
                                                         x.Members.some(y => y == userId))
                                             .map(x => {
-                                                const member = this.memberRepository.GetMembers().find(y => y.MemberId == x.BettorId)
+                                                const member = this.memberRepository.GetMembers().find(y => y.GetSnapshot().MemberId == x.BettorId.Value)
                                                 const answers = this.answerBetRepository.Answers.filter(answer => answer.BetId == x.BetId)
                                                 return {
                                                     Coins: x.Coins,
                                                     Description: x.Description,
                                                     EndDate: x.EndDate,
                                                     Id: x.BetId.Value,
-                                                    BookieId: member!.MemberId.Value,
-                                                    BookieName: member!.Username,
+                                                    BookieId: member!.GetSnapshot().MemberId,
+                                                    BookieName: member!.GetSnapshot().Username,
                                                     MaxAnswerDate: x.MaxAnswerDate,
                                                     Gamblers: x.Members.map<GamblerDto>(m => {
-                                                        const gambler = this.memberRepository.GetMembers().find(g => g.MemberId.Value == m);
+                                                        const gambler = this.memberRepository.GetMembers().find(g => g.GetSnapshot().MemberId == m);
                                                         return {
                                                             Id: m,
-                                                            Name: gambler!.Username,
+                                                            Name: gambler!.GetSnapshot().Username,
                                                             HasAccepted: answers.find(a => a.GamblerId.Value == m)?.Answer
                                                         }
                                                     })

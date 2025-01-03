@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { DateTimeProvider } from './DateTimeProvider';
-import { FriendModule } from './friend/friend.module';
 import { BetsModule } from './bet/bets.module';
 import { EventEmitterModule, EventEmitter2 } from '@nestjs/event-emitter';
 import { ScheduleModule } from '@nestjs/schedule';
@@ -9,7 +8,7 @@ import { EventBus } from './events/eventBus';
 import { UserModule } from './user/user.module';
 
 @Module({
-  imports: [EventEmitterModule.forRoot(), ScheduleModule.forRoot(), UserModule, FriendModule, BetsModule],
+  imports: [EventEmitterModule.forRoot(), ScheduleModule.forRoot(), UserModule, BetsModule],
   controllers: [],
   exports: ['IEventBus', 'IDateTimeProvider', 'IUserContext'],
   providers: [
