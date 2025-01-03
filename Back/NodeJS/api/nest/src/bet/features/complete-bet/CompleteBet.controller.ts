@@ -9,12 +9,10 @@ import { FakeUserContext } from "src/userContext/FakeUserContext";
 @Controller('bets')
 export class CompleteBetController {
     constructor(@Inject('IBetModule') private betModule: IBetModule,
-                private presenter: CompleteBetPresenter,
-            @Inject('IUserContext') private userContext: FakeUserContext) {}
+                private presenter: CompleteBetPresenter) {}
 
     @Post(':betId/complete')
     async Complete(@Body() input: CompleteBetInput, @Param('betId') betId: string, @Res() res: FastifyReply) {
-        this.userContext.SetRequest(res.getHeaders())
         const command = new CompleteBetCommand(betId, input.isSuccessful, input.proof);
         await this.betModule.Execute(command);
         return this.presenter.BuildResponse(res);

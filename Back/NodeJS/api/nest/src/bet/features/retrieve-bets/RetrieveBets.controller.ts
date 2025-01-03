@@ -6,12 +6,10 @@ import { FakeUserContext } from "src/userContext/FakeUserContext";
 
 @Controller('bets')
 export class RetrieveBetsController {
-    constructor(@Inject('IBetModule') private betModule: IBetModule,
-                @Inject('IUserContext') private userContext: FakeUserContext) {}
+    constructor(@Inject('IBetModule') private betModule: IBetModule) {}
 
     @Get()
     async RetrieveBets(@Res() res: FastifyReply) {
-        this.userContext.SetRequest(res.getHeaders())
         const bets = await this.betModule.Execute<RetrieveBetsResponse[]>(new RetrieveBetsQuery());
         return res.code(HttpStatus.OK).send(bets);
     }
