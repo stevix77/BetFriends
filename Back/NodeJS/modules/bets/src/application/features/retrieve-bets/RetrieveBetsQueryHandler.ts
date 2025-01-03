@@ -12,8 +12,10 @@ export class RetrieveBetsQueryHandler implements IRequestHandler<RetrieveBetsQue
     }
 }
 
-export class RetrieveBetsQuery implements IRequest<RetrieveBetsResponse[]> {
-    constructor(){}
+export class RetrieveBetsQuery extends IRequest<RetrieveBetsResponse[]> {
+    constructor(){
+        super();
+    }
     Name: string = RetrieveBetsQuery.name;
 }
 

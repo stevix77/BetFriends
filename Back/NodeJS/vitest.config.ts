@@ -9,7 +9,7 @@ export default defineConfig({
       extension: [
         '.ts'
       ],
-      exclude: ['modules/shared/**', 'modules/bets/src/infrastructure/**', 'api'],
+      exclude: ['modules/shared/**', 'modules/bets/src/infrastructure/**', 'modules/users/src/infrastructure/**', 'api'],
       allowExternal: true,
     },
     dir: 'modules',

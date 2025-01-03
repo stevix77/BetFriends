@@ -1,22 +1,21 @@
-import { IDomainEvent } from "../../../../shared/domain/IDomainEvent";
-import { IDateTimeProvider } from "../../../../shared/domain/IDateTimeProvider";
-import { DomainEventAccessor } from "../../../../shared/infrastructure/events/DomainEventAccessor";
-import { IDomainEventDispatcher } from "../../../../shared/infrastructure/events/IDomainEventDispatcher";
+import { IDomainEventDispatcher } from '../../../../shared/infrastructure/events/IDomainEventDispatcher';
+import { DomainEventAccessor } from '../../../../shared/infrastructure/events/DomainEventAccessor';
+import { IOutboxAccessor } from '../../../../shared/infrastructure/outbox/IOutboxAccessor';
+import { IDateTimeProvider } from '../../../../shared/domain/IDateTimeProvider';
+import { IDomainEvent } from '../../../../shared/domain/IDomainEvent';
 import  {v4 as uuidv4} from 'uuid';
-import { Outbox } from "../Outbox/Outbox";
-import { IOutboxAccessor } from "../../../../shared/infrastructure/outbox/IOutboxAccessor";
+import { Outbox } from '../../../../shared/infrastructure/outbox/Outbox';
 import { INotificationHandler } from '../../../../shared/application/Request/INotificationHandler';
 import { DomainEventNotificationFactory } from './DomainEventNotificationFactory';
-
 export class DomainEventDispatcher implements IDomainEventDispatcher {
-    
+
     constructor(private readonly domainEventAccessor: DomainEventAccessor,
                 private readonly outboxAccessor: IOutboxAccessor,
                 private readonly dateProvider: IDateTimeProvider,
                 private readonly domainEventNotificationFactory: DomainEventNotificationFactory,
-                private readonly notificationHandlers: INotificationHandler<any>[]
-    ){}
+                private readonly notificationHandlers: INotificationHandler<any>[]){}
     
+                
     async Dispatch(): Promise<void> {
         const events: IDomainEvent[] = [...this.domainEventAccessor.GetEvents()]
         this.domainEventAccessor.Clear();
@@ -28,7 +27,7 @@ export class DomainEventDispatcher implements IDomainEventDispatcher {
             }
         }
 
-        await this.SaveEvents(events);
+        await this.SaveEvents(events); 
     }
 
     private async SaveEvents(events: IDomainEvent[]) {

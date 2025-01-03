@@ -32,14 +32,13 @@ const friendshipRepository = new InMemoryFriendshipRepository();
         },
         {
             provide: DomainEventDispatcher,
-            useFactory: (eventBus: IEventBus, 
-                        dateTimeProvider: IDateTimeProvider,
+            useFactory: (dateTimeProvider: IDateTimeProvider,
                     outboxAccessor: IOutboxAccessor) => 
                 new DomainEventDispatcher(domainEventAccessor, 
                                         outboxAccessor,
                                         dateTimeProvider,
-                                        eventBus),
-            inject: ['IEventBus', 'IDateTimeProvider', 'IOutboxAccessor']
+                                        undefined, undefined),
+            inject: ['IDateTimeProvider', 'IOutboxAccessor']
         },
         {
             provide: 'IBetModule',

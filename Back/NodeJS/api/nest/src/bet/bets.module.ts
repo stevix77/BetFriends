@@ -1,4 +1,4 @@
-import { forwardRef, Module, Scope } from "@nestjs/common"
+import { forwardRef, Module } from "@nestjs/common"
 import { AppModule } from "src/app.module";
 import { CreateBetCommandHandler } from "../../../../modules/bets/src/application/features/create-bet/CreateBetHandler";
 import { DecreaseBalanceMemberHandler } from "../../../../modules/bets/src/application/features/create-bet/DecreaseBalanceMemberHandler";
@@ -13,10 +13,7 @@ import { IUserContext } from "../../../../modules/bets/src/application/Abstracti
 import { IDateTimeProvider } from "../../../../modules/shared/domain/IDateTimeProvider";
 import { AnswerBetController } from './features/answer-bet/AnswerBet.controller';
 import { AnswerBetPresenter } from './features/answer-bet/AnswerBetPresenter';
-import { AnswerBetCommandHandler, IAnswerBetOutputPort } from '../../../../modules/bets/src/application/features/answer-bet/AnswerBetHandler';
-import { IBetRepository } from "../../../../modules/bets/src/domain/bets/IBetRepository";
-import { IAnswerBetRepository } from "../../../../modules/bets/src/domain/answerBets/IAnswerBetRepository";
-import { IMemberRepository } from "../../../../modules/bets/src/domain/members/IMemberRepository";
+import { AnswerBetCommandHandler } from '../../../../modules/bets/src/application/features/answer-bet/AnswerBetHandler';
 import { CompleteBetCommandHandler } from "../../../../modules/bets/src/application/features/complete-bet/CompleteBetHandler";
 import { CompleteBetPresenter } from "./features/complete-bet/CompleteBetPresenter";
 import { UpdateBalanceGamblersHandler } from '../../../../modules/bets/src/application/features/complete-bet/UpdateBalanceGamblersHandler';
@@ -41,12 +38,12 @@ import { RequestBehavior } from "../../../../modules/shared/infrastructure/behav
 import { DomainEventAccessor } from "../../../../modules/shared/infrastructure/events/DomainEventAccessor";
 import { IEventBus } from "../../../../modules/shared/infrastructure/events/IEventBus";
 import { InMemoryOutboxAccessor } from "../../../../modules/users/src/infrastructure/outbox/InMemoryOutboxAccessor";
-import { DateTimeProvider } from "src/DateTimeProvider";
 import { InMemoryBetAnswerRepository } from "../../../../modules/bets/src/infrastructure/repositories/InMemoryBetAnswerRepository";
-import { StubUserContext } from "src/userContext/StubUserContext";
-import { INotificationFactory, NotificationFactory } from "../../../../modules/bets/src/infrastructure/factories/NotificationFactory";
-import { IBetModule } from "../../../../modules/bets/src/application/Abstractions/IBetModule";
-import { ModuleRef } from "@nestjs/core";
+import { DomainEventNotificationFactory } from "../../../../modules/bets/src/infrastructure/events/DomainEventNotificationFactory";
+import { IntegrationEventFactory } from "../../../../modules/bets/src/infrastructure/integrationEvents/IntegrationEventFactory";
+import { BetsProcessOutboxJobs } from "./jobs/processOutboxJobs";
+import { CreateMemberHandler } from '../../../../modules/bets/src/application/features/userRegistered/CreateMemberHandler';
+import { UserRegisteredListener } from "./listeners/userRegisteredListener";
 
 const domainEventAccessor = new DomainEventAccessor();
 const memberRepository = new InMemoryMemberRepository();
@@ -58,11 +55,13 @@ const retrieveBetsDataAccess = new InMemoryRetrieveBetsDataAccess(betRepository,
 @Module({
     controllers: [CreateBetController, RetrieveBetsController, AnswerBetController, CompleteBetController],
     imports: [forwardRef(() => AppModule)],
-    exports: ['IMemberRepository', 'IOutboxAccessor', ProcessOutboxCommandHandler],
+    exports: ['IMemberRepository', 'IOutboxAccessor', 'BetsProcessOutboxCommandHandler'],
     providers: [
+        BetsProcessOutboxJobs,
         BetCreatedListener, 
         BetAnsweredListener, 
         BetCompletedListener,
+        UserRegisteredListener,
         {
             provide: 'IMemberRepository',
             useValue: memberRepository
@@ -169,14 +168,32 @@ const retrieveBetsDataAccess = new InMemoryRetrieveBetsDataAccess(betRepository,
             useClass: NotifyBetCompleted
         },
         {
+            provide: CreateMemberHandler,
+            useClass: CreateMemberHandler
+        },
+        {
             provide: DomainEventDispatcher,
-            useFactory: (eventBus: IEventBus, 
-                        dateTimeProvider: IDateTimeProvider) => 
+            useFactory: (dateTimeProvider: IDateTimeProvider,
+                        updateBalanceGamblersHandler: UpdateBalanceGamblersHandler,
+                        updateBalanceBookieHandler: UpdateBalanceBookieHandler,
+                        decreaseBalanceMemberHandler: DecreaseBalanceMemberHandler,
+                        updateBalanceGamblerHandler: UpdateBalanceGamblerHandler) => 
                 new DomainEventDispatcher(domainEventAccessor, 
                                         outboxAccessor,
                                         dateTimeProvider,
-                                        eventBus),
-            inject: ['IEventBus', 'IDateTimeProvider']
+                                        new DomainEventNotificationFactory(),
+                                        [
+                                            updateBalanceGamblersHandler,
+                                            updateBalanceBookieHandler,
+                                            decreaseBalanceMemberHandler,
+                                            updateBalanceGamblerHandler
+                                        ]),
+            inject: ['IDateTimeProvider',
+                    UpdateBalanceGamblersHandler,
+                    UpdateBalanceBookieHandler,
+                    DecreaseBalanceMemberHandler,
+                    UpdateBalanceGamblerHandler
+                ]
         },
         {
             provide: 'IBetModule',
@@ -191,6 +208,7 @@ const retrieveBetsDataAccess = new InMemoryRetrieveBetsDataAccess(betRepository,
                         decreaseBalanceMemberHandler: DecreaseBalanceMemberHandler,
                         updateBalanceGamblerHandler: UpdateBalanceGamblerHandler,
                         notifyGamblersBetCompletedHandler: NotifyGamblersBetCompletedHandler,
+                        createMemberHandler: CreateMemberHandler
             ) => {
                 const mediator = new Mediator([
                     createBetCommandHandler,
@@ -203,7 +221,8 @@ const retrieveBetsDataAccess = new InMemoryRetrieveBetsDataAccess(betRepository,
                     updateBalanceBookieHandler,
                     decreaseBalanceMemberHandler,
                     updateBalanceGamblerHandler,
-                    notifyGamblersBetCompletedHandler
+                    notifyGamblersBetCompletedHandler,
+                    createMemberHandler
                 ])
                 const unitOfWorkBehavior = new UnitOfWorkBehavior(new InMemoryUnitOfWork(), domainEventDispatcher)
                 const requestBehavior = new RequestBehavior(mediator)
@@ -222,17 +241,21 @@ const retrieveBetsDataAccess = new InMemoryRetrieveBetsDataAccess(betRepository,
                     UpdateBalanceBookieHandler,
                     DecreaseBalanceMemberHandler,
                     UpdateBalanceGamblerHandler,
-                    NotifyGamblersBetCompletedHandler
+                    NotifyGamblersBetCompletedHandler,
+                    CreateMemberHandler
                 ]
         },
         {
-            provide: ProcessOutboxCommandHandler,
+            provide: 'BetsProcessOutboxCommandHandler',
             useFactory: (dateTimeProvider: IDateTimeProvider, 
-                betModule: IBetModule) => {
-                const notificationFactory = new NotificationFactory();
-                return new ProcessOutboxCommandHandler(outboxAccessor, dateTimeProvider, notificationFactory, betModule)
+                eventBus: IEventBus) => {
+                const integrationEventFactory = new IntegrationEventFactory();
+                return new ProcessOutboxCommandHandler(outboxAccessor, 
+                                                        dateTimeProvider, 
+                                                        integrationEventFactory, 
+                                                        eventBus)
             },
-            inject: ['IDateTimeProvider', 'IBetModule']
+            inject: ['IDateTimeProvider', 'IEventBus']
         }
     ]
 })

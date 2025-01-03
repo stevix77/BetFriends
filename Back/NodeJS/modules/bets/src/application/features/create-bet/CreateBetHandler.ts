@@ -52,8 +52,10 @@ export class CreateBetCommandHandler implements IRequestHandler<CreateBetCommand
     }
 }
 
-export class CreateBetCommand implements ICommand {
-    constructor(public BetId: string, public Description: string, public Coins: number, public EndDate: Date, public Members: Array<string>){}
+export class CreateBetCommand extends ICommand {
+    constructor(public BetId: string, public Description: string, public Coins: number, public EndDate: Date, public Members: Array<string>){
+        super();
+    }
     Name: string = CreateBetCommand.name;
 }
 
