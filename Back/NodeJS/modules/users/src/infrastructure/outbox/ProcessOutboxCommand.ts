@@ -5,7 +5,7 @@ import { IOutboxAccessor } from '../../../../shared/infrastructure/outbox/IOutbo
 import { IEventBus } from '../../../../shared/infrastructure/events/IEventBus';
 import { IntegrationEventFactory } from '../integrationEvents/IntegrationEventFactory';
 
-export class ProcessOutboxCommand implements ICommand {
+export class ProcessOutboxCommand extends ICommand {
     Name: string = ProcessOutboxCommand.name;
 }
 
