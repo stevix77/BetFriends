@@ -6,5 +6,5 @@ export class UserRegistered implements IDomainEvent {
                 public readonly Username: string,
                 public readonly Email: string
     ){}
-    Type: string = "UserRegistered";
+    Type: string = UserRegistered.name;
 }

@@ -5,8 +5,6 @@ import { SignInHandler } from "../../../../modules/users/src/application/feature
 import { FakeAuthenticationGateway } from "../../../../modules/users/src/infrastructure/FakeAuthenticationGateway";
 import { FakeUserRepository } from "../../../../modules/users/src/infrastructure/repositories/FakeUserRepository";
 import { FakeHashPassword } from "../../../../modules/users/src/infrastructure/FakeHashPassword";
-import { IAuthenticationGateway } from "../../../../modules/users/src/application/abstractions/IAuthenticationGateway";
-import { IHashPassword } from "../../../../modules/users/src/application/abstractions/IHashPassword";
 import { RegisterHandler } from "../../../../modules/users/src/application/features/register/RegisterHandler"
 import { RegisterController } from "./features/register/register.controller";
 import { RegisterPresenter } from "./features/register/registerPresenter";
@@ -14,17 +12,20 @@ import { UserModule as UserApplicationModule } from "../../../../modules/users/s
 import { LoggingBehavior } from "../../../../modules/shared/infrastructure/behaviors/LoggingBehavior";
 import { UnitOfWorkBehavior } from "../../../../modules/shared/infrastructure/behaviors/UnitOfWorkBehavior";
 import { InMemoryUnitOfWork } from "../../../../modules/shared/infrastructure/uow/InMemoryUnitOfWork";
-import { DomainEventDispatcher } from "../../../../modules/bets/src/infrastructure/events/DomainEventDispatcher";
 import { DomainEventAccessor } from "../../../../modules/shared/infrastructure/events/DomainEventAccessor";
 import { InMemoryOutboxAccessor } from "../../../../modules/users/src/infrastructure/outbox/InMemoryOutboxAccessor";
-import { DateTimeProvider } from "src/DateTimeProvider";
-import { IEventBus } from "../../../../modules/shared/infrastructure/events/IEventBus";
 import { RequestBehavior } from "../../../../modules/shared/infrastructure/behaviors/RequestBehavior";
 import { Mediator } from "../../../../modules/shared/infrastructure/Mediator";
 import { IDateTimeProvider } from "../../../../modules/shared/domain/IDateTimeProvider";
 import { TokenGenerator } from "src/TokenGenerator";
 import { JwtModule } from "@nestjs/jwt";
 import { randomUUID } from "crypto";
+import { DomainEventDispatcher } from '../../../../modules/users/src/infrastructure/events/DomainEventDispatcher';
+import { DomainEventNotificationFactory } from "../../../../modules/users/src/infrastructure/events/DomainEventNotificationFactory";
+import { ProcessOutboxCommandHandler } from '../../../../modules/users/src/infrastructure/outbox/ProcessOutboxCommand';
+import { IEventBus } from "../../../../modules/shared/infrastructure/events/IEventBus";
+import { IntegrationEventFactory } from "../../../../modules/users/src/infrastructure/integrationEvents/IntegrationEventFactory";
+import { UserProcessOutboxJobs } from './jobs/userProcessOutboxJobs';
 const domainEventAccessor = new DomainEventAccessor();
 const userRepository = new FakeUserRepository(domainEventAccessor)
 const registerPresenter = new RegisterPresenter();
@@ -37,17 +38,20 @@ const passwordHasher = new FakeHashPassword();
         global: true,
         secret: randomUUID(),
         signOptions: { expiresIn: '3600s' },
-      })],
+      })
+    ],
+    exports: ['UserProcessOutboxCommandHandler'],
     providers: [
+        UserProcessOutboxJobs, 
         {
             provide: DomainEventDispatcher,
-            useFactory: (eventBus: IEventBus, 
-                        dateTimeProvider: IDateTimeProvider) => 
+            useFactory: (dateTimeProvider: IDateTimeProvider) => 
                 new DomainEventDispatcher(domainEventAccessor, 
                                         outboxAccessor,
-                                        dateTimeProvider,
-                                        eventBus),
-            inject: ['IEventBus', 'IDateTimeProvider']
+                                        dateTimeProvider, 
+                                        new DomainEventNotificationFactory(), 
+                                        []),
+            inject: ['IDateTimeProvider']
         },
         {
             provide: TokenGenerator,
@@ -73,6 +77,18 @@ const passwordHasher = new FakeHashPassword();
                 return new UserApplicationModule(loggingBehavior);
             },
             inject: [DomainEventDispatcher, TokenGenerator]
+        },
+        {
+            provide: 'UserProcessOutboxCommandHandler',
+            useFactory: (dateTimeProvider: IDateTimeProvider, 
+                eventBus: IEventBus) => {
+                const integrationEventFactory = new IntegrationEventFactory();
+                return new ProcessOutboxCommandHandler(outboxAccessor, 
+                                                        dateTimeProvider, 
+                                                        integrationEventFactory, 
+                                                        eventBus)
+            },
+            inject: ['IDateTimeProvider', 'IEventBus']
         }
     ]
 })

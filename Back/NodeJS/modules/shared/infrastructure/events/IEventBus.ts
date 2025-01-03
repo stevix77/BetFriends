@@ -1,6 +1,6 @@
-import { IDomainEvent } from "../../domain/IDomainEvent";
+import { IIntegrationEvent } from '../integrationEvents/IIntegrationEvent';
 
 export interface IEventBus {
-    Publish(event: IDomainEvent): Promise<void>;
+    Publish(integrationEvent: IIntegrationEvent): Promise<void>;
 
 }

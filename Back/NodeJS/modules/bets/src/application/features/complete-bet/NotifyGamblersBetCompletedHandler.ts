@@ -20,8 +20,8 @@ export class NotifyGamblersBetCompletedHandler implements INotificationHandler<B
         await this.notifyCompletBetService.Notify({
             IsSuccessful: notification.IsSuccessful,
             GamblerIds: acceptedAnswers,
-            BettorId: bettor!.MemberId.Value,
-            BettorName: bettor!.Username,
+            BettorId: bettor!.GetSnapshot().MemberId,
+            BettorName: bettor!.GetSnapshot().Username,
             Coins: bet!.Coins
         })
     }

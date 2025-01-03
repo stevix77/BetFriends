@@ -9,7 +9,7 @@ export interface IMediator {
 }
 
 export class Mediator implements IMediator{
-    constructor(private requestHandlers: IRequestHandler<Request, any>[], 
+    constructor(private requestHandlers: IRequestHandler<Request, any>[],  
                 private notificationHandlers: INotificationHandler<INotification>[]) {}
 
     Send<T>(request: IRequest<T>): Promise<T> {

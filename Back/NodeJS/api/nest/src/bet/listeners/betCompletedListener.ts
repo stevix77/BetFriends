@@ -1,15 +1,15 @@
 import { Inject } from "@nestjs/common";
 import { OnEvent } from "@nestjs/event-emitter";
 import { IBetModule } from "../../../../../modules/bets/src/application/Abstractions/IBetModule";
-import { BetCompleted } from "../../../../../modules/bets/src/domain/bets/events/BetCompleted";
-import { BetCompletedNotification } from "../../../../../modules/bets/src/application/features/complete-bet/BetCompletedNotification";
+import { BetCompletedEventNotification } from "../../../../../modules/bets/src/application/features/complete-bet/BetCompletedEventNotification";
 
 export class BetCompletedListener {
     constructor(@Inject('IBetModule') private betModule: IBetModule) {}
 
-    @OnEvent(BetCompleted.name)
-    async Handle(event: BetCompleted) {
-        const notification = new BetCompletedNotification(event.BetId.Value, event.IsSuccessful);
+    @OnEvent("betcompletedintegrationevent")
+    async Handle(event: string) {
+        const data = JSON.parse(event)
+        const notification = new BetCompletedEventNotification(data["betId"] as string, data["isSuccessful"] as boolean);
         await this.betModule.Execute(notification);
     }
 }

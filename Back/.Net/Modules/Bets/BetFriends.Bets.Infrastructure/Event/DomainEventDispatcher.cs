@@ -16,7 +16,7 @@ internal class DomainEventDispatcher(DomainEventsAccessor domainEventsAccessor,
     {
         var domainEvents = domainEventsAccessor.GetDomainEvents();
         var domainEventTasks = new List<Task>();
-        var outboxes = new List<Shared.Infrastructure.Outboxes.Outbox>();
+        var outboxes = new List<Outbox>();
         foreach (var item in domainEvents)
         {
             var notification = domainEventNotificationFactory.Create(item);
@@ -24,7 +24,7 @@ internal class DomainEventDispatcher(DomainEventsAccessor domainEventsAccessor,
             {
                 domainEventTasks.Add(mediator.Publish(notification));
 
-                var outbox = new Shared.Infrastructure.Outboxes.Outbox(item.GetType().Name, JsonSerializer.Serialize(item, item.GetType()), dateProvider.GetDate());
+                var outbox = new Outbox(item.GetType().Name, JsonSerializer.Serialize(item, item.GetType()), dateProvider.GetDate());
                 outboxes.Add(outbox);
             }
         }

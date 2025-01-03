@@ -11,8 +11,8 @@ import { AnswerBet } from "../../../src/domain/answerBets/AnswerBet";
 import { Member } from "../../../src/domain/members/Member";
 import { StubMemberRepository } from "../implems/StubMemberRepository";
 import { StubDateTimeProvider } from "../implems/StubDateTimeProvider";
-import { BetAnswered } from "../../../src/domain/answerBets/events/BetAnswered";
 import { DomainEventAccessor } from "../../../../shared/infrastructure/events/DomainEventAccessor";
+import { MemberSnapshot } from '../../../src/domain/members/MemberSnapshot';
 
 export class AnswerBetSut {
        
@@ -47,9 +47,9 @@ export class AnswerBetSut {
     }
 
     WithExistingMember(coins: number): AnswerBetSut {
-        this.member = new Member(new MemberId(this.gamblerId),
-                                "username",
-                            coins, 1);
+        this.member = Member.FromSnapshot(new MemberSnapshot(this.gamblerId,
+                                                            "username",
+                                                            coins, 1));
         this.memberRepository = new StubMemberRepository(this.member)
         return this;
     }

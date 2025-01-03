@@ -7,13 +7,13 @@ export class InMemoryMemberRepository implements IMemberRepository {
 
     }
     Save(member: Member): PromiseLike<void> {
-        if(!this.members.some(x => x.MemberId == member.MemberId)) {
+        if(!this.members.some(x => x.GetSnapshot().MemberId == member.GetSnapshot().MemberId)) {
             this.members.push(member);
         }
         return Promise.resolve();
     }
     GetByIdAsync(memberId: MemberId): PromiseLike<Member | undefined> {
-        const member = this.members.find(x => x.MemberId.Value == memberId.Value);
+        const member = this.members.find(x => x.GetSnapshot().MemberId == memberId.Value);
         return Promise.resolve(member)
     }
 

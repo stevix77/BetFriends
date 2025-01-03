@@ -28,7 +28,7 @@ describe('update balance bookie handler', () => {
        const answerBetRepository = new InMemoryBetAnswerRepository([new AnswerBet(bet.BetId, true, new MemberId('gamblerId'))]);
        const handler = new UpdateBalanceBookieHandler(betRepository, memberRepository, answerBetRepository)
        await handler.Handle(notification);
-       expect(member.Coins).toEqual(400)
+       expect(member.GetSnapshot().Coins).toEqual(400)
     })
 
     test('should not increase balance bookie when bet unsuccessful', async () => {
@@ -46,7 +46,7 @@ describe('update balance bookie handler', () => {
         const answerBetRepository = new InMemoryBetAnswerRepository([new AnswerBet(bet.BetId, true, new MemberId('gamblerId'))]);
         const handler = new UpdateBalanceBookieHandler(betRepository, memberRepository, answerBetRepository)
         await handler.Handle(notification);
-        expect(member.Coins).toEqual(200)
+        expect(member.GetSnapshot().Coins).toEqual(200)
      })
 
      test('should not increase balance bookie when bet does not exist', async () => {

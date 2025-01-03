@@ -13,7 +13,7 @@ describe('Register new user', () => {
         const registerOutputPort = new MockRegisterOutputPort();
         const userRepository = new MockUserRepository();
         const handler = new RegisterHandler(registerOutputPort, userRepository, new StubPasswordHasher("hashedpassword"));
-        await handler.execute(command)
+        await handler.Handle(command)
         expect(registerOutputPort.Message).toEqual("registered")
         expect(userRepository.User?.GetSnapshot()).toEqual(new UserSnapshot("userId", "username", "email", "hashedpassword"))
     })
@@ -24,7 +24,7 @@ describe('Register new user', () => {
         const user = User.FromSnapshot(new UserSnapshot("userId", "username", "email", "password"))
         const userRepository = new MockUserRepository(user);
         const handler = new RegisterHandler(registerOutputPort, userRepository, new StubPasswordHasher("hashedpassword"));
-        await handler.execute(command)
+        await handler.Handle(command)
         expect(registerOutputPort.Message).toEqual("not registered")
     })
 })

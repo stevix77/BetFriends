@@ -87,7 +87,7 @@ export class AnswerBetCommandHandler implements IRequestHandler<AnswerBetCommand
     }
 
     private IsMemberHasNotEnoughCoins(member: Member, bet: Bet) {
-        return member.Coins < bet.Coins;
+        return !member.CanBet(bet)
     }
 
     private IsUserIsBettor(userId: string): boolean {
@@ -99,8 +99,10 @@ export class AnswerBetCommandHandler implements IRequestHandler<AnswerBetCommand
     }
 }
 
-export class AnswerBetCommand implements ICommand {
-    constructor(public readonly BetId: string, public readonly Answer: boolean){}
+export class AnswerBetCommand extends ICommand {
+    constructor(public readonly BetId: string, public readonly Answer: boolean){
+        super()
+    }
     Name: string = AnswerBetCommand.name;
 }
 

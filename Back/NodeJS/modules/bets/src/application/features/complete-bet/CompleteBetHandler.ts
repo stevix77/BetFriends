@@ -37,9 +37,11 @@ export class CompleteBetCommandHandler implements IRequestHandler<CompleteBetCom
     }
 }
 
-export class CompleteBetCommand implements ICommand {
+export class CompleteBetCommand extends ICommand {
     
-    constructor(public BetId: string, public IsSuccessful: boolean, public Proof?: string){}
+    constructor(public BetId: string, public IsSuccessful: boolean, public Proof?: string){
+        super();
+    }
     Name: string = CompleteBetCommand.name;
 }
 

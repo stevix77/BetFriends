@@ -11,6 +11,7 @@ import { InMemoryBetAnswerRepository } from "../../../src/infrastructure/reposit
 import { InMemoryBetRepository } from "../../../src/infrastructure/repositories/InMemoryBetRepository";
 import { InMemoryMemberRepository } from "../../../src/infrastructure/repositories/InMemoryMemberRepository";
 import { StubDateTimeProvider } from "../implems/StubDateTimeProvider";
+import { MemberSnapshot } from "../../../src/domain/members/MemberSnapshot";
 
 describe('Update balance gamblers handle', () => {
     test('should increase balance gamblers when bet unsuccessful', async () => {
@@ -22,13 +23,13 @@ describe('Update balance gamblers handle', () => {
                              new Date(2024, 12, 22), 
                              ['gamblerId'], 
                              new StubDateTimeProvider(new Date(2024, 10, 10)), false)
-        const member = new Member(new MemberId('gamblerId'), "username", 200, 5);
+        const member = Member.FromSnapshot(new MemberSnapshot("gamblerId","username", 200, 5));
         const betRepository = new InMemoryBetRepository(new DomainEventAccessor(), [bet])
         const memberRepository = new InMemoryMemberRepository([member])
         const answerBetRepository = new InMemoryBetAnswerRepository([new AnswerBet(bet.BetId, true, new MemberId('gamblerId'))]);
         const handler = new UpdateBalanceGamblersHandler(betRepository, memberRepository, answerBetRepository)
         await handler.Handle(notification);
-        expect(member.Coins).toEqual(400)
+        expect(member.GetSnapshot().Coins).toEqual(400)
      })
  
      test('should not increase balance gamblers when bet successful', async () => {
@@ -40,18 +41,18 @@ describe('Update balance gamblers handle', () => {
                               new Date(2024, 12, 22), 
                               ['gamblerId'], 
                               new StubDateTimeProvider(new Date(2024, 10, 10)), true)
-         const member = new Member(new MemberId('gamblerId'), "username", 200, 5);
+         const member = Member.FromSnapshot(new MemberSnapshot("gamblerId","username", 200, 5));
          const betRepository = new InMemoryBetRepository(new DomainEventAccessor(), [bet])
          const memberRepository = new InMemoryMemberRepository([member])
          const answerBetRepository = new InMemoryBetAnswerRepository([new AnswerBet(bet.BetId, true, new MemberId('gamblerId'))]);
          const handler = new UpdateBalanceGamblersHandler(betRepository, memberRepository, answerBetRepository)
          await handler.Handle(notification);
-         expect(member.Coins).toEqual(200)
+         expect(member.GetSnapshot().Coins).toEqual(200)
       })
  
       test('should not increase balance gamblers when bet does not exist', async () => {
          const notification = new BetCompletedNotification("betId", false);
-         const member = new Member(new MemberId('gamblerId'), "username", 200, 5);
+         const member = Member.FromSnapshot(new MemberSnapshot("gamblerId","username", 200, 5));
          const betRepository = new InMemoryBetRepository(new DomainEventAccessor(), [])
          const memberRepository = new InMemoryMemberRepository([member])
          const answerBetRepository = new InMemoryBetAnswerRepository([]);

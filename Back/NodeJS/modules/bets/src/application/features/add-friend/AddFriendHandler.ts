@@ -26,8 +26,10 @@ export class AddFriendCommandHandler implements IRequestHandler<AddFriendCommand
         return AddFriendCommand.name;
     }
 }
-export class AddFriendCommand implements ICommand {
-    constructor(public readonly MemberId: string){}
+export class AddFriendCommand extends ICommand {
+    constructor(public readonly MemberId: string){
+        super();
+    }
     Name: string = AddFriendCommand.name;
 }
 
