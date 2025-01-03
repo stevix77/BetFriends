@@ -8,12 +8,10 @@ import { FakeUserContext } from "src/userContext/FakeUserContext";
 @Controller('friends')
 export class AddFriendController {
   constructor(@Inject('IBetModule')private module: IBetModule,
-              private presenter: AddFriendPresenter,
-              @Inject('IUserContext') private userContext: FakeUserContext) {}
+              private presenter: AddFriendPresenter) {}
 
   @Post(':memberId')
     async Create(@Param('memberId') memberId: string, @Res() res: FastifyReply) {
-      this.userContext.SetRequest(res.getHeaders())
         await this.module.Execute(new AddFriendCommand(memberId));
         this.presenter.BuildResponse(res);
     }
