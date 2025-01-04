@@ -28,7 +28,6 @@ internal class DomainEventDispatcher(DomainEventsAccessor domainEventsAccessor,
             outboxes.Add(outbox);
         }
 
-        domainEventsAccessor.ClearDomainEvents();
         await Task.WhenAll(domainEventTasks);
         await Task.WhenAll(outboxes.Select(outboxAccessor.AddAsync));
     }

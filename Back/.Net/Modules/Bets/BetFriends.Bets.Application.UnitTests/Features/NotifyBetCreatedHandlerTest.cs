@@ -12,7 +12,7 @@ public class NotifyBetCreatedHandlerTest
     {
         var betId = Guid.NewGuid();
         var memberId = Guid.NewGuid();
-        var notification = new BetCreatedEventNotification(new(betId), default!, 300);
+        var notification = new BetCreatedEventNotification(betId, default!, 300);
         var emailSender = new MockEmailSender();
         var betRepository = new MockBetRepository(Bet.Create(new(betId),
                                                              default!,
@@ -32,7 +32,7 @@ public class NotifyBetCreatedHandlerTest
     {
         var betId = Guid.NewGuid();
         var memberId = Guid.NewGuid();
-        var notification = new BetCreatedEventNotification(new(betId), default!, 300);
+        var notification = new BetCreatedEventNotification(betId, default!, 300);
         var emailSender = new MockEmailSender();
         var betRepository = new MockBetRepository();
         var memberRepository = new StubMemberRepository(new Member(new(memberId), "username", 0, 3));

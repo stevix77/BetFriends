@@ -22,6 +22,7 @@ using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using BetFriends.Bets.Application.Features.MemberInfo;
+using BetFriends.Bets.Infrastructure.IntegrationEvents;
 
 namespace BetFriends.Bets.Infrastructure;
 
@@ -57,7 +58,7 @@ public static class BetStartup
         services.AddScoped<IDomainEventDispatcher, DomainEventDispatcher>();
         services.AddScoped<DomainEventNotificationFactory>();
         services.AddScoped<INotifyBetCompleted, NotifyBetCompleted>();
-        services.AddSingleton<EventNotificationFactory>();
+        services.AddSingleton<IntegrationEventFactory>();
         services.AddSingleton<IOutbox, InMemoryOutboxAccessor>();
         services.AddSingleton(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
         services.AddSingleton(typeof(IPipelineBehavior<,>), typeof(UnitOfWorkBehavior<,>));
