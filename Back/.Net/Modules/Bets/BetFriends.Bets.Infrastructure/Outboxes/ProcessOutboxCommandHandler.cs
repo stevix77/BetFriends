@@ -1,21 +1,21 @@
-﻿using BetFriends.Bets.Infrastructure.Event;
+﻿using BetFriends.Bets.Infrastructure.IntegrationEvents;
 using BetFriends.Shared.Application.Abstractions;
 using BetFriends.Shared.Application.Abstractions.Messaging;
+using BetFriends.Shared.Infrastructure.EventBus;
 using BetFriends.Shared.Infrastructure.Outboxes;
-using MediatR;
 using Microsoft.Extensions.Logging;
 
 namespace BetFriends.Bets.Infrastructure.Outboxes;
 
 public sealed class ProcessOutboxCommandHandler(IOutbox outboxAccessor,
-                                                EventNotificationFactory eventNotificationFactory,
-                                                IMediator mediator,
+                                                IntegrationEventFactory integrationEventFactory,
+                                                IEventBus eventBus,
                                                 IDateProvider dateProvider,
                                                 ILogger logger) : ICommandHandler<ProcessOutboxCommand>
 {
     private readonly IOutbox outboxAccessor = outboxAccessor;
-    private readonly EventNotificationFactory eventNotificationFactory = eventNotificationFactory;
-    private readonly IMediator mediator = mediator;
+    private readonly IntegrationEventFactory integrationEventFactory = integrationEventFactory;
+    private readonly IEventBus eventBus = eventBus;
     private readonly ILogger logger = logger;
     private readonly IDateProvider dateProvider = dateProvider;
 
@@ -25,8 +25,10 @@ public sealed class ProcessOutboxCommandHandler(IOutbox outboxAccessor,
         var outboxes = await outboxAccessor.GetAllAsync();
         foreach (var item in outboxes)
         {
-            var notification = eventNotificationFactory.Create(item);
-            await mediator.Publish(notification, cancellationToken);
+            var integrationEvent = integrationEventFactory.Create(item);
+            if (integrationEvent != null)
+                await eventBus.PublishAsync(integrationEvent);
+
             item.Handled(dateProvider);
             await outboxAccessor.SaveAsync(item);
         }

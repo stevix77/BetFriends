@@ -1,4 +1,6 @@
 ﻿using BetFriends.Bets.Application.Abstractions;
+using BetFriends.Bets.Application.Features.CompleteBet;
+using BetFriends.Bets.Application.Features.CreateBet;
 using BetFriends.Bets.Application.Features.UserRegistered;
 using BetFriends.Shared.Infrastructure.Inboxes;
 using MediatR;
@@ -15,9 +17,10 @@ public class BetIntegrationEventsBackgroundService(BackgroundTaskQueue backgroun
     {
         while (!stoppingToken.IsCancellationRequested)
         {
+            Inbox inbox = default!;
             try
             {
-                var inbox = await backgroundTaskQueue.DequeueAsync(stoppingToken);
+                inbox = await backgroundTaskQueue.DequeueAsync(stoppingToken);
                 if (inbox != null)
                 {
                     var notification = BuildNotification(inbox);
@@ -26,7 +29,7 @@ public class BetIntegrationEventsBackgroundService(BackgroundTaskQueue backgroun
             }
             catch (Exception)
             {
-
+                await backgroundTaskQueue.EnqueueAsync(inbox);
             }
         }
     }
@@ -36,10 +39,19 @@ public class BetIntegrationEventsBackgroundService(BackgroundTaskQueue backgroun
         switch (inbox.Type)
         {
             case "userregisteredintegrationevent":
-                var data = JsonNode.Parse(inbox.Data);
-                return new UserRegisteredNotification(data["UserId"].GetValue<Guid>(),
-                                                            data["Username"].GetValue<string>(),
-                                                            data["Email"].GetValue<string>());
+                var userRegisteredEvent = JsonNode.Parse(inbox.Data);
+                return new UserRegisteredNotification(userRegisteredEvent["UserId"].GetValue<Guid>(),
+                                                            userRegisteredEvent["Username"].GetValue<string>(),
+                                                            userRegisteredEvent["Email"].GetValue<string>());
+            case "betcreatedintegrationevent":
+                var betCreatedEvent = JsonNode.Parse(inbox.Data);
+                return new BetCreatedEventNotification(betCreatedEvent["BetId"].GetValue<Guid>(),
+                                                            betCreatedEvent["BettorId"].GetValue<Guid>(),
+                                                            betCreatedEvent["Coins"].GetValue<int>());
+            case "betcompletedintegrationevent":
+                var betCompletedEvent = JsonNode.Parse(inbox.Data);
+                return new BetCompletedEventNotification(betCompletedEvent["BetId"].GetValue<Guid>(),
+                                                            betCompletedEvent["IsSuccessfu"].GetValue<bool>());
             default:
                 return null!;
         }

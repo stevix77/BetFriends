@@ -2,9 +2,9 @@
 
 namespace BetFriends.Users.Application.Features.Register;
 
-public sealed class SendWelcomeMailNotificationHandler : INotificationHandler<UserRegisteredNotification>
+public sealed class SendWelcomeMailNotificationHandler : INotificationHandler<UserRegisteredEventNotification>
 {
-    public Task Handle(UserRegisteredNotification notification, CancellationToken cancellationToken)
+    public Task Handle(UserRegisteredEventNotification notification, CancellationToken cancellationToken)
     {
         return Task.CompletedTask;
     }

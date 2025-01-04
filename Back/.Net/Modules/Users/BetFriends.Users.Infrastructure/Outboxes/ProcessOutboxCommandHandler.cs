@@ -28,11 +28,10 @@ public sealed class ProcessOutboxCommandHandler(ILogger logger,
         {
             var integrationEvent = integrationEventFactory.Create(item);
             if (integrationEvent != null)
-            {
                 await eventBus.PublishAsync(integrationEvent);
-                item.Handled(dateProvider);
-                await outboxAccessor.SaveAsync(item);
-            }
+
+            item.Handled(dateProvider);
+            await outboxAccessor.SaveAsync(item);
         }
     }
 }

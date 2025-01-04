@@ -20,7 +20,7 @@ public class NotifyBetCreatedNotificationHandler : INotificationHandler<BetCreat
     }
     public async Task Handle(BetCreatedEventNotification notification, CancellationToken cancellationToken)
     {
-        Bet bet = await betRepository.GetByIdAsync(notification.BetId);
+        var bet = await betRepository.GetByIdAsync(new BetId(notification.BetId));
         if (bet == null)
             return;
 

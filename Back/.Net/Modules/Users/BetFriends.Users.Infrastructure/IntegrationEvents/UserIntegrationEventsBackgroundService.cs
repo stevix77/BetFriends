@@ -15,9 +15,10 @@ public class UserIntegrationEventsBackgroundService(BackgroundTaskQueue backgrou
     {
         while (!stoppingToken.IsCancellationRequested)
         {
+            Inbox inbox = default!;
             try
             {
-                var inbox = await backgroundTaskQueue.DequeueAsync(stoppingToken);
+                inbox = await backgroundTaskQueue.DequeueAsync(stoppingToken);
                 if (inbox != null)
                 {
                     var notification = BuildNotification(inbox);
@@ -26,7 +27,7 @@ public class UserIntegrationEventsBackgroundService(BackgroundTaskQueue backgrou
             }
             catch (Exception)
             {
-
+                await backgroundTaskQueue.EnqueueAsync(inbox);
             }
         }
     }
@@ -37,7 +38,7 @@ public class UserIntegrationEventsBackgroundService(BackgroundTaskQueue backgrou
         {
             case "userregisteredintegrationevent":
                 var data = JsonNode.Parse(inbox.Data);
-                return new UserRegisteredNotification(data["UserId"].GetValue<Guid>(),
+                return new UserRegisteredEventNotification(data["UserId"].GetValue<Guid>(),
                                                             data["Username"].GetValue<string>(),
                                                             data["Email"].GetValue<string>());
             default:
