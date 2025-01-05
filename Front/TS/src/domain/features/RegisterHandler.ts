@@ -3,6 +3,13 @@ import { IUserGateway } from "../abstractions/IUserGateway";
 import { IHashService } from '../abstractions/IHashService';
 
 export class RegisterHandler {
+
+    constructor(private readonly userGateway: IUserGateway,
+        private readonly outputPort: IRegisterOutputPort,
+        private readonly idGenerator: IIdGenerator,
+        private readonly passwordHasher: IHashService){}
+
+        
     async Handle(request: IRegisterRequest): Promise<void> {
         if(request.confirmPassword.length == 0 ||
             request.username.length == 0 ||
@@ -27,10 +34,6 @@ export class RegisterHandler {
         await this.userGateway.Register(user)
         this.outputPort.UserRegistered(userId)
     }
-    constructor(private readonly userGateway: IUserGateway,
-        private readonly outputPort: IRegisterOutputPort,
-        private readonly idGenerator: IIdGenerator,
-        private readonly passwordHasher: IHashService){}
 }
 
 export interface IRegisterRequest {

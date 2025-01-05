@@ -5,7 +5,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace BetFriends.Api.Features.Bets;
 
-[Route("member")]
+[Route("me")]
 public class MemberInfoController(IBetModule betModule) : Controller
 {
     [SwaggerOperation(Tags = new[] { "Bets" })]
