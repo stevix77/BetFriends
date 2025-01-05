@@ -19,6 +19,7 @@ import { AuthModule } from "./auth/auth.module";
 import { AuthGuard } from './guards/authGuard';
 import { AuthService } from './services/authService';
 import { GuestGuard } from "./guards/guestGuard";
+import { HttpClientModule } from "@angular/common/http";
 
 @NgModule({
     declarations: [
@@ -30,7 +31,8 @@ import { GuestGuard } from "./guards/guestGuard";
         BetsModule,
         AuthModule,
         NavbarComponent,
-        RouterModule
+        RouterModule,
+        HttpClientModule
     ],
     providers:[
         AuthGuard,
