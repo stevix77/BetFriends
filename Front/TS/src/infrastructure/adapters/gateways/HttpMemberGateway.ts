@@ -6,7 +6,7 @@ export class HttpMemberGateway implements IMemberGateway {
     async RetrieveInfo(): Promise<MemberInfo> {
         const response = await this.httpService.Post("/me")
         if(response.Code == 200) {
-            return JSON.parse(response.Data!) as MemberInfo;
+            return response.Data as MemberInfo;
         }
         return Promise.reject(response.Error);
     }

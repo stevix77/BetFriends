@@ -7,7 +7,7 @@ export class HttpFriendRepository implements IFriendRepository {
     async GetFriendsAsync(): Promise<FriendDto[]> {
         const response = await this.httpService.Get(`friendship`)
         if(response.Code == 200) {
-            return Promise.resolve(JSON.parse(response.Data!) as FriendDto[]);
+            return Promise.resolve(response.Data as FriendDto[]);
         }
         return Promise.reject();
     }

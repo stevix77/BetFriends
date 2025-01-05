@@ -29,7 +29,7 @@ export class HttpBetRepository implements IBetRepository {
     async GetAllAsync(): Promise<BetSummary[]> {
         const response = await this.httpService.Get(`bets`)
         if(response.Code == 200) {
-            return Promise.resolve(JSON.parse(response.Data!) as BetSummary[]);
+            return Promise.resolve(response.Data as BetSummary[]);
         }
         return Promise.reject(response.Error);
     }

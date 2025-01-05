@@ -6,6 +6,6 @@ export interface IHttpService {
 
 export interface HttpObject {
     Code: number;
-    Data?: string;
+    Data?: any;
     Error?: string;
 }
