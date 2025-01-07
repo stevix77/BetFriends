@@ -17,7 +17,7 @@ internal class FakeAnswerBetRepository : IAnswerBetRepository
 
     public Task SaveAsync(AnswerBet answerBet)
     {
-        var oldAnswerBet = answerBets.FirstOrDefault(x => x.State.MemberId == answerBet.State.MemberId);
+        var oldAnswerBet = answerBets.FirstOrDefault(x => x.Snapshot.MemberId == answerBet.Snapshot.MemberId);
         if (oldAnswerBet is not null)
             answerBets.Remove(oldAnswerBet);
         answerBets.Add(answerBet);
@@ -27,8 +27,8 @@ internal class FakeAnswerBetRepository : IAnswerBetRepository
 
     public Task<IEnumerable<AnswerBet>> GetAnswersAsync(BetId betId)
     {
-        return Task.FromResult(answerBets.Where(x => x.State.BetId == betId));
+        return Task.FromResult(answerBets.Where(x => x.Snapshot.BetId == betId.Value));
     }
 
-    internal IEnumerable<AnswerBetState> Answers { get => answerBets.Select(x => x.State); }
+    internal IEnumerable<AnswerBetSnapshot> Answers { get => answerBets.Select(x => x.Snapshot); }
 }

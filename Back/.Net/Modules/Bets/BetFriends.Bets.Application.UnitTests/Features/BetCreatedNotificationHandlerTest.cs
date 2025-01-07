@@ -11,19 +11,19 @@ public class BetCreatedNotificationHandlerTest
     public async Task ShouldDecreaseChipsWhenMemberBet()
     {
         var memberId = Guid.NewGuid();
-        var member = new Member(new MemberId(memberId), "username", 3000, 3);
+        var member = Member.FromState(new MemberState(memberId, "username", 3000, 3));
         var repository = new StubMemberRepository(member);
         var command = new BetCreatedNotification(default!, new(memberId), 300);
         var handler = new BetCreatedNotificationHandler(new Domain.Members.Services.DecreaseCoinsMember(repository));
         await handler.Handle(command, default!);
-        Assert.Equal(new MemberState(memberId, "username", 2700, 3), member.State);
+        Assert.Equal(new MemberState(memberId, "username", 2700, 3), member.Snapshot);
     }
 
     [Fact]
     public async Task ShouldNotDecreaseWhenMemberDoesNotExist()
     {
         var memberId = Guid.NewGuid();
-        var member = new Member(new MemberId(Guid.NewGuid()), "username", 3000, 3);
+        var member = Member.FromState(new MemberState(Guid.NewGuid(), "username", 3000, 3));
         var repository = new StubMemberRepository(member);
         var command = new BetCreatedNotification(default!, new(memberId), 300);
         var handler = new BetCreatedNotificationHandler(new Domain.Members.Services.DecreaseCoinsMember(repository));

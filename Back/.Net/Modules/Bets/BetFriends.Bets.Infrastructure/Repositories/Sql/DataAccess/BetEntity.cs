@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace BetFriends.Bets.Infrastructure.Repositories.Sql.DataAccess;
 
 [Table("bets", Schema = "bet")]
-internal class BetEntity
+public class BetEntity
 {
     public BetEntity()
     {
@@ -16,7 +16,7 @@ internal class BetEntity
     {
         Id = bet.BetId.Value;
         Description = bet.Description;
-        Chips = bet.Coins;
+        Coins = bet.Coins;
         EndDate = bet.EndDate;
         Friends = string.Join(';', bet.Guests);
         OwnerId = bet.BookieId.Value;
@@ -28,8 +28,8 @@ internal class BetEntity
     public Guid Id { get; set; }
     [Column("description", TypeName = "varchar(MAX)")]
     public string Description { get; set; }
-    [Column("chips", TypeName = "int")]
-    public int Chips { get; set; }
+    [Column("coins", TypeName = "int")]
+    public int Coins { get; set; }
     [Column("end_date", TypeName = "datetime")]
     public DateTime EndDate { get; set; }
     [Column("friends", TypeName = "varchar(MAX)")]

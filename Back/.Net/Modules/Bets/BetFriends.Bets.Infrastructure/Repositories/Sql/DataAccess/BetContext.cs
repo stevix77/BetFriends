@@ -21,4 +21,7 @@ internal class BetContext : DbContext
     }
 
     public DbSet<BetEntity> Bets { get; set; }
+    public DbSet<AnswerEntity> Answers { get; set; }
+    public DbSet<FriendshipEntity> Friendships { get; set; }
+    public DbSet<MemberEntity> Members { get; set; }
 }

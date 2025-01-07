@@ -21,7 +21,7 @@ public class AnswerBetHandlerTest
                                     [memberId],
                                     new DateTime(2024, 11, 12)))
                 .WithCurrentDate(new DateTime(2024, 11, 12))
-                .WithMember(new Member(new MemberId(memberId), "username", 200, 1))
+                .WithMember(Member.FromState(new MemberState(memberId, "username", 200, 1)))
                 .WithAuthenticatedUser(memberId)
                 .WhenExecuteHandler(new AnswerBetCommand(betId, true)))
                 .ShouldSaveAnswer(true, betId);
@@ -52,7 +52,7 @@ public class AnswerBetHandlerTest
                                     [Guid.NewGuid()],
                                     new DateTime(2024, 11, 12)))
                 .WithCurrentDate(new DateTime(2024, 11, 12))
-                .WithMember(new Member(new MemberId(memberId), "username", 200, 1))
+                .WithMember(Member.FromState(new MemberState(memberId, "username", 200, 1)))
                 .WhenExecuteHandler(new AnswerBetCommand(betId, true)))
                 .ShouldNotSaveAnswer("member is not authorized");
     }
@@ -74,7 +74,7 @@ public class AnswerBetHandlerTest
                                     [memberId],
                                     new DateTime(2024, 11, 12)))
                 .WithCurrentDate(new DateTime(year, month, day))
-                .WithMember(new Member(new MemberId(memberId), "username", 200, 1))
+                .WithMember(Member.FromState(new MemberState(memberId, "username", 200, 1)))
                 .WhenExecuteHandler(new AnswerBetCommand(betId, true)))
                 .ShouldNotSaveAnswer("time to answer is over");
     }
@@ -105,7 +105,7 @@ public class AnswerBetHandlerTest
         var memberId = Guid.NewGuid();
         (await new AnswerBetHandlerSut()
                 .WithAuthenticatedUser(memberId)
-                .WithMember(new Member(new MemberId(memberId), "username", 0, 1))
+                .WithMember(Member.FromState(new MemberState(memberId, "username", 0, 1)))
                 .WithBet(Bet.Create(new(betId),
                                     new MemberId(Guid.NewGuid()),
                                     "description",

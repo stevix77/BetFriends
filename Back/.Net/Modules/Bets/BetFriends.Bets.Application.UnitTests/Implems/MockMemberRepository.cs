@@ -18,7 +18,7 @@ internal class MockMemberRepository(Member member = null!) : IMemberRepository
 
     public Task<bool> IsMemberExistAsync(MemberId memberId)
     {
-        return Task.FromResult(Member?.State.MemberId == memberId.Value);
+        return Task.FromResult(Member?.Snapshot.MemberId == memberId.Value);
     }
 
     public Task SaveAsync(Member member)

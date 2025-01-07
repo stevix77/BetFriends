@@ -30,7 +30,7 @@ internal class AnswerBetHandlerSut
         Assert.Equal(true, outputPort.IsSuccess);
         Assert.Collection(answerBetRepository.Answers, answerBet =>
         {
-            Assert.Equal(new AnswerBetState(new(betId), new(userContext.UserId), answer), answerBet.State);
+            Assert.Equal(new AnswerBetSnapshot(betId, userContext.UserId, answer), answerBet.Snapshot);
         });
     }
 

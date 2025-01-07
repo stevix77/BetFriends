@@ -21,7 +21,7 @@ public class NotifyBetCreatedHandlerTest
                                                              new DateTime(2024, 10, 10),
                                                              [memberId],
                                                              new DateTime(2024, 9, 10)));
-        var memberRepository = new StubMemberRepository(new Member(new(memberId), "username", 0, 3));
+        var memberRepository = new StubMemberRepository(Member.FromState(new MemberState(memberId, "username", 0, 3)));
         var handler = new NotifyBetCreatedNotificationHandler([emailSender], betRepository, memberRepository);
         await handler.Handle(notification, default!);
         Assert.All(emailSender.Members, (x) => new List<Guid>([memberId]).Contains(x.MemberId.Value));
@@ -35,7 +35,7 @@ public class NotifyBetCreatedHandlerTest
         var notification = new BetCreatedEventNotification(betId, default!, 300);
         var emailSender = new MockEmailSender();
         var betRepository = new MockBetRepository();
-        var memberRepository = new StubMemberRepository(new Member(new(memberId), "username", 0, 3));
+        var memberRepository = new StubMemberRepository(Member.FromState(new MemberState(memberId, "username", 0, 3)));
         var handler = new NotifyBetCreatedNotificationHandler([emailSender], betRepository, memberRepository);
         await handler.Handle(notification, default!);
         Assert.Empty(emailSender.Members);

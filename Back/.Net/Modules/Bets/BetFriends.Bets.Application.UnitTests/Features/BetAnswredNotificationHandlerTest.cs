@@ -13,7 +13,7 @@ public class BetAnswredNotificationHandlerTest
     {
         var memberId = Guid.NewGuid();
         var betId = Guid.NewGuid();
-        var member = new Member(new MemberId(memberId), "username", 3000, 3);
+        var member = Member.FromState(new MemberState(memberId, "username", 3000, 3));
         var repository = new StubMemberRepository(member);
         var betRepository = new MockBetRepository(Bet.Create(new(betId),
                                                             new(Guid.NewGuid()),
@@ -25,7 +25,7 @@ public class BetAnswredNotificationHandlerTest
         var command = new BetAnsweredNotification(new(betId), new(memberId), true);
         var handler = new BetAnsweredNotificationHandler(new DecreaseCoinsMember(repository), betRepository);
         await handler.Handle(command, default!);
-        Assert.Equal(new MemberState(memberId, "username", 2500, 3), member.State);
+        Assert.Equal(new MemberState(memberId, "username", 2500, 3), member.Snapshot);
     }
 
     [Fact]
@@ -33,7 +33,7 @@ public class BetAnswredNotificationHandlerTest
     {
         var memberId = Guid.NewGuid();
         var betId = Guid.NewGuid();
-        var member = new Member(new MemberId(memberId), "username", 3000, 3);
+        var member = Member.FromState(new MemberState(memberId, "username", 3000, 3));
         var repository = new StubMemberRepository(member);
         var betRepository = new MockBetRepository(Bet.Create(new(betId),
                                                             new(Guid.NewGuid()),
@@ -45,7 +45,7 @@ public class BetAnswredNotificationHandlerTest
         var command = new BetAnsweredNotification(new(betId), new(memberId), false);
         var handler = new BetAnsweredNotificationHandler(new DecreaseCoinsMember(repository), betRepository);
         await handler.Handle(command, default!);
-        Assert.Equal(new MemberState(memberId, "username", 3000, 3), member.State);
+        Assert.Equal(new MemberState(memberId, "username", 3000, 3), member.Snapshot);
     }
 
     [Fact]
@@ -53,12 +53,12 @@ public class BetAnswredNotificationHandlerTest
     {
         var memberId = Guid.NewGuid();
         var betId = Guid.NewGuid();
-        var member = new Member(new MemberId(memberId), "username", 3000, 3);
+        var member = Member.FromState(new MemberState(memberId, "username", 3000, 3));
         var repository = new StubMemberRepository(member);
         var betRepository = new MockBetRepository();
         var command = new BetAnsweredNotification(new(betId), new(memberId), true);
         var handler = new BetAnsweredNotificationHandler(new DecreaseCoinsMember(repository), betRepository);
         await handler.Handle(command, default!);
-        Assert.Equal(new MemberState(memberId, "username", 3000, 3), member.State);
+        Assert.Equal(new MemberState(memberId, "username", 3000, 3), member.Snapshot);
     }
 }

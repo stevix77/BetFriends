@@ -18,7 +18,7 @@ public sealed class NotifyBetCompletedNotificationHandler(IAnswerBetRepository a
         await notifyBetCompleted.Notify(new Notification(
             notification.BetId,
             answerBets.Where(x => x.HasAccepted())
-                      .Select(x => x.State.MemberId.Value),
+                      .Select(x => x.Snapshot.MemberId),
             notification.IsSuccessful));
     }
 }

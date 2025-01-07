@@ -24,15 +24,15 @@ internal class FakeRetrieveBetsDataAccess(FakeBetRepository fakeBetRepository,
                                                                          x.EndDate,
                                                                          x.Coins,
                                                                          owner!.MemberId.Value,
-                                                                         owner!.State.Username,
+                                                                         owner!.Snapshot.Username,
                                                                          x.MaxAnswerDate.Value,
                                                                          gamblers.Select(y =>
                                                                          {
                                                                              var answer = fakeAnswerBetRepository
                                                                                             .Answers
-                                                                                            .FirstOrDefault(a => a.BetId == x.BetId &&
-                                                                                                                a.MemberId == y.MemberId);
-                                                                             return new GamblerDto(y.MemberId.Value, y.State.Username, answer?.Answer);
+                                                                                            .FirstOrDefault(a => a.BetId == x.BetId.Value &&
+                                                                                                                a.MemberId == y.MemberId.Value);
+                                                                             return new GamblerDto(y.MemberId.Value, y.Snapshot.Username, answer?.Answer);
                                                                          }));
                                      });
         return Task.FromResult(bets);

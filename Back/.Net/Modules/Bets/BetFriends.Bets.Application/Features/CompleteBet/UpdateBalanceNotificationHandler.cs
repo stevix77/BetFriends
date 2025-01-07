@@ -28,7 +28,7 @@ public class UpdateBalanceNotificationHandler(IBetRepository betRepository,
             return;
         }
         var gamblers = await memberRepository.GetByIdsAsync(answers.Where(x => x.HasAccepted())
-                                                                   .Select(x => x.State.MemberId.Value));
+                                                                   .Select(x => x.Snapshot.MemberId));
         foreach (var gambler in gamblers)
             gambler.IncreaseBalance(bet.Coins / gamblers.Count());
         await memberRepository.SaveAsync(gamblers);

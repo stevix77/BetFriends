@@ -15,7 +15,7 @@ public class CreateMemberHandlerTest
         var memberRepository = new MockMemberRepository();
         var handler = new CreateMemberNotificationHandler(memberRepository);
         await handler.Handle(notification, CancellationToken.None);
-        Assert.Equal(new MemberState(memberId, "username", 2000, 0), memberRepository.Member.State);
+        Assert.Equal(new MemberState(memberId, "username", 2000, 0), memberRepository.Member.Snapshot);
     }
 
     [Fact]

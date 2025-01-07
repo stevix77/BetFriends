@@ -13,7 +13,7 @@ internal class FakeGetMemberInfoDataAccess(FakeMemberRepository fakeMemberReposi
         if (member == null)
             return null!;
 
-        var state = member.State;
+        var state = member.Snapshot;
         return Task.FromResult(new GetMemberInfoResponse(state.Username, state.Coins));
     }
 }

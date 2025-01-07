@@ -15,7 +15,7 @@ public class CreateBetHandlerTest
         (await new CreateBetHandlerSut()
                     .WithBetId(Guid.NewGuid())
                     .WithUserId(userId)
-                    .WithMember(new Member(new MemberId(userId), "username", 1000, 1))
+                    .WithMember(Member.FromState(new MemberState(userId, "username", 1000, 1)))
                     .WithCommand(new CreateBetCommand("description",
                                                         300,
                                                         new DateTime(2024, 4, 23),
@@ -41,7 +41,7 @@ public class CreateBetHandlerTest
     public async Task ShouldNotCreateBetWhenMemberHasNotEnoughChips()
     {
         var userId = Guid.NewGuid();
-        var member = new Member(new MemberId(userId), "username", 100, 1);
+        var member = Member.FromState(new MemberState(userId, "username", 100, 1));
         (await new CreateBetHandlerSut()
                 .WithUserId(userId)
                 .WithMember(member)
@@ -57,7 +57,7 @@ public class CreateBetHandlerTest
     public async Task ShouldNotCreateBetWhenEndDateIsTooOld()
     {
         var userId = Guid.NewGuid();
-        var member = new Member(new MemberId(userId), "username", 1000, 1);
+        var member = Member.FromState(new MemberState(userId, "username", 1000, 1));
         (await new CreateBetHandlerSut()
                 .WithUserId(userId)
                 .WithMember(member)
@@ -74,7 +74,7 @@ public class CreateBetHandlerTest
     public async Task ShouldNotCreateFreeBet()
     {
         var userId = Guid.NewGuid();
-        var member = new Member(new MemberId(userId), "username", 1000, 1);
+        var member = Member.FromState(new MemberState(userId, "username", 1000, 1));
         (await new CreateBetHandlerSut()
                 .WithUserId(userId)
                 .WithMember(member)
@@ -91,7 +91,7 @@ public class CreateBetHandlerTest
     public async Task ShouldNotCreateBetWhenMemberHasNoFriend()
     {
         var userId = Guid.NewGuid();
-        var member = new Member(new MemberId(userId), "username", 1000, 0);
+        var member = Member.FromState(new MemberState(userId, "username", 1000, 0));
         (await new CreateBetHandlerSut()
                 .WithUserId(userId)
                 .WithMember(member)
@@ -108,7 +108,7 @@ public class CreateBetHandlerTest
     public async Task ShouldNotCreateBetAlone()
     {
         var userId = Guid.NewGuid();
-        var member = new Member(new MemberId(userId), "username", 1000, 5);
+        var member = Member.FromState(new MemberState(userId, "username", 1000, 5));
         (await new CreateBetHandlerSut()
                 .WithUserId(userId)
                 .WithMember(member)

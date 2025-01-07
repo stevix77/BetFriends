@@ -12,14 +12,6 @@ public class Member : Entity
     private int coins;
     private readonly int countFriends;
 
-    public Member(MemberId memberId, string username, int coins, int countFriends)
-    {
-        this.memberId = memberId;
-        this.username = username;
-        this.coins = coins;
-        this.countFriends = countFriends;
-    }
-
     private Member(MemberId memberId, string username, int coins)
     {
         this.memberId = memberId;
@@ -36,7 +28,7 @@ public class Member : Entity
     }
 
     public MemberId MemberId { get => memberId; }
-    public MemberState State { get => new(memberId.Value, username, coins, countFriends); }
+    public MemberState Snapshot { get => new(memberId.Value, username, coins, countFriends); }
 
     public Friendship AddFriendship(Guid requesterId)
     {

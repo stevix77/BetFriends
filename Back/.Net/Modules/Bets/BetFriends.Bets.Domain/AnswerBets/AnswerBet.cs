@@ -11,6 +11,13 @@ public class AnswerBet : Entity
     private readonly bool answer;
     private readonly MemberId memberId;
 
+    private AnswerBet(AnswerBetSnapshot snapshot)
+    {
+        betId = new(snapshot.BetId);
+        answer = snapshot.Answer;
+        memberId = new(snapshot.MemberId);
+    }
+
     public AnswerBet(BetId betId, bool answer, MemberId memberId)
     {
         this.betId = betId;
@@ -19,7 +26,12 @@ public class AnswerBet : Entity
         AddEvent(new BetAnswered(betId, answer, memberId));
     }
 
-    public AnswerBetState State { get => new AnswerBetState(betId, memberId, answer); }
+    public AnswerBetSnapshot Snapshot { get => new AnswerBetSnapshot(betId.Value, memberId.Value, answer); }
+
+    public static AnswerBet FromSnapshot(AnswerBetSnapshot snapshot)
+    {
+        return new AnswerBet(snapshot);
+    }
 
     public bool HasAccepted()
         => answer;
