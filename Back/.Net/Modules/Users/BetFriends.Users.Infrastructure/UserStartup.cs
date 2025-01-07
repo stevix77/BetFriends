@@ -14,9 +14,12 @@ using BetFriends.Users.Infrastructure.Hash;
 using BetFriends.Users.Infrastructure.IntegrationEvents;
 using BetFriends.Users.Infrastructure.Outboxes;
 using BetFriends.Users.Infrastructure.Repositories;
+using BetFriends.Users.Infrastructure.Repositories.Sql.DataAccess;
 using BetFriends.Users.Infrastructure.TokenGenerators;
 using BetFriends.Users.Infrastructure.UoW;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -35,6 +38,8 @@ public static class UserStartup
         services.AddSingleton<IUserRepository, InMemoryUserRepository>();
         services.AddScoped<ITokenGenerator, FakeTokenGenerator>();
         services.AddScoped<IIdGenerator, GuidGenerator>();
+        services.AddScoped<JwtTokenGenerator>();
+        services.AddDbContext<DbContext, UserContext>(options => options.UseSqlServer(""));
         services.AddScoped<DomainEventNotificationFactory>();
         services.AddScoped<IntegrationEventFactory>();
         services.AddSingleton<DomainEventsAccessor>();

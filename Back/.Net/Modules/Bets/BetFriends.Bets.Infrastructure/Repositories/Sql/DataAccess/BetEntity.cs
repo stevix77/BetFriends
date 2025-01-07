@@ -19,7 +19,7 @@ public class BetEntity
         Coins = bet.Coins;
         EndDate = bet.EndDate;
         Friends = string.Join(';', bet.Guests);
-        OwnerId = bet.BookieId.Value;
+        BookieId = bet.BookieId.Value;
     }
 
     [Column("surrogate_id", TypeName = "int")]
@@ -34,6 +34,6 @@ public class BetEntity
     public DateTime EndDate { get; set; }
     [Column("friends", TypeName = "varchar(MAX)")]
     public string Friends { get; set; }
-    [Column("owner_id")]
-    public Guid OwnerId { get; set; }
+    [Column("bookie_id")]
+    public Guid BookieId { get; set; }
 }

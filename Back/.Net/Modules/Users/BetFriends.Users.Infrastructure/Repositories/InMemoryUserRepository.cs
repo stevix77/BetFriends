@@ -8,7 +8,7 @@ internal class InMemoryUserRepository(DomainEventsAccessor domainEventsAccessor)
     private readonly List<User> users = [];
     public Task<bool> IsUserExistAsync(string username, string email)
     {
-        if(users.Any(x => x.State.Username == username || x.State.Email == email))
+        if(users.Any(x => x.Snapshot.Username == username || x.Snapshot.Email == email))
             return Task.FromResult(true);
         return Task.FromResult(false);
     }
@@ -22,6 +22,6 @@ internal class InMemoryUserRepository(DomainEventsAccessor domainEventsAccessor)
 
     internal User GetUser(string email, string password)
     {
-        return users.Find(x => x.State.Email == email && x.State.Password == password)!;
+        return users.Find(x => x.Snapshot.Email == email && x.Snapshot.Password == password)!;
     }
 }

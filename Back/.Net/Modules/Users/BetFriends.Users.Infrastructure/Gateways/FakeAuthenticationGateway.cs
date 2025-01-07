@@ -10,7 +10,7 @@ internal class FakeAuthenticationGateway(InMemoryUserRepository inMemoryUserRepo
     {
         var user = inMemoryUserRepository.GetUser(authenticationRequest.Email, authenticationRequest.Password);
         if (user is not null)
-            return Task.FromResult(new Authentication("accesstoken", user.State.RefreshToken));
+            return Task.FromResult(new Authentication("accesstoken", user.Snapshot.RefreshToken));
 
         return Task.FromResult<Authentication>(default!);
     }

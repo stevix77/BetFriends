@@ -15,7 +15,7 @@ internal class SqlBetRepository(BetContext betContext, DomainEventsAccessor doma
         if (betEntity == null)
             return default!;
         return Bet.CreateFromEntity(betEntity.Id,
-                                    betEntity.OwnerId,
+                                    betEntity.BookieId,
                                     betEntity.Description,
                                     betEntity.Coins,
                                     betEntity.EndDate,

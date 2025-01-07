@@ -8,7 +8,7 @@ internal class MockUserRepository(User user = null!) : IUserRepository
 
     public Task<bool> IsUserExistAsync(string username, string email)
     {
-        if(User != null && (User.State.Username == username || User.State.Email == email))
+        if(User != null && (User.Snapshot.Username == username || User.Snapshot.Email == email))
             return Task.FromResult(true);
         return Task.FromResult(false);
     }

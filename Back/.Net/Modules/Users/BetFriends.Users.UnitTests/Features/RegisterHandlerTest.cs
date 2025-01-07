@@ -21,7 +21,7 @@ public class RegisterHandlerTest
         var handler = new RegisterCommandHandler(repository, idGenerator, passwordHasher, tokenGenerator);
         await handler.Handle(command, CancellationToken.None);
         Assert.Equal(new RegisterResponse(id), outputPort.Response);
-        Assert.Equal(new UserState(id, "username", "email@email.fr", "hashedpassword", "refreshToken"), repository.User.State);
+        Assert.Equal(new UserSnapshot(id, "username", "email@email.fr", "hashedpassword", "refreshToken"), repository.User.Snapshot);
     }
 
     [Fact]
@@ -29,7 +29,7 @@ public class RegisterHandlerTest
     {
         var outputPort = new MockRegisterPresenter();
         var command = new RegisterCommand("username", "email@email.fr", "password", outputPort);
-        var repository = new MockUserRepository(User.FromState(new UserState(Guid.Empty, "username", "email", "password", "refreshtoken")));
+        var repository = new MockUserRepository(User.FromState(new UserSnapshot(Guid.Empty, "username", "email", "password", "refreshtoken")));
         var idGenerator = new StubIdGenerator(Guid.NewGuid());
         var passwordHasher = new MockPasswordHasher();
         var tokenGenerator = new StubTokenGenerator();

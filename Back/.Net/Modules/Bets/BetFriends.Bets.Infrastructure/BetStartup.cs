@@ -23,6 +23,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using BetFriends.Bets.Application.Features.MemberInfo;
 using BetFriends.Bets.Infrastructure.IntegrationEvents;
+using Microsoft.EntityFrameworkCore;
+using BetFriends.Bets.Infrastructure.Repositories.Sql.DataAccess;
 
 namespace BetFriends.Bets.Infrastructure;
 
@@ -33,6 +35,7 @@ public static class BetStartup
         var services = new ServiceCollection();
         services.AddScoped(x => logger);
         services.AddScoped(x => eventBus);
+        services.AddDbContext<DbContext, BetContext>(options => options.UseSqlServer(""));
         services.AddSingleton<IMemberRepository, FakeMemberRepository>();
         services.AddSingleton<IFriendshipRepository, FakeFriendshipRepository>();
         services.AddSingleton<IBetRepository, FakeBetRepository>();

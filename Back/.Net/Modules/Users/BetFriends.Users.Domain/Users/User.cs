@@ -21,7 +21,7 @@ public class User : Entity
         AddEvent(new UserRegistered(userId, username, email));
     }
 
-    public UserState State { get => new(userId.Value,
+    public UserSnapshot Snapshot { get => new(userId.Value,
                                         username,
                                         email,
                                         password,
@@ -32,7 +32,7 @@ public class User : Entity
         return new User(new UserId(userId), username, email, password, tokenGenerator.Generate(userId));
     }
 
-    public static User FromState(UserState userState)
+    public static User FromState(UserSnapshot userState)
     {
         return new User(new(userState.Id), userState.Username, userState.Email, userState.Password, userState.RefreshToken);
     }
