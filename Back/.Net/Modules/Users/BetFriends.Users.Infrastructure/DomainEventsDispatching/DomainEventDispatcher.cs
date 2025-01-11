@@ -24,7 +24,7 @@ internal class DomainEventDispatcher(DomainEventsAccessor domainEventsAccessor,
             if (notification != null)
                 domainEventTasks.Add(mediator.Publish(notification));
 
-            var outbox = new Outbox(item.GetType().Name, JsonSerializer.Serialize(item, item.GetType()), dateProvider.GetDate());
+            var outbox = new Outbox(Guid.NewGuid(), item.GetType().Name, JsonSerializer.Serialize(item, item.GetType()), dateProvider.GetDate());
             outboxes.Add(outbox);
         }
 

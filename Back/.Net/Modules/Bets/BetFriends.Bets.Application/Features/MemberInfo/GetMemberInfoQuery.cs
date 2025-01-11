@@ -19,4 +19,4 @@ public interface IGetMemberInfoDataAccess
 
 public record GetMemberInfoQuery() : IQuery<GetMemberInfoResponse>;
 
-public record GetMemberInfoResponse(string Username, int Coins);
+public record GetMemberInfoResponse(string Username, int Wallet);

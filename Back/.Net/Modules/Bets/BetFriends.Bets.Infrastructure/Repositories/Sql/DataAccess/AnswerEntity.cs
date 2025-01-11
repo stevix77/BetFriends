@@ -15,16 +15,21 @@ public class AnswerEntity
     {
         var snapshot = answerBet.Snapshot;
         BetId = snapshot.BetId;
-        MemberId = snapshot.MemberId;
+        GamblerId = snapshot.MemberId;
         Answer = snapshot.Answer;
     }
 
     [Column("bet_id"), Key, Required]
     public Guid BetId { get; init; }
-    [Column("member_id"), Key, Required]
-    public Guid MemberId { get; init; }
+    [Column("gambler_id"), Key, Required]
+    public Guid GamblerId { get; init; }
     [Column("answer", TypeName = "bit"), Required]
-    public bool Answer { get; init; }
-    [Column("upsert_date", TypeName = "datetime")]
-    public DateTime UpsertDate{ get; init; }
+    public bool Answer { get; set; }
+    [Column("upserted_date", TypeName = "datetime")]
+    public DateTime UpsertedDate{ get; init; }
+
+    internal void Update(AnswerBetSnapshot snapshot)
+    {
+        Answer = snapshot.Answer;
+    }
 }

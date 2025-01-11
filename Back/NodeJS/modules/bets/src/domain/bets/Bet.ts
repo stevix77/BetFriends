@@ -6,6 +6,16 @@ import { IDateTimeProvider } from "../../../../shared/domain/IDateTimeProvider";
 import { BetCompleted } from "./events/BetCompleted";
 
 export class Bet extends Entity {
+    static CreateFromEntity(betId: BetId, bettorId: MemberId, coins: number, description: string, endDate: Date, maxAnswerDate: Date, guests: string[], isSuccessful: boolean | undefined): Bet {
+        return new Bet(betId, 
+                        bettorId, 
+                        description, 
+                        coins, 
+                        endDate, 
+                        guests, 
+                        maxAnswerDate, 
+                        isSuccessful);
+    }
     
     
     IsSuccessful?: boolean;
@@ -21,7 +31,9 @@ export class Bet extends Entity {
                     dateTimeProvider: IDateTimeProvider,
                     isSuccessful: boolean|undefined = undefined): Bet {
             const maxAnswerEndDate = new Date(dateTimeProvider.GetDate().getTime() + ((endDate.getTime() - dateTimeProvider.GetDate().getTime()) / 2))
-        return new Bet(betId, memberId, description, chips, endDate, members, maxAnswerEndDate, isSuccessful);
+            const bet = new Bet(betId, memberId, description, chips, endDate, members, maxAnswerEndDate, isSuccessful);
+            bet.AddDomainEvent(new BetCreated(bet.BetId, bet.BettorId, bet.Coins))
+        return bet;
     }
     private constructor(public BetId: BetId, 
                         public BettorId: MemberId, 
@@ -33,7 +45,6 @@ export class Bet extends Entity {
                     isSuccessful?: boolean){
         super();
         this.IsSuccessful = isSuccessful;
-        this.AddDomainEvent(new BetCreated(BetId, BettorId, Coins))
     }
 
     Close(isSuccessful: boolean) {

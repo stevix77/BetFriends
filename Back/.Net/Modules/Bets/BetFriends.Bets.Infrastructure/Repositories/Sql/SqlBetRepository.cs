@@ -15,11 +15,13 @@ internal class SqlBetRepository(BetContext betContext, DomainEventsAccessor doma
         if (betEntity == null)
             return default!;
         return Bet.CreateFromEntity(betEntity.Id,
-                                    betEntity.BookieId,
+                                    betEntity.BettorId,
                                     betEntity.Description,
                                     betEntity.Coins,
                                     betEntity.EndDate,
-                                    betEntity.Friends);
+                                    betEntity.Guests,
+                                    betEntity.MaxAnswerDate,
+                                    betEntity.IsSuccessful);
     }
 
     public async Task SaveAsync(Bet bet)

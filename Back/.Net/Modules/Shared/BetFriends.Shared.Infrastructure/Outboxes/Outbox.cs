@@ -4,9 +4,9 @@ namespace BetFriends.Shared.Infrastructure.Outboxes;
 
 public class Outbox
 {
-    public Outbox(string type, string data, DateTime occurredOn)
+    public Outbox(Guid id, string type, string data, DateTime occurredOn)
     {
-        Id = Guid.NewGuid();
+        Id = id;
         OccurredOn = occurredOn;
         Type = type;
         Data = data;

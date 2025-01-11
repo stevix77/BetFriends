@@ -36,6 +36,26 @@ public class Bet : Entity
         AddEvent(new BetCreated(betId, ownerId, coins));
     }
 
+    private Bet(BetId betId,
+                MemberId ownerId,
+                string description,
+                int coins,
+                DateTime endDate,
+                IEnumerable<Guid> friends,
+                MaxAnswerDate maxAnswerDate,
+                bool? isSuccessful)
+    {
+        BetId = betId;
+        BookieId = ownerId;
+        Description = description;
+        Coins = coins;
+        EndDate = endDate;
+        Guests = friends;
+        MaxAnswerDate = maxAnswerDate;
+        IsSuccessful = isSuccessful;
+        AddEvent(new BetCreated(betId, ownerId, coins));
+    }
+
     public DateTime EndDate { get; }
     public string Description { get; }
     public int Coins { get; }
@@ -58,14 +78,16 @@ public class Bet : Entity
         return new Bet(betId, ownerId, description, coins, endDate, friends, maxAnswerDate);
     }
 
-    public static Bet CreateFromEntity(Guid id, Guid ownerId, string description, int coins, DateTime endDate, string friends)
+    public static Bet CreateFromEntity(Guid id, Guid bettorId, string description, int coins, DateTime endDate, string friends, DateTime maxAnswerDate, bool? isSuccessful)
     {
-        return new Bet(id,
-                       ownerId,
+        return new Bet(new(id),
+                       new(bettorId),
                        description,
                        coins,
                        endDate,
-                       friends.Split(';').Select(Guid.Parse));
+                       friends.Split(';').Select(Guid.Parse),
+                       new MaxAnswerDate(maxAnswerDate),
+                       isSuccessful);
     }
 
     public (AnswerBet AnswerBet, AnswerErrorCode? Error) AddAnswer(Member member, bool answer, DateTime currentDate)

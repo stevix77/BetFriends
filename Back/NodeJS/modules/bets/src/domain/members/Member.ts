@@ -7,8 +7,9 @@ import { NoneFriendException } from './exceptions/NoneFriendException';
 import { AnswerBet } from '../answerBets/AnswerBet';
 import { IDateTimeProvider } from '../../../../shared/domain/IDateTimeProvider';
 import { MemberSnapshot } from './MemberSnapshot';
+import { Entity } from '../../../../shared/domain/Entity';
 
-export class Member {
+export class Member extends Entity {
     static FromSnapshot(snapshot: MemberSnapshot): Member {
         return new Member(new MemberId(snapshot.MemberId), snapshot.Username, snapshot.Coins, snapshot.CountFriends)
     }
@@ -20,7 +21,9 @@ export class Member {
     private constructor(private readonly memberId: MemberId, 
                 private readonly username: string,
                 private coins: number, 
-                private countFriend: number){}
+                private countFriend: number){
+                    super();
+                }
 
     Bet(betId: string, 
         description: string, 

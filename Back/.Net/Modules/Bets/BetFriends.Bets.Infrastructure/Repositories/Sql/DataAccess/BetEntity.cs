@@ -18,22 +18,26 @@ public class BetEntity
         Description = bet.Description;
         Coins = bet.Coins;
         EndDate = bet.EndDate;
-        Friends = string.Join(';', bet.Guests);
-        BookieId = bet.BookieId.Value;
+        Guests = string.Join(';', bet.Guests);
+        BettorId = bet.BookieId.Value;
     }
 
     [Column("surrogate_id", TypeName = "int")]
     public int SurrogateId { get; set; }
     [Column("id"), Key, Required]
     public Guid Id { get; set; }
-    [Column("description", TypeName = "varchar(MAX)")]
+    [Column("description", TypeName = "varchar(MAX)"), Required]
     public string Description { get; set; }
-    [Column("coins", TypeName = "int")]
+    [Column("coins", TypeName = "int"), Required]
     public int Coins { get; set; }
-    [Column("end_date", TypeName = "datetime")]
+    [Column("end_date", TypeName = "datetime"), Required]
     public DateTime EndDate { get; set; }
-    [Column("friends", TypeName = "varchar(MAX)")]
-    public string Friends { get; set; }
-    [Column("bookie_id")]
-    public Guid BookieId { get; set; }
+    [Column("guests", TypeName = "varchar(MAX)"), Required]
+    public string Guests { get; set; }
+    [Column("bettor_id"), Required]
+    public Guid BettorId { get; set; }
+    [Column("max_answer_date", TypeName = "datetime"), Required]
+    public DateTime MaxAnswerDate { get; set; }
+    [Column("is_successful", TypeName = "bit")]
+    public bool? IsSuccessful { get; set; }
 }

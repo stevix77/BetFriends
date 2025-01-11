@@ -21,8 +21,8 @@ public record RetrieveBetsResponse(Guid Id,
                                    string Description,
                                    DateTime EndDate,
                                    int Coins,
-                                   Guid OwnerId,
-                                   string OwnerName,
+                                   Guid BettorId,
+                                   string BettorName,
                                    DateTime MaxAnswerDate,
                                    IEnumerable<GamblerDto> Gamblers);
 

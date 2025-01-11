@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BetFriends.Bets.Infrastructure.Repositories.Sql.DataAccess;
 
-[Table("friendship", Schema = "bet")]
+[Table("friendships", Schema = "bet")]
 public class FriendshipEntity
 {
     public FriendshipEntity()

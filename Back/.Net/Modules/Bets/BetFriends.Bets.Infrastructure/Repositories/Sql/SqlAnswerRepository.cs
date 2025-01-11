@@ -14,7 +14,7 @@ internal class SqlAnswerRepository(BetContext betContext, DomainEventsAccessor d
     {
         var answersEntity = betContext.Answers.Where(x => x.BetId == betId.Value);
         var answers = answersEntity.Select(x => AnswerBet.FromSnapshot(new AnswerBetSnapshot(x.BetId,
-                                                                                            x.MemberId,
+                                                                                            x.GamblerId,
                                                                                             x.Answer)));
         return Task.FromResult<IEnumerable<AnswerBet>>(answers);
     }
@@ -22,7 +22,14 @@ internal class SqlAnswerRepository(BetContext betContext, DomainEventsAccessor d
     public async Task SaveAsync(AnswerBet answerBet)
     {
         var entity = new AnswerEntity(answerBet);
-        await betContext.AddAsync(entity);
-        domainEventsAccessor.Add(answerBet.Events);
+        entity = await betContext.FindAsync<AnswerEntity>(entity.BetId, entity.GamblerId);
+        if(entity == null)
+        {
+            await betContext.AddAsync(entity);
+            domainEventsAccessor.Add(answerBet.Events);
+            return;
+        }
+        entity.Update(answerBet.Snapshot);
+
     }
 }
