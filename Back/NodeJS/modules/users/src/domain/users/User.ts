@@ -9,18 +9,20 @@ export class User extends Entity {
         return new User(new UserId(snapshot.UserId),
                         snapshot.Username,
                         snapshot.Email,
-                    snapshot.Password)
+                    snapshot.Password,
+                snapshot.RefreshToken)
     }
-    static Create(userId: UserId, username: string, email: string, password: string): User {
-        const user = new User(userId, username, email, password)
+    static Create(userId: UserId, username: string, email: string, password: string, refreshToken: string): User {
+        const user = new User(userId, username, email, password, refreshToken)
         user.AddDomainEvent(new UserRegistered(userId, username, email))
         return user
     }
-    private snapshot: UserSnapshot;
+    
     private constructor(private readonly userId: UserId, 
                 private readonly username: string, 
                 private readonly email: string, 
-                private readonly password: string) {
+                private password: string,
+            private refreshToken: string) {
         super();
     }
 
@@ -28,6 +30,7 @@ export class User extends Entity {
         return new UserSnapshot(this.userId.Value, 
                                 this.username, 
                                 this.email, 
-                                this.password)
+                                this.password,
+                            this.refreshToken)
     }
 }

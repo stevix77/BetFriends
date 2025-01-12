@@ -4,11 +4,13 @@ import { IUserRepository } from "../../../domain/users/IUserRepository";
 import { User } from "../../../domain/users/User";
 import { UserId } from "../../../domain/users/UserId";
 import { IRequestHandler } from "../../../../../Shared/Application/Request/IRequestHandler";
+import { ITokenGenerator } from "../../abstractions/ITokenGenerator";
 
 export class RegisterHandler implements IRequestHandler<RegisterCommand, void> {
-    constructor(private outputPort: IRegisterOutputPort,
-                private userRepository: IUserRepository,
-                private passwordHasher: IHashPassword
+    constructor(private readonly outputPort: IRegisterOutputPort,
+                private readonly userRepository: IUserRepository,
+                private readonly passwordHasher: IHashPassword,
+                private readonly tokenGenerator: ITokenGenerator
     ) {}
     async Handle(request: RegisterCommand): Promise<void> {
         const isUserExists = await this.userRepository.IsExists(request.Email,
@@ -23,7 +25,8 @@ export class RegisterHandler implements IRequestHandler<RegisterCommand, void> {
         const user = User.Create(new UserId(request.UserId), 
                             request.Username, 
                             request.Email, 
-                            password)
+                            password,
+                            this.tokenGenerator.Generate(request.UserId))
         await this.userRepository.Save(user)
         this.outputPort.Present();
     }

@@ -6,13 +6,13 @@ export class InMemoryMemberRepository implements IMemberRepository {
     constructor(private members: Member[] = []){
 
     }
-    Save(member: Member): PromiseLike<void> {
+    Save(member: Member): Promise<void> {
         if(!this.members.some(x => x.GetSnapshot().MemberId == member.GetSnapshot().MemberId)) {
             this.members.push(member);
         }
         return Promise.resolve();
     }
-    GetByIdAsync(memberId: MemberId): PromiseLike<Member | undefined> {
+    GetByIdAsync(memberId: MemberId): Promise<Member | undefined> {
         const member = this.members.find(x => x.GetSnapshot().MemberId == memberId.Value);
         return Promise.resolve(member)
     }

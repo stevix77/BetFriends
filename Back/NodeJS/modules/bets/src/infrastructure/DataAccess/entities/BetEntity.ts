@@ -8,11 +8,11 @@ import { Bet } from "../../../domain/bets/Bet";
 export class BetEntity {
     
     @Column({
-        name: "ownerid"
+        name: "id"
     })
     BetId: string;
     @Column({
-        name: "bookie_id"
+        name: "bettor_id"
     })
     BettorId: string;
     @Column({

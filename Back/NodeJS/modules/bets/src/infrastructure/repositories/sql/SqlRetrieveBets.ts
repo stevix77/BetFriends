@@ -1,21 +1,15 @@
 import { GamblerDto, IRetrieveBetsDataAccess, RetrieveBetsResponse } from "../../../application/features/retrieve-bets/RetrieveBetsQueryHandler";
-const mssql = require('mssql')
+import sql, { ConnectionPool } from "mssql";
 
 export class SqlRetrieveBets implements IRetrieveBetsDataAccess {
-    private pool: any;
-    constructor(config: any){
-        mssql.on('error', err => {
-            console.log(err);
-        })
-        mssql.connect(config).then(e => {
-            this.pool = e;
-        })
+    constructor(private readonly pool: ConnectionPool){
+        
     }
     
     
     async RetrieveBetsAsync(userId: string): Promise<RetrieveBetsResponse[]> {
         const req = await this.pool.request()
-                                    .input('userId', mssql.VarChar(50), userId)
+                                    .input('userId', sql.VarChar(50), userId)
                                     .query(`SELECT b.bet_id Id, 
                                         b.description Description, 
                                         b.coins Coins, 

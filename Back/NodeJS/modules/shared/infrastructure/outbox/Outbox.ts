@@ -5,9 +5,7 @@ export class Outbox {
     Handled(dateProvider: IDateTimeProvider) {
         this.HandledAt = dateProvider.GetDate()
     }
-    constructor(public Id: string, public Type: string, public Data: string, dateProvider: IDateTimeProvider) {
-        this.CreatedAt = dateProvider.GetDate()
+    constructor(public Id: string, public Type: string, public Data: string, public createdAt: Date) {
+        
     }
-
-    CreatedAt: Date
 }

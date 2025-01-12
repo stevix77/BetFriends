@@ -2,20 +2,26 @@ import { IAuthenticationGateway } from "../application/abstractions/IAuthenticat
 import { Authenticate } from "../application/features/sign-in/signInHandler";
 import { FakeUserRepository } from "./repositories/FakeUserRepository";
 import { ITokenGenerator } from "../application/abstractions/ITokenGenerator";
+import { IJwtTokenGenerator } from "./IJwtTokenGenerator";
 
 export class FakeAuthenticationGateway implements IAuthenticationGateway {
     constructor(private readonly userRepository: FakeUserRepository,
-                private readonly tokenGenerator: ITokenGenerator
+                private readonly jwtTokenGenerator: IJwtTokenGenerator
     ) {}
     Authenticate(email: string, password: string): Promise<Authenticate> {
-        const user = this.userRepository.GetUsers().find(user => {
-            const snapshot = user.GetSnapshot();
+        const user = this.userRepository.GetUsers().find(u => {
+            const snapshot = u.GetSnapshot();
             return snapshot.Email == email && snapshot.Password == password;
         });
         if(user) {
+            const userSnapshot = user.GetSnapshot();
             return Promise.resolve({
-                AccessToken: this.tokenGenerator.Generate(user),
-                RefreshToken: "refreshtoken"
+                AccessToken: this.jwtTokenGenerator.Generate({
+                    Email: userSnapshot.Email,
+                    Username: userSnapshot.Username,
+                    UserId: userSnapshot.UserId
+                }),
+                RefreshToken: userSnapshot.RefreshToken
             });
         }
         return Promise.resolve(undefined!);
