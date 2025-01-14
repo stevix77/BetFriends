@@ -20,8 +20,4 @@
     <ProjectReference Include="..\BetFriends.Users.Application\BetFriends.Users.Application.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DataAccess\" />
-  </ItemGroup>
-
 </Project>

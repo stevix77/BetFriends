@@ -1,0 +1,12 @@
+﻿<Project Sdk="MSBuild.Sdk.SqlProj/3.0.0">
+	<!-- This will pull in the required tools and dependencies to build a .dacpac with .NET Core -->
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<SqlServerVersion>SqlAzure</SqlServerVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Content Include="..\BetFriends.Database\**\*.sql" />
+	</ItemGroup>
+
+</Project>

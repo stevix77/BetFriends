@@ -23,6 +23,6 @@ public class FriendshipEntity
     [Column("requester_id"), Key, Required]
     public Guid RequesterId { get; init; }
 
-    [Column("created_at", TypeName = "datetime")]
+    [Column("created_at")]
     public DateTime CreatedAt { get; init; }
 }

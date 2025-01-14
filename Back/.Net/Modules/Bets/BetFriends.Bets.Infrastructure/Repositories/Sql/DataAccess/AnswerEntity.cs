@@ -23,9 +23,9 @@ public class AnswerEntity
     public Guid BetId { get; init; }
     [Column("gambler_id"), Key, Required]
     public Guid GamblerId { get; init; }
-    [Column("answer", TypeName = "bit"), Required]
+    [Column("answer", TypeName = "bit")]
     public bool Answer { get; set; }
-    [Column("upserted_date", TypeName = "datetime")]
+    [Column("upserted_at", TypeName = "datetime")]
     public DateTime UpsertedDate{ get; init; }
 
     internal void Update(AnswerBetSnapshot snapshot)

@@ -4,7 +4,7 @@ import { AppModule } from "src/app.module";
 import { RegisterController } from "./features/register/register.controller";
 import { RegisterPresenter } from "./features/register/registerPresenter";
 import { IDateTimeProvider } from "../../../../modules/shared/domain/IDateTimeProvider";
-import { TokenGenerator } from "src/TokenGenerator";
+import { JwtTokenGenerator, TokenGenerator } from "src/TokenGenerator";
 import { JwtModule } from "@nestjs/jwt";
 import { randomUUID } from "crypto";
 import { IEventBus } from "../../../../modules/shared/infrastructure/events/IEventBus";
@@ -23,8 +23,8 @@ import { UserModuleFactory } from '../../../../modules/users/src/infrastructure/
     providers: [
         UserProcessOutboxJobs,
         {
-            provide: TokenGenerator,
-            useClass: TokenGenerator
+            provide: JwtTokenGenerator,
+            useClass: JwtTokenGenerator
         },
         {
             provide: RegisterPresenter,
@@ -33,17 +33,15 @@ import { UserModuleFactory } from '../../../../modules/users/src/infrastructure/
         {
             provide: 'IUserModule',
             useFactory: (dateTimeProvider: IDateTimeProvider,
-                            tokenGenerator: TokenGenerator,
                             registerPresenter: RegisterPresenter,
                             eventBus: IEventBus
             ) => {
-                return UserModuleFactory.Create(tokenGenerator,
+                return UserModuleFactory.Create(new TokenGenerator(),
                                                 registerPresenter,
                                                 dateTimeProvider,
                                                 eventBus)
             },
             inject: ['IDateTimeProvider', 
-                    TokenGenerator, 
                     RegisterPresenter,
                     'IEventBus']
         }
