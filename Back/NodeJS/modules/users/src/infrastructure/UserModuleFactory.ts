@@ -19,18 +19,20 @@ import { IntegrationEventFactory } from './integrationEvents/IntegrationEventFac
 import { IEventBus } from '../../../shared/infrastructure/events/IEventBus';
 import { IUserModule } from '../application/abstractions/IUserModule';
 import { UserModule } from './UserModule';
+import { IJwtTokenGenerator } from './IJwtTokenGenerator';
 export class UserModuleFactory {
     static Create(tokenGenerator: ITokenGenerator,
         registerPresenter: IRegisterOutputPort,
         dateProvider: IDateTimeProvider,
-        eventBus: IEventBus): IUserModule {
+        eventBus: IEventBus,
+        jwtTokenGenerator: IJwtTokenGenerator): IUserModule {
         const domainEventAccessor = new DomainEventAccessor();
         const userRepository = new FakeUserRepository(domainEventAccessor)
         const outboxAccessor = new InMemoryOutboxAccessor();
         const passwordHasher = new FakeHashPassword();
-        const authenticationGateway = new FakeAuthenticationGateway(userRepository, tokenGenerator)
+        const authenticationGateway = new FakeAuthenticationGateway(userRepository, jwtTokenGenerator)
         const signinHandler = new SignInHandler(authenticationGateway, passwordHasher);
-        const registerHandler = new RegisterHandler(registerPresenter, userRepository, passwordHasher);
+        const registerHandler = new RegisterHandler(registerPresenter, userRepository, passwordHasher, tokenGenerator);
         const processOutboxHandler = new ProcessOutboxCommandHandler(outboxAccessor, 
                                                                     dateProvider, 
                                                                     new IntegrationEventFactory(), 

@@ -34,16 +34,19 @@ import { UserModuleFactory } from '../../../../modules/users/src/infrastructure/
             provide: 'IUserModule',
             useFactory: (dateTimeProvider: IDateTimeProvider,
                             registerPresenter: RegisterPresenter,
-                            eventBus: IEventBus
+                            eventBus: IEventBus,
+                            jwtTokenGenerator: JwtTokenGenerator
             ) => {
                 return UserModuleFactory.Create(new TokenGenerator(),
                                                 registerPresenter,
                                                 dateTimeProvider,
-                                                eventBus)
+                                                eventBus,
+                                                jwtTokenGenerator)
             },
             inject: ['IDateTimeProvider', 
                     RegisterPresenter,
-                    'IEventBus']
+                    'IEventBus',
+                    JwtTokenGenerator]
         }
     ]
 })

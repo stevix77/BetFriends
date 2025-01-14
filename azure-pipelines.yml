@@ -151,6 +151,50 @@ steps:
     codecoveragetool: 'Cobertura'
     summaryfilelocation: '$(build.sourcesdirectory)/coverlet/reports/Cobertura.xml'
 
+# Database 
+
+- task: DockerCompose@0
+  inputs:
+    dockerComposeFile: 'docker-compose.yml'
+    action: 'Run a Docker Compose command'
+    containerregistrytype: 'Container Registry'
+    dockerComposeCommand: up -d
+  displayName: Run docker compose to create db server
+
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      docker exec -it sqlserv "bash"
+      /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P "Password!" -Q "create database betfriends"
+      exit
+  displayName: Connect to db server and create database
+
+- task: DotNetCoreCLI@2
+  displayName: 'build db'
+  inputs:
+    command: build
+    arguments: --configuration $(buildConfiguration) 
+    projects: 'Database/BetFriends.Database/BetFriends.Database.Build/BetFriends.Database.Build.csproj'
+
+- task: CopyFiles@1
+  inputs:
+    SourceFolder: '$(System.DefaultWorkingDirectory)'
+    Contents: '**/BetFriends.Database.Build.dacpac'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/db'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/db'
+    ArtifactName: '$(Parameters.ArtifactName)'
+
+- task: DotNetCoreCLI@2
+  displayName: 'run db deploy'
+  inputs:
+    command: run
+    arguments: --configuration $(buildConfiguration) $(Build.ArtifactStagingDirectory)/db/Database/BetFriends.Database/BetFriends.Database.Build/bin/release/netstandard2.0/BetFriends.Database.Build.dacpac
+    projects: 'Database/BetFriends.Database/BetFriends.Database.Deploy/BetFriends.Database.Deploy.csproj'
+    WorkingDirectory: '$(Build.SourcesDirectory)'
 # .Net 8
 
 - task: NuGetCommand@2
