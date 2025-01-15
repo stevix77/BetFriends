@@ -15,9 +15,14 @@ trigger:
     include: [ feature/*, main ]
 
 pool:
-  vmImage: windows-latest
+  vmImage: macOs-latest
 
 steps:
+
+- script: |
+    docker --version
+    docker info
+  displayName: 'Check Docker installation'
 
 # Database 
 
