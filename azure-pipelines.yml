@@ -15,14 +15,13 @@ trigger:
     include: [ feature/*, main ]
 
 pool:
-  vmImage: macOs-latest
+  vmImage: 'macOS-latest'
 
 steps:
 
 - script: |
-    docker --version
-    docker info
-  displayName: 'Check Docker installation'
+    docker-compose --version
+  displayName: 'Check Docker Compose version'
 
 # Database 
 
