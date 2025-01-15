@@ -176,7 +176,10 @@ steps:
 - task: CmdLine@2
   displayName: 'Install Maui Workload'
   inputs:
-    script: 'dotnet workload install maui'
+    script: |
+        dotnet nuget locals all --clear 
+        dotnet workload install maui
+        dotnet workload install android ios maccatalyst tvos macos maui wasm-tools
 
 - task: DotNetCoreCLI@2
   displayName: 'unit tests'
