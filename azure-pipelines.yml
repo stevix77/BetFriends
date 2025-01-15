@@ -20,12 +20,13 @@ pool:
 steps:
 
 - script: |
+    brew install --cask docker
     open /Applications/Docker.app
     while ! docker system info > /dev/null 2>&1; do
       echo "Waiting for Docker to start..."
       sleep 5
     done
-  displayName: 'Start Docker Desktop'
+  displayName: 'Install and start Docker Desktop'
 
 - script: |
     docker-compose --version
