@@ -1,18 +1,10 @@
+version: '3.9'
 services:
-
-  mssql:
-    container_name: betfriends-sqlserv
-    hostname: betfriends-sqlserv
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    environment:
-      ACCEPT_EULA: 'Y'
-      MSSQL_SA_PASSWORD: 'Password!'
-      MSSQL_DATA_DIR: /var/opt/mssql/data
-      MSSQL_PID: 'Developer' 
-      MSSQL_TCP_PORT: 1433 
-    ports: 
-      - "1433:1433"
-    volumes:
-      - ./data:/var/opt/mssql/data
-      - ./log:/var/opt/mssql/log
-      - ./secrets:/var/opt/mssql/secrets
+  SQLServer:
+   image: mcr.microsoft.com/mssql/server:2022-latest
+   environment:
+     - ACCEPT_EULA=Y
+     - MSSQL_SA_PASSWORD=Password!
+   ports:
+     - 1433:1433/tcp
+   container_name: sqlserv-betfriends
