@@ -27,6 +27,7 @@ steps:
     action: 'Run a Docker Compose command'
     containerregistrytype: 'Container Registry'
     dockerComposeCommand: up -d
+    projectName: betfriends
   displayName: Run docker compose to create db server
 
 - task: PowerShell@2
