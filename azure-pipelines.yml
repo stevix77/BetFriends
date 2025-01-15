@@ -15,7 +15,7 @@ trigger:
     include: [ feature/*, main ]
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: windows-latest
 
 steps:
 
@@ -173,13 +173,10 @@ steps:
     packageType: 'sdk'
     version: '8.x'
 
-- task: CmdLine@2
-  displayName: 'Install Maui Workload'
-  inputs:
-    script: |
-        dotnet nuget locals all --clear 
-        dotnet workload install maui
-        dotnet workload install android ios maccatalyst tvos macos maui wasm-tools
+# - task: CmdLine@2
+#   displayName: 'Install Maui Workload'
+#   inputs:
+#     script: 'dotnet workload install maui'
 
 - task: DotNetCoreCLI@2
   displayName: 'unit tests'
