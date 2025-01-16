@@ -127,49 +127,49 @@ jobs:
     
    # NodeJS #  
    
-#   - task: NodeTool@0
-#     inputs:
-#       versionSpec: '20.x'
-#     displayName: 'Install Node.js 20.x'
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '20.x'
+    displayName: 'Install Node.js 20.x'
   
-#   - script: |
-#       npm install
-#     displayName: 'npm install packages NodeJS'
-#     workingDirectory: '$(Build.SourcesDirectory)/Back/NodeJS'
+  - script: |
+      npm install
+    displayName: 'npm install packages NodeJS'
+    workingDirectory: '$(Build.SourcesDirectory)/Back/NodeJS'
     
-#   - script: |
-#       npm run test
-#     displayName: 'npm test'
-#     workingDirectory: '$(Build.SourcesDirectory)/Back/NodeJS'
+  - script: |
+      npm run test
+    displayName: 'npm test'
+    workingDirectory: '$(Build.SourcesDirectory)/Back/NodeJS'
   
-#   - task: PublishCodeCoverageResults@1
-#     continueOnError: true
-#     inputs:
-#       codeCoverageTool: Cobertura
-#       summaryFileLocation: '$(System.DefaultWorkingDirectory)/Back/NodeJS/coverage/coverage-final.json'
+  - task: PublishCodeCoverageResults@1
+    continueOnError: true
+    inputs:
+      codeCoverageTool: Cobertura
+      summaryFileLocation: '$(System.DefaultWorkingDirectory)/Back/NodeJS/coverage/coverage-final.json'
   
-#   - script: |
-#       npm install
-#     displayName: 'npm install api NodeJS'
-#     workingDirectory: '$(Build.SourcesDirectory)/Back/NodeJS/api/nest'
+  - script: |
+      npm install
+    displayName: 'npm install api NodeJS'
+    workingDirectory: '$(Build.SourcesDirectory)/Back/NodeJS/api/nest'
   
-#   - script: |
-#       npm run build
-#     displayName: 'npm build'
-#     workingDirectory: '$(Build.SourcesDirectory)/Back/NodeJS/api/nest'
+  - script: |
+      npm run build
+    displayName: 'npm build'
+    workingDirectory: '$(Build.SourcesDirectory)/Back/NodeJS/api/nest'
   
-#   - task: ArchiveFiles@2
-#     inputs:
-#       rootFolderOrFile: '$(System.DefaultWorkingDirectory)/Back/NodeJS/api/nest'
-#       includeRootFolder: false
-#       archiveType: 'zip'
-#       archiveFile: '$(Build.ArtifactStagingDirectory)/nodejs-api.zip'
-#       replaceExistingArchive: true
+  - task: ArchiveFiles@2
+    inputs:
+      rootFolderOrFile: '$(System.DefaultWorkingDirectory)/Back/NodeJS/api/nest'
+      includeRootFolder: false
+      archiveType: 'zip'
+      archiveFile: '$(Build.ArtifactStagingDirectory)/nodejs-api.zip'
+      replaceExistingArchive: true
   
-#   - task: PublishBuildArtifacts@1
-#     inputs:
-#       PathtoPublish: '$(Build.ArtifactStagingDirectory)/nodejs-api.zip'
-#     displayName: 'Publish npm artifact'
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)/nodejs-api.zip'
+    displayName: 'Publish npm artifact'
   
 # # Build FRONT
 

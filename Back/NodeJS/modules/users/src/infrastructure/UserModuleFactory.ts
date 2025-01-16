@@ -1,10 +1,10 @@
 import { DomainEventAccessor } from '../../../shared/infrastructure/events/DomainEventAccessor';
 import { FakeUserRepository } from './repositories/FakeUserRepository';
 import { FakeHashPassword } from './FakeHashPassword';
-import { InMemoryOutboxAccessor } from '../../../users/src/infrastructure/Outbox/InMemoryOutboxAccessor';
+import { InMemoryOutboxAccessor } from '../../../users/src/infrastructure/outbox/InMemoryOutboxAccessor';
 import { FakeAuthenticationGateway } from './FakeAuthenticationGateway';
 import { ITokenGenerator } from '../application/abstractions/ITokenGenerator';
-import { SignInHandler } from '../application/features/sign-in/signInHandler';
+import { SignInHandler } from '../application/features/sign-in/SignInHandler';
 import { IRegisterOutputPort, RegisterHandler } from '../application/features/register/RegisterHandler';
 import { Mediator } from '../../../shared/infrastructure/Mediator';
 import { UnitOfWorkBehavior } from '../../../shared/infrastructure/behaviors/UnitOfWorkBehavior';

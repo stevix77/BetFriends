@@ -3,7 +3,7 @@ import { IHashPassword } from "../../abstractions/IHashPassword";
 import { IUserRepository } from "../../../domain/users/IUserRepository";
 import { User } from "../../../domain/users/User";
 import { UserId } from "../../../domain/users/UserId";
-import { IRequestHandler } from "../../../../../Shared/Application/Request/IRequestHandler";
+import { IRequestHandler } from "../../../../../shared/application/Request/IRequestHandler";
 import { ITokenGenerator } from "../../abstractions/ITokenGenerator";
 
 export class RegisterHandler implements IRequestHandler<RegisterCommand, void> {

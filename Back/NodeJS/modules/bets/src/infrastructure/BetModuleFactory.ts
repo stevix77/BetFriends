@@ -26,7 +26,7 @@ import { InMemoryUnitOfWork } from '../../../shared/infrastructure/uow/InMemoryU
 import { RequestBehavior } from '../../../shared/infrastructure/behaviors/RequestBehavior';
 import { LoggingBehavior } from '../../../shared/infrastructure/behaviors/LoggingBehavior';
 import { BetModule } from './BetModule';
-import { ProcessOutboxCommandHandler } from '../../../bets/src/infrastructure/outbox/ProcessOutboxCommand';
+import { ProcessOutboxCommandHandler } from '../../../bets/src/infrastructure/Outbox/ProcessOutboxCommand';
 import { IntegrationEventFactory } from './integrationEvents/IntegrationEventFactory';
 import { ICreateBetOutputPort } from '../../../bets/src/application/features/create-bet/CreateBetHandler';
 import { IAnswerBetOutputPort } from '../../../bets/src/application/features/answer-bet/AnswerBetHandler';

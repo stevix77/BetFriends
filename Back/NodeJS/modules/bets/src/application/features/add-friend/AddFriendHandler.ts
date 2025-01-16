@@ -3,7 +3,7 @@ import { IMemberRepository } from "../../../domain/members/IMemberRepository";
 import { MemberId } from "../../../domain/members/MemberId";
 import { IUserContext } from "../../Abstractions/IUserContext";
 import { ICommand } from "../../../../../shared/application/Request/ICommand";
-import { IRequestHandler } from '../../../../../Shared/Application/Request/IRequestHandler';
+import { IRequestHandler } from '../../../../../shared/application/Request/IRequestHandler';
 
 export class AddFriendCommandHandler implements IRequestHandler<AddFriendCommand, void> {
     constructor(private friendshipRepository: IFriendshipRepository,

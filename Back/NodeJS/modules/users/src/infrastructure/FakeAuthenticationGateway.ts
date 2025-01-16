@@ -1,7 +1,6 @@
 import { IAuthenticationGateway } from "../application/abstractions/IAuthenticationGateway"
-import { Authenticate } from "../application/features/sign-in/signInHandler";
+import { Authenticate } from "../application/features/sign-in/SignInHandler";
 import { FakeUserRepository } from "./repositories/FakeUserRepository";
-import { ITokenGenerator } from "../application/abstractions/ITokenGenerator";
 import { IJwtTokenGenerator } from "./IJwtTokenGenerator";
 
 export class FakeAuthenticationGateway implements IAuthenticationGateway {

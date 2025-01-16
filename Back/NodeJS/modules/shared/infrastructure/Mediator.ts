@@ -1,7 +1,7 @@
 import { INotification } from "../application/Request/INotification";
 import { IRequest, Request } from "../application/Request/IRequest";
 import { INotificationHandler } from "../application/Request/INotificationHandler";
-import { IRequestHandler } from "../Application/Request/IRequestHandler";
+import { IRequestHandler } from "../application/Request/IRequestHandler";
 
 export interface IMediator {
     Send<T>(request: IRequest<T>): Promise<T>;
