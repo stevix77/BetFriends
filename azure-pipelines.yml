@@ -14,19 +14,15 @@ trigger:
   branches:
     include: [ feature/*, main ]
 
+jobs:
+
+- job: Build_back
+  displayName: 'build back on linux image'
+
 pool:
-  vmImage: 'macOS-latest'
+  vmImage: 'ubuntu-latest'
 
 steps:
-
-- script: |
-    brew install --cask docker
-    open /Applications/Docker.app
-  displayName: 'Install and start Docker Desktop'
-
-- script: |
-    docker-compose --version
-  displayName: 'Check Docker Compose version'
 
 # Database 
 
@@ -73,140 +69,6 @@ steps:
     arguments: --configuration $(buildConfiguration) $(Build.ArtifactStagingDirectory)/db/Database/BetFriends.Database/BetFriends.Database.Build/bin/release/netstandard2.0/BetFriends.Database.Build.dacpac
     projects: 'Database/BetFriends.Database/BetFriends.Database.Deploy/BetFriends.Database.Deploy.csproj'
     WorkingDirectory: '$(Build.SourcesDirectory)'
-
-# Node
-- task: NodeTool@0
-  inputs:
-    versionSpec: '20.x'
-  displayName: 'Install Node.js 20.x'
-
-- task: Npm@1
-  displayName: 'Install package.json'
-  inputs:
-    command: install
-    workingDir: 'Front/TS/src'
-    verbose: true
-
-- task: Npm@1
-  displayName: 'Install tests package.json'
-  inputs:
-    command: install
-    customCommand: 'install package.json'
-    workingDir: 'Front/TS/tests'
-    verbose: true
-
-
-- task: Npm@1
-  displayName: 'Run tests'
-  inputs:
-    command: custom
-    customCommand: 'run test'
-    verbose: true
-    workingDir: 'Front/TS/tests'
-
-- task: PublishCodeCoverageResults@1
-  continueOnError: true
-  inputs:
-    codeCoverageTool: Cobertura
-    summaryFileLocation: '$(System.DefaultWorkingDirectory)/Front/TS/tests/coverage/coverage-final.json'
-
-# angular #
-
-- task: Npm@1
-  inputs:
-    command: custom
-    customCommand: 'install -g @angular/cli'
-  displayName: 'Install Angular cli'
-
-- task: Npm@1
-  displayName: 'Install angular project'
-  inputs:
-    command: custom
-    customCommand: 'install'
-    verbose: true
-    workingDir: 'Front/TS/src/infrastructure/ui/Angular'
-
-- task: Npm@1
-  displayName: Build angular project
-  inputs:
-    command: custom
-    verbose: true
-    workingDir: 'Front/TS/src/infrastructure/ui/Angular'
-    customCommand: 'run build'
-
-- task: CopyFiles@2
-  displayName: Copy files into artifact directory
-  inputs:
-    sourceFolder: '$(System.DefaultWorkingDirectory)/Front/TS/src/infrastructure/ui/Angular/dist/angular'
-    targetFolder: '$(Build.ArtifactStagingDirectory)/angular'
-
-- task: PublishBuildArtifacts@1
-  displayName: Publish angular artifact
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/angular'
-    ArtifactName: 'drop-angular'
-    publishLocation: 'Container'
-
-  # vue3 #
-- task: Npm@1
-  displayName: 'Install vue project'
-  inputs:
-    command: install
-    verbose: true
-    workingDir: 'Front/TS/src/infrastructure/ui/Vue/'
-
-- task: Npm@1
-  displayName: Build vue project
-  inputs:
-    command: custom
-    verbose: true
-    workingDir: 'Front/TS/src/infrastructure/ui/Vue'
-    customCommand: 'run build-only'
-
-- task: CopyFiles@2
-  displayName: Copy files into artifact directory
-  inputs:
-    sourceFolder: 'Front/TS/src/infrastructure/ui/Vue/dist'
-    targetFolder: '$(Build.ArtifactStagingDirectory)/vue'
-
-- task: PublishBuildArtifacts@1
-  displayName: Publish artifact
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/vue'
-    ArtifactName: 'drop-vue'
-
-# .Net MAUI #
-
-- task: UseDotNet@2
-  inputs:
-    packageType: 'sdk'
-    version: '8.x'
-
-# - task: CmdLine@2
-#   displayName: 'Install Maui Workload'
-#   inputs:
-#     script: 'dotnet workload install maui'
-
-- task: DotNetCoreCLI@2
-  displayName: 'unit tests'
-  inputs:
-    command: test
-    projects: 'Front/.Net Maui/**/*Tests.csproj'
-    arguments: --configuration $(buildConfiguration) --collect "XPlat Code coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)\TestResults\Coverage\
-    publishTestResults: true
-    nobuild: true
-
-- script: 'dotnet tool install --global dotnet-reportgenerator-globaltool --version 4.5.8'  
-  displayName: 'Install ReportGenerator tool'
-
-- script: 'reportgenerator -reports:$(agent.tempdirectory)/**/coverage.cobertura.xml -targetdir:$(build.sourcesdirectory)/coverlet/reports -reporttypes:"Cobertura"'  
-  displayName: 'create reports' 
-
-- task: publishcodecoverageresults@1
-  displayName: 'publish code coverage report'
-  inputs:
-    codecoveragetool: 'Cobertura'
-    summaryfilelocation: '$(build.sourcesdirectory)/coverlet/reports/Cobertura.xml'
 
 # .Net 8
 
@@ -301,3 +163,147 @@ steps:
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)/nodejs-api.zip'
   displayName: 'Publish npm artifact'
+
+# Node
+- task: NodeTool@0
+  inputs:
+    versionSpec: '20.x'
+  displayName: 'Install Node.js 20.x'
+
+- task: Npm@1
+  displayName: 'Install package.json'
+  inputs:
+    command: install
+    workingDir: 'Front/TS/src'
+    verbose: true
+
+- task: Npm@1
+  displayName: 'Install tests package.json'
+  inputs:
+    command: install
+    customCommand: 'install package.json'
+    workingDir: 'Front/TS/tests'
+    verbose: true
+
+
+- task: Npm@1
+  displayName: 'Run tests'
+  inputs:
+    command: custom
+    customCommand: 'run test'
+    verbose: true
+    workingDir: 'Front/TS/tests'
+
+- task: PublishCodeCoverageResults@1
+  continueOnError: true
+  inputs:
+    codeCoverageTool: Cobertura
+    summaryFileLocation: '$(System.DefaultWorkingDirectory)/Front/TS/tests/coverage/coverage-final.json'
+
+
+- job: Build_front
+  displayName: 'build front on macOs image'
+
+  pool:
+    vmImage: 'macOs-latest'
+
+steps:
+
+# angular #
+
+- task: Npm@1
+  inputs:
+    command: custom
+    customCommand: 'install -g @angular/cli'
+  displayName: 'Install Angular cli'
+
+- task: Npm@1
+  displayName: 'Install angular project'
+  inputs:
+    command: custom
+    customCommand: 'install'
+    verbose: true
+    workingDir: 'Front/TS/src/infrastructure/ui/Angular'
+
+- task: Npm@1
+  displayName: Build angular project
+  inputs:
+    command: custom
+    verbose: true
+    workingDir: 'Front/TS/src/infrastructure/ui/Angular'
+    customCommand: 'run build'
+
+- task: CopyFiles@2
+  displayName: Copy files into artifact directory
+  inputs:
+    sourceFolder: '$(System.DefaultWorkingDirectory)/Front/TS/src/infrastructure/ui/Angular/dist/angular'
+    targetFolder: '$(Build.ArtifactStagingDirectory)/angular'
+
+- task: PublishBuildArtifacts@1
+  displayName: Publish angular artifact
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/angular'
+    ArtifactName: 'drop-angular'
+    publishLocation: 'Container'
+
+  # vue3 #
+- task: Npm@1
+  displayName: 'Install vue project'
+  inputs:
+    command: install
+    verbose: true
+    workingDir: 'Front/TS/src/infrastructure/ui/Vue/'
+
+- task: Npm@1
+  displayName: Build vue project
+  inputs:
+    command: custom
+    verbose: true
+    workingDir: 'Front/TS/src/infrastructure/ui/Vue'
+    customCommand: 'run build-only'
+
+- task: CopyFiles@2
+  displayName: Copy files into artifact directory
+  inputs:
+    sourceFolder: 'Front/TS/src/infrastructure/ui/Vue/dist'
+    targetFolder: '$(Build.ArtifactStagingDirectory)/vue'
+
+- task: PublishBuildArtifacts@1
+  displayName: Publish artifact
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/vue'
+    ArtifactName: 'drop-vue'
+
+# .Net MAUI #
+
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '8.x'
+
+- task: CmdLine@2
+  displayName: 'Install Maui Workload'
+  inputs:
+    script: 'dotnet workload install maui'
+
+- task: DotNetCoreCLI@2
+  displayName: 'unit tests'
+  inputs:
+    command: test
+    projects: 'Front/.Net Maui/**/*Tests.csproj'
+    arguments: --configuration $(buildConfiguration) --collect "XPlat Code coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)\TestResults\Coverage\
+    publishTestResults: true
+    nobuild: true
+
+- script: 'dotnet tool install --global dotnet-reportgenerator-globaltool --version 4.5.8'  
+  displayName: 'Install ReportGenerator tool'
+
+- script: 'reportgenerator -reports:$(agent.tempdirectory)/**/coverage.cobertura.xml -targetdir:$(build.sourcesdirectory)/coverlet/reports -reporttypes:"Cobertura"'  
+  displayName: 'create reports' 
+
+- task: publishcodecoverageresults@1
+  displayName: 'publish code coverage report'
+  inputs:
+    codecoveragetool: 'Cobertura'
+    summaryfilelocation: '$(build.sourcesdirectory)/coverlet/reports/Cobertura.xml'
+
