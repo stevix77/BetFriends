@@ -38,7 +38,7 @@ jobs:
     inputs:
       targetType: 'inline'
       script: |
-        docker exec -it sqlserv "bash"
+        docker exec -it sqlserv-betfriends "bash"
         /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P "Password!" -Q "create database betfriends"
         exit
     displayName: Connect to db server and create database

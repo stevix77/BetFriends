@@ -41,9 +41,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution 
 		..\..\README.md = ..\..\README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetFriends.Users.UnitTests", "Modules\Users\BetFriends.Users.UnitTests\BetFriends.Users.UnitTests.csproj", "{190D474D-A417-4D02-BA8F-7E2961E2769C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BetFriends.Users.UnitTests", "Modules\Users\BetFriends.Users.UnitTests\BetFriends.Users.UnitTests.csproj", "{190D474D-A417-4D02-BA8F-7E2961E2769C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetFriends.Users.Domain", "Modules\Users\BetFriends.Users.Domain\BetFriends.Users.Domain.csproj", "{BBE396ED-91E7-4B0E-80AE-29D27FF022FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BetFriends.Users.Domain", "Modules\Users\BetFriends.Users.Domain\BetFriends.Users.Domain.csproj", "{BBE396ED-91E7-4B0E-80AE-29D27FF022FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
