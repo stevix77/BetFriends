@@ -179,7 +179,7 @@ jobs:
   steps:
   
   # Node
-   - task: Npm@1
+  - task: Npm@1
     displayName: 'Install package.json'
     inputs:
       command: install
@@ -193,7 +193,6 @@ jobs:
       customCommand: 'install package.json'
       workingDir: 'Front/TS/tests'
       verbose: true
-  
   
   - task: Npm@1
     displayName: 'Run tests'
