@@ -6,5 +6,5 @@ services:
      - ACCEPT_EULA=Y
      - MSSQL_SA_PASSWORD=Password!
    ports:
-     - 1433:1433/tcp
+     - 1434:1434/tcp
    container_name: sqlserv-betfriends
