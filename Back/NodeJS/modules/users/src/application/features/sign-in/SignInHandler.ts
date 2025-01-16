@@ -1,4 +1,4 @@
-import { IRequestHandler } from "../../../../../Shared/Application/Request/IRequestHandler";
+import { IRequestHandler } from "../../../../../shared/application/Request/IRequestHandler";
 import { IAuthenticationGateway } from "../../abstractions/IAuthenticationGateway";
 import { IHashPassword } from "../../abstractions/IHashPassword";
 import { SignInRequest } from "./SignInQuery"
