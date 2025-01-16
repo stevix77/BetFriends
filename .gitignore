@@ -32,3 +32,5 @@
 *.dbmdl
 *.jfm
 *.refactorlog
+/Database/BetFriends.Database/BetFriends.Database/BetFriends.Database.sqlproj
+/Database/BetFriends.Database/BetFriends.Database.Build/bin/Debug/netstandard2.0/BetFriends.Database.Build.dacpac

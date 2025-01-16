@@ -32,7 +32,7 @@ export class DomainEventDispatcher implements IDomainEventDispatcher {
 
     private async SaveEvents(events: IDomainEvent[]) {
         for(let event of events) {
-            const outbox = new Outbox(uuidv4(), event.Type, JSON.stringify(event), this.dateProvider);
+            const outbox = new Outbox(uuidv4(), event.Type, JSON.stringify(event), this.dateProvider.GetDate());
             await this.outboxAccessor.Save(outbox);
         }
     }

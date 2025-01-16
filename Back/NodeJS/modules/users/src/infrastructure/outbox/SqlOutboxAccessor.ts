@@ -46,7 +46,7 @@ export class SqlOutboxAccessor implements IOutboxAccessor {
                     .input('id', sql.VarChar(50), outbox.Id)
                     .input('type', sql.VarChar(50), outbox.Type)
                     .input('data', sql.VarChar(MAX), outbox.Data)
-                    .input('occuredOn', sql.VarChar, outbox.createdAt)
+                    .input('occuredOn', sql.VarChar, outbox.CreatedAt)
                     .query(`INSERT INTO usr.outbox (id, type, data, occured_on)
                             VALUES (@id, @type, @data, @occuredOn)`)
     }

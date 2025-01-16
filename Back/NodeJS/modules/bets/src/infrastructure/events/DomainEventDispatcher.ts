@@ -3,10 +3,10 @@ import { IDateTimeProvider } from "../../../../shared/domain/IDateTimeProvider";
 import { DomainEventAccessor } from "../../../../shared/infrastructure/events/DomainEventAccessor";
 import { IDomainEventDispatcher } from "../../../../shared/infrastructure/events/IDomainEventDispatcher";
 import  {v4 as uuidv4} from 'uuid';
-import { Outbox } from "../Outbox/Outbox";
 import { IOutboxAccessor } from "../../../../shared/infrastructure/outbox/IOutboxAccessor";
 import { INotificationHandler } from '../../../../shared/application/Request/INotificationHandler';
 import { DomainEventNotificationFactory } from './DomainEventNotificationFactory';
+import { Outbox } from "../../../../shared/infrastructure/outbox/Outbox";
 
 export class DomainEventDispatcher implements IDomainEventDispatcher {
     
@@ -33,7 +33,7 @@ export class DomainEventDispatcher implements IDomainEventDispatcher {
 
     private async SaveEvents(events: IDomainEvent[]) {
         for(let event of events) {
-            const outbox = new Outbox(uuidv4(), event.Type, JSON.stringify(event), this.dateProvider);
+            const outbox = new Outbox(uuidv4(), event.Type, JSON.stringify(event), this.dateProvider.GetDate());
             await this.outboxAccessor.Save(outbox);
         }
     }
