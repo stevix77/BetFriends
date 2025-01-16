@@ -122,7 +122,12 @@ jobs:
       ArtifactName: '$(Parameters.ArtifactName)'
     condition: succeededOrFailed()
     
-   # NodeJS #
+   # NodeJS #  
+   
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '20.x'
+    displayName: 'Install Node.js 20.x'
   
   - script: |
       npm install
@@ -163,13 +168,18 @@ jobs:
       PathtoPublish: '$(Build.ArtifactStagingDirectory)/nodejs-api.zip'
     displayName: 'Publish npm artifact'
   
-  # Node
-  - task: NodeTool@0
-    inputs:
-      versionSpec: '20.x'
-    displayName: 'Install Node.js 20.x'
+# Build FRONT
+
+- job: Build_front
+  displayName: 'build front on macOs image'
+
+  pool:
+    vmImage: 'macOs-latest'
+
+  steps:
   
-  - task: Npm@1
+  # Node
+   - task: Npm@1
     displayName: 'Install package.json'
     inputs:
       command: install
@@ -199,14 +209,6 @@ jobs:
       codeCoverageTool: Cobertura
       summaryFileLocation: '$(System.DefaultWorkingDirectory)/Front/TS/tests/coverage/coverage-final.json'
 
-- job: Build_front
-  displayName: 'build front on macOs image'
-
-  pool:
-    vmImage: 'macOs-latest'
-
-  steps:
-  
   # angular #
   
   - task: Npm@1
