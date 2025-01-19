@@ -21,10 +21,7 @@ public class UserEntity
         RefreshToken = user.RefreshToken;
     }
 
-
-    [Column("surrogate_id", TypeName = "int")]
-    public int SurrogateId { get; init; }
-    [Column("id"), Key, Required]
+    [Column("id", TypeName = "uniqueidentifier"), Key, Required]
     public Guid Id { get; init; }
     [Column("username", TypeName = "varchar(MAX)")]
     public string Username { get; set; }
@@ -34,6 +31,4 @@ public class UserEntity
     public string Password { get; set; }
     [Column("refresh_token", TypeName = "varchar(MAX)")]
     public string RefreshToken { get; set; }
-    [Column("created_at", TypeName = "datetime")]
-    public string CreatedAt { get; set; }
 }

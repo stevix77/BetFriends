@@ -45,6 +45,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BetFriends.Users.UnitTests"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BetFriends.Users.Domain", "Modules\Users\BetFriends.Users.Domain\BetFriends.Users.Domain.csproj", "{BBE396ED-91E7-4B0E-80AE-29D27FF022FE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetFriends.Users.IntegrationTests", "Modules\Users\BetFriends.Users.IntegrationTests\BetFriends.Users.IntegrationTests.csproj", "{CD67A3D3-F793-4F40-A447-7F7D96063B9C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +101,10 @@ Global
 		{BBE396ED-91E7-4B0E-80AE-29D27FF022FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BBE396ED-91E7-4B0E-80AE-29D27FF022FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BBE396ED-91E7-4B0E-80AE-29D27FF022FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD67A3D3-F793-4F40-A447-7F7D96063B9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD67A3D3-F793-4F40-A447-7F7D96063B9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD67A3D3-F793-4F40-A447-7F7D96063B9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD67A3D3-F793-4F40-A447-7F7D96063B9C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -120,6 +126,7 @@ Global
 		{56508450-9348-4F6F-A100-CBE9A585BE0E} = {D995ECD3-B579-4A27-8EB8-96E4416539E7}
 		{190D474D-A417-4D02-BA8F-7E2961E2769C} = {56213228-EE93-4630-BF41-7424E5B36D3A}
 		{BBE396ED-91E7-4B0E-80AE-29D27FF022FE} = {56213228-EE93-4630-BF41-7424E5B36D3A}
+		{CD67A3D3-F793-4F40-A447-7F7D96063B9C} = {56213228-EE93-4630-BF41-7424E5B36D3A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E50D7076-60D6-4F25-9D2F-D39102CD001E}

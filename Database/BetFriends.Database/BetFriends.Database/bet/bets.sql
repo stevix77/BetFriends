@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [bet].[bets]
 (
 	[surrogate_id] INT NOT NULL IDENTITY(1, 1),
-	[id] VARCHAR(50) NOT NULL, 
+	[id] UNIQUEIDENTIFIER NOT NULL, 
     [description] VARCHAR(50) NOT NULL, 
     [coins] INT NOT NULL, 
     [end_date] DATETIME NOT NULL, 

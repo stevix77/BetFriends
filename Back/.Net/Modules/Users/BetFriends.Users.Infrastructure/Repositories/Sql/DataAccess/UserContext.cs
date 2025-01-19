@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace BetFriends.Users.Infrastructure.Repositories.Sql.DataAccess;
 
-internal class UserContext : DbContext
+public class UserContext : DbContext
 {
     public UserContext()
     {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.SqlServer.Dac;
 
-var path = args[0];
+var path = @"C:\Users\svale\source\Workspace\BetFriends\Database\BetFriends.Database\BetFriends.Database\bin\Debug\BetFriends.Database.dacpac"; //args[0];
 Console.WriteLine($"DacPackage filename :{path}");
 if (!string.IsNullOrEmpty(path))
 {

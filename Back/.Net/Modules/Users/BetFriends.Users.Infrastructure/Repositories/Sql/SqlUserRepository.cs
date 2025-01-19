@@ -5,11 +5,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BetFriends.Users.Infrastructure.Repositories.Sql;
 
-internal class SqlUserRepository(UserContext userContext,
+public class SqlUserRepository(UserContext userContext,
                                  DomainEventsAccessor domainEventsAccessor) : IUserRepository
 {
     private readonly UserContext userContext = userContext;
     private readonly DomainEventsAccessor domainEventsAccessor = domainEventsAccessor;
+
+    public Task<UserEntity?> GetEntityById(Guid id)
+    {
+        return userContext.Users.FirstOrDefaultAsync(x => x.Id == id);
+    }
 
     public async Task<bool> IsUserExistAsync(string username, string email)
     {
@@ -23,5 +28,11 @@ internal class SqlUserRepository(UserContext userContext,
         var entity = new UserEntity(user.Snapshot);
         await userContext.Users.AddAsync(entity);
         domainEventsAccessor.Add(user.Events);
+    }
+
+    public void SaveEntity(UserEntity entity)
+    {
+        userContext.Users.Add(entity);
+        userContext.SaveChanges();
     }
 }
