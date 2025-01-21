@@ -1,5 +1,6 @@
 import { Column, Entity } from "typeorm";
 import { UserSnapshot } from "../../domain/users/UserSnapshot";
+import 'reflect-metadata';
 
 @Entity({
     schema: 'usr',
@@ -16,31 +17,29 @@ export class UserEntity {
         return entity;
     }
     @Column({
-        name: 'id'
+        name: 'id',
+        type: 'uniqueidentifier',
+        primary: true
     })
     Id: string;
     @Column({
-        name: 'username'
+        name: 'username',
+        type: 'varchar'
     })
     Username: string;
     @Column({
-        name: 'email'
+        name: 'email',
+        type: 'varchar'
     })
     Email: string;
     @Column({
-        name: 'password'
+        name: 'password',
+        type: 'varchar'
     })
     Password: string;
     @Column({
-        name: 'refresh_token'
+        name: 'refresh_token',
+        type: 'varchar'
     })
     RefreshToken: string;
-    @Column({
-        name: 'created_at'
-    })
-    CreatedAt: Date;
-    @Column({
-        name: 'surrogate_id'
-    })
-    SurrogateId: number;
 }

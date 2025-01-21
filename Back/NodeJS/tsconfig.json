@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true,
+      "target": "ES2020", // ou une version plus récente
+      "module": "commonjs" // ou "ESNext" selon votre projet
+    }
+  }
+  
