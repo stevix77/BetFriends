@@ -19,14 +19,12 @@ public class AnswerEntity
         Answer = snapshot.Answer;
     }
 
-    [Column("bet_id"), Key, Required]
+    [Column("bet_id"), Required]
     public Guid BetId { get; init; }
-    [Column("gambler_id"), Key, Required]
+    [Column("gambler_id"), Required]
     public Guid GamblerId { get; init; }
     [Column("answer", TypeName = "bit")]
     public bool Answer { get; set; }
-    [Column("upserted_at", TypeName = "datetime")]
-    public DateTime UpsertedDate{ get; init; }
 
     internal void Update(AnswerBetSnapshot snapshot)
     {

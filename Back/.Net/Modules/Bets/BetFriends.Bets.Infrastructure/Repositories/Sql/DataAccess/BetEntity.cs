@@ -20,6 +20,7 @@ public class BetEntity
         EndDate = bet.EndDate;
         Guests = string.Join(';', bet.Guests);
         BettorId = bet.BookieId.Value;
+        MaxAnswerDate = bet.MaxAnswerDate.Value;
     }
 
     [Column("surrogate_id", TypeName = "int")]

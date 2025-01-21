@@ -44,6 +44,7 @@ internal class SqlMemberRepository(BetContext betContext, DomainEventsAccessor d
             return;
         }
         entity.Update(member.Snapshot);
+        domainEventsAccessor.Add(member.Events);
     }
 
     public async Task SaveAsync(IEnumerable<Member> gamblers)

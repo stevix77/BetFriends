@@ -8,15 +8,6 @@ namespace BetFriends.Bets.Domain.Bets;
 
 public class Bet : Entity
 {
-    private Bet(Guid id, Guid ownerId, string description, int coins, DateTime endDate, IEnumerable<Guid> guests)
-    {
-        BetId = new(id);
-        BookieId = new(ownerId);
-        Description = description;
-        Coins = coins;
-        EndDate = endDate;
-        Guests = guests;
-    }
 
     private Bet(BetId betId,
                 MemberId ownerId,

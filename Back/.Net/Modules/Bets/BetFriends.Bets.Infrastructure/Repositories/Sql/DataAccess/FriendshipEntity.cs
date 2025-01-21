@@ -18,9 +18,9 @@ public class FriendshipEntity
         RequesterId = friendship.RequesterId;
     }
 
-    [Column("friend_id"), Key, Required]
+    [Column("friend_id"), Required]
     public Guid FriendId { get; init; }
-    [Column("requester_id"), Key, Required]
+    [Column("requester_id"), Required]
     public Guid RequesterId { get; init; }
 
     [Column("created_at")]

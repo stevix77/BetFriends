@@ -4,7 +4,7 @@ using Microsoft.Data.SqlClient;
 
 namespace BetFriends.Bets.Infrastructure.Outboxes;
 
-internal class SqlOutboxAccessor(SqlConnection sqlConnection, SqlTransaction sqlTransaction) : IOutbox
+public class SqlOutboxAccessor(SqlConnection sqlConnection, SqlTransaction sqlTransaction) : IOutbox
 {
     private readonly SqlConnection sqlConnection = sqlConnection;
     private readonly SqlTransaction sqlTransaction = sqlTransaction;
@@ -17,7 +17,7 @@ internal class SqlOutboxAccessor(SqlConnection sqlConnection, SqlTransaction sql
             type = outbox.Type,
             data = outbox.Data,
             occuredOn = outbox.OccurredOn
-        });
+        }, sqlTransaction);
     }
 
     public async Task<IEnumerable<Outbox>> GetAllAsync()
@@ -26,12 +26,21 @@ internal class SqlOutboxAccessor(SqlConnection sqlConnection, SqlTransaction sql
         return query.Select(outbox => new Outbox(outbox.Id, outbox.Type, outbox.Data, outbox.OccuredOn));
     }
 
+    public OutboxQuery? GetEntity(Guid id)
+    {
+        var entity = sqlConnection.QueryFirstOrDefault<OutboxQuery>("SELECT id, type, data, occured_on OccuredOn, processed_on ProcessedOn FROM bet.outbox WHERE id = @id", new
+        {
+            id,
+        }, sqlTransaction);
+        return entity;
+    }
+
     public Task SaveAsync(Outbox item)
     {
         return sqlConnection.ExecuteAsync($"UPDATE bet.outbox SET processed_on = @processedOn", new
         {
             processedOn = item.ProcessedOn,
-        });
+        }, sqlTransaction);
     }
 }
 
@@ -41,4 +50,6 @@ public class OutboxQuery
     public string Type { get; init; }
     public string Data { get; init; }
     public DateTime OccuredOn { get; init; }
+
+    public DateTime? ProcessedOn { get; init; }
 }

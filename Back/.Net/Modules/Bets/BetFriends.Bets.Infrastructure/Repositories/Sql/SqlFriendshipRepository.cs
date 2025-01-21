@@ -5,7 +5,7 @@ using BetFriends.Shared.Infrastructure.Event;
 
 namespace BetFriends.Bets.Infrastructure.Repositories.Sql;
 
-internal class SqlFriendshipRepository(BetContext betContext,
+public class SqlFriendshipRepository(BetContext betContext,
                                         DomainEventsAccessor domainEventsAccessor) : IFriendshipRepository
 {
     private readonly BetContext betContext = betContext;

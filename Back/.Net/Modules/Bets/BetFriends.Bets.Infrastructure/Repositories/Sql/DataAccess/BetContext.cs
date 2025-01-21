@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace BetFriends.Bets.Infrastructure.Repositories.Sql.DataAccess;
 
-internal class BetContext : DbContext
+public class BetContext : DbContext
 {
     public BetContext()
     {
@@ -17,6 +17,16 @@ internal class BetContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasDefaultSchema("bet");
+        modelBuilder.Entity<AnswerEntity>().HasKey(answerEntity =>
+        new
+        {
+            answerEntity.BetId,
+            answerEntity.GamblerId
+        });
+        modelBuilder.Entity<FriendshipEntity>().HasKey(friendshipEntity => new
+        {
+            friendshipEntity.FriendId, friendshipEntity.RequesterId
+        });
         base.OnModelCreating(modelBuilder);
     }
 
