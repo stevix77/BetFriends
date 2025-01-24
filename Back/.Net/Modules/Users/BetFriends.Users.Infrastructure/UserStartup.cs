@@ -27,7 +27,9 @@ namespace BetFriends.Users.Infrastructure;
 
 public static class UserStartup
 {
-    public static void Init(ILogger logger, Shared.Infrastructure.EventBus.IEventBus eventBus)
+    public static void Init(ILogger logger,
+                            Shared.Infrastructure.EventBus.IEventBus eventBus,
+                            string environmentName)
     {
         var services = new ServiceCollection();
         services.AddScoped(x => logger);
@@ -53,5 +55,10 @@ public static class UserStartup
             x.RegisterServicesFromAssemblies(typeof(Application.Application).Assembly, typeof(UserModule).Assembly);
         });
         UserCompositionRoot.SetProvider(services.BuildServiceProvider());
+    }
+
+    private static void UseFake()
+    {
+        throw new NotImplementedException();
     }
 }

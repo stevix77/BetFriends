@@ -61,7 +61,7 @@ builder.Services.AddSingleton<IBetModule, BetModule>();
 var app = builder.Build();
 
 var eventBus = app.Services.GetRequiredService<IEventBus>();
-UserStartup.Init(app.Logger, eventBus);
+UserStartup.Init(app.Logger, eventBus, app.Environment.EnvironmentName);
 BetStartup.Init(app.Logger, eventBus);
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -77,3 +77,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+public partial class Program { }
