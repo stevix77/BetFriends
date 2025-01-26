@@ -3,9 +3,9 @@ using MediatR;
 
 namespace BetFriends.Users.Infrastructure.DomainEventsDispatching;
 
-internal class DomainEventNotificationFactory
+internal static class DomainEventNotificationFactory
 {
-    public INotification Create(IDomainEvent domainEvent)
+    public static INotification Create(IDomainEvent domainEvent)
     {
         return domainEvent switch
         {

@@ -18,7 +18,6 @@ using BetFriends.Users.Application.Abstractions;
 using BetFriends.Users.Infrastructure;
 using BetFriends.Users.Infrastructure.IntegrationEvents;
 using BetFriends.Users.Infrastructure.Outboxes;
-using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -61,7 +60,11 @@ builder.Services.AddSingleton<IBetModule, BetModule>();
 var app = builder.Build();
 
 var eventBus = app.Services.GetRequiredService<IEventBus>();
-UserStartup.Init(app.Logger, eventBus, app.Environment.EnvironmentName);
+UserStartup.Init(app.Logger, eventBus, new BetFriends.Users.Infrastructure.Configurations.InfrastructureConfiguration
+{
+    UseFake = app.Configuration.GetValue<bool>("useFake"),
+    ConnectionString = app.Configuration.GetConnectionString("betfriendsDbContext")
+});
 BetStartup.Init(app.Logger, eventBus);
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

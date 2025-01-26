@@ -4,8 +4,8 @@
     [id] UNIQUEIDENTIFIER NOT NULL, 
     [username] VARCHAR(50) NOT NULL, 
     [email] VARCHAR(50) NOT NULL, 
-    [password] VARCHAR(50) NOT NULL, 
-    [refresh_token] VARCHAR(50) NOT NULL, 
+    [password] VARCHAR(200) NOT NULL, 
+    [refresh_token] VARCHAR(200) NOT NULL, 
     [created_at] DATETIME2 NULL DEFAULT CURRENT_TIMESTAMP, 
     PRIMARY KEY ([id])
 )

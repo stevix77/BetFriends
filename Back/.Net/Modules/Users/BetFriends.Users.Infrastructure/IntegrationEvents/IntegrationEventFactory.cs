@@ -5,9 +5,9 @@ using System.Text.Json;
 
 namespace BetFriends.Users.Infrastructure.IntegrationEvents;
 
-public class IntegrationEventFactory
+public static class IntegrationEventFactory
 {
-    public IIntegrationEvent Create(Outbox outbox)
+    public static IIntegrationEvent Create(Outbox outbox)
     {
         switch (outbox.Type)
         {

@@ -10,13 +10,11 @@ namespace BetFriends.Users.Infrastructure.Outboxes;
 
 public sealed class ProcessOutboxCommandHandler(ILogger logger,
                                                 IOutbox outboxAccessor,
-                                                IntegrationEventFactory integrationEventFactory,
                                                 IDateProvider dateProvider,
                                                 IEventBus eventBus) : ICommandHandler<ProcessOutboxCommand>
 {
     private readonly ILogger logger = logger;
     private readonly IOutbox outboxAccessor = outboxAccessor;
-    private readonly IntegrationEventFactory integrationEventFactory = integrationEventFactory;
     private readonly IDateProvider dateProvider = dateProvider;
     private readonly IEventBus eventBus = eventBus;
 
@@ -26,7 +24,7 @@ public sealed class ProcessOutboxCommandHandler(ILogger logger,
         var outboxes = await outboxAccessor.GetAllAsync();
         foreach (var item in outboxes)
         {
-            var integrationEvent = integrationEventFactory.Create(item);
+            var integrationEvent = IntegrationEventFactory.Create(item);
             if (integrationEvent != null)
                 await eventBus.PublishAsync(integrationEvent);
 
