@@ -2,7 +2,6 @@
 using BetFriends.Shared.Application.Abstractions.Messaging;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace BetFriends.Bets.Infrastructure;
 

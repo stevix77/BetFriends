@@ -50,6 +50,7 @@ namespace BetFriends.Bets.IntegrationTests
 
         public void Dispose()
         {
+            dbContext.Database.RollbackTransaction();
             dbContext.Dispose();
         }
     }

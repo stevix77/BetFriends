@@ -1,55 +1,36 @@
-﻿using BetFriends.Shared.Infrastructure.Outboxes;
-using Dapper;
-using Microsoft.Data.SqlClient;
+﻿using BetFriends.Bets.Infrastructure.Repositories.Sql.DataAccess;
+using BetFriends.Shared.Infrastructure.Outboxes;
+using Microsoft.EntityFrameworkCore;
 
 namespace BetFriends.Bets.Infrastructure.Outboxes;
 
-public class SqlOutboxAccessor(SqlConnection sqlConnection, SqlTransaction sqlTransaction) : IOutbox
+public class SqlOutboxAccessor(BetContext betContext) : IOutbox
 {
-    private readonly SqlConnection sqlConnection = sqlConnection;
-    private readonly SqlTransaction sqlTransaction = sqlTransaction;
+    private readonly BetContext betContext = betContext;
 
     public Task AddAsync(Outbox outbox)
     {
-        return sqlConnection.ExecuteAsync($"INSERT INTO bet.outbox (id, type, data, occured_on) VALUES (@id, @type, @data, @occuredOn)", new
-        {
-            id = outbox.Id,
-            type = outbox.Type,
-            data = outbox.Data,
-            occuredOn = outbox.OccurredOn
-        }, sqlTransaction);
+        var entity = new OutboxEntity(outbox);
+        return betContext.Outboxes.AddAsync(entity).AsTask();
     }
 
     public async Task<IEnumerable<Outbox>> GetAllAsync()
     {
-        var query = await sqlConnection.QueryAsync<OutboxQuery>($"SELECT Id, Type, Data, occured_on OccuredOn FROM bet.outbox WHERE processed_on is null");
-        return query.Select(outbox => new Outbox(outbox.Id, outbox.Type, outbox.Data, outbox.OccuredOn));
+        var entities = await betContext.Outboxes.Where(x => !x.ProcessedOn.HasValue).ToListAsync();
+        return entities.Select(x => new Outbox(x.Id, x.Type, x.Data, x.OccurredOn));
     }
 
-    public OutboxQuery? GetEntity(Guid id)
+    public OutboxEntity? GetEntity(Guid id)
     {
-        var entity = sqlConnection.QueryFirstOrDefault<OutboxQuery>("SELECT id, type, data, occured_on OccuredOn, processed_on ProcessedOn FROM bet.outbox WHERE id = @id", new
-        {
-            id,
-        }, sqlTransaction);
+        var entity = betContext.Outboxes.Find(id);
         return entity;
     }
 
-    public Task SaveAsync(Outbox item)
+    public async Task SaveAsync(Outbox item)
     {
-        return sqlConnection.ExecuteAsync($"UPDATE bet.outbox SET processed_on = @processedOn", new
-        {
-            processedOn = item.ProcessedOn,
-        }, sqlTransaction);
+        var entity = await betContext.Outboxes.FindAsync(item.Id);
+        if (entity == null)
+            return;
+        entity.ProcessedOn = item.ProcessedOn;
     }
-}
-
-public class OutboxQuery
-{
-    public Guid Id { get; init; }
-    public string Type { get; init; }
-    public string Data { get; init; }
-    public DateTime OccuredOn { get; init; }
-
-    public DateTime? ProcessedOn { get; init; }
 }

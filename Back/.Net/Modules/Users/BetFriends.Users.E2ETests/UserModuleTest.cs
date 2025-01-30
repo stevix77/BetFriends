@@ -13,7 +13,7 @@ public class UserModuleTest(BetFriendsWebApplicationFactory<Program> betFriendsW
     [Fact]
     public async Task ShouldCreateUserWhenInputIsCorrect()
     {
-        var input = new RegisterInput("username", "email", "password");
+        var input = new RegisterInput(Guid.NewGuid().ToString()[0..10], Guid.NewGuid().ToString()[0..10], "password");
         var response = await httpClient.PostAsJsonAsync("users", input);
         var data = await response.Content.ReadAsStringAsync();
         var userId = JsonSerializer.Deserialize<Guid>(data);

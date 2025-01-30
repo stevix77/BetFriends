@@ -7,7 +7,6 @@ using System.Text.Json;
 namespace BetFriends.Bets.Infrastructure.Event;
 
 internal class DomainEventDispatcher(DomainEventsAccessor domainEventsAccessor,
-                                    DomainEventNotificationFactory domainEventNotificationFactory,
                                     IMediator mediator,
                                     IOutbox outboxAccessor,
                                     IDateProvider dateProvider) : IDomainEventDispatcher
@@ -20,7 +19,7 @@ internal class DomainEventDispatcher(DomainEventsAccessor domainEventsAccessor,
         var outboxes = new List<Outbox>();
         foreach (var item in domainEvents)
         {
-            var notification = domainEventNotificationFactory.Create(item);
+            var notification = DomainEventNotificationFactory.Create(item);
             if (notification != null)
                 domainEventTasks.Add(mediator.Publish(notification));
 

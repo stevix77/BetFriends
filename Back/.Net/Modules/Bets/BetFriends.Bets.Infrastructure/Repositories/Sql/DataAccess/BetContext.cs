@@ -34,4 +34,5 @@ public class BetContext : DbContext
     public DbSet<AnswerEntity> Answers { get; set; }
     public DbSet<FriendshipEntity> Friendships { get; set; }
     public DbSet<MemberEntity> Members { get; set; }
+    public DbSet<OutboxEntity> Outboxes { get; set; }
 }

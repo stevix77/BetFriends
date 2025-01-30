@@ -18,6 +18,7 @@ using BetFriends.Users.Application.Abstractions;
 using BetFriends.Users.Infrastructure;
 using BetFriends.Users.Infrastructure.IntegrationEvents;
 using BetFriends.Users.Infrastructure.Outboxes;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,16 +29,14 @@ ILogger logger = factory.CreateLogger<Program>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton(x => logger);
 builder.Services.AddScoped<AddFriendshipPresenter>();
-builder.Services.AddScoped<IAddFriendOutputPort>(x => x.GetRequiredService<AddFriendshipPresenter>());
 builder.Services.AddScoped<CreateBetPresenter>();
-builder.Services.AddScoped<ICreateBetOutputPort>(x => x.GetRequiredService<CreateBetPresenter>());
 builder.Services.AddScoped<AnswerBetPresenter>();
-builder.Services.AddScoped<IAnswerBetOutputPort>(x => x.GetRequiredService<AnswerBetPresenter>());
 builder.Services.AddScoped<CompleteBetPresenter>();
-builder.Services.AddScoped<ICompleteBetOutputPort>(x => x.GetRequiredService<CompleteBetPresenter>());
 builder.Services.AddScoped<RegisterPresenter>();
 builder.Services.AddScoped<IUserContext, HttpUserContext>();
 builder.Services.AddSingleton<IDateProvider, DateTimeProvider>();
+builder.Services.AddSingleton<IUserModule, UserModule>();
+builder.Services.AddSingleton<IBetModule, BetModule>();
 builder.Services.AddSingleton<BetFriends.Bets.Infrastructure.IntegrationEvents.BackgroundTaskQueue>();
 builder.Services.AddSingleton<BetFriends.Users.Infrastructure.IntegrationEvents.BackgroundTaskQueue>();
 builder.Services.AddSingleton<IBackgroundTaskQueue>(x => x.GetRequiredService<BetFriends.Bets.Infrastructure.IntegrationEvents.BackgroundTaskQueue>());
@@ -55,8 +54,6 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.EnableAnnotations();
 });
-builder.Services.AddSingleton<IUserModule, UserModule>();
-builder.Services.AddSingleton<IBetModule, BetModule>();
 var app = builder.Build();
 
 var eventBus = app.Services.GetRequiredService<IEventBus>();
@@ -65,7 +62,11 @@ UserStartup.Init(app.Logger, eventBus, new BetFriends.Users.Infrastructure.Confi
     UseFake = app.Configuration.GetValue<bool>("useFake"),
     ConnectionString = app.Configuration.GetConnectionString("betfriendsDbContext")
 });
-BetStartup.Init(app.Logger, eventBus);
+BetStartup.Init(app.Logger, eventBus, new BetFriends.Bets.Infrastructure.Configurations.InfrastructureConfiguration
+{
+    UseFake = app.Configuration.GetValue<bool>("useFake"),
+    ConnectionString = app.Configuration.GetConnectionString("betfriendsDbContext")
+});
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

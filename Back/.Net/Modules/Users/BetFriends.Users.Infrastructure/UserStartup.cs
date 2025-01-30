@@ -48,35 +48,24 @@ public static class UserStartup
     private static void UseReal(ILogger logger, IEventBus eventBus, InfrastructureConfiguration configuration)
     {
         var services = new ServiceCollection();
-        services.AddScoped(x => logger);
-        services.AddScoped(x => eventBus);
-        //services.AddScoped(x =>
-        //{
-        //    var connection = new SqlConnection(configuration.ConnectionString);
-        //    connection.Open();
-        //    return connection;
-        //});
-        //services.AddScoped(x =>
-        //{
-        //    var connection = x.GetRequiredService<SqlConnection>();
-        //    return connection.BeginTransaction();
-        //});
-        //services.AddDbContext<UserContext>((sp, options) =>
-        //{
-        //    options.UseSqlServer(sp.GetRequiredService<SqlConnection>())
-        //            .LogTo(Console.WriteLine, LogLevel.Debug);
-        //});
-        services.AddScoped<UserContext>(sp =>
+        services.AddSingleton(x => logger);
+        services.AddSingleton(x => eventBus);
+        services.AddScoped(x =>
         {
-            var optionsBuilder = new DbContextOptionsBuilder<UserContext>();
-            var dbContextOptions = optionsBuilder.UseSqlServer(configuration.ConnectionString).Options;
-            return new UserContext(dbContextOptions);
+            var connection = new SqlConnection(configuration.ConnectionString);
+            connection.Open();
+            return connection;
+        });
+        services.AddDbContext<UserContext>((sp, options) =>
+        {
+            options.UseSqlServer(sp.GetRequiredService<SqlConnection>())
+                    .LogTo(Console.WriteLine, LogLevel.Debug);
         });
         services.AddScoped<IDateProvider, DateTimeProvider>();
         services.AddScoped<DomainEventsAccessor>();
         services.AddScoped<IDomainEventDispatcher, DomainEventDispatcher>();
         services.AddScoped<IIdGenerator, GuidGenerator>();
-        services.AddScoped<JwtTokenGenerator>();
+        services.AddScoped(x => new JwtTokenGenerator(new JwtConfiguration(), x.GetRequiredService<IDateProvider>()));
         services.AddScoped<IHashPassword, Sha256HashPassword>();
         services.AddScoped<IAuthenticationGateway, AuthenticationGateway>();
         services.AddScoped<IUserRepository, SqlUserRepository>();

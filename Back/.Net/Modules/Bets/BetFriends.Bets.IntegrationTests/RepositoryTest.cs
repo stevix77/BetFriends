@@ -19,5 +19,6 @@ public abstract class RepositoryTest
         var dbContextOptions = optionsBuilder.UseSqlServer(connectionString).Options;
         dbContext = new BetContext(dbContextOptions);
         dbContext.Database.EnsureCreated();
+        dbContext.Database.BeginTransaction();
     }
 }

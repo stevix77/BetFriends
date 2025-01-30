@@ -7,9 +7,9 @@ using MediatR;
 
 namespace BetFriends.Bets.Infrastructure.Event
 {
-    internal class DomainEventNotificationFactory
+    internal static class DomainEventNotificationFactory
     {
-        public INotification Create(IDomainEvent domainEvent)
+        public static INotification Create(IDomainEvent domainEvent)
         {
             return domainEvent switch
             {

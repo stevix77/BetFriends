@@ -8,13 +8,11 @@ using Microsoft.Extensions.Logging;
 namespace BetFriends.Bets.Infrastructure.Outboxes;
 
 public sealed class ProcessOutboxCommandHandler(IOutbox outboxAccessor,
-                                                IntegrationEventFactory integrationEventFactory,
                                                 IEventBus eventBus,
                                                 IDateProvider dateProvider,
                                                 ILogger logger) : ICommandHandler<ProcessOutboxCommand>
 {
     private readonly IOutbox outboxAccessor = outboxAccessor;
-    private readonly IntegrationEventFactory integrationEventFactory = integrationEventFactory;
     private readonly IEventBus eventBus = eventBus;
     private readonly ILogger logger = logger;
     private readonly IDateProvider dateProvider = dateProvider;
@@ -25,7 +23,7 @@ public sealed class ProcessOutboxCommandHandler(IOutbox outboxAccessor,
         var outboxes = await outboxAccessor.GetAllAsync();
         foreach (var item in outboxes)
         {
-            var integrationEvent = integrationEventFactory.Create(item);
+            var integrationEvent = IntegrationEventFactory.Create(item);
             if (integrationEvent != null)
                 await eventBus.PublishAsync(integrationEvent);
 

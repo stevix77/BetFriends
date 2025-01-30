@@ -20,5 +20,6 @@ public class UserContext : DbContext
         base.OnModelCreating(modelBuilder);
     }
 
-    public DbSet<UserEntity> Users{ get; set; }
+    public DbSet<UserEntity> Users { get; set; }
+    public DbSet<OutboxEntity> Outboxes { get; set; }
 }

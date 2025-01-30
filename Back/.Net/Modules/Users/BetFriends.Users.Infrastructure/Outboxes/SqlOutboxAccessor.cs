@@ -1,43 +1,33 @@
 ﻿using BetFriends.Shared.Infrastructure.Outboxes;
 using BetFriends.Users.Infrastructure.Repositories.Sql.DataAccess;
 using Microsoft.Data.SqlClient;
-//using Dapper;
+using Dapper;
 using Microsoft.EntityFrameworkCore;
 
 namespace BetFriends.Users.Infrastructure.Outboxes;
 
-internal class SqlOutboxAccessor(UserContext dbContext) : IOutbox
+public class SqlOutboxAccessor(UserContext userContext) : IOutbox
 {
-    //private readonly SqlConnection sqlConnection = sqlConnection;
-    //private readonly SqlTransaction sqlTransaction = sqlTransaction;
-    private readonly DbContext dbContext = dbContext;
+    private readonly UserContext userContext = userContext;
 
     public Task AddAsync(Outbox outbox)
     {
-        return Task.CompletedTask;
-        //return sqlConnection.ExecuteAsync($"INSERT INTO usr.outbox (id, type, data, occured_on) VALUES (@id, @type, @data, @occuredOn)", new
-        //{
-        //    id = outbox.Id,
-        //    type = outbox.Type,
-        //    data = outbox.Data,
-        //    occuredOn = outbox.OccurredOn
-        //}, sqlTransaction);
+        var entity = new OutboxEntity(outbox);
+        return userContext.Outboxes.AddAsync(entity).AsTask();
     }
 
-    public Task<IEnumerable<Outbox>> GetAllAsync()
+    public async Task<IEnumerable<Outbox>> GetAllAsync()
     {
-        return Task.FromResult<IEnumerable<Outbox>>([]);
-        //var query = await sqlConnection.QueryAsync<OutboxQuery>($"SELECT Id, Type, Data, occured_on OccuredOn FROM usr.outbox WHERE processed_on is null", transaction: sqlTransaction);
-        //return query.Select(outbox => new Outbox(outbox.Id, outbox.Type, outbox.Data, outbox.OccuredOn));
+        var query = await userContext.Outboxes.Where(x => x.ProcessedOn == null).ToListAsync();
+        return query.Select(outbox => new Outbox(outbox.Id, outbox.Type, outbox.Data, outbox.OccurredOn));
     }
 
-    public Task SaveAsync(Outbox item)
+    public async Task SaveAsync(Outbox item)
     {
-        return Task.CompletedTask;
-        //return sqlConnection.ExecuteAsync($"UPDATE usr.outbox SET processed_on = @processedOn", new
-        //{
-        //    processedOn = item.ProcessedOn,
-        //}, sqlTransaction);
+        var entity = await userContext.Outboxes.FindAsync(item.Id);
+        if (entity == null)
+            return;
+        entity.ProcessedOn = item.ProcessedOn;
     }
 }
 

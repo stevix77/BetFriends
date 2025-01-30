@@ -70,6 +70,7 @@ public class BetRepositoryTest : RepositoryTest, IDisposable
 
     public void Dispose()
     {
+        dbContext.Database.RollbackTransaction();
         dbContext.Dispose();
     }
 }

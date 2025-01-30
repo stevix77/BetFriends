@@ -12,7 +12,7 @@ public class SignInController(IUserModule userModule) : Controller
 
     [SwaggerOperation(Tags = new[] { "Authentication" })]
     [HttpPost]
-    public async Task<IActionResult> SignInAsync(SignInRequest signInRequest)
+    public async Task<IActionResult> SignInAsync([FromBody] SignInRequest signInRequest)
     {
         var request = new SignInQuery(signInRequest.Email, signInRequest.Password);
         var authentication = await userModule.ExecuteAsync(request);

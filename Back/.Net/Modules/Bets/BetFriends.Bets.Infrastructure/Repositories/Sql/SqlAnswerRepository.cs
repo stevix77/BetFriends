@@ -2,7 +2,6 @@
 using BetFriends.Bets.Domain.Bets;
 using BetFriends.Bets.Infrastructure.Repositories.Sql.DataAccess;
 using BetFriends.Shared.Infrastructure.Event;
-using Microsoft.EntityFrameworkCore;
 
 namespace BetFriends.Bets.Infrastructure.Repositories.Sql;
 
@@ -27,8 +26,8 @@ public class SqlAnswerRepository(BetContext betContext, DomainEventsAccessor dom
 
     public async Task SaveAsync(AnswerBet answerBet)
     {
-        var entity = await betContext.FindAsync<AnswerEntity>(answerBet.Snapshot.BetId, answerBet.Snapshot.MemberId); 
-        if(entity == null)
+        var entity = await betContext.FindAsync<AnswerEntity>(answerBet.Snapshot.BetId, answerBet.Snapshot.MemberId);
+        if (entity == null)
         {
             entity = new AnswerEntity(answerBet);
             await betContext.AddAsync(entity);
