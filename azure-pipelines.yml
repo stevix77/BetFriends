@@ -82,7 +82,7 @@ jobs:
       version: '8.x'
   
   - task: DotNetCoreCLI@2
-    displayName: 'unit tests'
+    displayName: '.net tests'
     inputs:
       command: test
       projects: '$(ProjectTest)'
