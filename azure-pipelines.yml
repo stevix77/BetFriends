@@ -5,7 +5,7 @@
 
 
 variables:
-  ProjectTest: 'Back/.Net/**/*Tests.csproj'
+  ProjectTest: 'Back/.Net/**/*UnitTests.csproj'
   BuildPlatform: 'any cpu'
   BuildConfiguration: 'release'
   projectApi: 'Back/.Net/BetFriends.Api/BetFriends.Api.csproj'
@@ -82,10 +82,28 @@ jobs:
       version: '8.x'
   
   - task: DotNetCoreCLI@2
-    displayName: '.net tests'
+    displayName: '.net unit tests'
     inputs:
       command: test
       projects: '$(ProjectTest)'
+      arguments: --configuration $(buildConfiguration) --collect "XPlat Code coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)\TestResults\Coverage\
+      publishTestResults: true
+      nobuild: true
+
+  - task: DotNetCoreCLI@2
+    displayName: '.net integration tests'
+    inputs:
+      command: test
+      projects: 'Back/.Net/**/*IntegrationTests.csproj'
+      arguments: --configuration $(buildConfiguration) --collect "XPlat Code coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)\TestResults\Coverage\
+      publishTestResults: true
+      nobuild: true
+      
+  - task: DotNetCoreCLI@2
+    displayName: '.net e2e tests'
+    inputs:
+      command: test
+      projects: 'Back/.Net/**/*E2ETests.csproj'
       arguments: --configuration $(buildConfiguration) --collect "XPlat Code coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)\TestResults\Coverage\
       publishTestResults: true
       nobuild: true
