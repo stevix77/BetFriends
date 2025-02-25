@@ -3,10 +3,6 @@ using BetFriends.Api.Features.Friendship;
 using BetFriends.Api.Features.Users;
 using BetFriends.Api.UserContexts;
 using BetFriends.Bets.Application.Abstractions;
-using BetFriends.Bets.Application.Features.AddFriend;
-using BetFriends.Bets.Application.Features.AnswerBet;
-using BetFriends.Bets.Application.Features.CompleteBet;
-using BetFriends.Bets.Application.Features.CreateBet;
 using BetFriends.Bets.Infrastructure;
 using BetFriends.Bets.Infrastructure.IntegrationEvents;
 using BetFriends.Bets.Infrastructure.Outboxes;
@@ -18,7 +14,6 @@ using BetFriends.Users.Application.Abstractions;
 using BetFriends.Users.Infrastructure;
 using BetFriends.Users.Infrastructure.IntegrationEvents;
 using BetFriends.Users.Infrastructure.Outboxes;
-using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 

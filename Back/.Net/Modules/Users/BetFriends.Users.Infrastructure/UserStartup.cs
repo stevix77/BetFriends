@@ -12,7 +12,6 @@ using BetFriends.Users.Infrastructure.Configurations;
 using BetFriends.Users.Infrastructure.DomainEventsDispatching;
 using BetFriends.Users.Infrastructure.Gateways;
 using BetFriends.Users.Infrastructure.Hash;
-using BetFriends.Users.Infrastructure.IntegrationEvents;
 using BetFriends.Users.Infrastructure.Outboxes;
 using BetFriends.Users.Infrastructure.Repositories;
 using BetFriends.Users.Infrastructure.Repositories.Sql;
@@ -24,8 +23,6 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Serilog.Core;
-using System.Data.Common;
 
 namespace BetFriends.Users.Infrastructure;
 
@@ -35,7 +32,7 @@ public static class UserStartup
                             IEventBus eventBus,
                             InfrastructureConfiguration infrastructureConfiguration)
     {
-        
+
         if (infrastructureConfiguration.UseFake)
         {
             UseFakes(logger, eventBus);
