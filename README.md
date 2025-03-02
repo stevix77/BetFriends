@@ -31,13 +31,17 @@ I give you details in each project folder
 # Backend
 
 ## Core (domain, application)
-As a backend developer, I wanted to use the same approach regardless the language. I have the domain layer that contains my entities, events and business logic. Also, we can found ports to exit the hexagon. My application layer has the responsability to deal with domain layer to orchestrate and take decisions. I'm using a CQRS approach so I have commands to manage the system and deal with domain layer whereas my queries don't deal with domain layer and has a port in the same layer to retrieve data. 
+As a backend developer, I wanted to use the same approach regardless the language. I have the domain layer that contains my entities, events and business logic. Also, we can found ports to exit the hexagon. My application layer has the responsability to deal with domain layer to orchestrate and take decisions.  
+
+I'm using a CQRS approach so I have commands to manage the system and deal with domain layer whereas my queries don't deal with domain layer and has a port in the same layer to retrieve data. 
 
 ## Commands/Queries
 
-My commandhandlers, manage the system and return nothing. I use the output port to notify the caller about the handle result. My queries return data but I'm thinking about using the same approach that commands and notify caller. Actually, when a query request data but has nothing, I return null/undefined and my controller needs to check if has received a null object to respond 404 for example. Maybe I could using output port (presenter) to notify the controller directly, what is the result and prepare the http response.
+My commandhandlers, manage the system and return nothing. I use the output port to notify the caller about the handler result.  
+My queries return data but I'm thinking about using the same approach that commands and notify caller. Actually, when a query request data but has nothing, I return null/undefined and my controller needs to check if has received a null object to respond 404 for example. Maybe I could using output port (presenter) to notify the controller directly, what is the result and prepare the http response.
 
 ## Infrastructure layer
+
 The infrastructure layer as almost the same structure (physics) for each language. I have in this layer, adapters and few technicals code to manage events, messaging, behaviors, modules. 
 
 ## Presentation layer 
@@ -52,7 +56,7 @@ I have unit tests which targeting application layer. The goal is to call a handl
 
 ### Integration tests
 
-My integration tests have to check if the code is running well with something outside of my code. So generally, I test that repositories in my infrastructure layer can communicate with a database. For that I'm using a docker container with a sql server image. To start docker image, you'll have to run the command 'docker compose up' at the root of the repo.
+Integration tests have to check if the code is running well with system outside of my code. So generally, I test that repositories in my infrastructure layer can communicate with a database. For that I'm using a docker container with a sql server image. To start docker image, you'll have to run the command 'docker compose up' at the root of the repo.
 
 ### E2E tests
 
@@ -60,7 +64,7 @@ I have one or two end2end tests to verify if the DI is correctly configured. If 
 
 ## Frameworks
 
-I'm using NestJs as a framework for the NodeJs api and .net 8 for .net world. The content of these parts has not a lot of code and logic so because of that, I could update versions or use another tools like AdonisJs or .net framework 4.8 (if I transform the other packages in .net standard...). In the futur, I will go on this project by adding PHP with both Symfony and Laravel. So those interested by PHP, stay tuned.
+I'm using NestJs as a framework for the NodeJs api and .net 8 for .net world. The content of these parts has not a lot of code and logic so because of that, I could update versions or use another tools like AdonisJs or .net Core 3. In the futur, I will go on this project by adding PHP with both Symfony and Laravel. So those interested by PHP, stay tuned.
 
 ## Getting started
 
@@ -104,6 +108,21 @@ For TS projects, you have many npm install to do. There are 3 package.json.
 - Front/TS/infrastructure/ui/Vue
 - Front/TS/infrastructure/ui/Angular
 
+# Database
+
+To manage my sql server database, I'm using a sqlProj project, it's in visual studio template list. It represent all sql object like tables, schemas, stored procedures from sql format. So I can see and control the structure of the database with GIT.  
+The build of this project generate a dacpac file representing an sql server instance. With this file, I can publish it to my sql server instance (local or remote or docker container).  
+
+In my database visual studio solution, I have 3 projects.  
+- BetFriends.Database, that representing the sqlproj to build and publish my sql source code.
+- BetFriends.Database.Build, is a class library project that referencing sql files from sqlproj. For those who want to build and deploy database with CI/CD and a linux, we need this because sqlproj targeting .net framework but only windows can work with .net framework. With this .net standard project and a custom configuration, it will generate the dacpac from a linux agent.  
+ So I need this project with the next one to build my database in my CI.
+- BetFriends.Database.Deploy, is a console application that referencing Microsoft.SqlServer.DacFx nuget package to manage dacpac. So in my CI, I can run this project with the path argument that referencing the dacpac builded to load it and deploy it to an instance. The same work that the windows agent can make with a sqlproj
+
+# Continious integration
+
+I'm using azuredevops to build and test my work. So, I have a yml file that containing 2 jobs. One with a linux agent to back part (database + backend), and an other one with macOs agent. I separated in 2 jobs with 2 agents, because I didn't success using docker on a macOs agent to build the database part. And on the linux agent, I didn't success to build .net front (.net MAUI/Blazor hybrid) So I decided to separe in 2 parts.
+
 # Contact 
 
 I'm available, you can send me a message on LinkedIn [Steve Valentin](https://www.linkedin.com/in/steve-valentin-3687765a/) if you want some details or explications, don't hesitate, contact me
@@ -111,3 +130,8 @@ I'm available, you can send me a message on LinkedIn [Steve Valentin](https://ww
 # UX/UI
 
 I'm not a designer or interested to build awesome UI. For html/css world I tried to download existing template but sometimes setup is complicated... It's not the topic of this project so don't be shoked if you download and run web projects xD One day maybe I would like to learn and make awesome UI
+
+# Thanks
+
+Thanks to those that I learnt from last five years from different slack/discord servers, LinkedIn posts, youtube podcasts, books...  
+Special thanks to my two friends that give me the subject of this project (bet with friends)
