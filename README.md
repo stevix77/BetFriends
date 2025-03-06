@@ -29,6 +29,9 @@ Usually, the approach is to make all of usecases with a language and switch to a
 
 # Backend
 
+I'm using a modular monolith. I separated into 2 contexts (Users and Bets) and each context contains the same approach (Domain/Application/Infrastructure). There is no direct communication between contexts, they send and listen messages by a in-memory bus. Also, they use a shared kernel for the cross-cutting concerns.  
+Each module has his own database schema with his data. So I can easily drop a module or extract a module to put it in an other project.
+
 ## Core (domain, application)
 As a backend developer, I wanted to use the same approach regardless the language. I have the domain layer that contains my entities, events and business logic. Also, we can found ports to exit the hexagon. My application layer has the responsability to deal with domain layer to orchestrate and take decisions.  
 
