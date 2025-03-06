@@ -83,13 +83,10 @@ Domain contains all frontend logic. The presentation layer send an action to the
 
 ## Infrastructure layer
 
-Infrastructure layer contains adapters that implements domain port. It uses technical code like http requests, or port routing to be use by presentation layer to manage redirection. We can also found presenter implementation that publish a notification to the presentation layer. With this notification, presentation can update the UI by the viewmodel.
+Infrastructure layer contains adapters that implements domain port. It uses technical code like http requests, or port routing to be use by presentation layer to manage redirection. We can also found presenter implementation that publish a notification to the presentation layer. With this notification, presentation can update the UI by the viewmodel. In TS world, there are controllers, in fact, it is facades to have the differents usecase in the same file.  
 
-## Presentation layer
-
-In presentation layer you can found the UI. 
-In TS folder, One of the good [ressource](https://github.com/Zenika/grenoble-hands-on-front-clean-architecture) I used to learn is from Martin Choraine from Zenika. You can found a full presentation on youtube. I'm using this approach because it seems very logic for me, I can easily reuse my backend skills. 
-It is in the src/infrastructure/ui folder. Into this folder, there is an Angular folder, and VueJs folder. These 2 folders, contains components that using viewmodels. A ViewModel is the class responsible to contain the model mapped to the component view and the logic the send or retrieve data.  
+Also, it contains the UI part :  
+In TS folder, it is in the src/infrastructure/ui folder. Into this folder, there is an Angular folder, and VueJs folder. These 2 folders, contains components that using viewmodels. A ViewModel is the class responsible to contain the model mapped to the component view and the logic the send or retrieve data.  
   
 In C# world, there are 2 projects, MAUI with xaml views and MAUI blazor hybrid with html/css views. These 2 projects share together 2 others projects. One for the domain and an other for the infrastructure. MAUI projects contain views and viewModels.  
   
